@@ -336,7 +336,7 @@ const gilgamesh: ServantDefinition = {
   luck: 80,
   critChance: 0.15,
   rank: 'A+',
-  strengths: ['Burst Damage', 'Tempo Control'],
+  strengths: ['Burst Damage', 'Debuffs'],
   weaknesses: ['No Self-Heal'],
   passiveDescription:
     "Treasury of the world's first hero-king: an arsenal without equal, wielded with utter disdain for lesser beings.",
@@ -344,12 +344,12 @@ const gilgamesh: ServantDefinition = {
     {
       id: 'gate-of-babylon',
       name: 'Gate of Babylon',
-      description: "A king claims what he pleases — even the enemy's momentum. Drains 20% from the enemy's Noble Phantasm gauge.",
+      description: "A king's endless armory, unleashed all at once. Deals 1.8x damage.",
       cooldown: 4,
-      tag: 'debuff',
+      tag: 'crit',
       effect: (ctx) => {
-        ctx.enemy.npGauge = Math.max(0, ctx.enemy.npGauge - 20);
-        ctx.log("Gilgamesh opens the Gate of Babylon, seizing the enemy's momentum!");
+        ctx.log('Gilgamesh opens the Gate of Babylon, loosing a hail of legendary weapons!');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.8, { label: 'Gate of Babylon' });
       },
     },
     {
