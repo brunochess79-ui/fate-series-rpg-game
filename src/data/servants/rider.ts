@@ -50,7 +50,8 @@ const iskandar: ServantDefinition = {
     {
       id: 'divinity',
       name: 'Divinity',
-      description: 'Blood of the divine wards his body. Grants a shield that absorbs damage equal to 22% of his max HP.',
+      description:
+        'Blood of the divine wards his body. Grants a shield that absorbs damage equal to 22% of his max HP, lasting this turn and the next.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -60,7 +61,7 @@ const iskandar: ServantDefinition = {
           name: 'Divinity',
           kind: 'shield',
           potency: Math.round(ctx.self.maxHp * 0.22),
-          turnsRemaining: 2,
+          turnsRemaining: 1,
           description: 'Absorbs damage until depleted',
         });
         ctx.log('Iskandar calls upon Divinity — a ward surrounds him.');
@@ -222,7 +223,8 @@ const boudica: ServantDefinition = {
     {
       id: 'icenis-shield',
       name: "Iceni's Shield",
-      description: 'Her tribe stands with her still. Grants a shield that absorbs damage equal to 20% of her max HP.',
+      description:
+        "Her tribe stands with her still. Grants a shield that absorbs damage equal to 20% of her max HP, lasting this turn and the next.",
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -232,7 +234,7 @@ const boudica: ServantDefinition = {
           name: "Iceni's Shield",
           kind: 'shield',
           potency: Math.round(ctx.self.maxHp * 0.2),
-          turnsRemaining: 2,
+          turnsRemaining: 1,
           description: 'Absorbs damage until depleted',
         });
         ctx.log("Boudica raises the Iceni's Shield!");

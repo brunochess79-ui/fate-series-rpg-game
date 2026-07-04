@@ -317,7 +317,8 @@ const elCid: ServantDefinition = {
     {
       id: 'tizonas-oath',
       name: "Tizona's Oath",
-      description: "An oath sworn on his blade. Grants a shield that absorbs damage equal to 20% of his max HP.",
+      description:
+        "An oath sworn on his blade. Grants a shield that absorbs damage equal to 20% of his max HP, lasting this turn and the next.",
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -327,7 +328,7 @@ const elCid: ServantDefinition = {
           name: "Tizona's Oath",
           kind: 'shield',
           potency: Math.round(ctx.self.maxHp * 0.2),
-          turnsRemaining: 3,
+          turnsRemaining: 1,
           description: 'Absorbs damage until depleted',
         });
         ctx.log("El Cid swears Tizona's Oath — a ward surrounds him.");

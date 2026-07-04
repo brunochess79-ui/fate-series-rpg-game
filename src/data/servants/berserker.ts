@@ -244,7 +244,8 @@ const spartacus: ServantDefinition = {
     {
       id: 'gladiators-endurance',
       name: "Gladiator's Endurance",
-      description: 'Forged in the arena, hardened to pain. Grants a shield that absorbs damage equal to 20% of his max HP.',
+      description:
+        'Forged in the arena, hardened to pain. Grants a shield that absorbs damage equal to 20% of his max HP, lasting this turn and the next.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -254,7 +255,7 @@ const spartacus: ServantDefinition = {
           name: "Gladiator's Endurance",
           kind: 'shield',
           potency: Math.round(ctx.self.maxHp * 0.2),
-          turnsRemaining: 2,
+          turnsRemaining: 1,
           description: 'Absorbs damage until depleted',
         });
         ctx.log("Spartacus braces with a Gladiator's Endurance!");

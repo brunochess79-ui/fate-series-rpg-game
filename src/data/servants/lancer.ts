@@ -222,7 +222,8 @@ const achilles: ServantDefinition = {
     {
       id: 'divine-bath',
       name: 'Divine Bath',
-      description: 'The river Styx wards his body once more. Grants a shield that absorbs damage equal to 18% of his max HP.',
+      description:
+        'The river Styx wards his body once more. Grants a shield that absorbs damage equal to 18% of his max HP, lasting this turn and the next.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -232,7 +233,7 @@ const achilles: ServantDefinition = {
           name: 'Divine Bath',
           kind: 'shield',
           potency: Math.round(ctx.self.maxHp * 0.18),
-          turnsRemaining: 2,
+          turnsRemaining: 1,
           description: 'Absorbs damage until depleted',
         });
         ctx.log('Achilles recalls the Divine Bath — his skin turns aside harm.');

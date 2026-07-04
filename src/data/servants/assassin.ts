@@ -109,7 +109,8 @@ const theRipper: ServantDefinition = {
     {
       id: 'vanish-in-fog',
       name: 'Vanish in Fog',
-      description: 'The fog itself seems to blunt every blow. Grants a shield that absorbs damage equal to 15% of his max HP.',
+      description:
+        'The fog itself seems to blunt every blow. Grants a shield that absorbs damage equal to 15% of his max HP, lasting this turn and the next.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -119,7 +120,7 @@ const theRipper: ServantDefinition = {
           name: 'Vanish in Fog',
           kind: 'shield',
           potency: Math.round(ctx.self.maxHp * 0.15),
-          turnsRemaining: 2,
+          turnsRemaining: 1,
           description: 'Absorbs damage until depleted',
         });
         ctx.log('The Ripper vanishes into the fog, half-real and untouchable.');
@@ -215,7 +216,8 @@ const semiramis: ServantDefinition = {
     {
       id: 'hanging-gardens',
       name: "Hanging Gardens' Bounty",
-      description: 'Refuge among her legendary gardens. Grants a shield that absorbs damage equal to 16% of her max HP.',
+      description:
+        'Refuge among her legendary gardens. Grants a shield that absorbs damage equal to 16% of her max HP, lasting this turn and the next.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -225,7 +227,7 @@ const semiramis: ServantDefinition = {
           name: "Hanging Gardens' Bounty",
           kind: 'shield',
           potency: Math.round(ctx.self.maxHp * 0.16),
-          turnsRemaining: 2,
+          turnsRemaining: 1,
           description: 'Absorbs damage until depleted',
         });
         ctx.log("Semiramis takes refuge in the Hanging Gardens' Bounty.");
