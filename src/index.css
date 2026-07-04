@@ -201,6 +201,14 @@ button:disabled {
   color: var(--gold-bright);
   background: rgba(212, 175, 106, 0.08);
 }
+.random-servant-btn {
+  margin-left: 8px;
+  border-color: var(--gold);
+  color: var(--gold-bright);
+}
+.random-servant-btn:hover {
+  background: rgba(212, 175, 106, 0.12);
+}
 
 .servant-grid {
   display: grid;

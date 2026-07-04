@@ -43,6 +43,12 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
     [excludeId, classFilter],
   );
 
+  const handleRandomServant = () => {
+    if (visibleServants.length === 0) return;
+    const pick = visibleServants[Math.floor(Math.random() * visibleServants.length)];
+    setCurrentServant(pick.id);
+  };
+
   const handleConfirm = () => {
     if (!currentServant) return;
     if (isFirstStep) {
@@ -88,6 +94,9 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
             {c}
           </button>
         ))}
+        <button className="class-filter-btn random-servant-btn" onClick={handleRandomServant}>
+          Random Servant
+        </button>
       </div>
       <div className="servant-grid">
         {visibleServants.map((s) => (
