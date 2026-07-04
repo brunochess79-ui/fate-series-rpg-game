@@ -35,6 +35,7 @@ export function createPlayer(id: 'p1' | 'p2', kind: PlayerKind, masterName: stri
     kind,
     master: createMasterState(masterName),
     servant: createServantInstance(servantDefId),
+    lastRestrictedAction: null,
   };
 }
 
@@ -187,12 +188,14 @@ export function resolveRound(
 
     switch (action.type) {
       case 'attack': {
+        self.lastRestrictedAction = null;
         const critOverride = self.master.critNextAttack;
         dealDamage(self.servant, enemy.servant, 1.0, { guaranteedCrit: critOverride });
         if (critOverride) self.master.critNextAttack = false;
         break;
       }
       case 'skill': {
+        self.lastRestrictedAction = null;
         const skill = def.skills[action.skillIndex];
         if (!skill) {
           log('Invalid skill selected.');
@@ -210,6 +213,7 @@ export function resolveRound(
         break;
       }
       case 'np': {
+        self.lastRestrictedAction = null;
         if (self.servant.npGauge < 100) {
           log('Noble Phantasm is not ready yet.');
           break;
@@ -219,9 +223,15 @@ export function resolveRound(
         break;
       }
       case 'guard': {
+        if (self.lastRestrictedAction === 'guard') {
+          log(`${def.name} cannot Guard two rounds in a row!`);
+          self.lastRestrictedAction = null;
+          break;
+        }
         self.servant.guarding = true;
         self.servant.npGauge = Math.min(100, self.servant.npGauge + 15);
         log(`${def.name} takes a defensive stance.`);
+        self.lastRestrictedAction = 'guard';
         break;
       }
       case 'commandSpell': {
@@ -229,14 +239,22 @@ export function resolveRound(
           log('No Command Spells remaining!');
           break;
         }
-        self.master.commandSpells -= 1;
         if (action.effect === 'heal') {
-          const healed = Math.round(self.servant.maxHp * 0.3);
+          if (self.lastRestrictedAction === 'heal') {
+            log(`${self.master.name} cannot use a healing Command Spell two rounds in a row!`);
+            self.lastRestrictedAction = null;
+            break;
+          }
+          self.master.commandSpells -= 1;
+          const healed = Math.round(self.servant.maxHp * 0.25);
           self.servant.hp = Math.min(self.servant.maxHp, self.servant.hp + healed);
           log(`${self.master.name} burns a Command Spell to heal ${def.name} for ${healed} HP!`);
+          self.lastRestrictedAction = 'heal';
         } else if (action.effect === 'crit') {
+          self.master.commandSpells -= 1;
           self.master.critNextAttack = true;
           log(`${self.master.name} burns a Command Spell — the next attack is guaranteed to land true!`);
+          self.lastRestrictedAction = null;
         }
         break;
       }
@@ -255,11 +273,15 @@ export function resolveRound(
 
   // Pass 1: guard, buffs/debuffs/heals, and other non-damaging actions for
   // both players, so any defense set up this round is in place first.
-  if (p1Stunned) log(`${p1Def.name} is stunned and cannot act!`);
-  else if (actionPhase(p1Def, p1Action) === 'setup') performAction(p1, p2, p1Action);
+  if (p1Stunned) {
+    log(`${p1Def.name} is stunned and cannot act!`);
+    p1.lastRestrictedAction = null;
+  } else if (actionPhase(p1Def, p1Action) === 'setup') performAction(p1, p2, p1Action);
 
-  if (p2Stunned) log(`${p2Def.name} is stunned and cannot act!`);
-  else if (actionPhase(p2Def, p2Action) === 'setup') performAction(p2, p1, p2Action);
+  if (p2Stunned) {
+    log(`${p2Def.name} is stunned and cannot act!`);
+    p2.lastRestrictedAction = null;
+  } else if (actionPhase(p2Def, p2Action) === 'setup') performAction(p2, p1, p2Action);
 
   // Pass 2: attacks, Noble Phantasms, and damaging skills for both players.
   if (!p1Stunned && actionPhase(p1Def, p1Action) === 'damage') performAction(p1, p2, p1Action);

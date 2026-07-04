@@ -102,6 +102,9 @@ export interface PlayerState {
   kind: PlayerKind;
   master: MasterState;
   servant: ServantInstance;
+  /** Tracks whether the last round's action was Guard or a Command Spell
+   * heal, so the same one can't be used two rounds in a row. */
+  lastRestrictedAction: 'guard' | 'heal' | null;
 }
 
 export type BattleAction =

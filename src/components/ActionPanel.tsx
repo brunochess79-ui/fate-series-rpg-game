@@ -79,9 +79,9 @@ export function ActionPanel({ player, disabled, onAction }: Props) {
         <ActionItem
           id="guard"
           label="Guard"
-          description="Braces for the enemy's next attack, cutting incoming damage roughly in half until your next turn. Still builds some NP gauge."
+          description="Braces for the enemy's next attack, cutting incoming damage roughly in half until your next turn. Still builds some NP gauge. Can't be used two rounds in a row."
           className="action-btn guard"
-          disabled={disabled}
+          disabled={disabled || player.lastRestrictedAction === 'guard'}
           onClick={() => act({ type: 'guard' })}
           openId={openId}
           setOpenId={setOpenId}
@@ -115,8 +115,11 @@ export function ActionPanel({ player, disabled, onAction }: Props) {
         </button>
         {showCommandSpells && (
           <div className="command-spell-menu">
-            <button onClick={() => act({ type: 'commandSpell', effect: 'heal' })}>
-              Emergency Heal (+30% HP)
+            <button
+              disabled={player.lastRestrictedAction === 'heal'}
+              onClick={() => act({ type: 'commandSpell', effect: 'heal' })}
+            >
+              {player.lastRestrictedAction === 'heal' ? "Emergency Heal (can't repeat)" : 'Emergency Heal (+25% HP)'}
             </button>
             <button onClick={() => act({ type: 'commandSpell', effect: 'crit' })}>
               Guarantee Critical Hit

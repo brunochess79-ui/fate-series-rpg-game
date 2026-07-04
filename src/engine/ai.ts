@@ -14,13 +14,16 @@ export function chooseAiAction(
     return { type: 'np' };
   }
 
+  const canHealSpell = player.master.commandSpells > 0 && player.lastRestrictedAction !== 'heal';
+  const canGuard = player.lastRestrictedAction !== 'guard';
+
   if (hpRatio < 0.35) {
     const healIdx = def.skills.findIndex((s, i) => s.tag === 'heal' && player.servant.skillCooldowns[i] === 0);
     if (healIdx >= 0) return { type: 'skill', skillIndex: healIdx };
-    if (player.master.commandSpells > 0) return { type: 'commandSpell', effect: 'heal' };
+    if (canHealSpell) return { type: 'commandSpell', effect: 'heal' };
   }
 
-  if (hpRatio < 0.2 && player.master.commandSpells > 0 && rng() < 0.5) {
+  if (hpRatio < 0.2 && canHealSpell && rng() < 0.5) {
     return { type: 'commandSpell', effect: 'heal' };
   }
 
@@ -37,7 +40,7 @@ export function chooseAiAction(
     return { type: 'skill', skillIndex: debuffIdx };
   }
 
-  if (hpRatio < 0.5 && rng() < 0.15) {
+  if (hpRatio < 0.5 && canGuard && rng() < 0.15) {
     return { type: 'guard' };
   }
 
