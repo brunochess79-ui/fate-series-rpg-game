@@ -179,7 +179,6 @@ const lancelot: ServantDefinition = {
       name: 'Berserk Fury',
       description: 'A mindless blow aimed at the weak. Deals 1.3x damage, doubled if the enemy is below 30% HP.',
       cooldown: 4,
-      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -269,7 +268,6 @@ const spartacus: ServantDefinition = {
       name: 'Chains Broken',
       description: 'Breaks free and strikes back all the harder. Heals for 25% of the damage dealt.',
       cooldown: 3,
-      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {

@@ -108,7 +108,6 @@ const robinHood: ServantDefinition = {
       description:
         "A shot aimed at the enemy's most exposed moment. Deals 1.3x damage, doubled if the enemy is below 30% HP.",
       cooldown: 4,
-      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -214,7 +213,6 @@ const williamTell: ServantDefinition = {
       name: 'Crossbow Reload',
       description: 'A quick, precise shot that draws strength from the wound it deals. Heals for 30% of the damage dealt.',
       cooldown: 3,
-      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -359,7 +357,6 @@ const gilgamesh: ServantDefinition = {
       name: 'Gate of Babylon',
       description: "A king's endless armory, unleashed all at once. Deals 1.5x damage.",
       cooldown: 4,
-      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {

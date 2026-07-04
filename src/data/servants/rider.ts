@@ -71,7 +71,6 @@ const iskandar: ServantDefinition = {
       name: 'Uplift',
       description: 'Rouses the army, drawing strength from the fight itself. Heals for 25% of the damage dealt.',
       cooldown: 3,
-      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -336,7 +335,6 @@ const marcoPolo: ServantDefinition = {
       description:
         'The caravan closes in when prey is weak. Deals 1.1x damage, boosted by 80% if the enemy is below 30% HP.',
       cooldown: 4,
-      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {

@@ -330,7 +330,6 @@ const karna: ServantDefinition = {
       name: "Karna's Resolve",
       description: 'A hero who never abandons a duel. Deals 1.4x damage.',
       cooldown: 4,
-      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {

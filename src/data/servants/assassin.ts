@@ -131,7 +131,6 @@ const theRipper: ServantDefinition = {
       description:
         'An unseen approach in the dark. Deals 1.2x damage, more than doubled if the enemy is below 25% HP.',
       cooldown: 4,
-      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -333,7 +332,6 @@ const sasakiKojiro: ServantDefinition = {
       name: 'Probing Cut',
       description: 'A testing strike before the true blow. Heals for 20% of the damage dealt.',
       cooldown: 3,
-      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
