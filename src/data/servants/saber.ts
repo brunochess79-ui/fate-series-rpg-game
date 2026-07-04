@@ -42,7 +42,7 @@ const arthur: ServantDefinition = {
       name: 'Mana Burst',
       description: 'Converts magical energy into raw power for the next attack.',
       cooldown: 3,
-      npGainSelf: 10,
+      npGainSelf: 14,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -128,7 +128,7 @@ const siegfried: ServantDefinition = {
       name: "Balmung's Edge",
       description: 'A whetted blade strikes true. Raises own Attack by 25% for 1 turn.',
       cooldown: 3,
-      npGainSelf: 10,
+      npGainSelf: 14,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -234,7 +234,7 @@ const musashi: ServantDefinition = {
       name: 'Ichi no Tachi',
       description: 'The first cut decides all. Next attack is a guaranteed critical hit.',
       cooldown: 4,
-      npGainSelf: 15,
+      npGainSelf: 20,
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {

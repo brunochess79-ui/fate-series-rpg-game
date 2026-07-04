@@ -106,8 +106,8 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
       attacker.statuses = attacker.statuses.filter((s) => !s.id.endsWith('__critReady'));
     }
 
-    attacker.npGauge = Math.min(100, attacker.npGauge + Math.min(30, 15 + dmg / 20));
-    defender.npGauge = Math.min(100, defender.npGauge + Math.min(15, dmg / 25));
+    attacker.npGauge = Math.min(100, attacker.npGauge + Math.min(40, 20 + dmg / 15));
+    defender.npGauge = Math.min(100, defender.npGauge + Math.min(25, dmg / 15));
 
     return dmg;
   };
@@ -217,7 +217,7 @@ export function resolveRound(
       }
       case 'guard': {
         self.servant.guarding = true;
-        self.servant.npGauge = Math.min(100, self.servant.npGauge + 10);
+        self.servant.npGauge = Math.min(100, self.servant.npGauge + 15);
         log(`${def.name} takes a defensive stance.`);
         break;
       }

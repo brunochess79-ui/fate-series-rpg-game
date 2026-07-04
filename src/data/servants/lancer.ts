@@ -235,7 +235,7 @@ const achilles: ServantDefinition = {
       name: 'Phalanx Break',
       description: 'A charge that shatters formations. Next attack is a guaranteed critical hit.',
       cooldown: 4,
-      npGainSelf: 15,
+      npGainSelf: 20,
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {

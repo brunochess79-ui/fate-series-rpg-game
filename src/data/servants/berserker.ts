@@ -77,7 +77,7 @@ const heracles: ServantDefinition = {
       name: 'Monstrous Strength',
       description: 'Overwhelming physical power. Next attack is a guaranteed crit.',
       cooldown: 4,
-      npGainSelf: 15,
+      npGainSelf: 20,
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {

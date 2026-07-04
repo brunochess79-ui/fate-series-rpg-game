@@ -54,7 +54,7 @@ const arash: ServantDefinition = {
       name: 'Sharpshooter',
       description: 'The next attack is guaranteed to be a critical hit.',
       cooldown: 4,
-      npGainSelf: 15,
+      npGainSelf: 20,
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {
