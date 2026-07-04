@@ -107,6 +107,7 @@ const robinHood: ServantDefinition = {
         "A shot aimed at the enemy's most exposed moment. Deals 1.3x damage, doubled if the enemy is below 30% HP.",
       cooldown: 4,
       tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
         const executeBonus = ctx.enemy.hp / ctx.enemy.maxHp < 0.3 ? 2.0 : 1.0;
         ctx.log(
@@ -208,6 +209,7 @@ const williamTell: ServantDefinition = {
       description: 'A quick, precise shot that draws strength from the wound it deals. Heals for 30% of the damage dealt.',
       cooldown: 3,
       tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
         const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Precise Shot' });
         const healed = Math.round(dmg * 0.3);
@@ -347,6 +349,7 @@ const gilgamesh: ServantDefinition = {
       description: "A king's endless armory, unleashed all at once. Deals 1.8x damage.",
       cooldown: 4,
       tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
         ctx.log('Gilgamesh opens the Gate of Babylon, loosing a hail of legendary weapons!');
         ctx.dealDamage(ctx.self, ctx.enemy, 1.8, { label: 'Gate of Babylon' });

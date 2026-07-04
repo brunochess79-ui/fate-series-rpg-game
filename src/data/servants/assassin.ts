@@ -130,6 +130,7 @@ const theRipper: ServantDefinition = {
         'An unseen approach in the dark. Deals 1.2x damage, more than doubled if the enemy is below 25% HP.',
       cooldown: 4,
       tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
         const executeBonus = ctx.enemy.hp / ctx.enemy.maxHp < 0.25 ? 2.2 : 1.0;
         ctx.log(
@@ -325,6 +326,7 @@ const sasakiKojiro: ServantDefinition = {
       description: 'A testing strike before the true blow. Heals for 20% of the damage dealt.',
       cooldown: 3,
       tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
         const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.15, { label: 'Probing Cut' });
         const healed = Math.round(dmg * 0.2);

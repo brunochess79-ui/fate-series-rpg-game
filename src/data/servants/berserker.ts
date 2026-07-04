@@ -176,6 +176,7 @@ const lancelot: ServantDefinition = {
       description: 'A mindless blow aimed at the weak. Deals 1.3x damage, doubled if the enemy is below 30% HP.',
       cooldown: 4,
       tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
         const executeBonus = ctx.enemy.hp / ctx.enemy.maxHp < 0.3 ? 2.0 : 1.0;
         ctx.log(
@@ -262,6 +263,7 @@ const spartacus: ServantDefinition = {
       description: 'Breaks free and strikes back all the harder. Heals for 25% of the damage dealt.',
       cooldown: 3,
       tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
         const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Chains Broken' });
         const healed = Math.round(dmg * 0.25);

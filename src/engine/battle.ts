@@ -6,6 +6,7 @@ import type {
   MasterState,
   PlayerKind,
   PlayerState,
+  ServantDefinition,
   ServantInstance,
 } from '../types';
 import { isStunned, statMultiplier, tickStatuses } from './status';
@@ -112,6 +113,20 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
   };
 }
 
+/** Whether an action deals damage to the enemy this round, or is a
+ * defense/setup action (guard, buff, debuff, heal, command spell, and
+ * non-damaging skills). Used to resolve all setup actions before any
+ * damage, so a shield/evade/guard protects against the opponent's attack
+ * this round regardless of which player is processed first. */
+function actionPhase(def: ServantDefinition, action: BattleAction): 'setup' | 'damage' {
+  if (action.type === 'attack' || action.type === 'np') return 'damage';
+  if (action.type === 'skill') {
+    const skill = def.skills[action.skillIndex];
+    return skill?.dealsDamage ? 'damage' : 'setup';
+  }
+  return 'setup';
+}
+
 /**
  * Both Masters choose their move without seeing the other's choice, so a
  * round always resolves both actions in full — neither player can win
@@ -165,14 +180,6 @@ export function resolveRound(
 
   const performAction = (self: PlayerState, enemy: PlayerState, action: BattleAction) => {
     const def = getServantDef(self.servant.defId);
-    if (isStunned(self.servant)) {
-      log(`${def.name} is stunned and cannot act!`);
-      return new Set(self.servant.statuses.map((s) => s.id));
-    }
-
-    // Statuses applied by this action shouldn't be ticked down until this
-    // servant's *next* round, or a "1 turn" buff would expire before use.
-    const preExistingStatusIds = new Set(self.servant.statuses.map((s) => s.id));
     const ctx = makeCtx(self, enemy);
 
     switch (action.type) {
@@ -231,12 +238,29 @@ export function resolveRound(
         break;
       }
     }
-
-    return preExistingStatusIds;
   };
 
-  const p1PreExisting = performAction(p1, p2, p1Action);
-  const p2PreExisting = performAction(p2, p1, p2Action);
+  const p1Def = getServantDef(p1.servant.defId);
+  const p2Def = getServantDef(p2.servant.defId);
+  const p1Stunned = isStunned(p1.servant);
+  const p2Stunned = isStunned(p2.servant);
+
+  // Statuses applied this round shouldn't be ticked down until each
+  // servant's *next* round, or a "1 turn" buff would expire before use.
+  const p1PreExisting = new Set(p1.servant.statuses.map((s) => s.id));
+  const p2PreExisting = new Set(p2.servant.statuses.map((s) => s.id));
+
+  // Pass 1: guard, buffs/debuffs/heals, and other non-damaging actions for
+  // both players, so any defense set up this round is in place first.
+  if (p1Stunned) log(`${p1Def.name} is stunned and cannot act!`);
+  else if (actionPhase(p1Def, p1Action) === 'setup') performAction(p1, p2, p1Action);
+
+  if (p2Stunned) log(`${p2Def.name} is stunned and cannot act!`);
+  else if (actionPhase(p2Def, p2Action) === 'setup') performAction(p2, p1, p2Action);
+
+  // Pass 2: attacks, Noble Phantasms, and damaging skills for both players.
+  if (!p1Stunned && actionPhase(p1Def, p1Action) === 'damage') performAction(p1, p2, p1Action);
+  if (!p2Stunned && actionPhase(p2Def, p2Action) === 'damage') performAction(p2, p1, p2Action);
 
   tickStatuses(p1.servant, p1PreExisting);
   tickStatuses(p2.servant, p2PreExisting);

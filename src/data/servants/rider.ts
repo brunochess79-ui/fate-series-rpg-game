@@ -70,6 +70,7 @@ const iskandar: ServantDefinition = {
       description: 'Rouses the army, drawing strength from the fight itself. Heals for 25% of the damage dealt.',
       cooldown: 3,
       tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
         const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.0, { label: 'Rousing Blow' });
         const healed = Math.round(dmg * 0.25);
@@ -325,6 +326,7 @@ const marcoPolo: ServantDefinition = {
         'The caravan closes in when prey is weak. Deals 1.1x damage, boosted by 80% if the enemy is below 30% HP.',
       cooldown: 4,
       tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
         const executeBonus = ctx.enemy.hp / ctx.enemy.maxHp < 0.3 ? 1.8 : 1.0;
         ctx.log(

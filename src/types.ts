@@ -42,6 +42,10 @@ export interface SkillDefinition {
   cooldown: number;
   npGainSelf?: number;
   tag: 'heal' | 'buff' | 'debuff' | 'crit' | 'utility';
+  /** True if this skill deals damage to the enemy. Used to resolve defense
+   * (guard/shield/evade) before any damage in a simultaneous round, so it
+   * doesn't matter which player is processed first. */
+  dealsDamage?: boolean;
   effect: (ctx: BattleContext) => void;
 }
 
