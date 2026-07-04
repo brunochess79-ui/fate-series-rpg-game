@@ -25,8 +25,8 @@ export function dispelBuffs(instance: ServantInstance): number {
   return before - instance.statuses.length;
 }
 
-export function tickStatuses(instance: ServantInstance): void {
+export function tickStatuses(instance: ServantInstance, onlyIds?: Set<string>): void {
   instance.statuses = instance.statuses
-    .map((s) => ({ ...s, turnsRemaining: s.turnsRemaining - 1 }))
+    .map((s) => (!onlyIds || onlyIds.has(s.id) ? { ...s, turnsRemaining: s.turnsRemaining - 1 } : s))
     .filter((s) => s.turnsRemaining > 0);
 }

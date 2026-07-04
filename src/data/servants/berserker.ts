@@ -13,7 +13,7 @@ const heracles: ServantDefinition = {
   agility: 50,
   luck: 20,
   critChance: 0.05,
-  rank: 'A+',
+  rank: 'B+',
   strengths: ['Highest Damage', 'Regeneration'],
   weaknesses: ['Lowest Defense', 'Low Crit Rate'],
   passiveDescription:
@@ -81,7 +81,7 @@ const heracles: ServantDefinition = {
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'monstrous-strength-crit',
+          id: 'monstrous-strength__critReady',
           name: 'Monstrous Strength',
           kind: 'buff',
           turnsRemaining: 1,
@@ -118,8 +118,8 @@ const lancelot: ServantDefinition = {
   agility: 65,
   luck: 30,
   critChance: 0.08,
-  rank: 'A',
-  strengths: ['Burst Damage', 'Durability', 'Regeneration'],
+  rank: 'B+',
+  strengths: ['Burst Damage', 'Regeneration', 'Finishing Blows'],
   weaknesses: ['Low Defense', 'Low Luck'],
   passiveDescription: 'Grief and madness have stolen his mind, leaving only unstoppable strength.',
   skills: [
@@ -154,30 +154,36 @@ const lancelot: ServantDefinition = {
     {
       id: 'knights-devotion',
       name: "Knight's Devotion",
-      description: 'A fragment of loyalty remains beneath the madness. Heals self for 20% max HP.',
+      description:
+        'A fragment of loyalty remains beneath the madness. Recovers 7% max HP at the start of each of his next 2 turns.',
       cooldown: 5,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.2);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
-        ctx.log(`Lancelot's Knight's Devotion endures, healing ${healed} HP.`);
+        applyStatus(ctx.self, {
+          id: 'knights-devotion-regen',
+          name: "Knight's Devotion",
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.07),
+          turnsRemaining: 2,
+          description: 'Recovers 7% max HP per turn',
+        });
+        ctx.log("Knight's Devotion endures beneath Lancelot's madness.");
       },
     },
     {
       id: 'berserk-fury',
       name: 'Berserk Fury',
-      description: 'A mindless, overwhelming blow. Next attack is a guaranteed critical hit.',
+      description: 'A mindless blow aimed at the weak. Deals 1.3x damage, doubled if the enemy is below 30% HP.',
       cooldown: 4,
       tag: 'crit',
       effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'berserk-fury-crit',
-          name: 'Berserk Fury',
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log('Lancelot is consumed by Berserk Fury.');
+        const executeBonus = ctx.enemy.hp / ctx.enemy.maxHp < 0.3 ? 2.0 : 1.0;
+        ctx.log(
+          executeBonus > 1
+            ? 'Lancelot senses weakness and unleashes Berserk Fury to finish it!'
+            : 'Lancelot is consumed by Berserk Fury.',
+        );
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3 * executeBonus, { label: 'Berserk Fury' });
       },
     },
   ],
@@ -188,7 +194,7 @@ const lancelot: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log("Lancelot swings Arondight, the Betrayer's Blade!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Arondight' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'Arondight' });
       const recoil = Math.round(ctx.self.maxHp * 0.08);
       ctx.self.hp = Math.max(0, ctx.self.hp - recoil);
       ctx.log(`Lancelot takes ${recoil} damage, wracked by his own grief.`);
@@ -209,7 +215,7 @@ const spartacus: ServantDefinition = {
   luck: 35,
   critChance: 0.1,
   rank: 'B+',
-  strengths: ['Durability', 'Regeneration'],
+  strengths: ['Durability', 'Shielding', 'Sustain via Lifesteal'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'A slave who became legend, his fury fights for every unshackled soul.',
   skills: [
@@ -235,24 +241,32 @@ const spartacus: ServantDefinition = {
     {
       id: 'gladiators-endurance',
       name: "Gladiator's Endurance",
-      description: 'Forged in the arena, hardened to pain. Heals self for 20% max HP.',
+      description: 'Forged in the arena, hardened to pain. Grants a shield that absorbs damage equal to 20% of his max HP.',
       cooldown: 5,
-      tag: 'heal',
+      tag: 'buff',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.2);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
-        ctx.log(`Spartacus draws on a Gladiator's Endurance, healing ${healed} HP.`);
+        applyStatus(ctx.self, {
+          id: 'gladiators-endurance-shield',
+          name: "Gladiator's Endurance",
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
+        });
+        ctx.log("Spartacus braces with a Gladiator's Endurance!");
       },
     },
     {
       id: 'chains-broken',
       name: 'Chains Broken',
-      description: 'The chains fall away once more. Gains a surge of Noble Phantasm charge.',
+      description: 'Breaks free and strikes back all the harder. Heals for 25% of the damage dealt.',
       cooldown: 3,
-      npGainSelf: 25,
-      tag: 'utility',
+      tag: 'crit',
       effect: (ctx) => {
-        ctx.log('Spartacus breaks his chains anew!');
+        const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Chains Broken' });
+        const healed = Math.round(dmg * 0.25);
+        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.log(`Spartacus breaks his chains, recovering ${healed} HP!`);
       },
     },
   ],
@@ -283,21 +297,29 @@ const frankenstein: ServantDefinition = {
   agility: 40,
   luck: 15,
   critChance: 0.05,
-  rank: 'A',
-  strengths: ['Highest HP', 'Regeneration', 'Durability'],
+  rank: 'B',
+  strengths: ['Highest HP', 'Regeneration'],
   weaknesses: ['Slowest', 'Lowest Luck'],
-  passiveDescription: 'Stitched from the dead and struck with lightning, its body shrugs off pain no living thing could bear.',
+  passiveDescription:
+    'Stitched from the dead and struck with lightning, its body shrugs off pain no living thing could bear.',
   skills: [
     {
       id: 'lightning-born-vigor',
       name: 'Lightning-Born Vigor',
-      description: 'The spark that first gave it life surges anew. Heals self for 25% max HP.',
+      description:
+        'The spark that first gave it life surges anew. Recovers 8% max HP at the start of each of its next 3 turns.',
       cooldown: 5,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.25);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
-        ctx.log(`Frankenstein's Monster surges with Lightning-Born Vigor, healing ${healed} HP.`);
+        applyStatus(ctx.self, {
+          id: 'lightning-born-vigor-regen',
+          name: 'Lightning-Born Vigor',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.08),
+          turnsRemaining: 3,
+          description: 'Recovers 8% max HP per turn',
+        });
+        ctx.log("Frankenstein's Monster surges with Lightning-Born Vigor.");
       },
     },
     {
@@ -327,7 +349,7 @@ const frankenstein: ServantDefinition = {
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'monstrous-grip-crit',
+          id: 'monstrous-grip__critReady',
           name: 'Monstrous Grip',
           kind: 'buff',
           turnsRemaining: 1,

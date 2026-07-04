@@ -12,7 +12,7 @@ export type StatKey = 'atk' | 'def' | 'luck' | 'agility';
 export interface StatusEffect {
   id: string;
   name: string;
-  kind: 'buff' | 'debuff' | 'dot' | 'stun' | 'guard';
+  kind: 'buff' | 'debuff' | 'dot' | 'stun' | 'guard' | 'shield' | 'evade' | 'regen';
   stat?: StatKey;
   amount?: number;
   potency?: number;

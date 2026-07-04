@@ -13,7 +13,7 @@ const arash: ServantDefinition = {
   agility: 85,
   luck: 55,
   critChance: 0.15,
-  rank: 'C+',
+  rank: 'B',
   strengths: ['Burst Damage', 'Speed'],
   weaknesses: ['Fragile', 'Low HP'],
   passiveDescription: 'A master marksman who trades durability for precision.',
@@ -21,11 +21,11 @@ const arash: ServantDefinition = {
     {
       id: 'eye-of-the-mind',
       name: 'Eye of the Mind',
-      description: 'Calm focus in the face of danger. Heals self for 12% max HP.',
+      description: 'Calm focus in the face of danger. Heals self for 14% max HP.',
       cooldown: 4,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.12);
+        const healed = Math.round(ctx.self.maxHp * 0.14);
         ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
         ctx.log(`Arash steadies their Eye of the Mind, recovering ${healed} HP.`);
       },
@@ -58,7 +58,7 @@ const arash: ServantDefinition = {
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'sharpshooter-crit',
+          id: 'sharpshooter__critReady',
           name: 'Sharpshooter',
           kind: 'buff',
           turnsRemaining: 1,
@@ -95,27 +95,26 @@ const robinHood: ServantDefinition = {
   agility: 88,
   luck: 65,
   critChance: 0.18,
-  rank: 'B',
-  strengths: ['Critical Hits', 'Debuffs'],
+  rank: 'C+',
+  strengths: ['Finishing Blows', 'Evasion'],
   weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: "An unerring aim, said to split another's arrow mid-flight.",
   skills: [
     {
       id: 'golden-arrow',
       name: 'Golden Arrow',
-      description: 'A legendary shot. Next attack is a guaranteed critical hit.',
+      description:
+        "A shot aimed at the enemy's most exposed moment. Deals 1.3x damage, doubled if the enemy is below 30% HP.",
       cooldown: 4,
-      npGainSelf: 15,
       tag: 'crit',
       effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'golden-arrow-crit',
-          name: 'Golden Arrow',
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log('Robin Hood nocks a Golden Arrow.');
+        const executeBonus = ctx.enemy.hp / ctx.enemy.maxHp < 0.3 ? 2.0 : 1.0;
+        ctx.log(
+          executeBonus > 1
+            ? 'Robin Hood spots an opening and looses a Golden Arrow for the kill!'
+            : 'Robin Hood looses a Golden Arrow!',
+        );
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3 * executeBonus, { label: 'Golden Arrow' });
       },
     },
     {
@@ -140,18 +139,16 @@ const robinHood: ServantDefinition = {
     {
       id: 'woodland-cover',
       name: 'Woodland Cover',
-      description: 'Melts into the green. Raises own Defense by 20% for 2 turns.',
+      description: 'Melts into the green. Guarantees the next enemy attack will miss entirely.',
       cooldown: 4,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'woodland-cover',
+          id: 'woodland-cover-evade',
           name: 'Woodland Cover',
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.2,
-          turnsRemaining: 2,
-          description: '+20% DEF',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
         });
         ctx.log('Robin Hood vanishes into Woodland Cover.');
       },
@@ -182,7 +179,7 @@ const williamTell: ServantDefinition = {
   luck: 70,
   critChance: 0.2,
   rank: 'C+',
-  strengths: ['Critical Hits'],
+  strengths: ['Critical Hits', 'Sustain via Lifesteal'],
   weaknesses: ['Fragile', 'Low Damage'],
   passiveDescription: 'A single shot, however narrow the target, always finds its mark.',
   skills: [
@@ -208,12 +205,14 @@ const williamTell: ServantDefinition = {
     {
       id: 'crossbow-reload',
       name: 'Crossbow Reload',
-      description: 'A practiced motion, quick as thought. Gains a surge of Noble Phantasm charge.',
+      description: 'A quick, precise shot that draws strength from the wound it deals. Heals for 30% of the damage dealt.',
       cooldown: 3,
-      npGainSelf: 25,
-      tag: 'utility',
+      tag: 'crit',
       effect: (ctx) => {
-        ctx.log('William Tell reloads his crossbow in an instant.');
+        const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Precise Shot' });
+        const healed = Math.round(dmg * 0.3);
+        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.log(`William Tell recovers ${healed} HP from the exchange.`);
       },
     },
     {
@@ -224,7 +223,7 @@ const williamTell: ServantDefinition = {
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'apple-shot-crit',
+          id: 'apple-shot__critReady',
           name: 'Apple Shot',
           kind: 'buff',
           turnsRemaining: 1,
@@ -259,37 +258,35 @@ const atalanta: ServantDefinition = {
   luck: 60,
   critChance: 0.15,
   rank: 'B',
-  strengths: ['Speed', 'Regeneration'],
+  strengths: ['Speed', 'Evasion'],
   weaknesses: ['Fragile'],
   passiveDescription: 'None can outrun her, on two legs or four.',
   skills: [
     {
       id: 'fleeting-step',
       name: 'Fleeting Step',
-      description: 'Faster than the eye can follow. Raises own crit rate for 2 turns.',
-      cooldown: 3,
+      description: 'Faster than the eye can follow. Guarantees the next enemy attack will miss entirely.',
+      cooldown: 4,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'fleeting-step',
+          id: 'fleeting-step-evade',
           name: 'Fleeting Step',
-          kind: 'buff',
-          stat: 'luck',
-          amount: 0.3,
-          turnsRemaining: 2,
-          description: '+30% crit chance scaling',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
         });
-        ctx.log('Atalanta moves with a Fleeting Step.');
+        ctx.log('Atalanta vanishes with a Fleeting Step.');
       },
     },
     {
       id: 'beast-companion',
       name: 'Beast Companion',
-      description: 'A wild companion tends her wounds. Heals self for 15% max HP.',
+      description: 'A wild companion tends her wounds. Heals self for 16% max HP.',
       cooldown: 5,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.15);
+        const healed = Math.round(ctx.self.maxHp * 0.16);
         ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
         ctx.log(`Atalanta's Beast Companion tends her wounds, healing ${healed} HP.`);
       },
@@ -321,7 +318,7 @@ const atalanta: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log('Atalanta unleashes the Phoebus Catastrophe!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.3, { label: 'Phoebus Catastrophe' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.1, { label: 'Phoebus Catastrophe' });
     },
   },
 };
@@ -339,7 +336,7 @@ const gilgamesh: ServantDefinition = {
   luck: 80,
   critChance: 0.15,
   rank: 'A+',
-  strengths: ['Burst Damage', 'Debuffs'],
+  strengths: ['Burst Damage', 'Tempo Control'],
   weaknesses: ['No Self-Heal'],
   passiveDescription:
     "Treasury of the world's first hero-king: an arsenal without equal, wielded with utter disdain for lesser beings.",
@@ -347,12 +344,12 @@ const gilgamesh: ServantDefinition = {
     {
       id: 'gate-of-babylon',
       name: 'Gate of Babylon',
-      description: "Draws forth treasures from a king's vault. Gains a surge of Noble Phantasm charge.",
-      cooldown: 3,
-      npGainSelf: 25,
-      tag: 'utility',
+      description: "A king claims what he pleases — even the enemy's momentum. Drains 20% from the enemy's Noble Phantasm gauge.",
+      cooldown: 4,
+      tag: 'debuff',
       effect: (ctx) => {
-        ctx.log('Gilgamesh opens the Gate of Babylon!');
+        ctx.enemy.npGauge = Math.max(0, ctx.enemy.npGauge - 20);
+        ctx.log("Gilgamesh opens the Gate of Babylon, seizing the enemy's momentum!");
       },
     },
     {
@@ -401,7 +398,7 @@ const gilgamesh: ServantDefinition = {
     rank: 'A++',
     effect: (ctx) => {
       ctx.log('Gilgamesh unleashes Enuma Elish!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.5, { pierceDef: true, label: 'Enuma Elish' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.6, { pierceDef: true, label: 'Enuma Elish' });
     },
   },
 };

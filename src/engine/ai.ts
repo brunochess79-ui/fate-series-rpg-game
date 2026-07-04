@@ -22,7 +22,7 @@ export function chooseAiAction(state: BattleState, rng: () => number = Math.rand
   }
 
   const buffIdx = def.skills.findIndex(
-    (s, i) => (s.tag === 'buff' || s.tag === 'crit') && player.servant.skillCooldowns[i] === 0,
+    (s, i) => (s.tag === 'buff' || s.tag === 'crit' || s.tag === 'utility') && player.servant.skillCooldowns[i] === 0,
   );
   const debuffIdx = def.skills.findIndex((s, i) => s.tag === 'debuff' && player.servant.skillCooldowns[i] === 0);
 

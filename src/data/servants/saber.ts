@@ -60,20 +60,18 @@ const arthur: ServantDefinition = {
     {
       id: 'instinct',
       name: 'Instinct',
-      description: 'A sixth sense for danger. Raises own Defense by 25% for 2 turns.',
+      description: 'A sixth sense for danger. Guarantees the next enemy attack will miss entirely.',
       cooldown: 4,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'instinct',
+          id: 'instinct-evade',
           name: 'Instinct',
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.25,
-          turnsRemaining: 2,
-          description: '+25% DEF',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
         });
-        ctx.log('Artoria heightens Instinct — DEF rises!');
+        ctx.log('Artoria heightens Instinct, reading the enemy before they move!');
       },
     },
   ],
@@ -101,8 +99,8 @@ const siegfried: ServantDefinition = {
   agility: 65,
   luck: 50,
   critChance: 0.1,
-  rank: 'B+',
-  strengths: ['Durability', 'Sustained Damage'],
+  rank: 'A',
+  strengths: ['Durability', 'Sustained Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: "Bathed in a dragon's blood, his skin turns aside nearly any blow — save one hidden weak point.",
   skills: [
@@ -148,13 +146,19 @@ const siegfried: ServantDefinition = {
     {
       id: 'nothungs-whisper',
       name: "Nothung's Whisper",
-      description: 'An old sword-song steadies his wounds. Heals self for 15% max HP.',
+      description: "An old sword-song steadies his wounds. Recovers 4% max HP at the start of each of his next 3 turns.",
       cooldown: 5,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.15);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
-        ctx.log(`Siegfried hears Nothung's Whisper, recovering ${healed} HP.`);
+        applyStatus(ctx.self, {
+          id: 'nothungs-whisper-regen',
+          name: "Nothung's Whisper",
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.04),
+          turnsRemaining: 3,
+          description: 'Recovers 4% max HP per turn',
+        });
+        ctx.log("Siegfried hears Nothung's Whisper — his wounds begin to close.");
       },
     },
   ],
@@ -182,7 +186,7 @@ const musashi: ServantDefinition = {
   agility: 90,
   luck: 55,
   critChance: 0.18,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Speed', 'Critical Hits'],
   weaknesses: ['Fragile'],
   passiveDescription: 'Master of the two-sword style, striking with blinding speed.',
@@ -234,7 +238,7 @@ const musashi: ServantDefinition = {
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'ichi-no-tachi-crit',
+          id: 'ichi-no-tachi__critReady',
           name: 'Ichi no Tachi',
           kind: 'buff',
           turnsRemaining: 1,
@@ -251,9 +255,9 @@ const musashi: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Musashi unleashes Nine Heavens, One Blade!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Nine Heavens I' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Nine Heavens II' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Nine Heavens III' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.15, { label: 'Nine Heavens I' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.15, { label: 'Nine Heavens II' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.15, { label: 'Nine Heavens III' });
     },
   },
 };
@@ -270,8 +274,8 @@ const elCid: ServantDefinition = {
   agility: 55,
   luck: 60,
   critChance: 0.08,
-  rank: 'B',
-  strengths: ['Durability', 'Regeneration'],
+  rank: 'A',
+  strengths: ['Durability', 'Shielding'],
   weaknesses: ['Slow', 'Low Crit Rate'],
   passiveDescription: 'Even in death, his legend rides on — a champion who never loses.',
   skills: [
@@ -306,13 +310,19 @@ const elCid: ServantDefinition = {
     {
       id: 'tizonas-oath',
       name: "Tizona's Oath",
-      description: 'An oath sworn on his blade. Heals self for 20% max HP.',
+      description: "An oath sworn on his blade. Grants a shield that absorbs damage equal to 20% of his max HP.",
       cooldown: 5,
-      tag: 'heal',
+      tag: 'buff',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.2);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
-        ctx.log(`El Cid renews Tizona's Oath, healing ${healed} HP.`);
+        applyStatus(ctx.self, {
+          id: 'tizonas-oath-shield',
+          name: "Tizona's Oath",
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 3,
+          description: 'Absorbs damage until depleted',
+        });
+        ctx.log("El Cid swears Tizona's Oath — a ward surrounds him.");
       },
     },
     {
@@ -342,7 +352,7 @@ const elCid: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('El Cid rides out for one last, undying charge!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { label: 'Tizona' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.9, { label: 'Tizona' });
       applyStatus(ctx.self, {
         id: 'campeadors-legend',
         name: "Campeador's Legend",

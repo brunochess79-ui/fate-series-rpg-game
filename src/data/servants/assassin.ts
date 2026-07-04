@@ -13,26 +13,24 @@ const hassan: ServantDefinition = {
   agility: 90,
   luck: 30,
   critChance: 0.3,
-  rank: 'B',
-  strengths: ['Critical Hits', 'Speed'],
+  rank: 'C+',
+  strengths: ['Critical Hits', 'Evasion'],
   weaknesses: ['Low HP', 'Fragile', 'Low Luck'],
   passiveDescription: 'A killer who strikes from the shadows with unmatched precision.',
   skills: [
     {
       id: 'presence-concealment',
       name: 'Presence Concealment',
-      description: 'Melts into the shadows. Raises own Defense by 30% for 2 turns.',
+      description: 'Melts into the shadows. Guarantees the next enemy attack will miss entirely.',
       cooldown: 4,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'presence-concealment',
+          id: 'presence-concealment-evade',
           name: 'Presence Concealment',
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.3,
-          turnsRemaining: 2,
-          description: '+30% DEF',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
         });
         ctx.log('Hassan-i Sabbah melts into Presence Concealment!');
       },
@@ -46,7 +44,7 @@ const hassan: ServantDefinition = {
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'zabaniya-crit',
+          id: 'zabaniya-setup__critReady',
           name: 'Zabaniya',
           kind: 'buff',
           turnsRemaining: 1,
@@ -102,52 +100,50 @@ const theRipper: ServantDefinition = {
   agility: 95,
   luck: 25,
   critChance: 0.35,
-  rank: 'B',
-  strengths: ['Critical Hits', 'Speed'],
+  rank: 'C+',
+  strengths: ['Critical Hits', 'Finishing Blows'],
   weaknesses: ['Lowest HP', 'Fragile', 'Low Luck'],
   passiveDescription: "An identity lost to history — the legend of a killer who vanished into fog, never caught.",
   skills: [
     {
       id: 'vanish-in-fog',
       name: 'Vanish in Fog',
-      description: 'Slips away into the London fog. Raises own Defense by 30% for 2 turns.',
+      description: 'The fog itself seems to blunt every blow. Grants a shield that absorbs damage equal to 15% of his max HP.',
       cooldown: 4,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'vanish-in-fog',
+          id: 'vanish-in-fog-shield',
           name: 'Vanish in Fog',
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.3,
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.15),
           turnsRemaining: 2,
-          description: '+30% DEF',
+          description: 'Absorbs damage until depleted',
         });
-        ctx.log('The Ripper vanishes into the fog!');
+        ctx.log('The Ripper vanishes into the fog, half-real and untouchable.');
       },
     },
     {
       id: 'silent-approach',
       name: 'Silent Approach',
-      description: 'An unseen approach in the dark. Next attack is a guaranteed critical hit.',
+      description:
+        'An unseen approach in the dark. Deals 1.2x damage, more than doubled if the enemy is below 25% HP.',
       cooldown: 4,
-      npGainSelf: 15,
       tag: 'crit',
       effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'silent-approach-crit',
-          name: 'Silent Approach',
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log('The Ripper closes in without a sound.');
+        const executeBonus = ctx.enemy.hp / ctx.enemy.maxHp < 0.25 ? 2.2 : 1.0;
+        ctx.log(
+          executeBonus > 1
+            ? 'The Ripper closes in without a sound, ending it there!'
+            : 'The Ripper closes in without a sound.',
+        );
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.2 * executeBonus, { label: 'Silent Approach' });
       },
     },
     {
       id: 'whispers-of-dread',
       name: 'Whispers of Dread',
-      description: 'Rumor alone unsettles the enemy\'s resolve. Lowers enemy Attack by 15% for 3 turns.',
+      description: "Rumor alone unsettles the enemy's resolve. Lowers enemy Attack by 15% for 3 turns.",
       cooldown: 4,
       tag: 'debuff',
       effect: (ctx) => {
@@ -171,7 +167,7 @@ const theRipper: ServantDefinition = {
     rank: 'D',
     effect: (ctx) => {
       ctx.log('The Ripper strikes with From Hell — the Final Cut!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { guaranteedCrit: true, pierceDef: true, label: 'From Hell' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { guaranteedCrit: true, label: 'From Hell' });
     },
   },
 };
@@ -188,8 +184,8 @@ const semiramis: ServantDefinition = {
   agility: 70,
   luck: 45,
   critChance: 0.12,
-  rank: 'C+',
-  strengths: ['Damage over Time', 'Regeneration'],
+  rank: 'C',
+  strengths: ['Damage over Time', 'Shielding'],
   weaknesses: ['Low Damage'],
   passiveDescription: 'Ruler of the Hanging Gardens, she strikes with serpents and poison.',
   skills: [
@@ -204,7 +200,7 @@ const semiramis: ServantDefinition = {
           id: 'serpents-kiss',
           name: 'Poison',
           kind: 'dot',
-          potency: Math.round(ctx.enemy.maxHp * 0.04),
+          potency: Math.round(ctx.enemy.maxHp * 0.05),
           turnsRemaining: 3,
           description: 'Poisoned',
         });
@@ -214,13 +210,19 @@ const semiramis: ServantDefinition = {
     {
       id: 'hanging-gardens',
       name: "Hanging Gardens' Bounty",
-      description: 'Refuge among her legendary gardens. Heals self for 15% max HP.',
-      cooldown: 5,
-      tag: 'heal',
+      description: 'Refuge among her legendary gardens. Grants a shield that absorbs damage equal to 16% of her max HP.',
+      cooldown: 4,
+      tag: 'buff',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.15);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
-        ctx.log(`Semiramis draws on the Hanging Gardens' Bounty, healing ${healed} HP.`);
+        applyStatus(ctx.self, {
+          id: 'hanging-gardens-shield',
+          name: "Hanging Gardens' Bounty",
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.16),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
+        });
+        ctx.log("Semiramis takes refuge in the Hanging Gardens' Bounty.");
       },
     },
     {
@@ -246,7 +248,7 @@ const semiramis: ServantDefinition = {
   noblePhantasm: {
     name: "Walls of Babylon: Ishtar's Judgment",
     japaneseName: "Ishtar's Judgment",
-    description: 'The full might of Babylon\'s legendary walls, brought to bear as a weapon.',
+    description: "The full might of Babylon's legendary walls, brought to bear as a weapon.",
     rank: 'B',
     effect: (ctx) => {
       ctx.log("Semiramis invokes the Walls of Babylon — Ishtar's Judgment!");
@@ -275,8 +277,8 @@ const sasakiKojiro: ServantDefinition = {
   agility: 100,
   luck: 40,
   critChance: 0.22,
-  rank: 'B+',
-  strengths: ['Speed', 'Critical Hits', 'Sustained Damage'],
+  rank: 'B',
+  strengths: ['Speed', 'Critical Hits', 'Sustain via Lifesteal'],
   weaknesses: ['Low Luck'],
   passiveDescription: 'His blade moves faster than the eye, striking thrice in the time of one swing.',
   skills: [
@@ -289,7 +291,7 @@ const sasakiKojiro: ServantDefinition = {
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'tsubame-gaeshi-crit',
+          id: 'tsubame-gaeshi-ready__critReady',
           name: 'Tsubame Gaeshi Ready',
           kind: 'buff',
           turnsRemaining: 1,
@@ -301,7 +303,7 @@ const sasakiKojiro: ServantDefinition = {
     {
       id: 'swallows-focus',
       name: "Swallow's Focus",
-      description: 'A focus sharp as a blade\'s edge. Raises own Attack by 20% for 2 turns.',
+      description: "A focus sharp as a blade's edge. Raises own Attack by 20% for 2 turns.",
       cooldown: 4,
       tag: 'buff',
       effect: (ctx) => {
@@ -318,22 +320,16 @@ const sasakiKojiro: ServantDefinition = {
       },
     },
     {
-      id: 'long-sword-stance',
-      name: 'Long Sword Stance',
-      description: 'The long blade held steady. Raises own Defense by 15% for 2 turns.',
+      id: 'probing-cut',
+      name: 'Probing Cut',
+      description: 'A testing strike before the true blow. Heals for 20% of the damage dealt.',
       cooldown: 3,
-      tag: 'buff',
+      tag: 'crit',
       effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'long-sword-stance',
-          name: 'Long Sword Stance',
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 2,
-          description: '+15% DEF',
-        });
-        ctx.log('Sasaki Kojirō settles into the Long Sword Stance.');
+        const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.15, { label: 'Probing Cut' });
+        const healed = Math.round(dmg * 0.2);
+        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.log(`Sasaki Kojirō reads the exchange, recovering ${healed} HP.`);
       },
     },
   ],

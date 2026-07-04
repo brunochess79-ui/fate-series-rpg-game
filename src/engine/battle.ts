@@ -58,9 +58,14 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     const attackerDef = getServantDef(attacker.defId);
     const defenderDef = getServantDef(defender.defId);
 
-    const hasCritBuff = attacker.statuses.some(
-      (s) => (s.id === 'sharpshooter-crit' || s.id === 'zabaniya-crit' || s.id === 'monstrous-strength-crit'),
-    );
+    const evadeStatus = defender.statuses.find((s) => s.kind === 'evade' && s.turnsRemaining > 0);
+    if (evadeStatus && !options.pierceDef) {
+      defender.statuses = defender.statuses.filter((s) => s !== evadeStatus);
+      log(`${defenderDef.name} evades the attack entirely!`);
+      return 0;
+    }
+
+    const hasCritBuff = attacker.statuses.some((s) => s.id.endsWith('__critReady'));
 
     const atkStat = attackerDef.atk * statMultiplier(attacker, 'atk');
     const defStat = options.pierceDef
@@ -77,17 +82,27 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     if (defender.guarding && !options.pierceDef) dmg *= 0.45;
 
     dmg = Math.round(dmg);
+
+    const shieldStatus = defender.statuses.find((s) => s.kind === 'shield' && (s.potency ?? 0) > 0);
+    let absorbed = 0;
+    if (shieldStatus && !options.pierceDef) {
+      absorbed = Math.min(dmg, shieldStatus.potency ?? 0);
+      shieldStatus.potency = (shieldStatus.potency ?? 0) - absorbed;
+      dmg -= absorbed;
+      if (shieldStatus.potency <= 0) {
+        defender.statuses = defender.statuses.filter((s) => s !== shieldStatus);
+      }
+    }
+
     defender.hp = Math.max(0, defender.hp - dmg);
 
     const label = options.label ? `${options.label}: ` : '';
     log(
-      `${label}${attackerDef.name} hits ${defenderDef.name} for ${dmg} damage${isCrit ? ' (CRITICAL!)' : ''}${defender.guarding ? ' (guarded)' : ''}.`,
+      `${label}${attackerDef.name} hits ${defenderDef.name} for ${dmg} damage${isCrit ? ' (CRITICAL!)' : ''}${defender.guarding ? ' (guarded)' : ''}${absorbed > 0 ? ` (${absorbed} absorbed by shield)` : ''}.`,
     );
 
     if (hasCritBuff) {
-      attacker.statuses = attacker.statuses.filter(
-        (s) => !['sharpshooter-crit', 'zabaniya-crit', 'monstrous-strength-crit'].includes(s.id),
-      );
+      attacker.statuses = attacker.statuses.filter((s) => !s.id.endsWith('__critReady'));
     }
 
     attacker.npGauge = Math.min(100, attacker.npGauge + Math.min(30, 15 + dmg / 20));
@@ -139,12 +154,23 @@ export function resolveAction(state: BattleState, action: BattleAction, rng: () 
     log(`${selfDef.name} suffers ${dmg} damage from ${dot.name}.`);
   }
 
+  const regenStatuses = player.servant.statuses.filter((s) => s.kind === 'regen');
+  for (const regen of regenStatuses) {
+    const healed = regen.potency ?? 0;
+    player.servant.hp = Math.min(player.servant.maxHp, player.servant.hp + healed);
+    log(`${selfDef.name} recovers ${healed} HP from ${regen.name}.`);
+  }
+
   if (player.servant.hp <= 0) {
     next.winner = opponent.id;
     next.phase = 'gameover';
     log(`${selfDef.name} has fallen. ${getServantDef(opponent.servant.defId).name} is victorious!`);
     return next;
   }
+
+  // Statuses applied by this turn's own action shouldn't be ticked down until
+  // the servant's *next* turn, or a "1 turn" buff would expire before ever being used.
+  const preExistingStatusIds = new Set(player.servant.statuses.map((s) => s.id));
 
   switch (action.type) {
     case 'attack': {
@@ -213,7 +239,7 @@ export function resolveAction(state: BattleState, action: BattleAction, rng: () 
     return next;
   }
 
-  tickStatuses(player.servant);
+  tickStatuses(player.servant, preExistingStatusIds);
   player.servant.skillCooldowns = player.servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
 
   finishTurn(next, otherIdx);

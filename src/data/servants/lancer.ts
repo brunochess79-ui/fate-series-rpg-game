@@ -13,21 +13,27 @@ const cuChulainn: ServantDefinition = {
   agility: 100,
   luck: 40,
   critChance: 0.1,
-  rank: 'B+',
-  strengths: ['Speed', 'Regeneration', 'Sustained Damage'],
+  rank: 'B',
+  strengths: ['Speed', 'Sustained Regeneration', 'Evasion'],
   weaknesses: ['Low Luck'],
   passiveDescription: 'The fastest Servant on the battlefield.',
   skills: [
     {
       id: 'protection-of-the-wolf',
       name: 'Protection of the Wolf',
-      description: 'An old protection charm. Heals self for 15% max HP.',
+      description: 'An old protection charm. Recovers 5% max HP at the start of each of his next 2 turns.',
       cooldown: 5,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.15);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
-        ctx.log(`Cú Chulainn is shielded by the Protection of the Wolf, healing ${healed} HP.`);
+        applyStatus(ctx.self, {
+          id: 'protection-of-the-wolf-regen',
+          name: 'Protection of the Wolf',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.05),
+          turnsRemaining: 2,
+          description: 'Recovers 5% max HP per turn',
+        });
+        ctx.log('Cú Chulainn is shielded by the Protection of the Wolf.');
       },
     },
     {
@@ -52,12 +58,18 @@ const cuChulainn: ServantDefinition = {
     {
       id: 'uplift',
       name: 'Uplift',
-      description: 'A burst of battle-fury. Gains a surge of Noble Phantasm charge.',
-      cooldown: 3,
-      npGainSelf: 25,
-      tag: 'utility',
+      description: 'A burst of battle-fury too fast to follow. Guarantees the next enemy attack will miss entirely.',
+      cooldown: 4,
+      tag: 'buff',
       effect: (ctx) => {
-        ctx.log('Cú Chulainn is uplifted by battle-fury!');
+        applyStatus(ctx.self, {
+          id: 'uplift-evade',
+          name: 'Uplift',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
+        });
+        ctx.log('Cú Chulainn is uplifted by battle-fury, faster than any strike!');
       },
     },
   ],
@@ -93,7 +105,7 @@ const diarmuid: ServantDefinition = {
   agility: 95,
   luck: 45,
   critChance: 0.12,
-  rank: 'B',
+  rank: 'B+',
   strengths: ['Speed', 'Debuffs'],
   weaknesses: ['Low Luck'],
   passiveDescription: 'Cursed with an irresistible charm, and blessed with peerless spearplay.',
@@ -159,7 +171,7 @@ const diarmuid: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Diarmuid crosses the Twin Lances of Sorrow!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { pierceDef: true, label: 'Twin Lances' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.9, { pierceDef: true, label: 'Twin Lances' });
     },
   },
 };
@@ -176,8 +188,8 @@ const achilles: ServantDefinition = {
   agility: 85,
   luck: 40,
   critChance: 0.15,
-  rank: 'A',
-  strengths: ['Burst Damage', 'Regeneration', 'Durability'],
+  rank: 'A+',
+  strengths: ['Burst Damage', 'Shielding'],
   weaknesses: ['Low Luck'],
   passiveDescription: 'Nigh invulnerable but for a single, fatal spot upon his heel.',
   skills: [
@@ -203,13 +215,19 @@ const achilles: ServantDefinition = {
     {
       id: 'divine-bath',
       name: 'Divine Bath',
-      description: 'The river Styx tends his wounds once more. Heals self for 18% max HP.',
+      description: 'The river Styx wards his body once more. Grants a shield that absorbs damage equal to 18% of his max HP.',
       cooldown: 5,
-      tag: 'heal',
+      tag: 'buff',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.18);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
-        ctx.log(`Achilles recalls the Divine Bath, healing ${healed} HP.`);
+        applyStatus(ctx.self, {
+          id: 'divine-bath-shield',
+          name: 'Divine Bath',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.18),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
+        });
+        ctx.log('Achilles recalls the Divine Bath — his skin turns aside harm.');
       },
     },
     {
@@ -221,7 +239,7 @@ const achilles: ServantDefinition = {
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'phalanx-break-crit',
+          id: 'phalanx-break__critReady',
           name: 'Phalanx Break',
           kind: 'buff',
           turnsRemaining: 1,
@@ -256,25 +274,24 @@ const karna: ServantDefinition = {
   luck: 35,
   critChance: 0.1,
   rank: 'A',
-  strengths: ['Durability', 'Burst Damage'],
+  strengths: ['Durability', 'Shielding'],
   weaknesses: ['Slow', 'Low Luck'],
   passiveDescription: 'Born wearing radiant armor and earrings that ward off death itself.',
   skills: [
     {
       id: 'kavacha-kundala',
       name: 'Kavacha and Kundala',
-      description: 'His divine armor turns aside harm. Raises own Defense by 35% for 2 turns.',
-      cooldown: 4,
+      description: 'His divine armor turns aside harm. Grants a shield that absorbs damage equal to 25% of his max HP.',
+      cooldown: 5,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'kavacha-kundala',
+          id: 'kavacha-kundala-shield',
           name: 'Kavacha and Kundala',
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.35,
-          turnsRemaining: 2,
-          description: '+35% DEF',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.25),
+          turnsRemaining: 3,
+          description: 'Absorbs damage until depleted',
         });
         ctx.log("Karna's Kavacha and Kundala shine with protection!");
       },
@@ -282,13 +299,20 @@ const karna: ServantDefinition = {
     {
       id: 'solar-blessing',
       name: 'Solar Blessing',
-      description: "The sun god's warmth mends his wounds. Heals self for 15% max HP.",
-      cooldown: 5,
-      tag: 'heal',
+      description: "The sun god's power surges within him. Raises own Attack by 15% for 2 turns.",
+      cooldown: 3,
+      tag: 'buff',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.15);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
-        ctx.log(`Karna basks in a Solar Blessing, healing ${healed} HP.`);
+        applyStatus(ctx.self, {
+          id: 'solar-blessing',
+          name: 'Solar Blessing',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.15,
+          turnsRemaining: 2,
+          description: '+15% ATK',
+        });
+        ctx.log('Karna basks in a Solar Blessing!');
       },
     },
     {
@@ -299,7 +323,7 @@ const karna: ServantDefinition = {
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'karnas-resolve-crit',
+          id: 'karnas-resolve__critReady',
           name: "Karna's Resolve",
           kind: 'buff',
           turnsRemaining: 1,
