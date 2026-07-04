@@ -31,7 +31,7 @@ export interface BattleContext {
     attacker: ServantInstance,
     defender: ServantInstance,
     multiplier: number,
-    options?: { pierceDef?: boolean; guaranteedCrit?: boolean; label?: string },
+    options?: { guaranteedCrit?: boolean; label?: string },
   ) => number;
 }
 

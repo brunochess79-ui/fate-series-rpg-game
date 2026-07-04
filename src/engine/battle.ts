@@ -54,7 +54,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     attacker: ServantInstance,
     defender: ServantInstance,
     multiplier: number,
-    options: { pierceDef?: boolean; guaranteedCrit?: boolean; label?: string } = {},
+    options: { guaranteedCrit?: boolean; label?: string } = {},
   ): number => {
     const attackerDef = getServantDef(attacker.defId);
     const defenderDef = getServantDef(defender.defId);
@@ -69,9 +69,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     const hasCritBuff = attacker.statuses.some((s) => s.id.endsWith('__critReady'));
 
     const atkStat = attackerDef.atk * statMultiplier(attacker, 'atk');
-    const defStat = options.pierceDef
-      ? defenderDef.def * 0.3
-      : defenderDef.def * statMultiplier(defender, 'def');
+    const defStat = defenderDef.def * statMultiplier(defender, 'def');
 
     const variance = 0.9 + rng() * 0.2;
     let dmg = Math.max(1, atkStat * multiplier * variance - defStat * 0.5);

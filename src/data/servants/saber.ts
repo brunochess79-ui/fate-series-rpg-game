@@ -82,7 +82,7 @@ const arthur: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Artoria unsheathes the Sword of Promised Victory!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { pierceDef: true, label: 'Excalibur' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { label: 'Excalibur' });
     },
   },
 };
@@ -169,7 +169,7 @@ const siegfried: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Siegfried unleashes the Twilight of the Dragonslayer!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.2, { pierceDef: true, label: 'Balmung' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.2, { label: 'Balmung' });
     },
   },
 };

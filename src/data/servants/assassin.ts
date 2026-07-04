@@ -81,7 +81,6 @@ const hassan: ServantDefinition = {
       ctx.log('Hassan-i Sabbah unleashes Delusional Illusion — there is no escape.');
       ctx.dealDamage(ctx.self, ctx.enemy, 3.2, {
         guaranteedCrit: true,
-        pierceDef: true,
         label: 'Zabaniya',
       });
     },
@@ -342,9 +341,9 @@ const sasakiKojiro: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Sasaki Kojirō unleashes Tsubame Gaeshi — the Swallow Reversal!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { pierceDef: true, label: 'Swallow I' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { pierceDef: true, label: 'Swallow II' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { pierceDef: true, label: 'Swallow III' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Swallow I' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Swallow II' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Swallow III' });
     },
   },
 };

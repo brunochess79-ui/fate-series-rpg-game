@@ -158,11 +158,11 @@ const robinHood: ServantDefinition = {
   noblePhantasm: {
     name: 'Yew Bow of Sherwood: Piercing Shot',
     japaneseName: 'Yew Bow',
-    description: 'A shot so precise it splits the enemy\'s own defenses in two.',
+    description: 'A single shot loosed with unerring, guaranteed precision.',
     rank: 'C',
     effect: (ctx) => {
       ctx.log('Robin Hood looses the Yew Bow of Sherwood!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { guaranteedCrit: true, pierceDef: true, label: 'Piercing Shot' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { guaranteedCrit: true, label: 'Piercing Shot' });
     },
   },
 };
@@ -401,7 +401,7 @@ const gilgamesh: ServantDefinition = {
     rank: 'A++',
     effect: (ctx) => {
       ctx.log('Gilgamesh unleashes Enuma Elish!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.6, { pierceDef: true, label: 'Enuma Elish' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.6, { label: 'Enuma Elish' });
     },
   },
 };

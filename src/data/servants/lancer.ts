@@ -80,7 +80,7 @@ const cuChulainn: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Cú Chulainn hurls the Cursed Spear of the Barbed Thorn!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.8, { pierceDef: true, label: 'Gáe Bolg' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.8, { label: 'Gáe Bolg' });
       applyStatus(ctx.enemy, {
         id: 'barbed-curse',
         name: 'Barbed Curse',
@@ -171,7 +171,7 @@ const diarmuid: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Diarmuid crosses the Twin Lances of Sorrow!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.9, { pierceDef: true, label: 'Twin Lances' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.9, { label: 'Twin Lances' });
     },
   },
 };
@@ -340,7 +340,7 @@ const karna: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Karna hurls the Vasavi Shakti, the Spear of the Sun God!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { guaranteedCrit: true, pierceDef: true, label: 'Vasavi Shakti' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { guaranteedCrit: true, label: 'Vasavi Shakti' });
     },
   },
 };
