@@ -346,13 +346,13 @@ const gilgamesh: ServantDefinition = {
     {
       id: 'gate-of-babylon',
       name: 'Gate of Babylon',
-      description: "A king's endless armory, unleashed all at once. Deals 1.8x damage.",
+      description: "A king's endless armory, unleashed all at once. Deals 1.5x damage.",
       cooldown: 4,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
         ctx.log('Gilgamesh opens the Gate of Babylon, loosing a hail of legendary weapons!');
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.8, { label: 'Gate of Babylon' });
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.5, { label: 'Gate of Babylon' });
       },
     },
     {
