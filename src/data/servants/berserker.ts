@@ -101,7 +101,7 @@ const heracles: ServantDefinition = {
     effect: (ctx) => {
       ctx.log('Heracles unleashes Nine Lives in a berserk frenzy!');
       ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'Nine Lives' });
-      const recoil = Math.round(ctx.self.maxHp * 0.1);
+      const recoil = Math.round(ctx.self.maxHp * 0.05);
       ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Heracles takes ${recoil} recoil damage from their own fury.`);
     },
@@ -283,7 +283,7 @@ const spartacus: ServantDefinition = {
     effect: (ctx) => {
       ctx.log('Spartacus unleashes the Roar of the Uprising!');
       ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'Roar of the Uprising' });
-      const recoil = Math.round(ctx.self.maxHp * 0.08);
+      const recoil = Math.round(ctx.self.maxHp * 0.04);
       ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Spartacus takes ${recoil} damage from the strain of the blow.`);
     },
@@ -375,7 +375,7 @@ const frankenstein: ServantDefinition = {
     effect: (ctx) => {
       ctx.log("Frankenstein's Monster unleashes the Requiem for the Wretched!");
       ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { label: 'Requiem for the Wretched' });
-      const recoil = Math.round(ctx.self.maxHp * 0.12);
+      const recoil = Math.round(ctx.self.maxHp * 0.06);
       ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Frankenstein's Monster takes ${recoil} damage, its stitched body straining under the force.`);
     },
