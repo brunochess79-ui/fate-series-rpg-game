@@ -336,8 +336,8 @@ const gilgamesh: ServantDefinition = {
   def: 60,
   agility: 65,
   luck: 80,
-  critChance: 0.15,
-  rank: 'A+',
+  critChance: 0.1,
+  rank: 'A',
   strengths: ['Burst Damage', 'Debuffs'],
   weaknesses: ['No Self-Heal'],
   passiveDescription:
@@ -401,7 +401,7 @@ const gilgamesh: ServantDefinition = {
     rank: 'A++',
     effect: (ctx) => {
       ctx.log('Gilgamesh unleashes Enuma Elish!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { label: 'Enuma Elish' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Enuma Elish' });
     },
   },
 };
