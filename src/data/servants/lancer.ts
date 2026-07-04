@@ -289,7 +289,8 @@ const karna: ServantDefinition = {
     {
       id: 'kavacha-kundala',
       name: 'Kavacha and Kundala',
-      description: 'His divine armor turns aside harm. Grants a shield that absorbs damage equal to 25% of his max HP.',
+      description:
+        'His divine armor turns aside harm. Grants a shield that absorbs damage equal to 20% of his max HP, lasting this turn and the next.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -298,8 +299,8 @@ const karna: ServantDefinition = {
           id: 'kavacha-kundala-shield',
           name: 'Kavacha and Kundala',
           kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.25),
-          turnsRemaining: 3,
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 1,
           description: 'Absorbs damage until depleted',
         });
         ctx.log("Karna's Kavacha and Kundala shine with protection!");
@@ -328,13 +329,30 @@ const karna: ServantDefinition = {
     {
       id: 'karnas-resolve',
       name: "Karna's Resolve",
-      description: 'A hero who never abandons a duel. Deals 1.4x damage.',
+      description: 'A hero who never abandons a duel. Raises own Attack by 30% but lowers own Defense by 30% for 2 turns.',
       cooldown: 4,
-      tag: 'crit',
-      dealsDamage: true,
+      npGainSelf: 20,
+      tag: 'buff',
       effect: (ctx) => {
-        ctx.log("Karna's Resolve drives home a killing blow!");
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: "Karna's Resolve" });
+        applyStatus(ctx.self, {
+          id: 'karnas-resolve-atk',
+          name: "Karna's Resolve",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.3,
+          turnsRemaining: 2,
+          description: '+30% ATK',
+        });
+        applyStatus(ctx.self, {
+          id: 'karnas-resolve-def',
+          name: "Karna's Resolve",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.3,
+          turnsRemaining: 2,
+          description: '-30% DEF',
+        });
+        ctx.log("Karna's Resolve hardens - all offense, no retreat!");
       },
     },
   ],
