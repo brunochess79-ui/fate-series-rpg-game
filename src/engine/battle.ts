@@ -60,7 +60,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     const defenderDef = getServantDef(defender.defId);
 
     const evadeStatus = defender.statuses.find((s) => s.kind === 'evade' && s.turnsRemaining > 0);
-    if (evadeStatus && !options.pierceDef) {
+    if (evadeStatus) {
       defender.statuses = defender.statuses.filter((s) => s !== evadeStatus);
       log(`${defenderDef.name} evades the attack entirely!`);
       return 0;
@@ -80,13 +80,13 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     const isCrit = options.guaranteedCrit || hasCritBuff || rng() < critChance;
     if (isCrit) dmg *= 1.6;
 
-    if (defender.guarding && !options.pierceDef) dmg *= 0.45;
+    if (defender.guarding) dmg *= 0.45;
 
     dmg = Math.round(dmg);
 
     const shieldStatus = defender.statuses.find((s) => s.kind === 'shield' && (s.potency ?? 0) > 0);
     let absorbed = 0;
-    if (shieldStatus && !options.pierceDef) {
+    if (shieldStatus) {
       absorbed = Math.min(dmg, shieldStatus.potency ?? 0);
       shieldStatus.potency = (shieldStatus.potency ?? 0) - absorbed;
       dmg -= absorbed;
