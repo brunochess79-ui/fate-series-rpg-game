@@ -1,5 +1,6 @@
 import { getServantDef } from '../data/servants';
 import type { BattleState } from '../types';
+import { BattleLog } from './BattleLog';
 
 interface Props {
   battle: BattleState;
@@ -33,6 +34,10 @@ export function GameOverScreen({ battle, onRematch, onMainMenu }: Props) {
         <button className="secondary-btn" onClick={onMainMenu}>
           Main Menu
         </button>
+      </div>
+      <div className="gameover-history">
+        <h2>Full Match History</h2>
+        <BattleLog log={battle.log} autoScroll={false} />
       </div>
     </div>
   );

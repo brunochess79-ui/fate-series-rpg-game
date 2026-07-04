@@ -2,14 +2,15 @@ import { useEffect, useRef } from 'react';
 
 interface Props {
   log: string[];
+  autoScroll?: boolean;
 }
 
-export function BattleLog({ log }: Props) {
+export function BattleLog({ log, autoScroll = true }: Props) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [log.length]);
+    if (autoScroll) bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [log.length, autoScroll]);
 
   return (
     <div className="battle-log">
