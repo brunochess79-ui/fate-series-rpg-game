@@ -76,16 +76,6 @@ export function ActionPanel({ player, disabled, onAction }: Props) {
           openId={openId}
           setOpenId={setOpenId}
         />
-        <ActionItem
-          id="guard"
-          label="Guard"
-          description="Braces for the enemy's next attack, cutting incoming damage by about a quarter until your next turn. Still builds some NP gauge. Can't be used two rounds in a row."
-          className="action-btn guard"
-          disabled={disabled || player.lastRestrictedAction === 'guard'}
-          onClick={() => act({ type: 'guard' })}
-          openId={openId}
-          setOpenId={setOpenId}
-        />
       </div>
       <div className="action-row skills">
         {def.skills.map((skill, i) => {

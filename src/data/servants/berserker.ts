@@ -200,9 +200,6 @@ const lancelot: ServantDefinition = {
     effect: (ctx) => {
       ctx.log("Lancelot swings Arondight, the Betrayer's Blade!");
       ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'Arondight' });
-      const recoil = Math.round(ctx.self.maxHp * 0.08);
-      ctx.self.hp = ctx.self.hp - recoil;
-      ctx.log(`Lancelot takes ${recoil} damage, wracked by his own grief.`);
     },
   },
 };

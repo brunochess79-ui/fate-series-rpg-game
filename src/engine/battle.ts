@@ -20,7 +20,6 @@ export function createServantInstance(defId: string): ServantInstance {
     npGauge: 0,
     statuses: [],
     skillCooldowns: def.skills.map(() => 0),
-    guarding: false,
     turnsSurvived: 0,
   };
 }
@@ -79,8 +78,6 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     const isCrit = options.guaranteedCrit || hasCritBuff || rng() < critChance;
     if (isCrit) dmg *= 1.6;
 
-    if (defender.guarding) dmg *= 0.75;
-
     dmg = Math.round(dmg);
 
     const shieldStatus = defender.statuses.find((s) => s.kind === 'shield' && (s.potency ?? 0) > 0);
@@ -98,7 +95,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
 
     const label = options.label ? `${options.label}: ` : '';
     log(
-      `${label}${attackerDef.name} hits ${defenderDef.name} for ${dmg} damage${isCrit ? ' (CRITICAL!)' : ''}${defender.guarding ? ' (guarded)' : ''}${absorbed > 0 ? ` (${absorbed} absorbed by shield)` : ''}.`,
+      `${label}${attackerDef.name} hits ${defenderDef.name} for ${dmg} damage${isCrit ? ' (CRITICAL!)' : ''}${absorbed > 0 ? ` (${absorbed} absorbed by shield)` : ''}.`,
     );
 
     if (hasCritBuff) {
@@ -117,9 +114,9 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
 }
 
 /** Whether an action deals damage to the enemy this round, or is a
- * defense/setup action (guard, buff, debuff, heal, command spell, and
+ * defense/setup action (buff, debuff, heal, command spell, and
  * non-damaging skills). Used to resolve all setup actions before any
- * damage, so a shield/evade/guard protects against the opponent's attack
+ * damage, so a shield/evade protects against the opponent's attack
  * this round regardless of which player is processed first. */
 function actionPhase(def: ServantDefinition, action: BattleAction): 'setup' | 'damage' {
   if (action.type === 'attack' || action.type === 'np') return 'damage';
@@ -161,7 +158,6 @@ export function resolveRound(
   const startOfRound = (self: PlayerState, enemy: PlayerState) => {
     const def = getServantDef(self.servant.defId);
     self.servant.turnsSurvived += 1;
-    self.servant.guarding = false;
     if (def.onTurnStart) {
       def.onTurnStart(makeCtx(self, enemy));
     }
@@ -222,18 +218,6 @@ export function resolveRound(
         self.servant.npGauge = 0;
         break;
       }
-      case 'guard': {
-        if (self.lastRestrictedAction === 'guard') {
-          log(`${def.name} cannot Guard two rounds in a row!`);
-          self.lastRestrictedAction = null;
-          break;
-        }
-        self.servant.guarding = true;
-        self.servant.npGauge = Math.min(100, self.servant.npGauge + 15);
-        log(`${def.name} takes a defensive stance.`);
-        self.lastRestrictedAction = 'guard';
-        break;
-      }
       case 'commandSpell': {
         if (self.master.commandSpells <= 0) {
           log('No Command Spells remaining!');
@@ -271,7 +255,7 @@ export function resolveRound(
   const p1PreExisting = new Set(p1.servant.statuses.map((s) => s.id));
   const p2PreExisting = new Set(p2.servant.statuses.map((s) => s.id));
 
-  // Pass 1: guard, buffs/debuffs/heals, and other non-damaging actions for
+  // Pass 1: buffs/debuffs/heals, and other non-damaging actions for
   // both players, so any defense set up this round is in place first.
   if (p1Stunned) {
     log(`${p1Def.name} is stunned and cannot act!`);

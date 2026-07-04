@@ -15,7 +15,6 @@ export function chooseAiAction(
   }
 
   const canHealSpell = player.master.commandSpells > 0 && player.lastRestrictedAction !== 'heal';
-  const canGuard = player.lastRestrictedAction !== 'guard';
 
   if (hpRatio < 0.35) {
     const healIdx = def.skills.findIndex((s, i) => s.tag === 'heal' && player.servant.skillCooldowns[i] === 0);
@@ -38,10 +37,6 @@ export function chooseAiAction(
 
   if (debuffIdx >= 0 && rng() < 0.4) {
     return { type: 'skill', skillIndex: debuffIdx };
-  }
-
-  if (hpRatio < 0.5 && canGuard && rng() < 0.15) {
-    return { type: 'guard' };
   }
 
   return { type: 'attack' };

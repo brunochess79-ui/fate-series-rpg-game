@@ -12,7 +12,7 @@ export type StatKey = 'atk' | 'def' | 'luck' | 'agility';
 export interface StatusEffect {
   id: string;
   name: string;
-  kind: 'buff' | 'debuff' | 'dot' | 'stun' | 'guard' | 'shield' | 'evade' | 'regen';
+  kind: 'buff' | 'debuff' | 'dot' | 'stun' | 'shield' | 'evade' | 'regen';
   stat?: StatKey;
   amount?: number;
   potency?: number;
@@ -43,7 +43,7 @@ export interface SkillDefinition {
   npGainSelf?: number;
   tag: 'heal' | 'buff' | 'debuff' | 'crit' | 'utility';
   /** True if this skill deals damage to the enemy. Used to resolve defense
-   * (guard/shield/evade) before any damage in a simultaneous round, so it
+   * (shield/evade) before any damage in a simultaneous round, so it
    * doesn't matter which player is processed first. */
   dealsDamage?: boolean;
   effect: (ctx: BattleContext) => void;
@@ -85,7 +85,6 @@ export interface ServantInstance {
   npGauge: number;
   statuses: StatusEffect[];
   skillCooldowns: number[];
-  guarding: boolean;
   turnsSurvived: number;
 }
 
@@ -102,16 +101,15 @@ export interface PlayerState {
   kind: PlayerKind;
   master: MasterState;
   servant: ServantInstance;
-  /** Tracks whether the last round's action was Guard or a Command Spell
-   * heal, so the same one can't be used two rounds in a row. */
-  lastRestrictedAction: 'guard' | 'heal' | null;
+  /** Tracks whether the last round's action was a healing Command Spell,
+   * so it can't be used two rounds in a row. */
+  lastRestrictedAction: 'heal' | null;
 }
 
 export type BattleAction =
   | { type: 'attack' }
   | { type: 'skill'; skillIndex: number }
   | { type: 'np' }
-  | { type: 'guard' }
   | { type: 'commandSpell'; effect: 'heal' | 'crit' };
 
 export interface BattleState {

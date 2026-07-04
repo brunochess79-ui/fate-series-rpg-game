@@ -466,10 +466,6 @@ button:disabled {
   color: #d1a37f;
   border-color: #6b523a;
 }
-.status-chip.guard {
-  color: var(--np);
-  border-color: #3a5a6b;
-}
 
 .command-spells {
   display: flex;

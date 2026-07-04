@@ -32,7 +32,6 @@ export function ServantPanel({ master, servant, isActive, side }: Props) {
         <span className="bar-label">NP {Math.floor(npPct)}%</span>
       </div>
       <div className="status-row">
-        {servant.guarding && <span className="status-chip guard">Guarding</span>}
         {servant.statuses.map((s) => (
           <span
             key={s.id}
