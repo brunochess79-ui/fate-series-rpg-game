@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { SERVANT_LIST } from '../data/servants';
 import type { GameMode, SetupResult } from '../game';
+import type { ServantClass } from '../types';
 
 interface Props {
   mode: GameMode;
@@ -8,12 +9,24 @@ interface Props {
   onBack: () => void;
 }
 
+const CLASS_FILTERS: Array<ServantClass | 'All'> = [
+  'All',
+  'Saber',
+  'Archer',
+  'Lancer',
+  'Rider',
+  'Caster',
+  'Assassin',
+  'Berserker',
+];
+
 export function SetupScreen({ mode, onComplete, onBack }: Props) {
   const [step, setStep] = useState<0 | 1>(0);
   const [p1Name, setP1Name] = useState('Master 1');
   const [p1Servant, setP1Servant] = useState<string | null>(null);
   const [p2Name, setP2Name] = useState('Master 2');
   const [p2Servant, setP2Servant] = useState<string | null>(null);
+  const [classFilter, setClassFilter] = useState<ServantClass | 'All'>('All');
 
   const isFirstStep = step === 0;
   const currentName = isFirstStep ? p1Name : p2Name;
@@ -21,6 +34,14 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
   const setCurrentName = isFirstStep ? setP1Name : setP2Name;
   const setCurrentServant = isFirstStep ? setP1Servant : setP2Servant;
   const excludeId = isFirstStep ? null : p1Servant;
+
+  const visibleServants = useMemo(
+    () =>
+      SERVANT_LIST.filter((s) => s.id !== excludeId).filter(
+        (s) => classFilter === 'All' || s.className === classFilter,
+      ),
+    [excludeId, classFilter],
+  );
 
   const handleConfirm = () => {
     if (!currentServant) return;
@@ -57,14 +78,26 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
           />
         </label>
       </div>
+      <div className="class-filter-row">
+        {CLASS_FILTERS.map((c) => (
+          <button
+            key={c}
+            className={`class-filter-btn ${classFilter === c ? 'active' : ''}`}
+            onClick={() => setClassFilter(c)}
+          >
+            {c}
+          </button>
+        ))}
+      </div>
       <div className="servant-grid">
-        {SERVANT_LIST.filter((s) => s.id !== excludeId).map((s) => (
+        {visibleServants.map((s) => (
           <button
             key={s.id}
             className={`servant-card ${currentServant === s.id ? 'selected' : ''}`}
             onClick={() => setCurrentServant(s.id)}
           >
             <div className="servant-card-class">{s.className}</div>
+            <div className="servant-card-name">{s.name}</div>
             <div className="servant-card-title">{s.title}</div>
             <div className="servant-card-stats">
               <span>HP {s.maxHp}</span>

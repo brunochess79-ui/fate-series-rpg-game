@@ -19,7 +19,8 @@ export function ServantPanel({ master, servant, isActive, side }: Props) {
         <span className="servant-class">{def.className}</span>
         <span className="master-name">{master.name}</span>
       </div>
-      <div className="servant-name">{def.title}</div>
+      <div className="servant-name">{def.name}</div>
+      <div className="servant-title">{def.title}</div>
       <div className="bar hp-bar">
         <div className={`bar-fill hp-fill ${hpPct < 30 ? 'low' : ''}`} style={{ width: `${hpPct}%` }} />
         <span className="bar-label">
