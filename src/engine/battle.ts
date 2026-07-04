@@ -141,7 +141,7 @@ function actionPhase(def: ServantDefinition, action: BattleAction): 'setup' | 'd
  * round always resolves both actions in full — neither player can win
  * simply by having gone "first". A round that fells both Servants at once
  * is decided by whichever Servant took the lesser overkill (the higher,
- * less-negative HP total), falling back to Agility only on an exact tie.
+ * less-negative HP total).
  */
 export function resolveRound(
   state: BattleState,
@@ -313,18 +313,10 @@ function finalizeIfDefeated(state: BattleState, log: (msg: string) => void): boo
   if (!p1Down && !p2Down) return false;
 
   if (p1Down && p2Down) {
-    let winner: PlayerState;
-    let loser: PlayerState;
-    if (p1.servant.hp !== p2.servant.hp) {
-      // Whoever was overkilled less (higher, less-negative HP) wins.
-      winner = p1.servant.hp > p2.servant.hp ? p1 : p2;
-      loser = winner === p1 ? p2 : p1;
-    } else {
-      const p1Agility = getServantDef(p1.servant.defId).agility;
-      const p2Agility = getServantDef(p2.servant.defId).agility;
-      winner = p1Agility >= p2Agility ? p1 : p2;
-      loser = winner === p1 ? p2 : p1;
-    }
+    // Whoever was overkilled less (higher, less-negative HP) wins. An exact
+    // tie just falls to p1 - no secondary stat involved.
+    const winner = p1.servant.hp >= p2.servant.hp ? p1 : p2;
+    const loser = winner === p1 ? p2 : p1;
     log(
       `${getServantDef(p1.servant.defId).name} and ${getServantDef(p2.servant.defId).name} both fall in the same instant! ` +
         `${winner.master.name}'s ${getServantDef(winner.servant.defId).name} (${winner.servant.hp} HP) ` +
