@@ -11,11 +11,10 @@ const hassan: ServantDefinition = {
   atk: 95,
   def: 50,
   agility: 90,
-  luck: 35,
   critChance: 0.3,
-  rank: 'B',
+  rank: 'B+',
   strengths: ['Critical Hits', 'Evasion'],
-  weaknesses: ['Low HP', 'Fragile', 'Low Luck'],
+  weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: 'A killer who strikes from the shadows with unmatched precision.',
   skills: [
     {
@@ -99,11 +98,10 @@ const theRipper: ServantDefinition = {
   atk: 100,
   def: 45,
   agility: 95,
-  luck: 30,
   critChance: 0.35,
   rank: 'B+',
   strengths: ['Critical Hits', 'Finishing Blows'],
-  weaknesses: ['Low HP', 'Fragile', 'Low Luck'],
+  weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: "An identity lost to history — the legend of a killer who vanished into fog, never caught.",
   skills: [
     {
@@ -187,7 +185,6 @@ const semiramis: ServantDefinition = {
   atk: 90,
   def: 55,
   agility: 70,
-  luck: 48,
   critChance: 0.12,
   rank: 'C+',
   strengths: ['Damage over Time', 'Shielding'],
@@ -284,11 +281,10 @@ const sasakiKojiro: ServantDefinition = {
   atk: 105,
   def: 58,
   agility: 100,
-  luck: 42,
   critChance: 0.22,
   rank: 'A',
   strengths: ['Speed', 'Critical Hits', 'Sustain via Lifesteal'],
-  weaknesses: ['Low Luck'],
+  weaknesses: ['Low Defense'],
   passiveDescription: 'His blade moves faster than the eye, striking thrice in the time of one swing.',
   skills: [
     {

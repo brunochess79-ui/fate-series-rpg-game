@@ -66,6 +66,15 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
       return 0;
     }
 
+    // A small baseline dodge chance for everyone, nudged up or down by the
+    // Agility gap between the two Servants. Clamped so a huge Agility edge
+    // is a real advantage, not a guaranteed dodge.
+    const dodgeChance = Math.min(0.3, Math.max(0.02, 0.05 + (defenderDef.agility - attackerDef.agility) * 0.003));
+    if (rng() < dodgeChance) {
+      log(`${defenderDef.name} is too quick — the attack whiffs entirely!`);
+      return 0;
+    }
+
     const hasCritBuff = attacker.statuses.some((s) => s.id.endsWith('__critReady'));
 
     const atkStat = attackerDef.atk * statMultiplier(attacker, 'atk');
@@ -74,7 +83,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     const variance = 0.9 + rng() * 0.2;
     let dmg = Math.max(1, atkStat * multiplier * variance - defStat * 0.5);
 
-    const critChance = attackerDef.critChance * statMultiplier(attacker, 'luck');
+    const critChance = attackerDef.critChance * statMultiplier(attacker, 'critChance');
     const isCrit = options.guaranteedCrit || hasCritBuff || rng() < critChance;
     if (isCrit) dmg *= 1.6;
 
@@ -132,7 +141,7 @@ function actionPhase(def: ServantDefinition, action: BattleAction): 'setup' | 'd
  * round always resolves both actions in full — neither player can win
  * simply by having gone "first". A round that fells both Servants at once
  * is decided by whichever Servant took the lesser overkill (the higher,
- * less-negative HP total), falling back to Luck only on an exact tie.
+ * less-negative HP total), falling back to Agility only on an exact tie.
  */
 export function resolveRound(
   state: BattleState,
@@ -311,9 +320,9 @@ function finalizeIfDefeated(state: BattleState, log: (msg: string) => void): boo
       winner = p1.servant.hp > p2.servant.hp ? p1 : p2;
       loser = winner === p1 ? p2 : p1;
     } else {
-      const p1Luck = getServantDef(p1.servant.defId).luck;
-      const p2Luck = getServantDef(p2.servant.defId).luck;
-      winner = p1Luck >= p2Luck ? p1 : p2;
+      const p1Agility = getServantDef(p1.servant.defId).agility;
+      const p2Agility = getServantDef(p2.servant.defId).agility;
+      winner = p1Agility >= p2Agility ? p1 : p2;
       loser = winner === p1 ? p2 : p1;
     }
     log(

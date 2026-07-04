@@ -23,9 +23,12 @@ every ability has an expandable description in battle.
   "first" — both moves always play out in full.
 - If both Servants are defeated in the same round, the one who took the
   lesser blow (less-negative HP — e.g. -12 beats -28) wins the Grail's favor;
-  an exact tie in overkill falls back to the higher Luck stat.
-- A hit that's fully evaded or fully absorbed by a shield deals no net damage
-  and grants no Noble Phantasm gauge to the attacker.
+  an exact tie in overkill falls back to the higher Agility stat.
+- Every hit has a chance to be dodged entirely: a small baseline chance for
+  anyone, nudged up or down by the Agility gap between the two Servants
+  (capped so a big Agility edge is never a guaranteed dodge). A hit that's
+  dodged, evaded, or fully absorbed by a shield deals no net damage and
+  grants no Noble Phantasm gauge to the attacker.
 - Each Servant has 3 unique Skills (with cooldowns) and one Noble Phantasm that
   unlocks once its gauge reaches 100%.
 - Every Master starts with 3 Command Spells, usable once each, to heal (+25%
