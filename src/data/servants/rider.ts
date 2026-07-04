@@ -13,6 +13,9 @@ const iskandar: ServantDefinition = {
   agility: 60,
   luck: 60,
   critChance: 0.1,
+  rank: 'A',
+  strengths: ['Durability', 'High HP'],
+  weaknesses: ['Slow', 'Low Crit Rate'],
   passiveDescription: 'A king of unmatched vitality, the toughest Servant on the field.',
   skills: [
     {
@@ -107,6 +110,9 @@ const bellerophon: ServantDefinition = {
   agility: 95,
   luck: 55,
   critChance: 0.1,
+  rank: 'B',
+  strengths: ['Speed', 'Debuffs'],
+  weaknesses: ['Low Crit Rate'],
   passiveDescription: 'Astride the winged Pegasus, he strikes from where no blade can follow.',
   skills: [
     {
@@ -183,6 +189,9 @@ const boudica: ServantDefinition = {
   agility: 58,
   luck: 55,
   critChance: 0.08,
+  rank: 'B+',
+  strengths: ['Durability', 'Regeneration'],
+  weaknesses: ['Slow', 'Low Crit Rate'],
   passiveDescription: "A queen's fury drives her chariot through the ranks of her enemies.",
   skills: [
     {
@@ -269,6 +278,9 @@ const marcoPolo: ServantDefinition = {
   agility: 70,
   luck: 65,
   critChance: 0.1,
+  rank: 'C',
+  strengths: ['Regeneration', 'Debuffs'],
+  weaknesses: ['Low Damage'],
   passiveDescription: 'Having crossed the Silk Road, he commands a caravan that overwhelms with numbers, not strength.',
   skills: [
     {

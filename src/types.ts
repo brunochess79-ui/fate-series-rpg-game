@@ -65,6 +65,9 @@ export interface ServantDefinition {
   agility: number;
   luck: number;
   critChance: number;
+  rank: string;
+  strengths: string[];
+  weaknesses: string[];
   passiveDescription: string;
   onTurnStart?: (ctx: BattleContext) => void;
   skills: SkillDefinition[];

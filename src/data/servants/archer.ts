@@ -13,6 +13,9 @@ const arash: ServantDefinition = {
   agility: 85,
   luck: 55,
   critChance: 0.15,
+  rank: 'C+',
+  strengths: ['Burst Damage', 'Speed'],
+  weaknesses: ['Fragile', 'Low HP'],
   passiveDescription: 'A master marksman who trades durability for precision.',
   skills: [
     {
@@ -92,6 +95,9 @@ const robinHood: ServantDefinition = {
   agility: 88,
   luck: 65,
   critChance: 0.18,
+  rank: 'B',
+  strengths: ['Critical Hits', 'Debuffs'],
+  weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: "An unerring aim, said to split another's arrow mid-flight.",
   skills: [
     {
@@ -175,6 +181,9 @@ const williamTell: ServantDefinition = {
   agility: 75,
   luck: 70,
   critChance: 0.2,
+  rank: 'C+',
+  strengths: ['Critical Hits'],
+  weaknesses: ['Fragile', 'Low Damage'],
   passiveDescription: 'A single shot, however narrow the target, always finds its mark.',
   skills: [
     {
@@ -249,6 +258,9 @@ const atalanta: ServantDefinition = {
   agility: 105,
   luck: 60,
   critChance: 0.15,
+  rank: 'B',
+  strengths: ['Speed', 'Regeneration'],
+  weaknesses: ['Fragile'],
   passiveDescription: 'None can outrun her, on two legs or four.',
   skills: [
     {
@@ -326,6 +338,9 @@ const gilgamesh: ServantDefinition = {
   agility: 65,
   luck: 80,
   critChance: 0.15,
+  rank: 'A+',
+  strengths: ['Burst Damage', 'Debuffs'],
+  weaknesses: ['No Self-Heal'],
   passiveDescription:
     "Treasury of the world's first hero-king: an arsenal without equal, wielded with utter disdain for lesser beings.",
   skills: [

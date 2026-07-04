@@ -13,6 +13,9 @@ const hassan: ServantDefinition = {
   agility: 90,
   luck: 30,
   critChance: 0.3,
+  rank: 'B',
+  strengths: ['Critical Hits', 'Speed'],
+  weaknesses: ['Low HP', 'Fragile', 'Low Luck'],
   passiveDescription: 'A killer who strikes from the shadows with unmatched precision.',
   skills: [
     {
@@ -99,6 +102,9 @@ const theRipper: ServantDefinition = {
   agility: 95,
   luck: 25,
   critChance: 0.35,
+  rank: 'B',
+  strengths: ['Critical Hits', 'Speed'],
+  weaknesses: ['Lowest HP', 'Fragile', 'Low Luck'],
   passiveDescription: "An identity lost to history — the legend of a killer who vanished into fog, never caught.",
   skills: [
     {
@@ -182,6 +188,9 @@ const semiramis: ServantDefinition = {
   agility: 70,
   luck: 45,
   critChance: 0.12,
+  rank: 'C+',
+  strengths: ['Damage over Time', 'Regeneration'],
+  weaknesses: ['Low Damage'],
   passiveDescription: 'Ruler of the Hanging Gardens, she strikes with serpents and poison.',
   skills: [
     {
@@ -266,6 +275,9 @@ const sasakiKojiro: ServantDefinition = {
   agility: 100,
   luck: 40,
   critChance: 0.22,
+  rank: 'B+',
+  strengths: ['Speed', 'Critical Hits', 'Sustained Damage'],
+  weaknesses: ['Low Luck'],
   passiveDescription: 'His blade moves faster than the eye, striking thrice in the time of one swing.',
   skills: [
     {

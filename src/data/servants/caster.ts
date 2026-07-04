@@ -13,6 +13,9 @@ const medea: ServantDefinition = {
   agility: 55,
   luck: 45,
   critChance: 0.08,
+  rank: 'C',
+  strengths: ['Debuffs', 'Regeneration'],
+  weaknesses: ['Low Damage', 'Fragile'],
   passiveDescription: 'A sorceress who unravels enemies with curses rather than steel.',
   skills: [
     {
@@ -96,6 +99,9 @@ const circe: ServantDefinition = {
   agility: 55,
   luck: 50,
   critChance: 0.08,
+  rank: 'C',
+  strengths: ['Debuffs', 'Control'],
+  weaknesses: ['Low Damage', 'Fragile'],
   passiveDescription: 'Her potions and spells twist the body and mind of any who cross her.',
   skills: [
     {
@@ -176,6 +182,9 @@ const merlin: ServantDefinition = {
   agility: 55,
   luck: 85,
   critChance: 0.1,
+  rank: 'C+',
+  strengths: ['Regeneration', 'Support'],
+  weaknesses: ['Low Damage'],
   passiveDescription: 'A trickster mage whose prophecy sees three steps ahead.',
   skills: [
     {
@@ -265,6 +274,9 @@ const nostradamus: ServantDefinition = {
   agility: 50,
   luck: 70,
   critChance: 0.07,
+  rank: 'C',
+  strengths: ['Debuffs', 'Damage over Time'],
+  weaknesses: ['Low Damage', 'Fragile', 'Low HP'],
   passiveDescription: 'Foretells calamity, and shapes the battlefield with grim portents.',
   skills: [
     {
@@ -350,6 +362,9 @@ const gillesDeRais: ServantDefinition = {
   agility: 50,
   luck: 40,
   critChance: 0.08,
+  rank: 'C',
+  strengths: ['Debuffs', 'Regeneration'],
+  weaknesses: ['Low Damage', 'Fragile', 'Low HP'],
   passiveDescription:
     'Once a marshal who fought beside a saint, later ruined by heresy and forbidden research into alchemy.',
   skills: [

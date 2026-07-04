@@ -13,6 +13,9 @@ const cuChulainn: ServantDefinition = {
   agility: 100,
   luck: 40,
   critChance: 0.1,
+  rank: 'B+',
+  strengths: ['Speed', 'Regeneration', 'Sustained Damage'],
+  weaknesses: ['Low Luck'],
   passiveDescription: 'The fastest Servant on the battlefield.',
   skills: [
     {
@@ -90,6 +93,9 @@ const diarmuid: ServantDefinition = {
   agility: 95,
   luck: 45,
   critChance: 0.12,
+  rank: 'B',
+  strengths: ['Speed', 'Debuffs'],
+  weaknesses: ['Low Luck'],
   passiveDescription: 'Cursed with an irresistible charm, and blessed with peerless spearplay.',
   skills: [
     {
@@ -170,6 +176,9 @@ const achilles: ServantDefinition = {
   agility: 85,
   luck: 40,
   critChance: 0.15,
+  rank: 'A',
+  strengths: ['Burst Damage', 'Regeneration', 'Durability'],
+  weaknesses: ['Low Luck'],
   passiveDescription: 'Nigh invulnerable but for a single, fatal spot upon his heel.',
   skills: [
     {
@@ -246,6 +255,9 @@ const karna: ServantDefinition = {
   agility: 60,
   luck: 35,
   critChance: 0.1,
+  rank: 'A',
+  strengths: ['Durability', 'Burst Damage'],
+  weaknesses: ['Slow', 'Low Luck'],
   passiveDescription: 'Born wearing radiant armor and earrings that ward off death itself.',
   skills: [
     {

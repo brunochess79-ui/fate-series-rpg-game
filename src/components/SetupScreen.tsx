@@ -96,13 +96,26 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
             className={`servant-card ${currentServant === s.id ? 'selected' : ''}`}
             onClick={() => setCurrentServant(s.id)}
           >
-            <div className="servant-card-class">{s.className}</div>
+            <div className="servant-card-header">
+              <div className="servant-card-class">{s.className}</div>
+              <div className="servant-card-rank" title="Servant Rank">
+                {s.rank} Rank
+              </div>
+            </div>
             <div className="servant-card-name">{s.name}</div>
             <div className="servant-card-title">{s.title}</div>
             <div className="servant-card-stats">
               <span>HP {s.maxHp}</span>
               <span>ATK {s.atk}</span>
               <span>DEF {s.def}</span>
+            </div>
+            <div className="servant-card-traits">
+              <div className="trait-line strengths">
+                <span className="trait-label">Strengths</span> {s.strengths.join(', ')}
+              </div>
+              <div className="trait-line weaknesses">
+                <span className="trait-label">Weaknesses</span> {s.weaknesses.join(', ')}
+              </div>
             </div>
             <div className="servant-card-passive">{s.passiveDescription}</div>
             <div className="servant-card-np">

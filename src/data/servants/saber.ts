@@ -13,6 +13,9 @@ const arthur: ServantDefinition = {
   agility: 70,
   luck: 70,
   critChance: 0.12,
+  rank: 'A+',
+  strengths: ['Balanced Stats', 'Durability'],
+  weaknesses: ['No Specialty'],
   passiveDescription: 'A king born to lead: steady stats with no glaring weakness.',
   skills: [
     {
@@ -98,6 +101,9 @@ const siegfried: ServantDefinition = {
   agility: 65,
   luck: 50,
   critChance: 0.1,
+  rank: 'B+',
+  strengths: ['Durability', 'Sustained Damage'],
+  weaknesses: ['Low Crit Rate'],
   passiveDescription: "Bathed in a dragon's blood, his skin turns aside nearly any blow — save one hidden weak point.",
   skills: [
     {
@@ -176,6 +182,9 @@ const musashi: ServantDefinition = {
   agility: 90,
   luck: 55,
   critChance: 0.18,
+  rank: 'B+',
+  strengths: ['Speed', 'Critical Hits'],
+  weaknesses: ['Fragile'],
   passiveDescription: 'Master of the two-sword style, striking with blinding speed.',
   skills: [
     {
@@ -261,6 +270,9 @@ const elCid: ServantDefinition = {
   agility: 55,
   luck: 60,
   critChance: 0.08,
+  rank: 'B',
+  strengths: ['Durability', 'Regeneration'],
+  weaknesses: ['Slow', 'Low Crit Rate'],
   passiveDescription: 'Even in death, his legend rides on — a champion who never loses.',
   skills: [
     {

@@ -13,6 +13,9 @@ const heracles: ServantDefinition = {
   agility: 50,
   luck: 20,
   critChance: 0.05,
+  rank: 'A+',
+  strengths: ['Highest Damage', 'Regeneration'],
+  weaknesses: ['Lowest Defense', 'Low Crit Rate'],
   passiveDescription:
     'Mad Enhancement: sanity is traded for power. Attack rises 8% every turn, permanently.',
   onTurnStart: (ctx) => {
@@ -115,6 +118,9 @@ const lancelot: ServantDefinition = {
   agility: 65,
   luck: 30,
   critChance: 0.08,
+  rank: 'A',
+  strengths: ['Burst Damage', 'Durability', 'Regeneration'],
+  weaknesses: ['Low Defense', 'Low Luck'],
   passiveDescription: 'Grief and madness have stolen his mind, leaving only unstoppable strength.',
   skills: [
     {
@@ -202,6 +208,9 @@ const spartacus: ServantDefinition = {
   agility: 60,
   luck: 35,
   critChance: 0.1,
+  rank: 'B+',
+  strengths: ['Durability', 'Regeneration'],
+  weaknesses: ['Low Defense'],
   passiveDescription: 'A slave who became legend, his fury fights for every unshackled soul.',
   skills: [
     {
@@ -274,6 +283,9 @@ const frankenstein: ServantDefinition = {
   agility: 40,
   luck: 15,
   critChance: 0.05,
+  rank: 'A',
+  strengths: ['Highest HP', 'Regeneration', 'Durability'],
+  weaknesses: ['Slowest', 'Lowest Luck'],
   passiveDescription: 'Stitched from the dead and struck with lightning, its body shrugs off pain no living thing could bear.',
   skills: [
     {
