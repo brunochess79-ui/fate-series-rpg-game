@@ -109,9 +109,9 @@ export type BattleAction =
 
 export interface BattleState {
   players: [PlayerState, PlayerState];
-  activePlayerIndex: 0 | 1;
   round: number;
   log: string[];
   winner: 'p1' | 'p2' | null;
+  winReason: 'defeat' | 'luckTiebreak' | null;
   phase: 'battle' | 'gameover';
 }

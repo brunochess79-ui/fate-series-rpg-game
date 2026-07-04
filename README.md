@@ -16,6 +16,13 @@ every ability has an expandable description in battle.
 
 ## Gameplay
 
+- Each round, both Masters choose their move without seeing the other's
+  choice. In hot-seat play, one player locks in their move, then a "pass the
+  device" screen hides it before the other player chooses; both moves are
+  revealed and resolved together. Neither player can win just by acting
+  "first" — both moves always play out in full.
+- If both Servants are defeated in the same round, the one with the higher
+  Luck stat wins the Grail's favor.
 - Each Servant has 3 unique Skills (with cooldowns) and one Noble Phantasm that
   unlocks once its gauge reaches 100%.
 - Every Master starts with 3 Command Spells, usable once each, to heal or

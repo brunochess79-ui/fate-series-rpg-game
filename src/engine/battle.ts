@@ -40,10 +40,10 @@ export function createPlayer(id: 'p1' | 'p2', kind: PlayerKind, masterName: stri
 export function createBattle(p1: PlayerState, p2: PlayerState): BattleState {
   return {
     players: [p1, p2],
-    activePlayerIndex: 0,
     round: 1,
     log: [`The Holy Grail War begins. ${p1.master.name}'s ${getServantDef(p1.servant.defId).name} faces ${p2.master.name}'s ${getServantDef(p2.servant.defId).name}!`],
     winner: null,
+    winReason: null,
     phase: 'battle',
   };
 }
@@ -112,138 +112,171 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
   };
 }
 
-export function resolveAction(state: BattleState, action: BattleAction, rng: () => number = Math.random): BattleState {
+/**
+ * Both Masters choose their move without seeing the other's choice, so a
+ * round always resolves both actions in full — neither player can win
+ * simply by having gone "first". A round that fells both Servants at once
+ * is decided by whichever Servant has the higher Luck stat.
+ */
+export function resolveRound(
+  state: BattleState,
+  p1Action: BattleAction,
+  p2Action: BattleAction,
+  rng: () => number = Math.random,
+): BattleState {
   const next: BattleState = structuredClone(state);
-  const activeIdx = next.activePlayerIndex;
-  const otherIdx = activeIdx === 0 ? 1 : 0;
-  const player = next.players[activeIdx];
-  const opponent = next.players[otherIdx];
-  const selfDef = getServantDef(player.servant.defId);
-
+  const [p1, p2] = next.players;
   const log = (msg: string) => next.log.push(msg);
   const dealDamage = makeDealDamage(log, rng);
-  const ctx: BattleContext = {
-    self: player.servant,
-    enemy: opponent.servant,
-    selfMaster: player.master,
-    enemyMaster: opponent.master,
+
+  const makeCtx = (self: PlayerState, enemy: PlayerState): BattleContext => ({
+    self: self.servant,
+    enemy: enemy.servant,
+    selfMaster: self.master,
+    enemyMaster: enemy.master,
     log,
     rng,
     dealDamage,
+  });
+
+  const startOfRound = (self: PlayerState, enemy: PlayerState) => {
+    const def = getServantDef(self.servant.defId);
+    self.servant.turnsSurvived += 1;
+    self.servant.guarding = false;
+    if (def.onTurnStart) {
+      def.onTurnStart(makeCtx(self, enemy));
+    }
+    for (const dot of self.servant.statuses.filter((s) => s.kind === 'dot')) {
+      const dmg = dot.potency ?? 0;
+      self.servant.hp = Math.max(0, self.servant.hp - dmg);
+      log(`${def.name} suffers ${dmg} damage from ${dot.name}.`);
+    }
+    for (const regen of self.servant.statuses.filter((s) => s.kind === 'regen')) {
+      const healed = regen.potency ?? 0;
+      self.servant.hp = Math.min(self.servant.maxHp, self.servant.hp + healed);
+      log(`${def.name} recovers ${healed} HP from ${regen.name}.`);
+    }
   };
 
-  player.servant.turnsSurvived += 1;
-  player.servant.guarding = false;
+  startOfRound(p1, p2);
+  startOfRound(p2, p1);
 
-  if (isStunned(player.servant)) {
-    log(`${selfDef.name} is stunned and cannot act!`);
-    tickStatuses(player.servant);
-    player.servant.skillCooldowns = player.servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
-    finishTurn(next, otherIdx);
-    return next;
-  }
+  if (finalizeIfDefeated(next, log)) return next;
 
-  if (selfDef.onTurnStart) {
-    selfDef.onTurnStart(ctx);
-  }
-
-  const dotStatuses = player.servant.statuses.filter((s) => s.kind === 'dot');
-  for (const dot of dotStatuses) {
-    const dmg = dot.potency ?? 0;
-    player.servant.hp = Math.max(0, player.servant.hp - dmg);
-    log(`${selfDef.name} suffers ${dmg} damage from ${dot.name}.`);
-  }
-
-  const regenStatuses = player.servant.statuses.filter((s) => s.kind === 'regen');
-  for (const regen of regenStatuses) {
-    const healed = regen.potency ?? 0;
-    player.servant.hp = Math.min(player.servant.maxHp, player.servant.hp + healed);
-    log(`${selfDef.name} recovers ${healed} HP from ${regen.name}.`);
-  }
-
-  if (player.servant.hp <= 0) {
-    next.winner = opponent.id;
-    next.phase = 'gameover';
-    log(`${selfDef.name} has fallen. ${getServantDef(opponent.servant.defId).name} is victorious!`);
-    return next;
-  }
-
-  // Statuses applied by this turn's own action shouldn't be ticked down until
-  // the servant's *next* turn, or a "1 turn" buff would expire before ever being used.
-  const preExistingStatusIds = new Set(player.servant.statuses.map((s) => s.id));
-
-  switch (action.type) {
-    case 'attack': {
-      const critOverride = player.master.critNextAttack;
-      dealDamage(player.servant, opponent.servant, 1.0, { guaranteedCrit: critOverride });
-      if (critOverride) player.master.critNextAttack = false;
-      break;
+  const performAction = (self: PlayerState, enemy: PlayerState, action: BattleAction) => {
+    const def = getServantDef(self.servant.defId);
+    if (isStunned(self.servant)) {
+      log(`${def.name} is stunned and cannot act!`);
+      return new Set(self.servant.statuses.map((s) => s.id));
     }
-    case 'skill': {
-      const skill = selfDef.skills[action.skillIndex];
-      if (!skill) {
-        log('Invalid skill selected.');
+
+    // Statuses applied by this action shouldn't be ticked down until this
+    // servant's *next* round, or a "1 turn" buff would expire before use.
+    const preExistingStatusIds = new Set(self.servant.statuses.map((s) => s.id));
+    const ctx = makeCtx(self, enemy);
+
+    switch (action.type) {
+      case 'attack': {
+        const critOverride = self.master.critNextAttack;
+        dealDamage(self.servant, enemy.servant, 1.0, { guaranteedCrit: critOverride });
+        if (critOverride) self.master.critNextAttack = false;
         break;
       }
-      if (player.servant.skillCooldowns[action.skillIndex] > 0) {
-        log(`${skill.name} is still on cooldown.`);
+      case 'skill': {
+        const skill = def.skills[action.skillIndex];
+        if (!skill) {
+          log('Invalid skill selected.');
+          break;
+        }
+        if (self.servant.skillCooldowns[action.skillIndex] > 0) {
+          log(`${skill.name} is still on cooldown.`);
+          break;
+        }
+        skill.effect(ctx);
+        if (skill.npGainSelf) {
+          self.servant.npGauge = Math.min(100, self.servant.npGauge + skill.npGainSelf);
+        }
+        self.servant.skillCooldowns[action.skillIndex] = skill.cooldown;
         break;
       }
-      skill.effect(ctx);
-      if (skill.npGainSelf) {
-        player.servant.npGauge = Math.min(100, player.servant.npGauge + skill.npGainSelf);
-      }
-      player.servant.skillCooldowns[action.skillIndex] = skill.cooldown;
-      break;
-    }
-    case 'np': {
-      if (player.servant.npGauge < 100) {
-        log('Noble Phantasm is not ready yet.');
+      case 'np': {
+        if (self.servant.npGauge < 100) {
+          log('Noble Phantasm is not ready yet.');
+          break;
+        }
+        def.noblePhantasm.effect(ctx);
+        self.servant.npGauge = 0;
         break;
       }
-      selfDef.noblePhantasm.effect(ctx);
-      player.servant.npGauge = 0;
-      break;
-    }
-    case 'guard': {
-      player.servant.guarding = true;
-      player.servant.npGauge = Math.min(100, player.servant.npGauge + 10);
-      log(`${selfDef.name} takes a defensive stance.`);
-      break;
-    }
-    case 'commandSpell': {
-      if (player.master.commandSpells <= 0) {
-        log('No Command Spells remaining!');
+      case 'guard': {
+        self.servant.guarding = true;
+        self.servant.npGauge = Math.min(100, self.servant.npGauge + 10);
+        log(`${def.name} takes a defensive stance.`);
         break;
       }
-      player.master.commandSpells -= 1;
-      if (action.effect === 'heal') {
-        const healed = Math.round(player.servant.maxHp * 0.3);
-        player.servant.hp = Math.min(player.servant.maxHp, player.servant.hp + healed);
-        log(`${player.master.name} burns a Command Spell to heal ${selfDef.name} for ${healed} HP!`);
-      } else if (action.effect === 'crit') {
-        player.master.critNextAttack = true;
-        log(`${player.master.name} burns a Command Spell — the next attack is guaranteed to land true!`);
+      case 'commandSpell': {
+        if (self.master.commandSpells <= 0) {
+          log('No Command Spells remaining!');
+          break;
+        }
+        self.master.commandSpells -= 1;
+        if (action.effect === 'heal') {
+          const healed = Math.round(self.servant.maxHp * 0.3);
+          self.servant.hp = Math.min(self.servant.maxHp, self.servant.hp + healed);
+          log(`${self.master.name} burns a Command Spell to heal ${def.name} for ${healed} HP!`);
+        } else if (action.effect === 'crit') {
+          self.master.critNextAttack = true;
+          log(`${self.master.name} burns a Command Spell — the next attack is guaranteed to land true!`);
+        }
+        break;
       }
-      break;
     }
-  }
 
-  if (opponent.servant.hp <= 0) {
-    next.winner = player.id;
-    next.phase = 'gameover';
-    log(`${getServantDef(opponent.servant.defId).name} has fallen. ${selfDef.name} is victorious!`);
-    return next;
-  }
+    return preExistingStatusIds;
+  };
 
-  tickStatuses(player.servant, preExistingStatusIds);
-  player.servant.skillCooldowns = player.servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
+  const p1PreExisting = performAction(p1, p2, p1Action);
+  const p2PreExisting = performAction(p2, p1, p2Action);
 
-  finishTurn(next, otherIdx);
+  tickStatuses(p1.servant, p1PreExisting);
+  tickStatuses(p2.servant, p2PreExisting);
+  p1.servant.skillCooldowns = p1.servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
+  p2.servant.skillCooldowns = p2.servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
+
+  if (finalizeIfDefeated(next, log)) return next;
+
+  next.round += 1;
   return next;
 }
 
-function finishTurn(state: BattleState, otherIdx: 0 | 1) {
-  state.activePlayerIndex = otherIdx;
-  if (otherIdx === 0) state.round += 1;
+function finalizeIfDefeated(state: BattleState, log: (msg: string) => void): boolean {
+  const [p1, p2] = state.players;
+  const p1Down = p1.servant.hp <= 0;
+  const p2Down = p2.servant.hp <= 0;
+
+  if (!p1Down && !p2Down) return false;
+
+  if (p1Down && p2Down) {
+    const p1Luck = getServantDef(p1.servant.defId).luck;
+    const p2Luck = getServantDef(p2.servant.defId).luck;
+    const winner = p1Luck >= p2Luck ? p1 : p2;
+    const loser = winner === p1 ? p2 : p1;
+    log(
+      `${getServantDef(p1.servant.defId).name} and ${getServantDef(p2.servant.defId).name} both fall in the same instant! ` +
+        `${winner.master.name}'s ${getServantDef(winner.servant.defId).name} (Luck ${getServantDef(winner.servant.defId).luck}) ` +
+        `outlasts ${loser.master.name}'s ${getServantDef(loser.servant.defId).name} (Luck ${getServantDef(loser.servant.defId).luck}) by the grace of fortune!`,
+    );
+    state.winner = winner.id;
+    state.winReason = 'luckTiebreak';
+    state.phase = 'gameover';
+    return true;
+  }
+
+  const winner = p1Down ? p2 : p1;
+  const loser = p1Down ? p1 : p2;
+  log(`${getServantDef(loser.servant.defId).name} has fallen. ${getServantDef(winner.servant.defId).name} is victorious!`);
+  state.winner = winner.id;
+  state.winReason = 'defeat';
+  state.phase = 'gameover';
+  return true;
 }

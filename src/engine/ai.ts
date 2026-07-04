@@ -1,9 +1,12 @@
 import { getServantDef } from '../data/servants';
 import type { BattleAction, BattleState } from '../types';
 
-export function chooseAiAction(state: BattleState, rng: () => number = Math.random): BattleAction {
-  const idx = state.activePlayerIndex;
-  const player = state.players[idx];
+export function chooseAiAction(
+  state: BattleState,
+  aiIndex: 0 | 1,
+  rng: () => number = Math.random,
+): BattleAction {
+  const player = state.players[aiIndex];
   const def = getServantDef(player.servant.defId);
   const hpRatio = player.servant.hp / player.servant.maxHp;
 

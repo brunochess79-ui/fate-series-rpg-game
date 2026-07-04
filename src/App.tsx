@@ -3,7 +3,7 @@ import { BattleScreen } from './components/BattleScreen';
 import { GameOverScreen } from './components/GameOverScreen';
 import { MainMenu } from './components/MainMenu';
 import { SetupScreen } from './components/SetupScreen';
-import { createBattle, createPlayer, resolveAction } from './engine/battle';
+import { createBattle, createPlayer, resolveRound } from './engine/battle';
 import type { GameMode, SetupResult } from './game';
 import type { BattleAction, BattleState } from './types';
 
@@ -23,8 +23,8 @@ function App() {
     setScreen('battle');
   }, []);
 
-  const handleAction = useCallback((action: BattleAction) => {
-    setBattle((prev) => (prev ? resolveAction(prev, action) : prev));
+  const handleResolveRound = useCallback((p1Action: BattleAction, p2Action: BattleAction) => {
+    setBattle((prev) => (prev ? resolveRound(prev, p1Action, p2Action) : prev));
   }, []);
 
   const handleRematch = useCallback(() => {
@@ -51,7 +51,7 @@ function App() {
         <SetupScreen mode={mode} onBack={() => setScreen('menu')} onComplete={(r) => startBattle(r, mode)} />
       )}
       {screen === 'battle' && battle && battle.phase === 'battle' && (
-        <BattleScreen battle={battle} onAction={handleAction} />
+        <BattleScreen battle={battle} onResolveRound={handleResolveRound} />
       )}
       {screen === 'battle' && battle && battle.phase === 'gameover' && (
         <GameOverScreen battle={battle} onRematch={handleRematch} onMainMenu={handleMainMenu} />

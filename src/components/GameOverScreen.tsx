@@ -20,6 +20,12 @@ export function GameOverScreen({ battle, onRematch, onMainMenu }: Props) {
         {winnerDef.name} ({winnerDef.title}) has defeated {loserDef.name} ({loserDef.title}) after{' '}
         {battle.round} rounds.
       </p>
+      {battle.winReason === 'luckTiebreak' && (
+        <p className="gameover-tiebreak">
+          Both Servants fell in the same round — {winnerDef.name}'s higher Luck ({winnerDef.luck} vs{' '}
+          {loserDef.luck}) decided the Grail's favor.
+        </p>
+      )}
       <div className="gameover-actions">
         <button className="primary-btn" onClick={onRematch}>
           Rematch

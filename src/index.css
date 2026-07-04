@@ -337,6 +337,33 @@ button:disabled {
   padding-top: 40px;
 }
 
+.handoff-screen {
+  background: var(--bg-panel);
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  padding: 32px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.handoff-title {
+  color: var(--text-dim);
+  font-size: 15px;
+}
+.handoff-name {
+  font-family: var(--heading);
+  color: var(--gold-bright);
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+.handoff-hint {
+  color: var(--text-dim);
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
 .servant-panel {
   background: var(--bg-panel);
   border: 1px solid var(--border);
@@ -621,6 +648,14 @@ button:disabled {
 }
 .gameover-summary {
   color: var(--text-dim);
+  line-height: 1.6;
+}
+.gameover-tiebreak {
+  color: var(--gold-bright);
+  font-size: 14px;
+  font-style: italic;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
   line-height: 1.6;
 }
 .gameover-actions {
