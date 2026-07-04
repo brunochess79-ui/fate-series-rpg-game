@@ -1,10 +1,12 @@
 # Holy Grail War
 
 A Fate-series-inspired turn-based Servant battle game. Choose a Master and one of
-28 Servants — 4 each across Saber, Archer, Lancer, Rider, Caster, Assassin, and
-Berserker, drawn from myth and history (Arthur, Iskandar, Achilles, Medea, and
-more) — and fight it out with Attacks, Skills, Noble Phantasms, and Command
-Spells. The Servant picker has a class filter to make browsing the roster easy.
+30 Servants — including the full Fate/Zero lineup (Artoria Pendragon, Gilgamesh,
+Cú Chulainn, Iskandar, Gilles de Rais, Hassan-i Sabbah, Lancelot) alongside 23
+more spanning Saber, Archer, Lancer, Rider, Caster, Assassin, and Berserker —
+and fight it out with Attacks, Skills, Noble Phantasms, and Command Spells.
+The Servant picker has a class filter to make browsing the roster easy, and
+every ability has an expandable description in battle.
 
 ## Modes
 

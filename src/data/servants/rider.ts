@@ -3,7 +3,7 @@ import { applyStatus } from '../../engine/status';
 
 const iskandar: ServantDefinition = {
   id: 'rider',
-  name: 'Rider',
+  name: 'Iskandar',
   title: 'King of Conquerors',
   className: 'Rider',
   trueName: 'Iskandar',

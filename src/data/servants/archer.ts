@@ -3,7 +3,7 @@ import { applyStatus } from '../../engine/status';
 
 const arash: ServantDefinition = {
   id: 'archer',
-  name: 'Archer',
+  name: 'Arash',
   title: 'The Farthest Shot',
   className: 'Archer',
   trueName: 'Arash',
@@ -314,4 +314,81 @@ const atalanta: ServantDefinition = {
   },
 };
 
-export const ARCHER_SERVANTS: ServantDefinition[] = [arash, robinHood, williamTell, atalanta];
+const gilgamesh: ServantDefinition = {
+  id: 'gilgamesh',
+  name: 'Gilgamesh',
+  title: 'The King of Heroes',
+  className: 'Archer',
+  trueName: 'Gilgamesh',
+  maxHp: 900,
+  atk: 125,
+  def: 60,
+  agility: 65,
+  luck: 80,
+  critChance: 0.15,
+  passiveDescription:
+    "Treasury of the world's first hero-king: an arsenal without equal, wielded with utter disdain for lesser beings.",
+  skills: [
+    {
+      id: 'gate-of-babylon',
+      name: 'Gate of Babylon',
+      description: "Draws forth treasures from a king's vault. Gains a surge of Noble Phantasm charge.",
+      cooldown: 3,
+      npGainSelf: 25,
+      tag: 'utility',
+      effect: (ctx) => {
+        ctx.log('Gilgamesh opens the Gate of Babylon!');
+      },
+    },
+    {
+      id: 'kings-disdain',
+      name: "King's Disdain",
+      description: 'A king belittles the enemy, sapping their fighting spirit. Lowers enemy Attack by 20% for 3 turns.',
+      cooldown: 4,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'kings-disdain',
+          name: "King's Disdain",
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% ATK',
+        });
+        ctx.log("Gilgamesh regards the enemy with King's Disdain!");
+      },
+    },
+    {
+      id: 'golden-rule',
+      name: 'Golden Rule',
+      description: 'The confidence of a king who lacks for nothing. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'golden-rule',
+          name: 'Golden Rule',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('Gilgamesh invokes the Golden Rule!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'The Star of Creation That Split Heaven and Earth',
+    japaneseName: 'Enuma Elish',
+    description: "Every treasure in the King's vault, loosed at once to end the battle outright.",
+    rank: 'A++',
+    effect: (ctx) => {
+      ctx.log('Gilgamesh unleashes Enuma Elish!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.5, { pierceDef: true, label: 'Enuma Elish' });
+    },
+  },
+};
+
+export const ARCHER_SERVANTS: ServantDefinition[] = [arash, robinHood, williamTell, atalanta, gilgamesh];

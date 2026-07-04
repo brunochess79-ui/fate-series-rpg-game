@@ -3,10 +3,10 @@ import { applyStatus } from '../../engine/status';
 
 const arthur: ServantDefinition = {
   id: 'saber',
-  name: 'Saber',
-  title: 'The Once and Future King',
+  name: 'Artoria Pendragon',
+  title: 'The King of Knights',
   className: 'Saber',
-  trueName: 'Arthur, King of Britain',
+  trueName: 'Artoria Pendragon',
   maxHp: 950,
   atk: 110,
   def: 85,
@@ -31,7 +31,7 @@ const arthur: ServantDefinition = {
           turnsRemaining: 3,
           description: '+20% ATK',
         });
-        ctx.log('Arthur radiates Charisma — ATK rises!');
+        ctx.log('Artoria radiates Charisma — ATK rises!');
       },
     },
     {
@@ -51,7 +51,7 @@ const arthur: ServantDefinition = {
           turnsRemaining: 1,
           description: '+40% ATK (1 turn)',
         });
-        ctx.log('Arthur channels Mana Burst!');
+        ctx.log('Artoria channels Mana Burst!');
       },
     },
     {
@@ -70,7 +70,7 @@ const arthur: ServantDefinition = {
           turnsRemaining: 2,
           description: '+25% DEF',
         });
-        ctx.log('Arthur heightens Instinct — DEF rises!');
+        ctx.log('Artoria heightens Instinct — DEF rises!');
       },
     },
   ],
@@ -80,7 +80,7 @@ const arthur: ServantDefinition = {
     description: 'A blade of light that cuts down all before it.',
     rank: 'A+',
     effect: (ctx) => {
-      ctx.log('Arthur unsheathes the Sword of Promised Victory!');
+      ctx.log('Artoria unsheathes the Sword of Promised Victory!');
       ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { pierceDef: true, label: 'Excalibur' });
     },
   },

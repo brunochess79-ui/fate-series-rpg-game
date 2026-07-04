@@ -3,7 +3,7 @@ import { applyStatus } from '../../engine/status';
 
 const heracles: ServantDefinition = {
   id: 'berserker',
-  name: 'Berserker',
+  name: 'Heracles',
   title: 'The Twelve Labors',
   className: 'Berserker',
   trueName: 'Heracles',

@@ -3,7 +3,7 @@ import { applyStatus, dispelBuffs } from '../../engine/status';
 
 const medea: ServantDefinition = {
   id: 'caster',
-  name: 'Caster',
+  name: 'Medea',
   title: 'Witch of Colchis',
   className: 'Caster',
   trueName: 'Medea',
@@ -338,4 +338,90 @@ const nostradamus: ServantDefinition = {
   },
 };
 
-export const CASTER_SERVANTS: ServantDefinition[] = [medea, circe, merlin, nostradamus];
+const gillesDeRais: ServantDefinition = {
+  id: 'gilles-de-rais',
+  name: 'Gilles de Rais',
+  title: 'The Fallen Marshal of France',
+  className: 'Caster',
+  trueName: 'Gilles de Rais',
+  maxHp: 720,
+  atk: 80,
+  def: 48,
+  agility: 50,
+  luck: 40,
+  critChance: 0.08,
+  passiveDescription:
+    'Once a marshal who fought beside a saint, later ruined by heresy and forbidden research into alchemy.',
+  skills: [
+    {
+      id: 'forbidden-alchemy',
+      name: 'Forbidden Alchemy',
+      description: "A corrosive, experimental transmutation. Lowers enemy Defense by 20% for 3 turns.",
+      cooldown: 4,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'forbidden-alchemy',
+          name: 'Forbidden Alchemy',
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log('Gilles de Rais unleashes Forbidden Alchemy upon the enemy!');
+      },
+    },
+    {
+      id: 'heretics-ritual',
+      name: "Heretic's Ritual",
+      description: 'A dark rite sustains his failing body. Heals self for 18% max HP.',
+      cooldown: 5,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.18);
+        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.log(`Gilles de Rais performs a Heretic's Ritual, healing ${healed} HP.`);
+      },
+    },
+    {
+      id: 'marshals-discipline',
+      name: "Marshal's Discipline",
+      description: 'A memory of his soldiering days beside a saint. Raises own Attack by 20% for 2 turns.',
+      cooldown: 4,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'marshals-discipline',
+          name: "Marshal's Discipline",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 2,
+          description: '+20% ATK',
+        });
+        ctx.log("Gilles de Rais calls upon a Marshal's Discipline!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Prelati\'s Spellbook: Forbidden Grimoire',
+    japaneseName: "Prelati's Spellbook",
+    description: 'A cursed tome of forbidden research, unleashed as calamity upon the enemy.',
+    rank: 'C',
+    effect: (ctx) => {
+      ctx.log("Gilles de Rais opens Prelati's Spellbook — a Forbidden Grimoire!");
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.2, { label: 'Forbidden Grimoire' });
+      applyStatus(ctx.enemy, {
+        id: 'grimoire-curse',
+        name: 'Grimoire Curse',
+        kind: 'dot',
+        potency: Math.round(ctx.enemy.maxHp * 0.04),
+        turnsRemaining: 3,
+        description: 'Afflicted by a forbidden curse',
+      });
+    },
+  },
+};
+
+export const CASTER_SERVANTS: ServantDefinition[] = [medea, circe, merlin, nostradamus, gillesDeRais];

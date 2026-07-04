@@ -3,7 +3,7 @@ import { applyStatus, dispelBuffs } from '../../engine/status';
 
 const cuChulainn: ServantDefinition = {
   id: 'lancer',
-  name: 'Lancer',
+  name: 'Cú Chulainn',
   title: 'Hound of Culann',
   className: 'Lancer',
   trueName: 'Cú Chulainn',

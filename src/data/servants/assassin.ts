@@ -3,7 +3,7 @@ import { applyStatus } from '../../engine/status';
 
 const hassan: ServantDefinition = {
   id: 'assassin',
-  name: 'Assassin',
+  name: 'Hassan-i Sabbah',
   title: 'Old Man of the Mountain',
   className: 'Assassin',
   trueName: 'Hassan-i Sabbah',
