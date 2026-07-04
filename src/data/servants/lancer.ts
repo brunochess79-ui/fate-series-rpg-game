@@ -310,7 +310,7 @@ const karna: ServantDefinition = {
       id: 'solar-blessing',
       name: 'Solar Blessing',
       description: "The sun god's power surges within him. Raises own Attack by 15% for 2 turns.",
-      cooldown: 3,
+      cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
