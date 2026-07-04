@@ -401,7 +401,7 @@ const gilgamesh: ServantDefinition = {
     rank: 'A++',
     effect: (ctx) => {
       ctx.log('Gilgamesh unleashes Enuma Elish!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.6, { label: 'Enuma Elish' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { label: 'Enuma Elish' });
     },
   },
 };
