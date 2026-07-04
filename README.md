@@ -18,8 +18,8 @@ every ability has an expandable description in battle.
 
 - Each Servant has 3 unique Skills (with cooldowns) and one Noble Phantasm that
   unlocks once its gauge reaches 100%.
-- Every Master starts with 3 Command Spells, usable once each, to heal, guarantee
-  a critical hit, or instantly charge the Noble Phantasm gauge.
+- Every Master starts with 3 Command Spells, usable once each, to heal or
+  guarantee a critical hit.
 - Reduce the opposing Servant's HP to 0 to win the Holy Grail War.
 
 ## Development

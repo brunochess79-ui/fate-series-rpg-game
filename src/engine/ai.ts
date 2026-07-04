@@ -26,10 +26,6 @@ export function chooseAiAction(state: BattleState, rng: () => number = Math.rand
   );
   const debuffIdx = def.skills.findIndex((s, i) => s.tag === 'debuff' && player.servant.skillCooldowns[i] === 0);
 
-  if (player.servant.npGauge >= 65 && player.master.commandSpells > 0 && rng() < 0.35) {
-    return { type: 'commandSpell', effect: 'chargeNP' };
-  }
-
   if (buffIdx >= 0 && rng() < 0.55) {
     return { type: 'skill', skillIndex: buffIdx };
   }

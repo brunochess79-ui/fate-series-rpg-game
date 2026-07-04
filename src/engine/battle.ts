@@ -224,9 +224,6 @@ export function resolveAction(state: BattleState, action: BattleAction, rng: () 
       } else if (action.effect === 'crit') {
         player.master.critNextAttack = true;
         log(`${player.master.name} burns a Command Spell — the next attack is guaranteed to land true!`);
-      } else if (action.effect === 'chargeNP') {
-        player.servant.npGauge = 100;
-        log(`${player.master.name} burns a Command Spell to instantly charge the Noble Phantasm!`);
       }
       break;
     }

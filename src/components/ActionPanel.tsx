@@ -121,9 +121,6 @@ export function ActionPanel({ player, disabled, onAction }: Props) {
             <button onClick={() => act({ type: 'commandSpell', effect: 'crit' })}>
               Guarantee Critical Hit
             </button>
-            <button onClick={() => act({ type: 'commandSpell', effect: 'chargeNP' })}>
-              Instantly Charge NP Gauge
-            </button>
           </div>
         )}
       </div>

@@ -105,7 +105,7 @@ export type BattleAction =
   | { type: 'skill'; skillIndex: number }
   | { type: 'np' }
   | { type: 'guard' }
-  | { type: 'commandSpell'; effect: 'heal' | 'crit' | 'chargeNP' };
+  | { type: 'commandSpell'; effect: 'heal' | 'crit' };
 
 export interface BattleState {
   players: [PlayerState, PlayerState];
