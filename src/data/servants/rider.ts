@@ -23,6 +23,7 @@ const iskandar: ServantDefinition = {
       name: "King's Charisma",
       description: "A conqueror's presence. Raises own Attack and Defense by 15% for 3 turns.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -51,6 +52,7 @@ const iskandar: ServantDefinition = {
       name: 'Divinity',
       description: 'Blood of the divine wards his body. Grants a shield that absorbs damage equal to 22% of his max HP.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -69,6 +71,7 @@ const iskandar: ServantDefinition = {
       name: 'Uplift',
       description: 'Rouses the army, drawing strength from the fight itself. Heals for 25% of the damage dealt.',
       cooldown: 3,
+      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -122,6 +125,7 @@ const bellerophon: ServantDefinition = {
       name: 'Wings of Pegasus',
       description: "Rising beyond the enemy's reach. Guarantees the next enemy attack will miss entirely.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -139,6 +143,7 @@ const bellerophon: ServantDefinition = {
       name: "Chimera's Bane",
       description: 'A lesson learned slaying monsters. Lowers enemy Defense by 20% for 3 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -158,6 +163,7 @@ const bellerophon: ServantDefinition = {
       name: 'Skybound Charge',
       description: "A diving charge that disrupts the enemy's rhythm. Drains 15% from the enemy's Noble Phantasm gauge.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         ctx.enemy.npGauge = Math.max(0, ctx.enemy.npGauge - 15);
@@ -199,6 +205,7 @@ const boudica: ServantDefinition = {
       name: "Queen's Wrath",
       description: 'A fury born of injustice. Raises own Attack by 25% for 3 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -218,6 +225,7 @@ const boudica: ServantDefinition = {
       name: "Iceni's Shield",
       description: 'Her tribe stands with her still. Grants a shield that absorbs damage equal to 20% of her max HP.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -236,6 +244,7 @@ const boudica: ServantDefinition = {
       name: 'Rallying Cry',
       description: 'A cry that steels the wounded. Recovers 5% max HP at the start of each of her next 3 turns.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -293,6 +302,7 @@ const marcoPolo: ServantDefinition = {
       name: "Caravan's Bounty",
       description: 'Supplies drawn from a well-stocked caravan. Heals self for 17% max HP.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         const healed = Math.round(ctx.self.maxHp * 0.17);
@@ -305,6 +315,7 @@ const marcoPolo: ServantDefinition = {
       name: "Merchant's Bargain",
       description: "A deal the enemy can't refuse — to their detriment. Lowers enemy Attack by 15% for 3 turns.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -325,6 +336,7 @@ const marcoPolo: ServantDefinition = {
       description:
         'The caravan closes in when prey is weak. Deals 1.1x damage, boosted by 80% if the enemy is below 30% HP.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {

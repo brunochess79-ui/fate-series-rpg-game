@@ -23,6 +23,7 @@ const medea: ServantDefinition = {
       name: 'Rule Breaker',
       description: "A dagger that severs magecraft. Dispels the enemy's buffs.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         const removed = dispelBuffs(ctx.enemy);
@@ -38,6 +39,7 @@ const medea: ServantDefinition = {
       name: 'Territory Creation',
       description: "A witch's workshop. Heals self for 19% max HP.",
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         const healed = Math.round(ctx.self.maxHp * 0.19);
@@ -50,6 +52,7 @@ const medea: ServantDefinition = {
       name: 'Item Construction',
       description: 'A cursed talisman weakens the enemy. Lowers enemy Attack by 20% for 3 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -109,6 +112,7 @@ const circe: ServantDefinition = {
       name: 'Transmutation Curse',
       description: "A curse that clouds the enemy's fortune. Lowers enemy crit rate for 3 turns.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -128,6 +132,7 @@ const circe: ServantDefinition = {
       name: "Aeaea's Ward",
       description: 'The protection of her enchanted island. Recovers 6% max HP at the start of each of her next 2 turns.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -146,6 +151,7 @@ const circe: ServantDefinition = {
       name: 'Enchanted Chalice',
       description: "A draught that saps the enemy's resolve. Drains 20% from the enemy's Noble Phantasm gauge.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         ctx.enemy.npGauge = Math.max(0, ctx.enemy.npGauge - 20);
@@ -194,6 +200,7 @@ const merlin: ServantDefinition = {
       name: 'Mana Blessing',
       description: 'A gift of magical power. Raises own Attack by 30% for 2 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -213,6 +220,7 @@ const merlin: ServantDefinition = {
       name: 'Sacred Prophecy',
       description: 'He foresaw this battle three steps ahead. Resets the cooldowns of his other Skills.',
       cooldown: 6,
+      npGainSelf: 20,
       tag: 'utility',
       effect: (ctx) => {
         ctx.self.skillCooldowns = ctx.self.skillCooldowns.map(() => 0);
@@ -224,6 +232,7 @@ const merlin: ServantDefinition = {
       name: 'Illusory Fog',
       description: "A fog that clouds the enemy's aim. Lowers enemy crit rate for 2 turns.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -285,6 +294,7 @@ const nostradamus: ServantDefinition = {
       name: 'Prophecy of Ruin',
       description: "A foretold collapse of the enemy's guard. Lowers enemy Defense by 20% for 3 turns.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -304,6 +314,7 @@ const nostradamus: ServantDefinition = {
       name: 'Foreseen Doom',
       description: "A grim portent saps the enemy's strength. Lowers enemy Attack by 18% for 3 turns.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -323,6 +334,7 @@ const nostradamus: ServantDefinition = {
       name: 'Omen Ward',
       description: 'He foresees his own ill fortune and turns it aside. Clears all of his own debuffs and curses.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         const cleared = ctx.self.statuses.some((s) => s.kind === 'debuff' || s.kind === 'dot');
@@ -378,6 +390,7 @@ const gillesDeRais: ServantDefinition = {
       name: 'Forbidden Alchemy',
       description: 'A corrosive, experimental transmutation. Lowers enemy Defense by 15% for 2 turns.',
       cooldown: 3,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -397,6 +410,7 @@ const gillesDeRais: ServantDefinition = {
       name: "Heretic's Ritual",
       description: 'A dark rite sustains his failing body. Recovers 6% max HP at the start of each of his next 3 turns.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -415,6 +429,7 @@ const gillesDeRais: ServantDefinition = {
       name: "Marshal's Discipline",
       description: 'A memory of his soldiering days beside a saint. Raises own Attack by 18% for 3 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {

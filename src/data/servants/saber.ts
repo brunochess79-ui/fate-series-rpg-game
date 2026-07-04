@@ -23,6 +23,7 @@ const arthur: ServantDefinition = {
       name: 'Charisma',
       description: 'The bearing of a king. Raises own Attack by 20% for 3 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -42,7 +43,7 @@ const arthur: ServantDefinition = {
       name: 'Mana Burst',
       description: 'Converts magical energy into raw power for the next attack.',
       cooldown: 3,
-      npGainSelf: 14,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -62,6 +63,7 @@ const arthur: ServantDefinition = {
       name: 'Instinct',
       description: 'A sixth sense for danger. Guarantees the next enemy attack will miss entirely.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -109,6 +111,7 @@ const siegfried: ServantDefinition = {
       name: 'Dragon Skin',
       description: "The dragon's blood wards his body. Raises own Defense by 30% for 2 turns.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -128,7 +131,7 @@ const siegfried: ServantDefinition = {
       name: "Balmung's Edge",
       description: 'A whetted blade strikes true. Raises own Attack by 25% for 1 turn.',
       cooldown: 3,
-      npGainSelf: 14,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -148,6 +151,7 @@ const siegfried: ServantDefinition = {
       name: "Nothung's Whisper",
       description: "An old sword-song steadies his wounds. Recovers 4% max HP at the start of each of his next 3 turns.",
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -196,6 +200,7 @@ const musashi: ServantDefinition = {
       name: 'Niten Ichi-ryu',
       description: 'The two-sword style in full flow. Raises own Attack by 20% for 2 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -215,6 +220,7 @@ const musashi: ServantDefinition = {
       name: 'Void Perception',
       description: 'Sees through every opening. Raises own crit rate for 2 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -284,6 +290,7 @@ const elCid: ServantDefinition = {
       name: 'Banner of Valencia',
       description: 'A banner that rallies the faithful. Raises own Attack and Defense by 10% for 3 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -312,6 +319,7 @@ const elCid: ServantDefinition = {
       name: "Tizona's Oath",
       description: "An oath sworn on his blade. Grants a shield that absorbs damage equal to 20% of his max HP.",
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -330,6 +338,7 @@ const elCid: ServantDefinition = {
       name: 'Undying Resolve',
       description: 'He rides on even in death. Raises own Defense by 40% for 1 turn.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {

@@ -37,6 +37,7 @@ const heracles: ServantDefinition = {
       name: 'God Hand',
       description: 'Even fatal wounds can be shrugged off. Heals self for 25% max HP.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         const healed = Math.round(ctx.self.maxHp * 0.25);
@@ -49,6 +50,7 @@ const heracles: ServantDefinition = {
       name: 'Reckless Assault',
       description: 'Throws caution to the wind. +30% ATK but -20% DEF for 2 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -128,6 +130,7 @@ const lancelot: ServantDefinition = {
       name: 'Mad Charge',
       description: 'A charge with no thought for his own safety. +30% ATK but -15% DEF for 2 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -157,6 +160,7 @@ const lancelot: ServantDefinition = {
       description:
         'A fragment of loyalty remains beneath the madness. Recovers 7% max HP at the start of each of his next 2 turns.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -175,6 +179,7 @@ const lancelot: ServantDefinition = {
       name: 'Berserk Fury',
       description: 'A mindless blow aimed at the weak. Deals 1.3x damage, doubled if the enemy is below 30% HP.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -225,6 +230,7 @@ const spartacus: ServantDefinition = {
       name: "Rebellion's Roar",
       description: 'A roar that rallies the downtrodden. Raises own Attack by 25% for 2 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -244,6 +250,7 @@ const spartacus: ServantDefinition = {
       name: "Gladiator's Endurance",
       description: 'Forged in the arena, hardened to pain. Grants a shield that absorbs damage equal to 20% of his max HP.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -262,6 +269,7 @@ const spartacus: ServantDefinition = {
       name: 'Chains Broken',
       description: 'Breaks free and strikes back all the harder. Heals for 25% of the damage dealt.',
       cooldown: 3,
+      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -311,6 +319,7 @@ const frankenstein: ServantDefinition = {
       description:
         'The spark that first gave it life surges anew. Recovers 8% max HP at the start of each of its next 3 turns.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -329,6 +338,7 @@ const frankenstein: ServantDefinition = {
       name: 'Wretched Resolve',
       description: 'A creation that refuses to be destroyed. Raises own Defense by 30% for 2 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -348,6 +358,7 @@ const frankenstein: ServantDefinition = {
       name: 'Monstrous Grip',
       description: 'A crushing, unrelenting hold. Next attack is a guaranteed critical hit.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {

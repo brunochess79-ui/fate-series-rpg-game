@@ -27,6 +27,10 @@ export function dispelBuffs(instance: ServantInstance): number {
 
 export function tickStatuses(instance: ServantInstance, onlyIds?: Set<string>): void {
   instance.statuses = instance.statuses
-    .map((s) => (!onlyIds || onlyIds.has(s.id) ? { ...s, turnsRemaining: s.turnsRemaining - 1 } : s))
+    .map((s) =>
+      // Guaranteed dodges only protect the round they're cast in, so they
+      // never get the "grace round" other freshly-applied statuses get.
+      s.kind === 'evade' || !onlyIds || onlyIds.has(s.id) ? { ...s, turnsRemaining: s.turnsRemaining - 1 } : s,
+    )
     .filter((s) => s.turnsRemaining > 0);
 }

@@ -23,6 +23,7 @@ const cuChulainn: ServantDefinition = {
       name: 'Protection of the Wolf',
       description: 'An old protection charm. Recovers 5% max HP at the start of each of his next 2 turns.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -41,6 +42,7 @@ const cuChulainn: ServantDefinition = {
       name: 'Battle Continuation',
       description: 'Refuses to fall. Raises own Defense by 20% for 3 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -60,6 +62,7 @@ const cuChulainn: ServantDefinition = {
       name: 'Uplift',
       description: 'A burst of battle-fury too fast to follow. Guarantees the next enemy attack will miss entirely.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -115,6 +118,7 @@ const diarmuid: ServantDefinition = {
       name: "Gáe Dearg's Focus",
       description: 'The red spear unravels magecraft. Dispels the enemy\'s buffs.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         const removed = dispelBuffs(ctx.enemy);
@@ -130,6 +134,7 @@ const diarmuid: ServantDefinition = {
       name: "Gáe Buidhe's Edge",
       description: 'A wound that refuses to heal. Lowers enemy Defense by 15% for 2 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -149,6 +154,7 @@ const diarmuid: ServantDefinition = {
       name: 'Loyal Heart',
       description: "A knight's devotion sharpens his spear. Raises own Attack by 20% for 2 turns.",
       cooldown: 3,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -198,6 +204,7 @@ const achilles: ServantDefinition = {
       name: 'Rage of Achilles',
       description: 'A wrath that shakes the battlefield. Raises own Attack by 30% for 2 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -217,6 +224,7 @@ const achilles: ServantDefinition = {
       name: 'Divine Bath',
       description: 'The river Styx wards his body once more. Grants a shield that absorbs damage equal to 18% of his max HP.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -283,6 +291,7 @@ const karna: ServantDefinition = {
       name: 'Kavacha and Kundala',
       description: 'His divine armor turns aside harm. Grants a shield that absorbs damage equal to 25% of his max HP.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -301,6 +310,7 @@ const karna: ServantDefinition = {
       name: 'Solar Blessing',
       description: "The sun god's power surges within him. Raises own Attack by 15% for 2 turns.",
       cooldown: 3,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -320,6 +330,7 @@ const karna: ServantDefinition = {
       name: "Karna's Resolve",
       description: 'A hero who never abandons a duel. Next attack is a guaranteed critical hit.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {

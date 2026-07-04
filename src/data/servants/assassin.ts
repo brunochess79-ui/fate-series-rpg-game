@@ -23,6 +23,7 @@ const hassan: ServantDefinition = {
       name: 'Presence Concealment',
       description: 'Melts into the shadows. Guarantees the next enemy attack will miss entirely.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -58,6 +59,7 @@ const hassan: ServantDefinition = {
       name: 'Poison Needle',
       description: 'A hidden blade coated in poison. Afflicts the enemy with poison.',
       cooldown: 3,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -109,6 +111,7 @@ const theRipper: ServantDefinition = {
       name: 'Vanish in Fog',
       description: 'The fog itself seems to blunt every blow. Grants a shield that absorbs damage equal to 15% of his max HP.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -128,6 +131,7 @@ const theRipper: ServantDefinition = {
       description:
         'An unseen approach in the dark. Deals 1.2x damage, more than doubled if the enemy is below 25% HP.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -145,6 +149,7 @@ const theRipper: ServantDefinition = {
       name: 'Whispers of Dread',
       description: "Rumor alone unsettles the enemy's resolve. Lowers enemy Attack by 15% for 3 turns.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -194,6 +199,7 @@ const semiramis: ServantDefinition = {
       name: "Serpent's Kiss",
       description: 'A venomous bite hidden in silk. Afflicts the enemy with poison.',
       cooldown: 3,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -212,6 +218,7 @@ const semiramis: ServantDefinition = {
       name: "Hanging Gardens' Bounty",
       description: 'Refuge among her legendary gardens. Grants a shield that absorbs damage equal to 16% of her max HP.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -230,6 +237,7 @@ const semiramis: ServantDefinition = {
       name: "Queen's Guile",
       description: "A queen's cunning finds every weakness. Lowers enemy Defense by 15% for 3 turns.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -305,6 +313,7 @@ const sasakiKojiro: ServantDefinition = {
       name: "Swallow's Focus",
       description: "A focus sharp as a blade's edge. Raises own Attack by 20% for 2 turns.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -324,6 +333,7 @@ const sasakiKojiro: ServantDefinition = {
       name: 'Probing Cut',
       description: 'A testing strike before the true blow. Heals for 20% of the damage dealt.',
       cooldown: 3,
+      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {

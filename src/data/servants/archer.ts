@@ -23,6 +23,7 @@ const arash: ServantDefinition = {
       name: 'Eye of the Mind',
       description: 'Calm focus in the face of danger. Heals self for 14% max HP.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         const healed = Math.round(ctx.self.maxHp * 0.14);
@@ -35,6 +36,7 @@ const arash: ServantDefinition = {
       name: 'Clairvoyance',
       description: "Sees the enemy's weak point. Raises own crit rate for 2 turns.",
       cooldown: 3,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -106,6 +108,7 @@ const robinHood: ServantDefinition = {
       description:
         "A shot aimed at the enemy's most exposed moment. Deals 1.3x damage, doubled if the enemy is below 30% HP.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -123,6 +126,7 @@ const robinHood: ServantDefinition = {
       name: "Robin's Wit",
       description: "A trickster's read on the enemy's guard. Lowers enemy Defense by 15% for 3 turns.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -142,6 +146,7 @@ const robinHood: ServantDefinition = {
       name: 'Woodland Cover',
       description: 'Melts into the green. Guarantees the next enemy attack will miss entirely.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -189,6 +194,7 @@ const williamTell: ServantDefinition = {
       name: 'Steady Hand',
       description: 'Nerves of iron. Raises own crit rate for 2 turns.',
       cooldown: 3,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -208,6 +214,7 @@ const williamTell: ServantDefinition = {
       name: 'Crossbow Reload',
       description: 'A quick, precise shot that draws strength from the wound it deals. Heals for 30% of the damage dealt.',
       cooldown: 3,
+      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -222,6 +229,7 @@ const williamTell: ServantDefinition = {
       name: 'Apple Shot',
       description: 'The legendary shot itself. Next attack is a guaranteed critical hit.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'crit',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -269,6 +277,7 @@ const atalanta: ServantDefinition = {
       name: 'Fleeting Step',
       description: 'Faster than the eye can follow. Guarantees the next enemy attack will miss entirely.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -286,6 +295,7 @@ const atalanta: ServantDefinition = {
       name: 'Beast Companion',
       description: 'A wild companion tends her wounds. Heals self for 16% max HP.',
       cooldown: 5,
+      npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
         const healed = Math.round(ctx.self.maxHp * 0.16);
@@ -298,6 +308,7 @@ const atalanta: ServantDefinition = {
       name: "Calydon's Mark",
       description: 'Marks the enemy as prey. Lowers enemy Attack by 15% for 3 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -348,6 +359,7 @@ const gilgamesh: ServantDefinition = {
       name: 'Gate of Babylon',
       description: "A king's endless armory, unleashed all at once. Deals 1.5x damage.",
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
@@ -360,6 +372,7 @@ const gilgamesh: ServantDefinition = {
       name: "King's Disdain",
       description: 'A king belittles the enemy, sapping their fighting spirit. Lowers enemy Attack by 20% for 3 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
@@ -379,6 +392,7 @@ const gilgamesh: ServantDefinition = {
       name: 'Golden Rule',
       description: 'The confidence of a king who lacks for nothing. Raises own Attack by 25% for 2 turns.',
       cooldown: 4,
+      npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
