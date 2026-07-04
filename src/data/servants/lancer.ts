@@ -328,19 +328,14 @@ const karna: ServantDefinition = {
     {
       id: 'karnas-resolve',
       name: "Karna's Resolve",
-      description: 'A hero who never abandons a duel. Next attack is a guaranteed critical hit.',
+      description: 'A hero who never abandons a duel. Deals 1.4x damage.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'karnas-resolve__critReady',
-          name: "Karna's Resolve",
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log("Karna's Resolve hardens for the killing blow.");
+        ctx.log("Karna's Resolve drives home a killing blow!");
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: "Karna's Resolve" });
       },
     },
   ],
