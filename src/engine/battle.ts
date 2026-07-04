@@ -79,7 +79,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     const isCrit = options.guaranteedCrit || hasCritBuff || rng() < critChance;
     if (isCrit) dmg *= 1.6;
 
-    if (defender.guarding) dmg *= 0.45;
+    if (defender.guarding) dmg *= 0.75;
 
     dmg = Math.round(dmg);
 
