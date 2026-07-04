@@ -100,7 +100,7 @@ const heracles: ServantDefinition = {
       ctx.log('Heracles unleashes Nine Lives in a berserk frenzy!');
       ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'Nine Lives' });
       const recoil = Math.round(ctx.self.maxHp * 0.1);
-      ctx.self.hp = Math.max(0, ctx.self.hp - recoil);
+      ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Heracles takes ${recoil} recoil damage from their own fury.`);
     },
   },
@@ -197,7 +197,7 @@ const lancelot: ServantDefinition = {
       ctx.log("Lancelot swings Arondight, the Betrayer's Blade!");
       ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'Arondight' });
       const recoil = Math.round(ctx.self.maxHp * 0.08);
-      ctx.self.hp = Math.max(0, ctx.self.hp - recoil);
+      ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Lancelot takes ${recoil} damage, wracked by his own grief.`);
     },
   },
@@ -281,7 +281,7 @@ const spartacus: ServantDefinition = {
       ctx.log('Spartacus unleashes the Roar of the Uprising!');
       ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'Roar of the Uprising' });
       const recoil = Math.round(ctx.self.maxHp * 0.08);
-      ctx.self.hp = Math.max(0, ctx.self.hp - recoil);
+      ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Spartacus takes ${recoil} damage from the strain of the blow.`);
     },
   },
@@ -370,7 +370,7 @@ const frankenstein: ServantDefinition = {
       ctx.log("Frankenstein's Monster unleashes the Requiem for the Wretched!");
       ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { label: 'Requiem for the Wretched' });
       const recoil = Math.round(ctx.self.maxHp * 0.12);
-      ctx.self.hp = Math.max(0, ctx.self.hp - recoil);
+      ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Frankenstein's Monster takes ${recoil} damage, its stitched body straining under the force.`);
     },
   },

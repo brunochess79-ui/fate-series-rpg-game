@@ -77,7 +77,7 @@ const arash: ServantDefinition = {
       ctx.log('Arash draws their bow to the very limit — Stella, the Farthest Arrow!');
       ctx.dealDamage(ctx.self, ctx.enemy, 4.5, { guaranteedCrit: true, label: 'Stella' });
       const recoil = Math.round(ctx.self.maxHp * 0.1);
-      ctx.self.hp = Math.max(0, ctx.self.hp - recoil);
+      ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Arash spends their own life force, taking ${recoil} recoil damage.`);
     },
   },

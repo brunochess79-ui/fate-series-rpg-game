@@ -95,7 +95,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
       }
     }
 
-    defender.hp = Math.max(0, defender.hp - dmg);
+    defender.hp = defender.hp - dmg;
 
     const label = options.label ? `${options.label}: ` : '';
     log(
@@ -106,8 +106,12 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
       attacker.statuses = attacker.statuses.filter((s) => !s.id.endsWith('__critReady'));
     }
 
-    attacker.npGauge = Math.min(100, attacker.npGauge + Math.min(40, 20 + dmg / 15));
-    defender.npGauge = Math.min(100, defender.npGauge + Math.min(25, dmg / 15));
+    if (dmg > 0) {
+      attacker.npGauge = Math.min(100, attacker.npGauge + Math.min(40, 20 + dmg / 15));
+      defender.npGauge = Math.min(100, defender.npGauge + Math.min(25, dmg / 15));
+    } else {
+      log(`${defenderDef.name} fully withstands the blow — no gauge is gained.`);
+    }
 
     return dmg;
   };
@@ -131,7 +135,8 @@ function actionPhase(def: ServantDefinition, action: BattleAction): 'setup' | 'd
  * Both Masters choose their move without seeing the other's choice, so a
  * round always resolves both actions in full — neither player can win
  * simply by having gone "first". A round that fells both Servants at once
- * is decided by whichever Servant has the higher Luck stat.
+ * is decided by whichever Servant took the lesser overkill (the higher,
+ * less-negative HP total), falling back to Luck only on an exact tie.
  */
 export function resolveRound(
   state: BattleState,
@@ -163,7 +168,7 @@ export function resolveRound(
     }
     for (const dot of self.servant.statuses.filter((s) => s.kind === 'dot')) {
       const dmg = dot.potency ?? 0;
-      self.servant.hp = Math.max(0, self.servant.hp - dmg);
+      self.servant.hp = self.servant.hp - dmg;
       log(`${def.name} suffers ${dmg} damage from ${dot.name}.`);
     }
     for (const regen of self.servant.statuses.filter((s) => s.kind === 'regen')) {
@@ -281,17 +286,25 @@ function finalizeIfDefeated(state: BattleState, log: (msg: string) => void): boo
   if (!p1Down && !p2Down) return false;
 
   if (p1Down && p2Down) {
-    const p1Luck = getServantDef(p1.servant.defId).luck;
-    const p2Luck = getServantDef(p2.servant.defId).luck;
-    const winner = p1Luck >= p2Luck ? p1 : p2;
-    const loser = winner === p1 ? p2 : p1;
+    let winner: PlayerState;
+    let loser: PlayerState;
+    if (p1.servant.hp !== p2.servant.hp) {
+      // Whoever was overkilled less (higher, less-negative HP) wins.
+      winner = p1.servant.hp > p2.servant.hp ? p1 : p2;
+      loser = winner === p1 ? p2 : p1;
+    } else {
+      const p1Luck = getServantDef(p1.servant.defId).luck;
+      const p2Luck = getServantDef(p2.servant.defId).luck;
+      winner = p1Luck >= p2Luck ? p1 : p2;
+      loser = winner === p1 ? p2 : p1;
+    }
     log(
       `${getServantDef(p1.servant.defId).name} and ${getServantDef(p2.servant.defId).name} both fall in the same instant! ` +
-        `${winner.master.name}'s ${getServantDef(winner.servant.defId).name} (Luck ${getServantDef(winner.servant.defId).luck}) ` +
-        `outlasts ${loser.master.name}'s ${getServantDef(loser.servant.defId).name} (Luck ${getServantDef(loser.servant.defId).luck}) by the grace of fortune!`,
+        `${winner.master.name}'s ${getServantDef(winner.servant.defId).name} (${winner.servant.hp} HP) ` +
+        `outlasts ${loser.master.name}'s ${getServantDef(loser.servant.defId).name} (${loser.servant.hp} HP) — the lesser blow leaves them standing a moment longer!`,
     );
     state.winner = winner.id;
-    state.winReason = 'luckTiebreak';
+    state.winReason = 'overkillTiebreak';
     state.phase = 'gameover';
     return true;
   }

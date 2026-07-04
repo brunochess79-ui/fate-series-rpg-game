@@ -20,10 +20,10 @@ export function GameOverScreen({ battle, onRematch, onMainMenu }: Props) {
         {winnerDef.name} ({winnerDef.title}) has defeated {loserDef.name} ({loserDef.title}) after{' '}
         {battle.round} rounds.
       </p>
-      {battle.winReason === 'luckTiebreak' && (
+      {battle.winReason === 'overkillTiebreak' && (
         <p className="gameover-tiebreak">
-          Both Servants fell in the same round — {winnerDef.name}'s higher Luck ({winnerDef.luck} vs{' '}
-          {loserDef.luck}) decided the Grail's favor.
+          Both Servants fell in the same round — {winnerDef.name} took the lesser blow ({winner.servant.hp} HP vs{' '}
+          {loser.servant.hp} HP) and outlasted {loserDef.name} for the Grail's favor.
         </p>
       )}
       <div className="gameover-actions">
