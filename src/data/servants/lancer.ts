@@ -345,7 +345,7 @@ const karna: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Karna hurls the Vasavi Shakti, the Spear of the Sun God!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { guaranteedCrit: true, label: 'Vasavi Shakti' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { guaranteedCrit: true, label: 'Vasavi Shakti' });
     },
   },
 };
