@@ -284,8 +284,22 @@ export function resolveRound(
   } else if (actionPhase(p2Def, p2Action) === 'setup') performAction(p2, p1, p2Action);
 
   // Pass 2: attacks, Noble Phantasms, and damaging skills for both players.
+  // Snapshot who is actually about to fire their NP *before* either one
+  // resolves, so the outcome doesn't depend on P1 vs P2 processing order:
+  // if both fire NPs the same round, whichever is processed first empties
+  // their gauge, then the second one's NP can hit them and grant defender-
+  // side gauge back - an order-dependent asymmetry that shouldn't exist
+  // when both moves are meant to happen at the same time.
+  const p1FiringNp = !p1Stunned && p1Action.type === 'np' && p1.servant.npGauge >= 100;
+  const p2FiringNp = !p2Stunned && p2Action.type === 'np' && p2.servant.npGauge >= 100;
+
   if (!p1Stunned && actionPhase(p1Def, p1Action) === 'damage') performAction(p1, p2, p1Action);
   if (!p2Stunned && actionPhase(p2Def, p2Action) === 'damage') performAction(p2, p1, p2Action);
+
+  // Force each NP user's gauge back to 0 regardless of what the other
+  // player's simultaneous action granted them afterward.
+  if (p1FiringNp) p1.servant.npGauge = 0;
+  if (p2FiringNp) p2.servant.npGauge = 0;
 
   tickStatuses(p1.servant, p1PreExisting);
   tickStatuses(p2.servant, p2PreExisting);
