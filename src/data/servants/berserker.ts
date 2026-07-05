@@ -206,7 +206,7 @@ const lancelot: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log("Lancelot swings Arondight, the Betrayer's Blade!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Arondight' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.65, { label: 'Arondight' });
     },
   },
 };
@@ -289,7 +289,7 @@ const spartacus: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Spartacus unleashes the Roar of the Uprising!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.1, { label: 'Roar of the Uprising' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Roar of the Uprising' });
       const recoil = Math.round(ctx.self.maxHp * 0.04);
       ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Spartacus takes ${recoil} damage from the strain of the blow.`);

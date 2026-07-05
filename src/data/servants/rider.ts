@@ -88,7 +88,7 @@ const iskandar: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Iskandar summons the Army of Bonds!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Ionioi Hetairoi' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Ionioi Hetairoi' });
       applyStatus(ctx.self, {
         id: 'conquerors-momentum',
         name: "Conqueror's Momentum",
@@ -176,7 +176,7 @@ const bellerophon: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log("Bellerophon dives from the sky — Chimera's End!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'Pegasus Dive' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.55, { label: 'Pegasus Dive' });
     },
   },
 };
@@ -264,7 +264,7 @@ const boudica: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Boudica rides the Chariot of the Iceni to vengeance!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'Vengeance Ride' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.35, { label: 'Vengeance Ride' });
       applyStatus(ctx.self, {
         id: 'vengeance-fury',
         name: 'Vengeance Fury',
@@ -353,7 +353,7 @@ const marcoPolo: ServantDefinition = {
     rank: 'C+',
     effect: (ctx) => {
       ctx.log('Marco Polo leads Il Milione — the Great Caravan Charge!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { label: 'Il Milione' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.85, { label: 'Il Milione' });
     },
   },
 };

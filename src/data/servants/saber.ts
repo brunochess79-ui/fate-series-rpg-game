@@ -83,7 +83,7 @@ const arthur: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Artoria unsheathes the Sword of Promised Victory!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.3, { label: 'Excalibur' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.15, { label: 'Excalibur' });
     },
   },
 };
@@ -171,7 +171,7 @@ const siegfried: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Siegfried unleashes the Twilight of the Dragonslayer!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'Balmung' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.2, { label: 'Balmung' });
     },
   },
 };
@@ -258,9 +258,9 @@ const musashi: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Musashi unleashes Nine Heavens, One Blade!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.25, { label: 'Nine Heavens I' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.25, { label: 'Nine Heavens II' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.25, { label: 'Nine Heavens III' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Nine Heavens I' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Nine Heavens II' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Nine Heavens III' });
     },
   },
 };
@@ -358,7 +358,7 @@ const elCid: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('El Cid rides out for one last, undying charge!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.2, { label: 'Tizona' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.05, { label: 'Tizona' });
       applyStatus(ctx.self, {
         id: 'campeadors-legend',
         name: "Campeador's Legend",

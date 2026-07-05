@@ -80,7 +80,7 @@ const hassan: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log('Hassan-i Sabbah unleashes Delusional Illusion — there is no escape.');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, {
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.35, {
         guaranteedCrit: true,
         label: 'Zabaniya',
       });
@@ -170,7 +170,7 @@ const theRipper: ServantDefinition = {
     rank: 'D',
     effect: (ctx) => {
       ctx.log('The Ripper strikes with From Hell — the Final Cut!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.1, { guaranteedCrit: true, label: 'From Hell' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { guaranteedCrit: true, label: 'From Hell' });
     },
   },
 };
@@ -258,7 +258,7 @@ const semiramis: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log("Semiramis invokes the Walls of Babylon — Ishtar's Judgment!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.1, { label: "Ishtar's Judgment" });
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.95, { label: "Ishtar's Judgment" });
       applyStatus(ctx.enemy, {
         id: 'babylon-poison',
         name: 'Serpent Venom',
@@ -347,9 +347,9 @@ const sasakiKojiro: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Sasaki Kojirō unleashes Tsubame Gaeshi — the Swallow Reversal!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: 'Swallow I' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: 'Swallow II' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: 'Swallow III' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Swallow I' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Swallow II' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Swallow III' });
     },
   },
 };
