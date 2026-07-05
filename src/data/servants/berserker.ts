@@ -372,7 +372,7 @@ const frankenstein: ServantDefinition = {
     effect: (ctx) => {
       ctx.log("Frankenstein's Monster unleashes the Requiem for the Wretched!");
       ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Requiem for the Wretched' });
-      const recoil = Math.round(ctx.self.maxHp * 0.06);
+      const recoil = Math.round(ctx.self.maxHp * 0.1);
       ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Frankenstein's Monster takes ${recoil} damage, its stitched body straining under the force.`);
     },
