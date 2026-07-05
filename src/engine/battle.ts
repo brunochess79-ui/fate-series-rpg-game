@@ -69,7 +69,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     // A small baseline dodge chance for everyone, nudged up or down by the
     // Agility gap between the two Servants. Clamped so a huge Agility edge
     // is a real advantage, not a guaranteed dodge.
-    const dodgeChance = Math.min(0.3, Math.max(0.02, 0.05 + (defenderDef.agility - attackerDef.agility) * 0.003));
+    const dodgeChance = Math.min(0.15, Math.max(0.05, 0.05 + (defenderDef.agility - attackerDef.agility) * 0.003));
     if (rng() < dodgeChance) {
       log(`${defenderDef.name} is too quick — the attack whiffs entirely!`);
       return 0;
