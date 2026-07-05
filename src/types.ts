@@ -76,7 +76,11 @@ export interface ServantDefinition {
   strengths: string[];
   weaknesses: string[];
   passiveDescription: string;
-  onTurnStart?: (ctx: BattleContext) => void;
+  /** actedOffensively is true if this Servant's chosen action this round is
+   * an attack, a Noble Phantasm, or a damage-dealing skill (whether or not
+   * it actually connects), and false for a stunned Servant or one using a
+   * purely defensive/support action. */
+  onTurnStart?: (ctx: BattleContext, actedOffensively: boolean) => void;
   skills: SkillDefinition[];
   noblePhantasm: NoblePhantasmDefinition;
 }

@@ -179,11 +179,12 @@ export function resolveRound(
     enemyHpFraction: enemyHpFraction ?? enemy.servant.hp / enemy.servant.maxHp,
   });
 
-  const startOfRound = (self: PlayerState, enemy: PlayerState) => {
+  const startOfRound = (self: PlayerState, enemy: PlayerState, selfAction: BattleAction) => {
     const def = getServantDef(self.servant.defId);
     self.servant.turnsSurvived += 1;
     if (def.onTurnStart) {
-      def.onTurnStart(makeCtx(self, enemy));
+      const actedOffensively = !isStunned(self.servant) && actionPhase(def, selfAction) === 'damage';
+      def.onTurnStart(makeCtx(self, enemy), actedOffensively);
     }
     for (const dot of self.servant.statuses.filter((s) => s.kind === 'dot')) {
       const dmg = dot.potency ?? 0;
@@ -197,8 +198,8 @@ export function resolveRound(
     }
   };
 
-  startOfRound(p1, p2);
-  startOfRound(p2, p1);
+  startOfRound(p1, p2, p1Action);
+  startOfRound(p2, p1, p2Action);
 
   if (finalizeIfDefeated(next, log)) return next;
 
