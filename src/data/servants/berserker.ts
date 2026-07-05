@@ -9,10 +9,10 @@ const heracles: ServantDefinition = {
   trueName: 'Heracles',
   maxHp: 1450,
   atk: 124,
-  def: 43,
-  agility: 58,
+  def: 40,
+  agility: 63,
   critChance: 0.08,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage', 'Regeneration'],
   weaknesses: ['Lowest Defense', 'Low Crit Rate'],
   passiveDescription:
