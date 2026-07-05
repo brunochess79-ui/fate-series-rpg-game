@@ -78,7 +78,7 @@ const heracles: ServantDefinition = {
       id: 'monstrous-strength',
       name: 'Monstrous Strength',
       description:
-        "Overwhelming physical power. Next attack is a guaranteed crit, and Heracles tears away whatever Noble Phantasm gauge the enemy gains this round for himself.",
+        "Overwhelming physical power. Next attack is a guaranteed crit, and Heracles denies the enemy any Noble Phantasm gauge they'd gain this round.",
       cooldown: 5,
       npGainSelf: 20,
       tag: 'crit',
@@ -91,11 +91,11 @@ const heracles: ServantDefinition = {
           description: 'Next attack guaranteed crit',
         });
         applyStatus(ctx.self, {
-          id: 'monstrous-strength__npSteal',
+          id: 'monstrous-strength__npDeny',
           name: 'Monstrous Strength',
           kind: 'buff',
           turnsRemaining: 1,
-          description: "Steals the enemy's Noble Phantasm gauge gained this round",
+          description: "Denies the enemy's Noble Phantasm gauge gained this round",
         });
         ctx.log('Heracles bristles with Monstrous Strength.');
       },
