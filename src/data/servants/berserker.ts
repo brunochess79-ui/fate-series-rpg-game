@@ -41,7 +41,7 @@ const heracles: ServantDefinition = {
       tag: 'heal',
       effect: (ctx) => {
         const healed = Math.round(ctx.self.maxHp * 0.25);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
         ctx.log(`Heracles shrugs off death itself with God Hand, healing ${healed} HP.`);
       },
     },
@@ -277,7 +277,7 @@ const spartacus: ServantDefinition = {
       effect: (ctx) => {
         const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Chains Broken' });
         const healed = Math.round(dmg * 0.25);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
         ctx.log(`Spartacus breaks his chains, recovering ${healed} HP!`);
       },
     },

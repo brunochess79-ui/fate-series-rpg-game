@@ -76,7 +76,7 @@ const iskandar: ServantDefinition = {
       effect: (ctx) => {
         const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.0, { label: 'Rousing Blow' });
         const healed = Math.round(dmg * 0.25);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
         ctx.log(`Iskandar rouses for the charge, recovering ${healed} HP!`);
       },
     },
@@ -303,7 +303,7 @@ const marcoPolo: ServantDefinition = {
       tag: 'heal',
       effect: (ctx) => {
         const healed = Math.round(ctx.self.maxHp * 0.17);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
         ctx.log(`Marco Polo draws on the Caravan's Bounty, healing ${healed} HP.`);
       },
     },

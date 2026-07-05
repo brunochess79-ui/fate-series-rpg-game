@@ -26,7 +26,7 @@ const arash: ServantDefinition = {
       tag: 'heal',
       effect: (ctx) => {
         const healed = Math.round(ctx.self.maxHp * 0.14);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
         ctx.log(`Arash steadies their Eye of the Mind, recovering ${healed} HP.`);
       },
     },
@@ -215,7 +215,7 @@ const williamTell: ServantDefinition = {
       effect: (ctx) => {
         const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Precise Shot' });
         const healed = Math.round(dmg * 0.3);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
         ctx.log(`William Tell recovers ${healed} HP from the exchange.`);
       },
     },
@@ -293,7 +293,7 @@ const atalanta: ServantDefinition = {
       tag: 'heal',
       effect: (ctx) => {
         const healed = Math.round(ctx.self.maxHp * 0.16);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
         ctx.log(`Atalanta's Beast Companion tends her wounds, healing ${healed} HP.`);
       },
     },

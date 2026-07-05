@@ -193,13 +193,27 @@ export function resolveRound(
     }
     for (const regen of self.servant.statuses.filter((s) => s.kind === 'regen')) {
       const healed = regen.potency ?? 0;
-      self.servant.hp = Math.min(self.servant.maxHp, self.servant.hp + healed);
+      // Not clamped to maxHp here - see clampHp below for why.
+      self.servant.hp = self.servant.hp + healed;
       log(`${def.name} recovers ${healed} HP from ${regen.name}.`);
     }
   };
 
   startOfRound(p1, p2, p1Action);
   startOfRound(p2, p1, p2Action);
+
+  // A heal is never clamped to maxHp at the moment it's applied - only once,
+  // here, after everything queued for the round so far has landed. Otherwise
+  // a heal resolved in Pass 1 (before this round's damage) could get wasted
+  // by overflowing at full HP, while the same heal would land in full if it
+  // happened to be processed after the damage - an order-dependent outcome
+  // for two things meant to happen at the same time. The lower bound is
+  // intentionally left uncapped so a lethal blow still shows as overkill.
+  const clampHp = (instance: ServantInstance) => {
+    instance.hp = Math.min(instance.hp, instance.maxHp);
+  };
+  clampHp(p1.servant);
+  clampHp(p2.servant);
 
   if (finalizeIfDefeated(next, log)) return next;
 
@@ -260,7 +274,7 @@ export function resolveRound(
           }
           self.master.commandSpells -= 1;
           const healed = Math.round(self.servant.maxHp * 0.25);
-          self.servant.hp = Math.min(self.servant.maxHp, self.servant.hp + healed);
+          self.servant.hp = self.servant.hp + healed; // clamped once at end of round, see clampHp
           log(`${self.master.name} burns a Command Spell to heal ${def.name} for ${healed} HP!`);
           self.lastRestrictedAction = 'heal';
         } else if (action.effect === 'crit') {
@@ -353,6 +367,9 @@ export function resolveRound(
   tickStatuses(p2.servant, p2PreExisting);
   p1.servant.skillCooldowns = p1.servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
   p2.servant.skillCooldowns = p2.servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
+
+  clampHp(p1.servant);
+  clampHp(p2.servant);
 
   if (finalizeIfDefeated(next, log)) return next;
 

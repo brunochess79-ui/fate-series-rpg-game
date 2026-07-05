@@ -42,7 +42,7 @@ const medea: ServantDefinition = {
       tag: 'heal',
       effect: (ctx) => {
         const healed = Math.round(ctx.self.maxHp * 0.19);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
         ctx.log(`Medea draws on their Territory Creation, healing ${healed} HP.`);
       },
     },
@@ -253,7 +253,7 @@ const merlin: ServantDefinition = {
     effect: (ctx) => {
       ctx.log("Merlin bestows the Once and Future Wizard's Gift!");
       const healed = Math.round(ctx.self.maxHp * 0.4);
-      ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+      ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
       ctx.self.statuses = ctx.self.statuses.filter((s) => s.kind !== 'debuff' && s.kind !== 'dot');
       applyStatus(ctx.self, {
         id: 'wizards-gift',

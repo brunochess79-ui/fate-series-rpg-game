@@ -335,7 +335,7 @@ const sasakiKojiro: ServantDefinition = {
       effect: (ctx) => {
         const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.15, { label: 'Probing Cut' });
         const healed = Math.round(dmg * 0.2);
-        ctx.self.hp = Math.min(ctx.self.maxHp, ctx.self.hp + healed);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
         ctx.log(`Sasaki Kojirō reads the exchange, recovering ${healed} HP.`);
       },
     },
