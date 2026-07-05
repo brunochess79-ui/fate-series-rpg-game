@@ -294,7 +294,7 @@ const frankenstein: ServantDefinition = {
   title: 'The Wretched Creation',
   className: 'Berserker',
   trueName: 'The Creature',
-  maxHp: 1520,
+  maxHp: 1480,
   atk: 125,
   def: 47,
   agility: 53,
@@ -309,7 +309,7 @@ const frankenstein: ServantDefinition = {
       id: 'lightning-born-vigor',
       name: 'Lightning-Born Vigor',
       description:
-        'The spark that first gave it life surges anew. Recovers 8% max HP at the start of each of its next 3 turns.',
+        'The spark that first gave it life surges anew. Recovers 6% max HP at the start of each of its next 3 turns.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'heal',
@@ -318,9 +318,9 @@ const frankenstein: ServantDefinition = {
           id: 'lightning-born-vigor-regen',
           name: 'Lightning-Born Vigor',
           kind: 'regen',
-          potency: Math.round(ctx.self.maxHp * 0.08),
+          potency: Math.round(ctx.self.maxHp * 0.06),
           turnsRemaining: 3,
-          description: 'Recovers 8% max HP per turn',
+          description: 'Recovers 6% max HP per turn',
         });
         ctx.log("Frankenstein's Monster surges with Lightning-Born Vigor.");
       },
