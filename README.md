@@ -23,6 +23,7 @@ every ability has an expandable description in battle.
   "first" — both moves always play out in full.
 - If both Servants are defeated in the same round, the one who took the
   lesser blow (less-negative HP — e.g. -12 beats -28) wins the Grail's favor.
+  If they took the exact same blow, it's a draw.
 - Every hit has a chance to be dodged entirely: a small baseline chance for
   anyone, nudged up or down by the Agility gap between the two Servants
   (capped so a big Agility edge is never a guaranteed dodge). A hit that's

@@ -313,9 +313,18 @@ function finalizeIfDefeated(state: BattleState, log: (msg: string) => void): boo
   if (!p1Down && !p2Down) return false;
 
   if (p1Down && p2Down) {
-    // Whoever was overkilled less (higher, less-negative HP) wins. An exact
-    // tie just falls to p1 - no secondary stat involved.
-    const winner = p1.servant.hp >= p2.servant.hp ? p1 : p2;
+    if (p1.servant.hp === p2.servant.hp) {
+      log(
+        `${getServantDef(p1.servant.defId).name} and ${getServantDef(p2.servant.defId).name} both fall in the same instant, ` +
+          `taking the exact same blow (${p1.servant.hp} HP each) — the Grail declares no victor.`,
+      );
+      state.winner = null;
+      state.winReason = 'draw';
+      state.phase = 'gameover';
+      return true;
+    }
+    // Whoever was overkilled less (higher, less-negative HP) wins.
+    const winner = p1.servant.hp > p2.servant.hp ? p1 : p2;
     const loser = winner === p1 ? p2 : p1;
     log(
       `${getServantDef(p1.servant.defId).name} and ${getServantDef(p2.servant.defId).name} both fall in the same instant! ` +

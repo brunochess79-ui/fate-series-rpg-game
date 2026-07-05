@@ -9,6 +9,33 @@ interface Props {
 }
 
 export function GameOverScreen({ battle, onRematch, onMainMenu }: Props) {
+  if (battle.winReason === 'draw') {
+    const [p1, p2] = battle.players;
+    const p1Def = getServantDef(p1.servant.defId);
+    const p2Def = getServantDef(p2.servant.defId);
+    return (
+      <div className="gameover-screen">
+        <h1>A Draw!</h1>
+        <p className="gameover-summary">
+          {p1Def.name} ({p1.master.name}) and {p2Def.name} ({p2.master.name}) fell in the same round, taking the
+          exact same blow ({p1.servant.hp} HP each) after {battle.round} rounds. The Grail declares no victor.
+        </p>
+        <div className="gameover-actions">
+          <button className="primary-btn" onClick={onRematch}>
+            Rematch
+          </button>
+          <button className="secondary-btn" onClick={onMainMenu}>
+            Main Menu
+          </button>
+        </div>
+        <div className="gameover-history">
+          <h2>Full Match History</h2>
+          <BattleLog log={battle.log} autoScroll={false} />
+        </div>
+      </div>
+    );
+  }
+
   const winner = battle.players.find((p) => p.id === battle.winner)!;
   const loser = battle.players.find((p) => p.id !== battle.winner)!;
   const winnerDef = getServantDef(winner.servant.defId);

@@ -116,6 +116,6 @@ export interface BattleState {
   round: number;
   log: string[];
   winner: 'p1' | 'p2' | null;
-  winReason: 'defeat' | 'overkillTiebreak' | null;
+  winReason: 'defeat' | 'overkillTiebreak' | 'draw' | null;
   phase: 'battle' | 'gameover';
 }
