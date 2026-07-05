@@ -163,7 +163,7 @@ export function resolveRound(
   const log = (msg: string) => next.log.push(msg);
   const dealDamage = makeDealDamage(log, rng);
 
-  const makeCtx = (self: PlayerState, enemy: PlayerState): BattleContext => ({
+  const makeCtx = (self: PlayerState, enemy: PlayerState, enemyHpFraction?: number): BattleContext => ({
     self: self.servant,
     enemy: enemy.servant,
     selfMaster: self.master,
@@ -171,6 +171,7 @@ export function resolveRound(
     log,
     rng,
     dealDamage,
+    enemyHpFraction: enemyHpFraction ?? enemy.servant.hp / enemy.servant.maxHp,
   });
 
   const startOfRound = (self: PlayerState, enemy: PlayerState) => {
@@ -196,9 +197,9 @@ export function resolveRound(
 
   if (finalizeIfDefeated(next, log)) return next;
 
-  const performAction = (self: PlayerState, enemy: PlayerState, action: BattleAction) => {
+  const performAction = (self: PlayerState, enemy: PlayerState, action: BattleAction, enemyHpFraction?: number) => {
     const def = getServantDef(self.servant.defId);
-    const ctx = makeCtx(self, enemy);
+    const ctx = makeCtx(self, enemy, enemyHpFraction);
 
     switch (action.type) {
       case 'attack': {
@@ -299,8 +300,15 @@ export function resolveRound(
   const p1FiringNp = !p1Stunned && p1Action.type === 'np' && p1.servant.npGauge >= 100;
   const p2FiringNp = !p2Stunned && p2Action.type === 'np' && p2.servant.npGauge >= 100;
 
-  if (!p1Stunned && actionPhase(p1Def, p1Action) === 'damage') performAction(p1, p2, p1Action);
-  if (!p2Stunned && actionPhase(p2Def, p2Action) === 'damage') performAction(p2, p1, p2Action);
+  // Also snapshot each side's enemy HP fraction before either damage-pass
+  // action runs, so an execute-threshold skill (e.g. "below 25% HP") reads
+  // the same value regardless of processing order - otherwise whoever
+  // resolves second would see the other's simultaneous hit already landed.
+  const p1EnemyHpFraction = p2.servant.hp / p2.servant.maxHp;
+  const p2EnemyHpFraction = p1.servant.hp / p1.servant.maxHp;
+
+  if (!p1Stunned && actionPhase(p1Def, p1Action) === 'damage') performAction(p1, p2, p1Action, p1EnemyHpFraction);
+  if (!p2Stunned && actionPhase(p2Def, p2Action) === 'damage') performAction(p2, p1, p2Action, p2EnemyHpFraction);
 
   // Force each NP user's gauge back to 0 regardless of what the other
   // player's simultaneous action granted them afterward.

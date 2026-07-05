@@ -33,6 +33,10 @@ export interface BattleContext {
     multiplier: number,
     options?: { guaranteedCrit?: boolean; label?: string },
   ) => number;
+  /** The enemy's HP / maxHP as it stood before this round's damage pass, so an
+   * execute-threshold check (e.g. "below 25% HP") gives the same answer no
+   * matter whether this Servant or the enemy is processed first this round. */
+  enemyHpFraction: number;
 }
 
 export interface SkillDefinition {

@@ -336,7 +336,7 @@ const marcoPolo: ServantDefinition = {
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
-        const executeBonus = ctx.enemy.hp / ctx.enemy.maxHp < 0.3 ? 1.8 : 1.0;
+        const executeBonus = ctx.enemyHpFraction < 0.3 ? 1.8 : 1.0;
         ctx.log(
           executeBonus > 1
             ? 'Marco Polo senses weakness and drives the caravan in for the kill!'

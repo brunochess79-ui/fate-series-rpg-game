@@ -133,7 +133,7 @@ const theRipper: ServantDefinition = {
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
-        const executeBonus = ctx.enemy.hp / ctx.enemy.maxHp < 0.25 ? 2.2 : 1.0;
+        const executeBonus = ctx.enemyHpFraction < 0.25 ? 2.2 : 1.0;
         ctx.log(
           executeBonus > 1
             ? 'The Ripper closes in without a sound, ending it there!'

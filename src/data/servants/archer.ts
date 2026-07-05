@@ -109,7 +109,7 @@ const robinHood: ServantDefinition = {
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
-        const executeBonus = ctx.enemy.hp / ctx.enemy.maxHp < 0.3 ? 2.0 : 1.0;
+        const executeBonus = ctx.enemyHpFraction < 0.3 ? 2.0 : 1.0;
         ctx.log(
           executeBonus > 1
             ? 'Robin Hood spots an opening and looses a Golden Arrow for the kill!'
