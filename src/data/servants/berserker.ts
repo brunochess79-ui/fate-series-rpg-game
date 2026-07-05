@@ -79,7 +79,7 @@ const heracles: ServantDefinition = {
       name: 'Monstrous Strength',
       description:
         "Overwhelming physical power. Next attack is a guaranteed crit, and Heracles tears away whatever Noble Phantasm gauge the enemy gains this round for himself.",
-      cooldown: 4,
+      cooldown: 5,
       npGainSelf: 20,
       tag: 'crit',
       effect: (ctx) => {
