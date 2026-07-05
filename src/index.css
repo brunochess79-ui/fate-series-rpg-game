@@ -654,6 +654,11 @@ button:disabled {
   color: var(--text-dim);
   line-height: 1.6;
 }
+.gameover-hp-summary {
+  color: var(--text-dim);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
 .gameover-tiebreak {
   color: var(--gold-bright);
   font-size: 14px;

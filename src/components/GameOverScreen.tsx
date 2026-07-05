@@ -48,6 +48,10 @@ export function GameOverScreen({ battle, onRematch, onMainMenu }: Props) {
         {winnerDef.name} ({winnerDef.title}) has defeated {loserDef.name} ({loserDef.title}) after{' '}
         {battle.round} rounds.
       </p>
+      <p className="gameover-hp-summary">
+        Final HP — {winnerDef.name}: {winner.servant.hp} / {winner.servant.maxHp} &nbsp;·&nbsp; {loserDef.name}:{' '}
+        {loser.servant.hp} / {loser.servant.maxHp}
+      </p>
       {battle.winReason === 'overkillTiebreak' && (
         <p className="gameover-tiebreak">
           Both Servants fell in the same round — {winnerDef.name} took the lesser blow ({winner.servant.hp} HP vs{' '}
