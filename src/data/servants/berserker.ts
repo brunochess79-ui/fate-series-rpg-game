@@ -8,7 +8,7 @@ const heracles: ServantDefinition = {
   className: 'Berserker',
   trueName: 'Heracles',
   maxHp: 1450,
-  atk: 124,
+  atk: 119,
   def: 40,
   agility: 63,
   critChance: 0.08,
