@@ -62,16 +62,21 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     const evadeStatus = defender.statuses.find((s) => s.kind === 'evade' && s.turnsRemaining > 0);
     if (evadeStatus) {
       defender.statuses = defender.statuses.filter((s) => s !== evadeStatus);
-      log(`${defenderDef.name} evades the attack entirely!`);
-      return 0;
+      if (!options.isNP) {
+        log(`${defenderDef.name} evades the attack entirely!`);
+        return 0;
+      }
+      log(`${defenderDef.name}'s guaranteed evasion can't fully answer a Noble Phantasm — it comes down to speed alone!`);
     }
 
     // A small baseline dodge chance for everyone, nudged up or down by the
     // Agility gap between the two Servants. Clamped so a huge Agility edge
     // is a real advantage, not a guaranteed dodge. A Noble Phantasm is hard
     // to react to no matter how fast the defender is, so it pins the chance
-    // down to the flat baseline instead of letting Agility raise it.
-    const dodgeChance = options.isNP
+    // down to the flat baseline instead of letting Agility raise it - unless
+    // a guaranteed-evade status was just spent trying to answer it, in which
+    // case Agility still gets to influence the roll.
+    const dodgeChance = options.isNP && !evadeStatus
       ? 0.05
       : Math.min(0.15, Math.max(0.05, 0.05 + (defenderDef.agility - attackerDef.agility) * 0.003));
     if (rng() < dodgeChance) {
