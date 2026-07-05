@@ -189,7 +189,7 @@ const achilles: ServantDefinition = {
   maxHp: 1240,
   atk: 124,
   def: 73,
-  agility: 85,
+  agility: 75,
   critChance: 0.15,
   rank: 'A+',
   strengths: ['Burst Damage', 'Shielding'],
