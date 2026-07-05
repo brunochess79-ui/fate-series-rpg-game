@@ -74,9 +74,9 @@ const medea: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Medea invokes the Rule of the Jeweled Sword!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.1, { label: 'Jeweled Sword I' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.1, { label: 'Jeweled Sword II' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.1, { label: 'Jeweled Sword III' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Jeweled Sword I' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Jeweled Sword II' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Jeweled Sword III' });
       applyStatus(ctx.enemy, {
         id: 'jeweled-curse',
         name: 'Lingering Curse',
@@ -164,7 +164,7 @@ const circe: ServantDefinition = {
     rank: 'C+',
     effect: (ctx) => {
       ctx.log("Circe's Curse turns the enemy into a Beast of Aeaea!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.0, { label: "Circe's Curse" });
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.2, { label: "Circe's Curse" });
       applyStatus(ctx.enemy, {
         id: 'aeaea-stun',
         name: 'Transmuted',
@@ -350,7 +350,7 @@ const nostradamus: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log('Nostradamus reads from Les Propheties — the Written Fate comes due!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.5, { label: 'Les Propheties' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.8, { label: 'Les Propheties' });
       applyStatus(ctx.enemy, {
         id: 'written-fate-curse',
         name: 'Written Fate',
@@ -447,7 +447,7 @@ const gillesDeRais: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log("Gilles de Rais opens Prelati's Spellbook — a Forbidden Grimoire!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.2, { label: 'Forbidden Grimoire' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.4, { label: 'Forbidden Grimoire' });
       applyStatus(ctx.enemy, {
         id: 'grimoire-curse',
         name: 'Grimoire Curse',

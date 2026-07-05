@@ -82,7 +82,7 @@ const cuChulainn: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Cú Chulainn hurls the Cursed Spear of the Barbed Thorn!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.8, { label: 'Gáe Bolg' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.1, { label: 'Gáe Bolg' });
       applyStatus(ctx.enemy, {
         id: 'barbed-curse',
         name: 'Barbed Curse',
@@ -175,7 +175,7 @@ const diarmuid: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Diarmuid crosses the Twin Lances of Sorrow!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.9, { label: 'Twin Lances' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.2, { label: 'Twin Lances' });
     },
   },
 };

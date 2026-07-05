@@ -76,7 +76,7 @@ const arash: ServantDefinition = {
     rank: 'A++',
     effect: (ctx) => {
       ctx.log('Arash draws their bow to the very limit — Stella, the Farthest Arrow!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.5, { guaranteedCrit: true, label: 'Stella' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.9, { guaranteedCrit: true, label: 'Stella' });
       const recoil = Math.round(ctx.self.maxHp * 0.05);
       ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Arash spends their own life force, taking ${recoil} recoil damage.`);
@@ -164,7 +164,7 @@ const robinHood: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log('Robin Hood looses the Yew Bow of Sherwood!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { guaranteedCrit: true, label: 'Piercing Shot' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { guaranteedCrit: true, label: 'Piercing Shot' });
     },
   },
 };
@@ -245,7 +245,7 @@ const williamTell: ServantDefinition = {
     rank: 'C+',
     effect: (ctx) => {
       ctx.log('William Tell fires the Shot Heard Round the Cantons!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { guaranteedCrit: true, label: 'Round the Cantons' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.4, { guaranteedCrit: true, label: 'Round the Cantons' });
     },
   },
 };
@@ -325,7 +325,7 @@ const atalanta: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log('Atalanta unleashes the Phoebus Catastrophe!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.1, { label: 'Phoebus Catastrophe' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.4, { label: 'Phoebus Catastrophe' });
     },
   },
 };
