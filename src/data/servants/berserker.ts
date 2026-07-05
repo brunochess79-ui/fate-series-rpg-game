@@ -328,7 +328,7 @@ const frankenstein: ServantDefinition = {
     {
       id: 'wretched-resolve',
       name: 'Wretched Resolve',
-      description: 'A creation that refuses to be destroyed. Raises own Defense by 30% for 2 turns.',
+      description: 'A creation that refuses to be destroyed. Raises own Defense by 25% for 2 turns.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -338,9 +338,9 @@ const frankenstein: ServantDefinition = {
           name: 'Wretched Resolve',
           kind: 'buff',
           stat: 'def',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% DEF',
+          description: '+25% DEF',
         });
         ctx.log("Frankenstein's Monster steels itself with Wretched Resolve!");
       },
