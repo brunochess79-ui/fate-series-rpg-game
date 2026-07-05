@@ -7,7 +7,7 @@ export type ServantClass =
   | 'Assassin'
   | 'Berserker';
 
-export type StatKey = 'atk' | 'def' | 'agility' | 'critChance';
+export type StatKey = 'atk' | 'def' | 'agility' | 'critChance' | 'damage';
 
 export interface StatusEffect {
   id: string;

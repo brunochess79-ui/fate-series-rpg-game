@@ -16,7 +16,7 @@ const heracles: ServantDefinition = {
   strengths: ['Highest Damage', 'Regeneration'],
   weaknesses: ['Lowest Defense', 'Low Crit Rate'],
   passiveDescription:
-    'Mad Enhancement: sanity is traded for power. Attack rises 5% every turn, permanently.',
+    'Mad Enhancement: sanity is traded for power. Damage dealt rises 5% every turn, permanently.',
   onTurnStart: (ctx) => {
     const existing = ctx.self.statuses.find((s) => s.id === 'mad-enhancement');
     const amount = (existing?.amount ?? 0) + 0.05;
@@ -24,10 +24,10 @@ const heracles: ServantDefinition = {
       id: 'mad-enhancement',
       name: 'Mad Enhancement',
       kind: 'buff',
-      stat: 'atk',
+      stat: 'damage',
       amount,
       turnsRemaining: Infinity,
-      description: `+${Math.round(amount * 100)}% ATK (permanent)`,
+      description: `+${Math.round(amount * 100)}% damage dealt (permanent)`,
     });
   },
   skills: [

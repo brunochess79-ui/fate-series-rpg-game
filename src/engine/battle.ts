@@ -96,6 +96,11 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     const isCrit = options.guaranteedCrit || hasCritBuff || rng() < critChance;
     if (isCrit) dmg *= 1.6;
 
+    // Unlike an ATK buff (applied above, before Defense is subtracted), a
+    // "damage" buff multiplies the already-mitigated hit, so it's a smaller
+    // final bump at the same percentage.
+    dmg *= statMultiplier(attacker, 'damage');
+
     dmg = Math.round(dmg);
 
     const shieldStatus = defender.statuses.find((s) => s.kind === 'shield' && (s.potency ?? 0) > 0);
