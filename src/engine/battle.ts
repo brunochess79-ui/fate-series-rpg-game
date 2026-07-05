@@ -283,6 +283,12 @@ export function resolveRound(
   const p1PreExisting = new Set(p1.servant.statuses.map((s) => s.id));
   const p2PreExisting = new Set(p2.servant.statuses.map((s) => s.id));
 
+  // Snapshot each side's NP gauge before anything this round changes it, so
+  // an NP-theft effect (Heracles's Monstrous Strength) can measure exactly
+  // how much the enemy gained this round, independent of processing order.
+  const p1NpGaugeAtRoundStart = p1.servant.npGauge;
+  const p2NpGaugeAtRoundStart = p2.servant.npGauge;
+
   // Pass 1: buffs/debuffs/heals, and other non-damaging actions for
   // both players, so any defense set up this round is in place first.
   if (p1Stunned) {
@@ -319,6 +325,28 @@ export function resolveRound(
   // player's simultaneous action granted them afterward.
   if (p1FiringNp) p1.servant.npGauge = 0;
   if (p2FiringNp) p2.servant.npGauge = 0;
+
+  // Monstrous Strength (Heracles) tears away whatever NP gauge the enemy
+  // gained this round on top of its own normal npGainSelf. Both sides' gains
+  // are computed up front, before either transfer happens, so a mirror
+  // match (both sides holding the skill) resolves the same regardless of
+  // which side is processed first.
+  const p1NpGainThisRound = Math.max(0, p1.servant.npGauge - p1NpGaugeAtRoundStart);
+  const p2NpGainThisRound = Math.max(0, p2.servant.npGauge - p2NpGaugeAtRoundStart);
+  const p1StealsNp = p1.servant.statuses.some((s) => s.id === 'monstrous-strength__npSteal');
+  const p2StealsNp = p2.servant.statuses.some((s) => s.id === 'monstrous-strength__npSteal');
+  if (p1StealsNp && p2NpGainThisRound > 0) {
+    p2.servant.npGauge = Math.max(0, p2.servant.npGauge - p2NpGainThisRound);
+    p1.servant.npGauge = Math.min(100, p1.servant.npGauge + p2NpGainThisRound);
+    log(`${p1Def.name} tears ${Math.round(p2NpGainThisRound)}% of ${p2Def.name}'s Noble Phantasm gauge away for their own!`);
+  }
+  if (p2StealsNp && p1NpGainThisRound > 0) {
+    p1.servant.npGauge = Math.max(0, p1.servant.npGauge - p1NpGainThisRound);
+    p2.servant.npGauge = Math.min(100, p2.servant.npGauge + p1NpGainThisRound);
+    log(`${p2Def.name} tears ${Math.round(p1NpGainThisRound)}% of ${p1Def.name}'s Noble Phantasm gauge away for their own!`);
+  }
+  p1.servant.statuses = p1.servant.statuses.filter((s) => s.id !== 'monstrous-strength__npSteal');
+  p2.servant.statuses = p2.servant.statuses.filter((s) => s.id !== 'monstrous-strength__npSteal');
 
   tickStatuses(p1.servant, p1PreExisting);
   tickStatuses(p2.servant, p2PreExisting);
