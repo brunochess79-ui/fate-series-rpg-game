@@ -16,10 +16,10 @@ const heracles: ServantDefinition = {
   strengths: ['Highest Damage', 'Regeneration'],
   weaknesses: ['Lowest Defense', 'Low Crit Rate'],
   passiveDescription:
-    'Mad Enhancement: sanity is traded for power. Attack rises 8% every turn, permanently.',
+    'Mad Enhancement: sanity is traded for power. Attack rises 5% every turn, permanently.',
   onTurnStart: (ctx) => {
     const existing = ctx.self.statuses.find((s) => s.id === 'mad-enhancement');
-    const amount = (existing?.amount ?? 0) + 0.08;
+    const amount = (existing?.amount ?? 0) + 0.05;
     applyStatus(ctx.self, {
       id: 'mad-enhancement',
       name: 'Mad Enhancement',
@@ -100,7 +100,7 @@ const heracles: ServantDefinition = {
     effect: (ctx) => {
       ctx.log('Heracles unleashes Nine Lives in a berserk frenzy!');
       ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'Nine Lives' });
-      const recoil = Math.round(ctx.self.maxHp * 0.05);
+      const recoil = Math.round(ctx.self.maxHp * 0.075);
       ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Heracles takes ${recoil} recoil damage from their own fury.`);
     },
