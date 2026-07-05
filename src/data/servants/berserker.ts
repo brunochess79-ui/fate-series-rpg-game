@@ -309,7 +309,7 @@ const frankenstein: ServantDefinition = {
       id: 'lightning-born-vigor',
       name: 'Lightning-Born Vigor',
       description:
-        'The spark that first gave it life surges anew. Recovers 6% max HP at the start of each of its next 3 turns.',
+        'The spark that first gave it life surges anew. Recovers 6% max HP at the start of each of its next 2 turns.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'heal',
@@ -319,7 +319,7 @@ const frankenstein: ServantDefinition = {
           name: 'Lightning-Born Vigor',
           kind: 'regen',
           potency: Math.round(ctx.self.maxHp * 0.06),
-          turnsRemaining: 3,
+          turnsRemaining: 2,
           description: 'Recovers 6% max HP per turn',
         });
         ctx.log("Frankenstein's Monster surges with Lightning-Born Vigor.");
