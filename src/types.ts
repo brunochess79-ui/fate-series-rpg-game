@@ -5,7 +5,14 @@ export type ServantClass =
   | 'Rider'
   | 'Caster'
   | 'Assassin'
-  | 'Berserker';
+  | 'Berserker'
+  | 'Ruler'
+  | 'Avenger'
+  | 'Shielder'
+  | 'Alter Ego'
+  | 'Foreigner'
+  | 'Beast'
+  | 'Pretender';
 
 export type StatKey = 'atk' | 'def' | 'agility' | 'critChance' | 'damage';
 

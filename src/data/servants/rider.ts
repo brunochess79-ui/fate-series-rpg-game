@@ -358,4 +358,193 @@ const marcoPolo: ServantDefinition = {
   },
 };
 
-export const RIDER_SERVANTS: ServantDefinition[] = [iskandar, bellerophon, boudica, marcoPolo];
+const medusa: ServantDefinition = {
+  id: 'medusa',
+  name: 'Medusa',
+  title: 'The Gorgon',
+  className: 'Rider',
+  trueName: 'Medusa',
+  maxHp: 1050,
+  atk: 100,
+  def: 58,
+  agility: 78,
+  critChance: 0.2,
+  rank: 'B+',
+  strengths: ['Critical Hits', 'Crowd Control'],
+  weaknesses: ['Fragile'],
+  passiveDescription: 'A gorgon who once was a gentle priestess, now cursed with a gaze that turns flesh to stone.',
+  skills: [
+    {
+      id: 'serpents-gaze',
+      name: "Serpent's Gaze",
+      description: "A predator's focus sharpens her aim. Raises own crit rate for 2 turns.",
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'serpents-gaze',
+          name: "Serpent's Gaze",
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.4,
+          turnsRemaining: 2,
+          description: '+40% crit chance scaling',
+        });
+        ctx.log("Medusa's Serpent's Gaze sharpens!");
+      },
+    },
+    {
+      id: 'broken-phantasm-bow',
+      name: 'Broken Phantasm: Bow',
+      description: 'A snapped bow loosed as a final gambit. Deals 1.3x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Broken Phantasm' });
+        ctx.log('Medusa breaks her bow in a desperate Broken Phantasm!');
+      },
+    },
+    {
+      id: 'mystic-eyes',
+      name: 'Mystic Eyes',
+      description: 'A glance that turns the enemy to stone. Stuns the enemy for 1 turn.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'mystic-eyes-stun',
+          name: 'Petrified',
+          kind: 'stun',
+          turnsRemaining: 1,
+          description: 'Cannot act next turn',
+        });
+        ctx.log("Medusa's Mystic Eyes turn the enemy to stone!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Blood Fort Andromeda',
+    japaneseName: 'Blood Fort Andromeda',
+    description: 'A crumbling fortress of chains and stone, binding the enemy before the killing blow.',
+    rank: 'B',
+    effect: (ctx) => {
+      ctx.log('Medusa unleashes Blood Fort Andromeda!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.1, { label: 'Blood Fort Andromeda' });
+      applyStatus(ctx.enemy, {
+        id: 'blood-fort-stun',
+        name: 'Bound in Stone',
+        kind: 'stun',
+        turnsRemaining: 1,
+        description: 'Cannot act next turn',
+      });
+    },
+  },
+};
+
+const noah: ServantDefinition = {
+  id: 'noah',
+  name: 'Noah',
+  title: 'The Grand Rider',
+  className: 'Rider',
+  trueName: 'Noah',
+  maxHp: 1450,
+  atk: 90,
+  def: 80,
+  agility: 40,
+  critChance: 0.05,
+  rank: 'B+',
+  strengths: ['Highest HP', 'Shielding'],
+  weaknesses: ['Slowest'],
+  passiveDescription: "The captain of the Ark, who stood against a flood that erased the world.",
+  skills: [
+    {
+      id: 'ark-of-salvation',
+      name: 'Ark of Salvation',
+      description: "A vessel that outlasted the end of the world. Grants a shield that absorbs damage equal to 24% of his max HP, lasting this turn and the next.",
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'ark-of-salvation-shield',
+          name: 'Ark of Salvation',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.24),
+          turnsRemaining: 1,
+          description: 'Absorbs damage until depleted',
+        });
+        ctx.log('Noah is sheltered within the Ark of Salvation!');
+      },
+    },
+    {
+      id: 'rainbow-covenant',
+      name: 'Rainbow Covenant',
+      description: "A promise that the flood will not come again. Recovers 7% max HP at the start of each of his next 3 turns.",
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'rainbow-covenant-regen',
+          name: 'Rainbow Covenant',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.07),
+          turnsRemaining: 3,
+          description: 'Recovers 7% max HP per turn',
+        });
+        ctx.log('Noah invokes the Rainbow Covenant.');
+      },
+    },
+    {
+      id: 'voyage-of-the-faithful',
+      name: 'Voyage of the Faithful',
+      description: "Steady resolve through the endless deluge. Raises own Defense by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'voyage-of-the-faithful',
+          name: 'Voyage of the Faithful',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% DEF',
+        });
+        ctx.log('Noah steadies himself for the Voyage of the Faithful!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: "Noah's Ark: The Great Flood",
+    japaneseName: 'Noah',
+    description: 'A deluge that erased the old world, called down once more upon the enemy.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log("Noah calls down the Great Flood!");
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.3, { label: 'The Great Flood' });
+      applyStatus(ctx.enemy, {
+        id: 'great-flood-debuff',
+        name: 'Erosion',
+        kind: 'debuff',
+        stat: 'def',
+        amount: -0.15,
+        turnsRemaining: 3,
+        description: '-15% DEF',
+      });
+    },
+  },
+};
+
+export const RIDER_SERVANTS: ServantDefinition[] = [
+  iskandar,
+  bellerophon,
+  boudica,
+  marcoPolo,
+  medusa,
+  noah,
+];

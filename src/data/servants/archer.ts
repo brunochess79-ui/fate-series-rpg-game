@@ -412,4 +412,180 @@ const gilgamesh: ServantDefinition = {
   },
 };
 
-export const ARCHER_SERVANTS: ServantDefinition[] = [arash, robinHood, williamTell, atalanta, gilgamesh];
+const emiya: ServantDefinition = {
+  id: 'emiya',
+  name: 'EMIYA',
+  title: 'The Counter Guardian',
+  className: 'Archer',
+  trueName: 'Shirou Emiya',
+  maxHp: 1000,
+  atk: 110,
+  def: 60,
+  agility: 80,
+  critChance: 0.18,
+  rank: 'A',
+  strengths: ['Versatility', 'Critical Hits'],
+  weaknesses: ['Low HP'],
+  passiveDescription: 'A hollow hero who traces any blade he has ever seen, projected anew for every fight.',
+  skills: [
+    {
+      id: 'independent-action',
+      name: 'Independent Action',
+      description: 'A Counter Guardian answers to no Master. Raises own Attack by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'independent-action',
+          name: 'Independent Action',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% ATK',
+        });
+        ctx.log('EMIYA acts on Independent Action!');
+      },
+    },
+    {
+      id: 'structural-analysis',
+      name: 'Structural Analysis',
+      description: "Instant insight into any blade's construction. Raises own crit rate for 2 turns.",
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'structural-analysis',
+          name: 'Structural Analysis',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.35,
+          turnsRemaining: 2,
+          description: '+35% crit chance scaling',
+        });
+        ctx.log('EMIYA reads the Structural Analysis of the battlefield!');
+      },
+    },
+    {
+      id: 'kanshou-and-bakuya',
+      name: 'Kanshou & Bakuya',
+      description: 'Twin projected blades thrown in tandem. Deals 1.3x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Kanshou & Bakuya' });
+        ctx.log('EMIYA hurls Kanshou and Bakuya as one!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Unlimited Blade Works',
+    japaneseName: 'Unlimited Blade Works',
+    description: 'A reality marble of infinite swords, projected to end the fight in a single trace.',
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('EMIYA unveils Unlimited Blade Works!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Unlimited Blade Works' });
+    },
+  },
+};
+
+const orion: ServantDefinition = {
+  id: 'orion',
+  name: 'Super Orion',
+  title: 'The Grand Archer',
+  className: 'Archer',
+  trueName: 'Orion',
+  maxHp: 1200,
+  atk: 128,
+  def: 70,
+  agility: 60,
+  critChance: 0.15,
+  rank: 'A+',
+  strengths: ['Highest Damage', 'Guaranteed Crits'],
+  weaknesses: ['Low Agility'],
+  passiveDescription: 'A hunter who traded his own divinity for the strength to bring down a goddess.',
+  skills: [
+    {
+      id: 'orions-belt',
+      name: "Orion's Belt",
+      description: "A hunter's endless stamina. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'orions-belt',
+          name: "Orion's Belt",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log("Orion tightens his Belt, ready to hunt!");
+      },
+    },
+    {
+      id: 'beast-of-gaia',
+      name: 'Beast of Gaia',
+      description: "The earth itself bends the enemy's guard. Lowers enemy Defense by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'beast-of-gaia',
+          name: 'Beast of Gaia',
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log('Orion calls upon the Beast of Gaia!');
+      },
+    },
+    {
+      id: 'hunters-mark',
+      name: "Hunter's Mark",
+      description: 'A star-hunter never misses his prey. Next attack is a guaranteed critical hit.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'hunters-mark__critReady',
+          name: "Hunter's Mark",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log("Orion sets his Hunter's Mark.");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: "Orion's Judgment: The Star of the Hunt",
+    japaneseName: 'Orion',
+    description: 'A single arrow loosed with strength enough to fell a goddess.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log("Orion looses the Star of the Hunt!");
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: "Orion's Judgment" });
+    },
+  },
+};
+
+export const ARCHER_SERVANTS: ServantDefinition[] = [
+  arash,
+  robinHood,
+  williamTell,
+  atalanta,
+  gilgamesh,
+  emiya,
+  orion,
+];

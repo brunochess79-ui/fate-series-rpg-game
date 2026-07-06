@@ -354,4 +354,182 @@ const sasakiKojiro: ServantDefinition = {
   },
 };
 
-export const ASSASSIN_SERVANTS: ServantDefinition[] = [hassan, theRipper, semiramis, sasakiKojiro];
+const kingHassan: ServantDefinition = {
+  id: 'king-hassan',
+  name: 'King Hassan',
+  title: 'The Grand Assassin',
+  className: 'Assassin',
+  trueName: 'The First Hassan',
+  maxHp: 950,
+  atk: 115,
+  def: 55,
+  agility: 100,
+  critChance: 0.35,
+  rank: 'A+',
+  strengths: ['Highest Crit Rate', 'Evasion'],
+  weaknesses: ['Low HP', 'Fragile'],
+  passiveDescription: 'The first of the Hassan-i Sabbah, an embodiment of death itself that even gods cannot ignore.',
+  skills: [
+    {
+      id: 'zabaniya-delusional-poison',
+      name: 'Zabaniya: Delusional Poison',
+      description: "A killing art that poisons flesh and spirit alike. Afflicts the enemy with poison.",
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'delusional-poison',
+          name: 'Delusional Poison',
+          kind: 'dot',
+          potency: Math.round(ctx.enemy.maxHp * 0.05),
+          turnsRemaining: 3,
+          description: 'Poisoned',
+        });
+        ctx.log('King Hassan strikes with Zabaniya: Delusional Poison!');
+      },
+    },
+    {
+      id: 'presence-concealment-perfected',
+      name: 'Presence Concealment (Perfected)',
+      description: "A death that cannot be sensed until it arrives. Guarantees the next enemy attack will miss entirely.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'presence-concealment-perfected-evade',
+          name: 'Presence Concealment (Perfected)',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
+        });
+        ctx.log('King Hassan vanishes utterly from sight!');
+      },
+    },
+    {
+      id: 'blade-of-wisdom',
+      name: 'Blade of Wisdom',
+      description: 'A killing stroke honed over a hundred assassinations. Next attack is a guaranteed critical hit.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'blade-of-wisdom__critReady',
+          name: 'Blade of Wisdom',
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log('King Hassan readies the Blade of Wisdom.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'The Old Man of the Mountain',
+    japaneseName: 'Zabaniya',
+    description: 'A death sentence imposed on even the divine and the immortal.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('King Hassan pronounces the judgment of the Old Man of the Mountain!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { guaranteedCrit: true, label: 'The Old Man of the Mountain' });
+    },
+  },
+};
+
+const tezcatlipoca: ServantDefinition = {
+  id: 'tezcatlipoca',
+  name: 'Tezcatlipoca',
+  title: 'The Smoking Mirror',
+  className: 'Assassin',
+  trueName: 'Tezcatlipoca',
+  maxHp: 1000,
+  atk: 112,
+  def: 60,
+  agility: 85,
+  critChance: 0.22,
+  rank: 'A',
+  strengths: ['Critical Hits', 'Speed'],
+  weaknesses: ['Fragile'],
+  passiveDescription: 'A ruthless Aztec god of night and discord, walking among mortals as a mercenary assassin.',
+  skills: [
+    {
+      id: 'smoking-mirror',
+      name: 'Smoking Mirror',
+      description: "An obsidian mirror reveals the enemy's every weakness. Lowers enemy crit rate for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'smoking-mirror',
+          name: 'Smoking Mirror',
+          kind: 'debuff',
+          stat: 'critChance',
+          amount: -0.3,
+          turnsRemaining: 3,
+          description: '-30% crit chance scaling',
+        });
+        ctx.log("Tezcatlipoca's Smoking Mirror reveals the enemy's weakness!");
+      },
+    },
+    {
+      id: 'night-wind',
+      name: 'Night Wind',
+      description: "A god of night moves faster than sight. Guarantees the next enemy attack will miss entirely.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'night-wind-evade',
+          name: 'Night Wind',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
+        });
+        ctx.log('Tezcatlipoca vanishes on the Night Wind.');
+      },
+    },
+    {
+      id: 'obsidian-blade',
+      name: 'Obsidian Blade',
+      description: "A blade of black glass drawn from the smoking mirror. Raises own Attack by 20% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'obsidian-blade',
+          name: 'Obsidian Blade',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 2,
+          description: '+20% ATK',
+        });
+        ctx.log('Tezcatlipoca draws the Obsidian Blade!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Titlacauan: We Are His Slaves',
+    japaneseName: 'Titlacauan',
+    description: "The rival of all creation, striking without warning or mercy.",
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Tezcatlipoca invokes Titlacauan!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Titlacauan' });
+    },
+  },
+};
+
+export const ASSASSIN_SERVANTS: ServantDefinition[] = [
+  hassan,
+  theRipper,
+  semiramis,
+  sasakiKojiro,
+  kingHassan,
+  tezcatlipoca,
+];

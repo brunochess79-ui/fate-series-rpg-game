@@ -6,6 +6,8 @@ import { CASTER_SERVANTS } from './caster';
 import { LANCER_SERVANTS } from './lancer';
 import { RIDER_SERVANTS } from './rider';
 import { SABER_SERVANTS } from './saber';
+import { RULER_SERVANTS } from './ruler';
+import { SHIELDER_SERVANTS } from './shielder';
 
 export const SERVANT_LIST: ServantDefinition[] = [
   ...SABER_SERVANTS,
@@ -15,6 +17,8 @@ export const SERVANT_LIST: ServantDefinition[] = [
   ...CASTER_SERVANTS,
   ...ASSASSIN_SERVANTS,
   ...BERSERKER_SERVANTS,
+  ...RULER_SERVANTS,
+  ...SHIELDER_SERVANTS,
 ];
 
 export const SERVANTS: Record<string, ServantDefinition> = Object.fromEntries(

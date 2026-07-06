@@ -460,4 +460,91 @@ const gillesDeRais: ServantDefinition = {
   },
 };
 
-export const CASTER_SERVANTS: ServantDefinition[] = [medea, circe, merlin, nostradamus, gillesDeRais];
+const solomon: ServantDefinition = {
+  id: 'solomon',
+  name: 'Solomon',
+  title: 'The King of Magic',
+  className: 'Caster',
+  trueName: 'Solomon',
+  maxHp: 1300,
+  atk: 120,
+  def: 65,
+  agility: 60,
+  critChance: 0.15,
+  rank: 'A+',
+  strengths: ['Highest Damage', 'Cooldown Manipulation'],
+  weaknesses: ['Low HP'],
+  passiveDescription: 'The King of Magic, source of nearly every school of thaumaturgy that came after him.',
+  skills: [
+    {
+      id: 'ars-almadel-salomonis',
+      name: 'Ars Almadel Salomonis',
+      description: "The Temple's own authority saps the enemy's strength. Lowers enemy Attack by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'ars-almadel-salomonis',
+          name: 'Ars Almadel Salomonis',
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% ATK',
+        });
+        ctx.log('Solomon invokes Ars Almadel Salomonis!');
+      },
+    },
+    {
+      id: 'wisdom-of-solomon',
+      name: 'Wisdom of Solomon',
+      description: "Perfect foresight sees every path at once. Resets the cooldowns of his other Skills.",
+      cooldown: 6,
+      npGainSelf: 20,
+      tag: 'utility',
+      effect: (ctx) => {
+        ctx.self.skillCooldowns = ctx.self.skillCooldowns.map(() => 0);
+        ctx.log('Solomon draws on the Wisdom of Solomon - every path is already known.');
+      },
+    },
+    {
+      id: 'djinn-command',
+      name: 'Djinn Command',
+      description: 'Bound spirits rise to shield their king. Grants a shield that absorbs damage equal to 20% of his max HP, lasting this turn and the next.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'djinn-command-shield',
+          name: 'Djinn Command',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 1,
+          description: 'Absorbs damage until depleted',
+        });
+        ctx.log('Solomon commands his Djinn to shield him!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Ars Nova: The 72 Pillars',
+    japaneseName: 'Ars Nova',
+    description: "The full authority of the 72 Pillars, brought to bear in a single verdict.",
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Solomon calls upon Ars Nova: The 72 Pillars!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'The 72 Pillars' });
+    },
+  },
+};
+
+export const CASTER_SERVANTS: ServantDefinition[] = [
+  medea,
+  circe,
+  merlin,
+  nostradamus,
+  gillesDeRais,
+  solomon,
+];

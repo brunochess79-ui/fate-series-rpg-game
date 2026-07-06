@@ -18,6 +18,13 @@ const CLASS_FILTERS: Array<ServantClass | 'All'> = [
   'Caster',
   'Assassin',
   'Berserker',
+  'Ruler',
+  'Avenger',
+  'Shielder',
+  'Alter Ego',
+  'Foreigner',
+  'Beast',
+  'Pretender',
 ];
 
 export function SetupScreen({ mode, onComplete, onBack }: Props) {

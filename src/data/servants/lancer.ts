@@ -365,4 +365,98 @@ const karna: ServantDefinition = {
   },
 };
 
-export const LANCER_SERVANTS: ServantDefinition[] = [cuChulainn, diarmuid, achilles, karna];
+const romulusQuirinus: ServantDefinition = {
+  id: 'romulus-quirinus',
+  name: 'Romulus-Quirinus',
+  title: 'The Grand Lancer',
+  className: 'Lancer',
+  trueName: 'Romulus',
+  maxHp: 1250,
+  atk: 118,
+  def: 68,
+  agility: 60,
+  critChance: 0.1,
+  rank: 'A+',
+  strengths: ['Highest Damage', 'Sustain via Lifesteal'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The founder of Rome, apotheosized into a god who carries the light of civilization itself.',
+  skills: [
+    {
+      id: 'romes-glory',
+      name: "Rome's Glory",
+      description: "A founder-king's pride. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'romes-glory',
+          name: "Rome's Glory",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log("Romulus-Quirinus invokes Rome's Glory!");
+      },
+    },
+    {
+      id: 'she-wolfs-blessing',
+      name: "She-Wolf's Blessing",
+      description: 'The wolf that raised him lends her strength. Recovers 7% max HP at the start of each of his next 2 turns.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'she-wolfs-blessing-regen',
+          name: "She-Wolf's Blessing",
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.07),
+          turnsRemaining: 2,
+          description: 'Recovers 7% max HP per turn',
+        });
+        ctx.log('Romulus-Quirinus calls upon the She-Wolf\'s Blessing.');
+      },
+    },
+    {
+      id: 'civilizations-light',
+      name: "Civilization's Light",
+      description: "A founder's light exposes every flaw. Lowers enemy Defense by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'civilizations-light',
+          name: "Civilization's Light",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log("Romulus-Quirinus casts Civilization's Light upon the enemy!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Trecento Anni: 300 Years of Roman History',
+    japaneseName: 'Trecento Anni',
+    description: 'Three centuries of a founding empire, poured into a single divine spear-thrust.',
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Romulus-Quirinus unleashes Trecento Anni!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Trecento Anni' });
+    },
+  },
+};
+
+export const LANCER_SERVANTS: ServantDefinition[] = [
+  cuChulainn,
+  diarmuid,
+  achilles,
+  karna,
+  romulusQuirinus,
+];
