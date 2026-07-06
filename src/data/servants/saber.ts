@@ -372,4 +372,259 @@ const elCid: ServantDefinition = {
   },
 };
 
-export const SABER_SERVANTS: ServantDefinition[] = [arthur, siegfried, musashi, elCid];
+const altera: ServantDefinition = {
+  id: 'altera',
+  name: 'Altera',
+  title: 'The Scourge of God',
+  className: 'Saber',
+  trueName: 'Attila the Hun',
+  maxHp: 1200,
+  atk: 130,
+  def: 60,
+  agility: 65,
+  critChance: 0.1,
+  rank: 'A+',
+  strengths: ['Highest Damage'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'An alien weapon of planetary destruction, wrapped in the historical myth of Attila the Hun.',
+  skills: [
+    {
+      id: 'sword-of-shalltear',
+      name: 'Sword of Shalltear',
+      description: "A blade that answers to no nation. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'sword-of-shalltear',
+          name: 'Sword of Shalltear',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('Altera draws the Sword of Shalltear!');
+      },
+    },
+    {
+      id: 'gods-scourge',
+      name: "God's Scourge",
+      description: "A weapon that scours nations from the map. Lowers enemy Defense by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'gods-scourge',
+          name: "God's Scourge",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log("Altera's presence alone scourges the enemy's defenses!");
+      },
+    },
+    {
+      id: 'silent-conquest',
+      name: 'Silent Conquest',
+      description: 'A conqueror who needs no words. Next attack is a guaranteed critical hit.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'silent-conquest__critReady',
+          name: 'Silent Conquest',
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log('Altera advances in Silent Conquest.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Utter Extinction',
+    japaneseName: 'Origin of a Dark Star',
+    description: 'A weapon built to erase a planet, unleashed as a single terrible strike.',
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Altera invokes Utter Extinction!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'Utter Extinction' });
+    },
+  },
+};
+
+const sengoMuramasa: ServantDefinition = {
+  id: 'sengo-muramasa',
+  name: 'Sengo Muramasa',
+  title: 'The Cursed Blacksmith',
+  className: 'Saber',
+  trueName: 'Sengo Muramasa',
+  maxHp: 1000,
+  atk: 118,
+  def: 55,
+  agility: 70,
+  critChance: 0.18,
+  rank: 'A',
+  strengths: ['Critical Hits', 'Speed'],
+  weaknesses: ['Low HP', 'Fragile'],
+  passiveDescription: 'A legendary blacksmith who borrows a body to forge a blade capable of cutting causality itself.',
+  skills: [
+    {
+      id: 'forge-of-madness',
+      name: 'Forge of Madness',
+      description: 'A cursed forge sharpens every strike. Raises own crit rate for 2 turns.',
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'forge-of-madness',
+          name: 'Forge of Madness',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.4,
+          turnsRemaining: 2,
+          description: '+40% crit chance scaling',
+        });
+        ctx.log('Sengo Muramasa stokes the Forge of Madness!');
+      },
+    },
+    {
+      id: 'blade-of-severance',
+      name: 'Blade of Severance',
+      description: 'A cursed edge that cuts through fate. Deals 1.3x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Blade of Severance' });
+        ctx.log('Sengo Muramasa cuts with the Blade of Severance!');
+      },
+    },
+    {
+      id: 'cursed-edge',
+      name: 'Cursed Edge',
+      description: 'A blade thirsting for blood. Next attack is a guaranteed critical hit.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'cursed-edge__critReady',
+          name: 'Cursed Edge',
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log('Sengo Muramasa readies the Cursed Edge.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Kyokuto no Kenja: Causality Severed',
+    japaneseName: 'Muramasa',
+    description: 'A blade forged to cut through causality itself, ending the fight before it can happen.',
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Sengo Muramasa severs causality itself!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { guaranteedCrit: true, label: 'Causality Severed' });
+    },
+  },
+};
+
+const mordred: ServantDefinition = {
+  id: 'mordred',
+  name: 'Mordred',
+  title: 'The Knight of Treachery',
+  className: 'Saber',
+  trueName: 'Mordred',
+  maxHp: 1150,
+  atk: 124,
+  def: 58,
+  agility: 68,
+  critChance: 0.16,
+  rank: 'A+',
+  strengths: ['Critical Hits', 'Speed'],
+  weaknesses: ['Low Defense'],
+  passiveDescription: "Artoria's rebellious knight, fighting with savage, wild strikes that carry a lifetime of resentment.",
+  skills: [
+    {
+      id: 'knight-of-owner',
+      name: 'Knight of Owner',
+      description: 'A stolen crown demands to be worn. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'knight-of-owner',
+          name: 'Knight of Owner',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('Mordred claims the Knight of Owner!');
+      },
+    },
+    {
+      id: 'secret-of-pedigree',
+      name: 'Secret of Pedigree',
+      description: 'A bloodline she refuses to be denied. Raises own crit rate for 2 turns.',
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'secret-of-pedigree',
+          name: 'Secret of Pedigree',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.3,
+          turnsRemaining: 2,
+          description: '+30% crit chance scaling',
+        });
+        ctx.log("Mordred's Secret of Pedigree drives her forward!");
+      },
+    },
+    {
+      id: 'rebellious-strike',
+      name: 'Rebellious Strike',
+      description: 'A wild, savage swing born of resentment. Deals 1.3x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Rebellious Strike' });
+        ctx.log('Mordred lashes out with a Rebellious Strike!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Clarent Blood Arthur',
+    japaneseName: 'Clarent Blood Arthur',
+    description: "A borrowed blade unleashed with all of a rebel knight's fury.",
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Mordred unleashes Clarent Blood Arthur!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Clarent Blood Arthur' });
+    },
+  },
+};
+
+export const SABER_SERVANTS: ServantDefinition[] = [
+  arthur,
+  siegfried,
+  musashi,
+  elCid,
+  altera,
+  sengoMuramasa,
+  mordred,
+];

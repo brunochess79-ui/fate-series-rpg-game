@@ -540,6 +540,173 @@ const enkidu: ServantDefinition = {
   },
 };
 
+const scathach: ServantDefinition = {
+  id: 'scathach',
+  name: 'Scáthach',
+  title: 'The Queen of the Land of Shadows',
+  className: 'Lancer',
+  trueName: 'Scáthach',
+  maxHp: 1350,
+  atk: 125,
+  def: 70,
+  agility: 70,
+  critChance: 0.12,
+  rank: 'A+',
+  strengths: ['Highest Damage', 'Durability'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'An immortal warrior queen who trained Cú Chulainn and has slain gods with her own hands.',
+  skills: [
+    {
+      id: 'gods-slayer',
+      name: "God-Slayer's Focus",
+      description: 'A warrior who has cut down gods before. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'gods-slayer',
+          name: "God-Slayer's Focus",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log("Scáthach's God-Slayer's Focus sharpens!");
+      },
+    },
+    {
+      id: 'land-of-shadows',
+      name: 'Land of Shadows',
+      description: 'Her own domain answers her call. Grants a shield that absorbs damage equal to 20% of her max HP, lasting this turn and the next.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'land-of-shadows-shield',
+          name: 'Land of Shadows',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 1,
+          description: 'Absorbs damage until depleted',
+        });
+        ctx.log('Scáthach calls upon the Land of Shadows!');
+      },
+    },
+    {
+      id: 'immortal-resolve',
+      name: 'Immortal Resolve',
+      description: "An immortal warrior's unbreakable will. Recovers 8% max HP at the start of each of her next 2 turns.",
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'immortal-resolve-regen',
+          name: 'Immortal Resolve',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.08),
+          turnsRemaining: 2,
+          description: 'Recovers 8% max HP per turn',
+        });
+        ctx.log("Scáthach's Immortal Resolve steadies her.");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Gáe Bolg Alternate: The Piercing Death Spear',
+    japaneseName: 'Gáe Bolg Alternate',
+    description: "A spear whose curse guarantees the wound's fatality, cast down from the Land of Shadows.",
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Scáthach hurls Gáe Bolg Alternate!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'Gáe Bolg Alternate' });
+    },
+  },
+};
+
+const melusine: ServantDefinition = {
+  id: 'melusine',
+  name: 'Melusine',
+  title: 'The Albino Fairy Knight',
+  className: 'Lancer',
+  trueName: 'Lancelot',
+  maxHp: 1300,
+  atk: 110,
+  def: 68,
+  agility: 60,
+  critChance: 0.1,
+  rank: 'A',
+  strengths: ['Durability', 'Sustain via Lifesteal'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'A fairy knight who bears the name of Lancelot, able to become a sleek, supersonic dragon.',
+  skills: [
+    {
+      id: 'dragon-transformation',
+      name: 'Dragon Transformation',
+      description: "A fairy knight becomes a jet-swift dragon. Raises own Attack by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'dragon-transformation',
+          name: 'Dragon Transformation',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% ATK',
+        });
+        ctx.log('Melusine takes her Dragon Transformation!');
+      },
+    },
+    {
+      id: 'fairy-knights-devotion',
+      name: "Fairy Knight's Devotion",
+      description: "A knight's devotion mends every wound. Recovers 7% max HP at the start of each of her next 3 turns.",
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'fairy-knights-devotion-regen',
+          name: "Fairy Knight's Devotion",
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.07),
+          turnsRemaining: 3,
+          description: 'Recovers 7% max HP per turn',
+        });
+        ctx.log("Melusine's Fairy Knight's Devotion mends her wounds.");
+      },
+    },
+    {
+      id: 'supersonic-dive',
+      name: 'Supersonic Dive',
+      description: 'A dragon strike faster than sound. Deals 1.2x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Supersonic Dive' });
+        ctx.log('Melusine strikes with a Supersonic Dive!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Almace: The Dragon Descends',
+    japaneseName: 'Almace',
+    description: 'A dragon-knight descending at supersonic speed, blade first.',
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Melusine descends with Almace!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.4, { label: 'Almace' });
+    },
+  },
+};
+
 export const LANCER_SERVANTS: ServantDefinition[] = [
   cuChulainn,
   diarmuid,
@@ -547,4 +714,6 @@ export const LANCER_SERVANTS: ServantDefinition[] = [
   karna,
   romulusQuirinus,
   enkidu,
+  scathach,
+  melusine,
 ];

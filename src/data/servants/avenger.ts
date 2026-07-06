@@ -90,4 +90,173 @@ const kama: ServantDefinition = {
   },
 };
 
-export const AVENGER_SERVANTS: ServantDefinition[] = [kama];
+const nobunaga: ServantDefinition = {
+  id: 'nobunaga',
+  name: 'Oda Nobunaga',
+  title: 'The Demon King of the Sixth Heaven',
+  className: 'Avenger',
+  trueName: 'Oda Nobunaga',
+  maxHp: 1050,
+  atk: 122,
+  def: 58,
+  agility: 62,
+  critChance: 0.15,
+  rank: 'A',
+  strengths: ['Highest Damage', 'Critical Hits'],
+  weaknesses: ['Low HP'],
+  passiveDescription: 'The self-proclaimed Demon King, who would burn down gods themselves to remake the world.',
+  skills: [
+    {
+      id: 'demon-kings-decree',
+      name: "Demon King's Decree",
+      description: "A demon king's will brooks no refusal. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'demon-kings-decree',
+          name: "Demon King's Decree",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log("Oda Nobunaga issues a Demon King's Decree!");
+      },
+    },
+    {
+      id: 'matchlock-volley',
+      name: 'Matchlock Volley',
+      description: 'A hail of gunfire ahead of its time. Deals 1.3x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Matchlock Volley' });
+        ctx.log('Oda Nobunaga fires a Matchlock Volley!');
+      },
+    },
+    {
+      id: 'burn-mount-hiei',
+      name: 'Burn Mount Hiei',
+      description: 'A demon king who would burn even a mountain of gods. Lowers enemy Defense by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'burn-mount-hiei',
+          name: 'Burn Mount Hiei',
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log('Oda Nobunaga threatens to Burn Mount Hiei!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Three Thousand Worlds: Total Purge of Evil',
+    japaneseName: 'Sanzensekai',
+    description: 'A demon king burning down heaven, earth, and every god between them.',
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Oda Nobunaga invokes the Total Purge of Evil!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { guaranteedCrit: true, label: 'Total Purge of Evil' });
+    },
+  },
+};
+
+const edmondDantes: ServantDefinition = {
+  id: 'edmond-dantes',
+  name: 'Edmond Dantès',
+  title: 'The Count of Monte Cristo',
+  className: 'Avenger',
+  trueName: 'Edmond Dantès',
+  maxHp: 1100,
+  atk: 120,
+  def: 60,
+  agility: 58,
+  critChance: 0.14,
+  rank: 'A',
+  strengths: ['Highest Damage', 'Debuffs'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'A wrongfully imprisoned man reborn as pure vengeance, wreathed in shadow and green flame.',
+  skills: [
+    {
+      id: 'the-counts-wrath',
+      name: "The Count's Wrath",
+      description: "Years of imprisoned fury unleashed at once. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'the-counts-wrath',
+          name: "The Count's Wrath",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log("Edmond Dantès unleashes the Count's Wrath!");
+      },
+    },
+    {
+      id: 'shadow-of-vengeance',
+      name: 'Shadow of Vengeance',
+      description: "A vengeance that unravels the enemy's resolve. Lowers enemy Attack by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'shadow-of-vengeance',
+          name: 'Shadow of Vengeance',
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% ATK',
+        });
+        ctx.log('Edmond Dantès casts the Shadow of Vengeance!');
+      },
+    },
+    {
+      id: 'green-flame',
+      name: 'Green Flame',
+      description: "A cold fire that never forgives. Afflicts the enemy with a curse.",
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'green-flame',
+          name: 'Green Flame',
+          kind: 'dot',
+          potency: Math.round(ctx.enemy.maxHp * 0.05),
+          turnsRemaining: 3,
+          description: 'Burning with green flame',
+        });
+        ctx.log('Edmond Dantès wreathes the enemy in Green Flame!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'The Count of Monte Cristo: Vengeance Everlasting',
+    japaneseName: 'Le Comte de Monte-Cristo',
+    description: "A vengeance fourteen years in the making, delivered without a shred of mercy.",
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Edmond Dantès delivers Vengeance Everlasting!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Vengeance Everlasting' });
+    },
+  },
+};
+
+export const AVENGER_SERVANTS: ServantDefinition[] = [kama, nobunaga, edmondDantes];

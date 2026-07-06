@@ -627,6 +627,92 @@ const ozymandias: ServantDefinition = {
   },
 };
 
+const quetzalcoatl: ServantDefinition = {
+  id: 'quetzalcoatl',
+  name: 'Quetzalcoatl',
+  title: 'The Feathered Serpent',
+  className: 'Rider',
+  trueName: 'Quetzalcoatl',
+  maxHp: 1300,
+  atk: 115,
+  def: 65,
+  agility: 65,
+  critChance: 0.15,
+  rank: 'A+',
+  strengths: ['Highest Damage', 'Regeneration'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'A cheerful Aztec goddess who crashes down from the sky like a living, luchadora meteor.',
+  skills: [
+    {
+      id: 'luchadoras-spirit',
+      name: "Luchadora's Spirit",
+      description: "A wrestler's boundless cheer. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'luchadoras-spirit',
+          name: "Luchadora's Spirit",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log("Quetzalcoatl's Luchadora's Spirit soars!");
+      },
+    },
+    {
+      id: 'feathered-blessing',
+      name: 'Feathered Blessing',
+      description: "A goddess's grace mends the flesh. Recovers 8% max HP at the start of each of her next 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'feathered-blessing-regen',
+          name: 'Feathered Blessing',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.08),
+          turnsRemaining: 2,
+          description: 'Recovers 8% max HP per turn',
+        });
+        ctx.log('Quetzalcoatl grants a Feathered Blessing.');
+      },
+    },
+    {
+      id: 'meteor-drop',
+      name: 'Meteor Drop',
+      description: 'A wrestling move to end all wrestling moves. Next attack is a guaranteed critical hit.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'meteor-drop__critReady',
+          name: 'Meteor Drop',
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log('Quetzalcoatl winds up for a Meteor Drop!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Xiuhcoatl: The Crash of the Turquoise Serpent',
+    japaneseName: 'Xiuhcoatl',
+    description: 'A goddess crashing down from the heavens like a living, extinction-level meteor.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Quetzalcoatl crashes down as Xiuhcoatl!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Xiuhcoatl' });
+    },
+  },
+};
+
 export const RIDER_SERVANTS: ServantDefinition[] = [
   iskandar,
   bellerophon,
@@ -635,4 +721,5 @@ export const RIDER_SERVANTS: ServantDefinition[] = [
   medusa,
   noah,
   ozymandias,
+  quetzalcoatl,
 ];

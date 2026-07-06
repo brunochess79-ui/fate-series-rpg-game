@@ -569,6 +569,180 @@ const arjunaAlter: ServantDefinition = {
   },
 };
 
+const ibukiDouji: ServantDefinition = {
+  id: 'ibuki-douji',
+  name: 'Ibuki-Douji',
+  title: 'The Great Fiend of Ooe Mountain',
+  className: 'Berserker',
+  trueName: 'Ibuki-Douji',
+  maxHp: 1550,
+  atk: 128,
+  def: 58,
+  agility: 50,
+  critChance: 0.08,
+  rank: 'A+',
+  strengths: ['Highest HP', 'Highest Damage'],
+  weaknesses: ['Slow'],
+  passiveDescription: 'A divine avatar of the Yamata no Orochi, a titanic entity of raw, ancient Japanese power.',
+  skills: [
+    {
+      id: 'orochis-breath',
+      name: "Orochi's Breath",
+      description: "A fiend's poisonous breath weakens all it touches. Afflicts the enemy with poison.",
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'orochis-breath',
+          name: "Orochi's Breath",
+          kind: 'dot',
+          potency: Math.round(ctx.enemy.maxHp * 0.05),
+          turnsRemaining: 3,
+          description: 'Poisoned',
+        });
+        ctx.log("Ibuki-Douji exhales Orochi's Breath!");
+      },
+    },
+    {
+      id: 'eight-heads-fury',
+      name: "Eight Heads' Fury",
+      description: 'An eight-headed serpent lends its rage. Raises own Attack by 30% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'eight-heads-fury',
+          name: "Eight Heads' Fury",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.3,
+          turnsRemaining: 2,
+          description: '+30% ATK',
+        });
+        ctx.log("Ibuki-Douji channels the Eight Heads' Fury!");
+      },
+    },
+    {
+      id: 'mountain-fiends-hide',
+      name: "Mountain Fiend's Hide",
+      description: 'A hide that has weathered a thousand years. Raises own Defense by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'mountain-fiends-hide',
+          name: "Mountain Fiend's Hide",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% DEF',
+        });
+        ctx.log("Ibuki-Douji's Mountain Fiend's Hide hardens!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Yamata no Orochi: The Eight-Forked Ruin',
+    japaneseName: 'Yamata no Orochi',
+    description: 'A titanic serpent of ancient Japan, unleashed in eight simultaneous strikes.',
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Ibuki-Douji summons Yamata no Orochi!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'The Eight-Forked Ruin' });
+      const recoil = Math.round(ctx.self.maxHp * 0.05);
+      ctx.self.hp = ctx.self.hp - recoil;
+      ctx.log(`Ibuki-Douji takes ${recoil} damage from the strain of the serpent's fury.`);
+    },
+  },
+};
+
+const cuChulainnAlter: ServantDefinition = {
+  id: 'cu-chulainn-alter',
+  name: 'Cú Chulainn (Alter)',
+  title: 'The Hound of Culann, Berserk',
+  className: 'Berserker',
+  trueName: 'Cú Chulainn',
+  maxHp: 1350,
+  atk: 132,
+  def: 55,
+  agility: 62,
+  critChance: 0.12,
+  rank: 'A+',
+  strengths: ['Highest Damage', 'Sustain via Lifesteal'],
+  weaknesses: ['Low Defense'],
+  passiveDescription: 'A mutated, spiked nightmare of the Hound of Culann, fighting with pure, unrestrained brutality.',
+  skills: [
+    {
+      id: 'warp-spasm',
+      name: 'Warp Spasm',
+      description: "A berserk transformation that twists flesh and mind alike. Raises own Attack by 30% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'warp-spasm',
+          name: 'Warp Spasm',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.3,
+          turnsRemaining: 2,
+          description: '+30% ATK',
+        });
+        ctx.log('Cú Chulainn (Alter) is consumed by the Warp Spasm!');
+      },
+    },
+    {
+      id: 'spiked-thorn',
+      name: 'Spiked Thorn',
+      description: 'A crude, brutal strike that drains the wound it deals. Heals for 20% of the damage dealt.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Spiked Thorn' });
+        const healed = Math.round(dmg * 0.2);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Cú Chulainn (Alter) recovers ${healed} HP from the Spiked Thorn.`);
+      },
+    },
+    {
+      id: 'houndss-hunger',
+      name: "Hound's Hunger",
+      description: "A hunger that never abates. Lowers enemy Defense by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'hounds-hunger',
+          name: "Hound's Hunger",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log("Cú Chulainn (Alter)'s Hound's Hunger gnaws at the enemy's guard!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Curruid Coinchenn: The Twisted Spear',
+    japaneseName: 'Curruid Coinchenn',
+    description: 'A cursed spear thrown with all the brutality of a broken mind.',
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Cú Chulainn (Alter) hurls the Curruid Coinchenn!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Curruid Coinchenn' });
+    },
+  },
+};
+
 export const BERSERKER_SERVANTS: ServantDefinition[] = [
   heracles,
   lancelot,
@@ -576,4 +750,6 @@ export const BERSERKER_SERVANTS: ServantDefinition[] = [
   frankenstein,
   morganLeFay,
   arjunaAlter,
+  ibukiDouji,
+  cuChulainnAlter,
 ];
