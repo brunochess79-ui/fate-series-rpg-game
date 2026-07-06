@@ -3,6 +3,7 @@ import { SERVANT_LIST } from '../data/servants';
 import type { GameMode, SetupResult } from '../game';
 import type { ServantClass, ServantDefinition } from '../types';
 import { estimateNpDamage } from '../utils/npPreview';
+import { formatStanding, getStatRankings } from '../utils/statRanking';
 
 interface Props {
   mode: GameMode;
@@ -37,6 +38,8 @@ interface ServantCardProps {
 function ServantCard({ servant, selected, onSelect }: ServantCardProps) {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const npEstimate = useMemo(() => estimateNpDamage(servant), [servant]);
+  const rankings = useMemo(() => getStatRankings(SERVANT_LIST), []);
+  const standing = rankings.get(servant.id)!;
 
   const toggleDetails = () => setDetailsOpen((v) => !v);
 
@@ -84,12 +87,27 @@ function ServantCard({ servant, selected, onSelect }: ServantCardProps) {
         <div className="servant-card-details">
           <div className="servant-card-details-section">
             <div className="servant-card-details-label">Stats</div>
-            <div className="servant-card-details-stats">
-              <span>HP {servant.maxHp}</span>
-              <span>ATK {servant.atk}</span>
-              <span>DEF {servant.def}</span>
-              <span>AGI {servant.agility}</span>
-              <span>CRIT {Math.round(servant.critChance * 100)}%</span>
+            <div className="servant-card-details-stat-grid">
+              <div className="servant-card-stat-row">
+                <span className="servant-card-details-name">HP {servant.maxHp}</span>
+                <span className="servant-card-standing">{formatStanding(standing.maxHp)}</span>
+              </div>
+              <div className="servant-card-stat-row">
+                <span className="servant-card-details-name">ATK {servant.atk}</span>
+                <span className="servant-card-standing">{formatStanding(standing.atk)}</span>
+              </div>
+              <div className="servant-card-stat-row">
+                <span className="servant-card-details-name">DEF {servant.def}</span>
+                <span className="servant-card-standing">{formatStanding(standing.def)}</span>
+              </div>
+              <div className="servant-card-stat-row">
+                <span className="servant-card-details-name">AGI {servant.agility}</span>
+                <span className="servant-card-standing">{formatStanding(standing.agility)}</span>
+              </div>
+              <div className="servant-card-stat-row">
+                <span className="servant-card-details-name">CRIT {Math.round(servant.critChance * 100)}%</span>
+                <span className="servant-card-standing">{formatStanding(standing.critChance)}</span>
+              </div>
             </div>
           </div>
           <div className="servant-card-details-section">
@@ -113,6 +131,9 @@ function ServantCard({ servant, selected, onSelect }: ServantCardProps) {
               {npEstimate
                 ? `~${npEstimate.low}-${npEstimate.high} damage vs a baseline Defense of 65`
                 : 'Support/utility Noble Phantasm — no direct damage'}
+              {standing.npDamage && (
+                <span className="servant-card-standing"> ({formatStanding(standing.npDamage)} for NP damage)</span>
+              )}
             </div>
           </div>
         </div>

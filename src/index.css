@@ -328,10 +328,16 @@ button:disabled {
   color: var(--gold-bright);
   margin-bottom: 4px;
 }
-.servant-card-details-stats {
+.servant-card-details-stat-grid {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
+  gap: 3px;
+}
+.servant-card-stat-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
 }
 .servant-card-details-line {
   margin-top: 2px;
@@ -339,6 +345,11 @@ button:disabled {
 .servant-card-details-name {
   color: var(--text);
   font-weight: 600;
+}
+.servant-card-standing {
+  color: var(--gold-bright);
+  font-size: 11px;
+  white-space: nowrap;
 }
 .setup-actions {
   display: flex;
