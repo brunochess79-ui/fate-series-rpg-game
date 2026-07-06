@@ -986,6 +986,96 @@ const chenGong: ServantDefinition = {
   },
 };
 
+const anastasia: ServantDefinition = {
+  id: 'anastasia',
+  name: 'Anastasia Nikolaevna Romanova',
+  title: 'The Frost Duchess',
+  className: 'Caster',
+  trueName: 'Anastasia Nikolaevna Romanova',
+  maxHp: 1180,
+  atk: 96,
+  def: 62,
+  agility: 62,
+  critChance: 0.13,
+  rank: 'B+',
+  strengths: ['Debuffs', 'Sustain'],
+  weaknesses: ['Fragile Body'],
+  passiveDescription: 'A young duchess bearing a frozen crown, her sorrow given the shape of winter itself.',
+  skills: [
+    {
+      id: 'absolute-zero',
+      name: 'Absolute Zero',
+      description: 'A cold that stills even the will to move. Lowers enemy Agility by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'absolute-zero',
+          name: 'Absolute Zero',
+          kind: 'debuff',
+          stat: 'agility',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% Agility',
+        });
+        ctx.log('Anastasia freezes the battlefield with Absolute Zero!');
+      },
+    },
+    {
+      id: 'grand-duchess-grace',
+      name: "Grand Duchess's Grace",
+      description: 'A quiet dignity that steadies her wounds. Heals self for 19% max HP.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.19);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Anastasia draws on her Grand Duchess's Grace, healing ${healed} HP.`);
+      },
+    },
+    {
+      id: 'frozen-curse',
+      name: 'Frozen Curse',
+      description: 'A creeping frost afflicts the enemy. Applies a damage-over-time effect.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'frozen-curse',
+          name: 'Frozen Curse',
+          kind: 'dot',
+          potency: Math.round(ctx.enemy.maxHp * 0.04),
+          turnsRemaining: 3,
+          description: 'Afflicted by the Frozen Curse',
+        });
+        ctx.log('Anastasia lays a Frozen Curse upon the enemy!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'General Frost, Backup!',
+    japaneseName: 'General Frost, Backup!',
+    description: 'A frozen general summoned to bury the enemy in an endless winter.',
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Anastasia calls, General Frost, Backup!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { label: 'General Frost' });
+      applyStatus(ctx.enemy, {
+        id: 'general-frost-chill',
+        name: 'Frostbitten',
+        kind: 'debuff',
+        stat: 'atk',
+        amount: -0.15,
+        turnsRemaining: 2,
+        description: '-15% Attack',
+      });
+    },
+  },
+};
+
 export const CASTER_SERVANTS: ServantDefinition[] = [
   medea,
   circe,
@@ -998,4 +1088,5 @@ export const CASTER_SERVANTS: ServantDefinition[] = [
   zhugeLiang,
   scathachSkadi,
   chenGong,
+  anastasia,
 ];

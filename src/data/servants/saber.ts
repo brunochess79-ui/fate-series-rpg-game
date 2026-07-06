@@ -1122,6 +1122,88 @@ const charlemagne: ServantDefinition = {
   },
 };
 
+const saito: ServantDefinition = {
+  id: 'saito',
+  name: 'Saito Hajime',
+  title: 'The Wolf of Mibu',
+  className: 'Saber',
+  trueName: 'Saito Hajime',
+  maxHp: 1100,
+  atk: 100,
+  def: 62,
+  agility: 70,
+  critChance: 0.12,
+  rank: 'B+',
+  strengths: ['Speed', 'Critical Strikes'],
+  weaknesses: ['Low HP'],
+  passiveDescription: 'A relaxed swordsman whose blade moves faster than the eye can follow.',
+  skills: [
+    {
+      id: 'gunto-soujutsu',
+      name: 'Gunto Soujutsu',
+      description: 'A sword style honed for lethal speed. Raises own Crit Chance by 18% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'gunto-soujutsu',
+          name: 'Gunto Soujutsu',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.18,
+          turnsRemaining: 3,
+          description: '+18% Crit Chance',
+        });
+        ctx.log('Saito Hajime draws upon Gunto Soujutsu!');
+      },
+    },
+    {
+      id: 'oath-of-the-wolves',
+      name: 'Oath of the Wolves',
+      description: "A vow to the Shinsengumi's code. Raises own Attack by 25% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'oath-of-the-wolves',
+          name: 'Oath of the Wolves',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 3,
+          description: '+25% Attack',
+        });
+        ctx.log('Saito Hajime renews his Oath of the Wolves!');
+      },
+    },
+    {
+      id: 'aku-soku-zan',
+      name: 'Aku Soku Zan',
+      description: 'Swift death to evil, without hesitation. Deals a bonus strike.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'utility',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.log('Saito Hajime cuts down evil with Aku Soku Zan!');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: 'Aku Soku Zan' });
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Gyakuryuu: Left-Handed Reverse Blade',
+    japaneseName: 'Gyakuryuu',
+    description: "A left-handed reverse stroke, faster than the enemy's guard can respond.",
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Saito Hajime unleashes Gyakuryuu!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.4, { label: 'Gyakuryuu' });
+    },
+  },
+};
+
 export const SABER_SERVANTS: ServantDefinition[] = [
   arthur,
   siegfried,
@@ -1136,4 +1218,5 @@ export const SABER_SERVANTS: ServantDefinition[] = [
   gawain,
   richard,
   charlemagne,
+  saito,
 ];

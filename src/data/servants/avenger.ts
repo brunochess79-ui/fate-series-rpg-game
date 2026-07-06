@@ -422,4 +422,92 @@ const alcides: ServantDefinition = {
   },
 };
 
-export const AVENGER_SERVANTS: ServantDefinition[] = [kama, nobunaga, edmondDantes, jeanneAlter, alcides];
+const kagekiyo: ServantDefinition = {
+  id: 'kagekiyo',
+  name: 'Taira no Kagekiyo',
+  title: 'The Vengeful Spirit',
+  className: 'Avenger',
+  trueName: 'Taira no Kagekiyo',
+  maxHp: 1050,
+  atk: 95,
+  def: 58,
+  agility: 55,
+  critChance: 0.1,
+  rank: 'B',
+  strengths: ['Sustain', 'Damage over Time'],
+  weaknesses: ['Consumed by Hatred'],
+  passiveDescription: 'A samurai spirit who tore out his own eyes rather than watch his enemies triumph.',
+  skills: [
+    {
+      id: 'unyielding-hatred',
+      name: 'Unyielding Hatred',
+      description: 'A grudge that has outlived an era. Raises own Attack by 25% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'unyielding-hatred',
+          name: 'Unyielding Hatred',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 3,
+          description: '+25% Attack',
+        });
+        ctx.log('Taira no Kagekiyo burns with Unyielding Hatred!');
+      },
+    },
+    {
+      id: 'curse-of-the-genji',
+      name: 'Curse of the Genji',
+      description: 'A lingering grudge afflicts the enemy. Applies a damage-over-time effect.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'curse-of-the-genji',
+          name: 'Curse of the Genji',
+          kind: 'dot',
+          potency: Math.round(ctx.enemy.maxHp * 0.045),
+          turnsRemaining: 3,
+          description: 'Afflicted by the Curse of the Genji',
+        });
+        ctx.log('Taira no Kagekiyo curses the enemy with the Curse of the Genji!');
+      },
+    },
+    {
+      id: 'blinded-resolve',
+      name: 'Blinded Resolve',
+      description: 'Having torn out his own eyes, only will remains. Heals self for 18% max HP.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.18);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Taira no Kagekiyo endures through Blinded Resolve, healing ${healed} HP.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Vengeful Blade of the Taira',
+    japaneseName: 'Vengeful Blade of the Taira',
+    description: 'A final grudge, cut loose in a single furious strike.',
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Taira no Kagekiyo swings the Vengeful Blade of the Taira!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.2, { label: 'Vengeful Blade of the Taira' });
+    },
+  },
+};
+
+export const AVENGER_SERVANTS: ServantDefinition[] = [
+  kama,
+  nobunaga,
+  edmondDantes,
+  jeanneAlter,
+  alcides,
+  kagekiyo,
+];

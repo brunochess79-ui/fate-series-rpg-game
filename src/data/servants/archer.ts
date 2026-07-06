@@ -749,6 +749,185 @@ const ishtar: ServantDefinition = {
   },
 };
 
+const ashwatthama: ServantDefinition = {
+  id: 'ashwatthama',
+  name: 'Ashwatthama',
+  title: 'The Immortal Rage',
+  className: 'Archer',
+  trueName: 'Ashwatthama',
+  maxHp: 1150,
+  atk: 108,
+  def: 60,
+  agility: 62,
+  critChance: 0.13,
+  rank: 'A',
+  strengths: ['Sustain', 'Debuffs'],
+  weaknesses: ['Cursed Immortality'],
+  passiveDescription: "A warrior cursed to wander forever, his father's death fueling an endless fury.",
+  skills: [
+    {
+      id: 'cursed-immortality',
+      name: 'Cursed Immortality',
+      description: 'A wound that can never fully close. Heals self for 22% max HP.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.22);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Ashwatthama endures through his Cursed Immortality, healing ${healed} HP.`);
+      },
+    },
+    {
+      id: 'brahmashirsha-warning',
+      name: 'Brahmashirsha Astra Warning',
+      description: "A promise of annihilation, foretold before it's loosed. Lowers enemy Defense by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'brahmashirsha-warning',
+          name: 'Brahmashirsha Astra Warning',
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% Defense',
+        });
+        ctx.log('Ashwatthama issues the Brahmashirsha Astra Warning!');
+      },
+    },
+    {
+      id: 'jewel-of-wrath',
+      name: 'Jewel of Wrath',
+      description: "A gem embedded in his brow, burning with his father's memory. Raises own Attack by 28% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'jewel-of-wrath',
+          name: 'Jewel of Wrath',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.28,
+          turnsRemaining: 3,
+          description: '+28% Attack',
+        });
+        ctx.log('Ashwatthama channels rage through the Jewel of Wrath!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Brahmastra: Doom of the Universe',
+    japaneseName: 'Brahmastra',
+    description: 'A weapon capable of unmaking creation itself, loosed toward a single foe.',
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Ashwatthama unleashes Brahmastra!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'Brahmastra' });
+    },
+  },
+};
+
+const moriarty: ServantDefinition = {
+  id: 'moriarty',
+  name: 'James Moriarty',
+  title: 'The Napoleon of Crime',
+  className: 'Archer',
+  trueName: 'James Moriarty',
+  maxHp: 1150,
+  atk: 112,
+  def: 58,
+  agility: 68,
+  critChance: 0.16,
+  rank: 'A',
+  strengths: ['Debuffs', 'Critical Strikes'],
+  weaknesses: ['Overreliance on Schemes'],
+  passiveDescription: 'A criminal mastermind whose every plan accounts for the plans of others.',
+  skills: [
+    {
+      id: 'criminal-mastermind',
+      name: 'Criminal Mastermind',
+      description: "A scheme so perfect it throws off the enemy's aim. Lowers enemy Crit Chance by 15% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'criminal-mastermind',
+          name: 'Criminal Mastermind',
+          kind: 'debuff',
+          stat: 'critChance',
+          amount: -0.15,
+          turnsRemaining: 3,
+          description: '-15% Crit Chance',
+        });
+        ctx.log("James Moriarty's Criminal Mastermind unsettles the enemy!");
+      },
+    },
+    {
+      id: 'web-of-crime',
+      name: 'Web of Crime',
+      description: 'A net of schemes, tightening slowly. Applies a damage-over-time effect.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'web-of-crime',
+          name: 'Web of Crime',
+          kind: 'dot',
+          potency: Math.round(ctx.enemy.maxHp * 0.04),
+          turnsRemaining: 3,
+          description: 'Caught in the Web of Crime',
+        });
+        ctx.log('James Moriarty ensnares the enemy in his Web of Crime!');
+      },
+    },
+    {
+      id: 'reichenbach-gambit',
+      name: 'Reichenbach Gambit',
+      description: 'A calculated ambush, planned to the last detail. Raises own Crit Chance by 20% for 3 turns.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'reichenbach-gambit',
+          name: 'Reichenbach Gambit',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Crit Chance',
+        });
+        ctx.log('James Moriarty springs the Reichenbach Gambit!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'The Norwood Plot',
+    japaneseName: 'The Norwood Plot',
+    description: 'A weaponized coffin, opened only once its target is already trapped.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('James Moriarty triggers The Norwood Plot!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'The Norwood Plot' });
+      applyStatus(ctx.enemy, {
+        id: 'norwood-exposed',
+        name: 'Norwood Exposed',
+        kind: 'debuff',
+        stat: 'def',
+        amount: -0.15,
+        turnsRemaining: 2,
+        description: '-15% Defense',
+      });
+    },
+  },
+};
+
 export const ARCHER_SERVANTS: ServantDefinition[] = [
   arash,
   robinHood,
@@ -759,4 +938,6 @@ export const ARCHER_SERVANTS: ServantDefinition[] = [
   orion,
   tametomo,
   ishtar,
+  ashwatthama,
+  moriarty,
 ];

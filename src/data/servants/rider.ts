@@ -793,6 +793,95 @@ const astolfo: ServantDefinition = {
   },
 };
 
+const drake: ServantDefinition = {
+  id: 'drake',
+  name: 'Francis Drake',
+  title: 'The Pirate Queen',
+  className: 'Rider',
+  trueName: 'Francis Drake',
+  maxHp: 1150,
+  atk: 112,
+  def: 58,
+  agility: 68,
+  critChance: 0.14,
+  rank: 'A',
+  strengths: ['Buffs', 'Aggression'],
+  weaknesses: ['Overextension'],
+  passiveDescription: 'A privateer queen who claims the seas belong to whoever is bold enough to take them.',
+  skills: [
+    {
+      id: 'pioneer-of-the-stars',
+      name: 'Pioneer of the Stars',
+      description: 'A course charted by starlight alone. Raises own Agility by 25% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'pioneer-of-the-stars',
+          name: 'Pioneer of the Stars',
+          kind: 'buff',
+          stat: 'agility',
+          amount: 0.25,
+          turnsRemaining: 3,
+          description: '+25% Agility',
+        });
+        ctx.log('Francis Drake charts a course as Pioneer of the Stars!');
+      },
+    },
+    {
+      id: 'golden-hind',
+      name: 'The Golden Hind',
+      description: "Her ship's hull, reinforced beyond reason. Raises own Defense by 22% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'golden-hind',
+          name: 'The Golden Hind',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.22,
+          turnsRemaining: 3,
+          description: '+22% Defense',
+        });
+        ctx.log('Francis Drake braces behind the Golden Hind!');
+      },
+    },
+    {
+      id: 'privateer-flag',
+      name: "Privateer's Flag",
+      description: 'A flag raised that grants license to plunder. Lowers enemy Defense by 18% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'privateer-flag',
+          name: "Privateer's Flag",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.18,
+          turnsRemaining: 3,
+          description: '-18% Defense',
+        });
+        ctx.log("Francis Drake raises her Privateer's Flag!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Golden Hind: Sunny Day, Fair Wind, Following Sea',
+    japaneseName: 'Golden Hind',
+    description: 'A broadside from the Golden Hind, guns roaring in unison.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Francis Drake fires a full broadside from the Golden Hind!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Golden Hind' });
+    },
+  },
+};
+
 export const RIDER_SERVANTS: ServantDefinition[] = [
   iskandar,
   bellerophon,
@@ -803,4 +892,5 @@ export const RIDER_SERVANTS: ServantDefinition[] = [
   ozymandias,
   quetzalcoatl,
   astolfo,
+  drake,
 ];
