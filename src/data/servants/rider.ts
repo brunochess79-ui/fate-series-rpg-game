@@ -713,6 +713,86 @@ const quetzalcoatl: ServantDefinition = {
   },
 };
 
+const astolfo: ServantDefinition = {
+  id: 'astolfo',
+  name: 'Astolfo',
+  title: 'The Paladin of Charlemagne',
+  className: 'Rider',
+  trueName: 'Astolfo',
+  maxHp: 1150,
+  atk: 95,
+  def: 55,
+  agility: 90,
+  critChance: 0.15,
+  rank: 'B+',
+  strengths: ['Speed', 'Evasion'],
+  weaknesses: ['Low Damage'],
+  passiveDescription: "A carefree Paladin of Charlemagne, riding a hippogriff and beloved across the fandom.",
+  skills: [
+    {
+      id: 'hippogriff-charge',
+      name: 'Hippogriff Charge',
+      description: 'A carefree charge on hippogriff-back. Raises own Attack by 20% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'hippogriff-charge',
+          name: 'Hippogriff Charge',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 2,
+          description: '+20% ATK',
+        });
+        ctx.log('Astolfo charges in on Hippogriff-back!');
+      },
+    },
+    {
+      id: 'evasive-loop',
+      name: 'Evasive Loop',
+      description: 'A carefree dodge, laughing the whole way. Guarantees the next enemy attack will miss entirely.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'evasive-loop-evade',
+          name: 'Evasive Loop',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
+        });
+        ctx.log('Astolfo loops out of harm\'s way!');
+      },
+    },
+    {
+      id: 'paladins-cheer',
+      name: "Paladin's Cheer",
+      description: "A cheerful resolve mends every wound. Heals self for 16% max HP.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.16);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Astolfo's Paladin's Cheer heals ${healed} HP.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: "Hippogriff: La Black Luna",
+    japaneseName: 'La Black Luna',
+    description: "A hippogriff's carefree charge, ending the fight before anyone realizes it started.",
+    rank: 'B',
+    effect: (ctx) => {
+      ctx.log('Astolfo charges in with La Black Luna!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { label: 'La Black Luna' });
+    },
+  },
+};
+
 export const RIDER_SERVANTS: ServantDefinition[] = [
   iskandar,
   bellerophon,
@@ -722,4 +802,5 @@ export const RIDER_SERVANTS: ServantDefinition[] = [
   noah,
   ozymandias,
   quetzalcoatl,
+  astolfo,
 ];

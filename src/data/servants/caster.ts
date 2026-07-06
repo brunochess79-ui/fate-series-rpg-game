@@ -540,6 +540,97 @@ const solomon: ServantDefinition = {
   },
 };
 
+const tamamo: ServantDefinition = {
+  id: 'tamamo',
+  name: 'Tamamo-no-Mae',
+  title: 'The Nine-Tailed Fox',
+  className: 'Caster',
+  trueName: 'Tamamo-no-Mae',
+  maxHp: 1100,
+  atk: 100,
+  def: 55,
+  agility: 62,
+  critChance: 0.18,
+  rank: 'B+',
+  strengths: ['Critical Hits', 'Regeneration'],
+  weaknesses: ['Low Defense'],
+  passiveDescription: 'A witty, devoted nine-tailed fox spirit, eternally rivaling Nero for her Master\'s affection.',
+  skills: [
+    {
+      id: 'foxfire-charm',
+      name: 'Foxfire Charm',
+      description: 'A fox-fire that sharpens the senses. Raises own crit rate for 2 turns.',
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'foxfire-charm',
+          name: 'Foxfire Charm',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.4,
+          turnsRemaining: 2,
+          description: '+40% crit chance scaling',
+        });
+        ctx.log('Tamamo-no-Mae kindles a Foxfire Charm!');
+      },
+    },
+    {
+      id: 'nine-tails-blessing',
+      name: "Nine Tails' Blessing",
+      description: "A fox spirit's devotion mends every wound. Recovers 7% max HP at the start of each of her next 3 turns.",
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'nine-tails-blessing-regen',
+          name: "Nine Tails' Blessing",
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.07),
+          turnsRemaining: 3,
+          description: 'Recovers 7% max HP per turn',
+        });
+        ctx.log("Tamamo-no-Mae grants Nine Tails' Blessing.");
+      },
+    },
+    {
+      id: 'vulpine-mischief',
+      name: 'Vulpine Mischief',
+      description: "A trickster's charm unravels the enemy's guard. Lowers enemy Defense by 18% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'vulpine-mischief',
+          name: 'Vulpine Mischief',
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.18,
+          turnsRemaining: 3,
+          description: '-18% DEF',
+        });
+        ctx.log('Tamamo-no-Mae plays a bit of Vulpine Mischief!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: "Song of Kayo-Manaka: The Fox's Blessing",
+    japaneseName: 'Kayo-Manaka',
+    description: "A nine-tailed fox's ancient song, blessing an ally and searing an enemy in the same breath.",
+    rank: 'B',
+    effect: (ctx) => {
+      ctx.log('Tamamo-no-Mae sings the Song of Kayo-Manaka!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.7, { label: 'Kayo-Manaka' });
+      const healed = Math.round(ctx.self.maxHp * 0.15);
+      ctx.self.hp = ctx.self.hp + healed;
+      ctx.log(`Tamamo-no-Mae recovers ${healed} HP from her own song.`);
+    },
+  },
+};
+
 export const CASTER_SERVANTS: ServantDefinition[] = [
   medea,
   circe,
@@ -547,4 +638,5 @@ export const CASTER_SERVANTS: ServantDefinition[] = [
   nostradamus,
   gillesDeRais,
   solomon,
+  tamamo,
 ];

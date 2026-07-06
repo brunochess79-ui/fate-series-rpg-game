@@ -580,6 +580,175 @@ const orion: ServantDefinition = {
   },
 };
 
+const tametomo: ServantDefinition = {
+  id: 'tametomo',
+  name: 'Minamoto no Tametomo',
+  title: 'The Mechanical Archer-Saint',
+  className: 'Archer',
+  trueName: 'Minamoto no Tametomo',
+  maxHp: 1300,
+  atk: 128,
+  def: 60,
+  agility: 45,
+  critChance: 0.1,
+  rank: 'A+',
+  strengths: ['Highest Damage', 'Highest HP'],
+  weaknesses: ['Slow'],
+  passiveDescription: 'A towering mechanical samurai fitted with a star-shattering railgun bow.',
+  skills: [
+    {
+      id: 'iron-bow-calibration',
+      name: 'Iron Bow Calibration',
+      description: "A mechanical adjustment sharpens every shot. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'iron-bow-calibration',
+          name: 'Iron Bow Calibration',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('Minamoto no Tametomo calibrates the Iron Bow!');
+      },
+    },
+    {
+      id: 'sundering-shot',
+      name: 'Sundering Shot',
+      description: "A railgun shot that shatters any guard. Lowers enemy Defense by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'sundering-shot',
+          name: 'Sundering Shot',
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log('Minamoto no Tametomo fires a Sundering Shot!');
+      },
+    },
+    {
+      id: 'plated-hide',
+      name: 'Plated Hide',
+      description: 'A mechanical frame built to endure. Raises own Defense by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'plated-hide',
+          name: 'Plated Hide',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% DEF',
+        });
+        ctx.log("Minamoto no Tametomo's Plated Hide locks into place!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Chinzei Hachiro Tametomo: The Star-Shattering Shot',
+    japaneseName: 'Chinzei Hachiro',
+    description: 'A single railgun shot loosed with enough force to shatter a star.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Minamoto no Tametomo fires the Star-Shattering Shot!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'The Star-Shattering Shot' });
+    },
+  },
+};
+
+const ishtar: ServantDefinition = {
+  id: 'ishtar',
+  name: 'Ishtar',
+  title: 'The Goddess of Venus',
+  className: 'Archer',
+  trueName: 'Ishtar',
+  maxHp: 1150,
+  atk: 118,
+  def: 58,
+  agility: 62,
+  critChance: 0.16,
+  rank: 'A',
+  strengths: ['Highest Damage', 'Critical Hits'],
+  weaknesses: ['Low HP'],
+  passiveDescription: 'A chaotic goddess of Venus, borrowing a mortal vessel to walk among Masters once more.',
+  skills: [
+    {
+      id: 'gems-of-heaven',
+      name: 'Gems of Heaven',
+      description: "A goddess's vanity is not without power. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'gems-of-heaven',
+          name: 'Gems of Heaven',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log("Ishtar's Gems of Heaven glimmer with power!");
+      },
+    },
+    {
+      id: 'venus-blessing',
+      name: "Venus's Blessing",
+      description: "A goddess's grace mends the flesh. Heals self for 16% max HP.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.16);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Ishtar's Blessing heals ${healed} HP.`);
+      },
+    },
+    {
+      id: 'bratty-decree',
+      name: 'Bratty Decree',
+      description: 'A tantrum no mortal dares refuse. Next attack is a guaranteed critical hit.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'bratty-decree__critReady',
+          name: 'Bratty Decree',
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log('Ishtar issues a Bratty Decree.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: "An Gal Ta Priority: Heaven's Chosen Vessel",
+    japaneseName: 'An Gal Ta Priority',
+    description: "A goddess's true form, unleashed upon a world too small to hold her.",
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log("Ishtar unleashes An Gal Ta Priority!");
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'An Gal Ta Priority' });
+    },
+  },
+};
+
 export const ARCHER_SERVANTS: ServantDefinition[] = [
   arash,
   robinHood,
@@ -588,4 +757,6 @@ export const ARCHER_SERVANTS: ServantDefinition[] = [
   gilgamesh,
   emiya,
   orion,
+  tametomo,
+  ishtar,
 ];

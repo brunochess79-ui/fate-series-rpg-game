@@ -619,6 +619,253 @@ const mordred: ServantDefinition = {
   },
 };
 
+const yagyuMunenori: ServantDefinition = {
+  id: 'yagyu-munenori',
+  name: 'Yagyu Munenori',
+  title: 'The Sword Master of the Shogunate',
+  className: 'Saber',
+  trueName: 'Yagyu Munenori',
+  maxHp: 1050,
+  atk: 115,
+  def: 62,
+  agility: 72,
+  critChance: 0.2,
+  rank: 'A',
+  strengths: ['Critical Hits', 'Speed'],
+  weaknesses: ['Low HP'],
+  passiveDescription: 'A cold, calculated master of the sword, disciplined enough to end a duel with a single stroke.',
+  skills: [
+    {
+      id: 'no-sword',
+      name: 'No-Sword',
+      description: "A stance that turns any weapon against its wielder. Raises own crit rate for 2 turns.",
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'no-sword',
+          name: 'No-Sword',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.35,
+          turnsRemaining: 2,
+          description: '+35% crit chance scaling',
+        });
+        ctx.log('Yagyu Munenori takes the stance of No-Sword.');
+      },
+    },
+    {
+      id: 'shogunates-discipline',
+      name: "Shogunate's Discipline",
+      description: 'A discipline that has never once wavered. Raises own Defense by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'shogunates-discipline',
+          name: "Shogunate's Discipline",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% DEF',
+        });
+        ctx.log("Yagyu Munenori's Shogunate's Discipline holds firm!");
+      },
+    },
+    {
+      id: 'single-stroke',
+      name: 'Single Stroke',
+      description: 'A duel ended before it truly began. Next attack is a guaranteed critical hit.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'single-stroke__critReady',
+          name: 'Single Stroke',
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log('Yagyu Munenori prepares a Single Stroke.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Shinkage-ryu: The Sword That Cuts Nothing',
+    japaneseName: 'Shinkage-ryu',
+    description: 'A blade drawn to end the fight without a single wasted motion.',
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Yagyu Munenori draws Shinkage-ryu!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { guaranteedCrit: true, label: 'Shinkage-ryu' });
+    },
+  },
+};
+
+const nero: ServantDefinition = {
+  id: 'nero',
+  name: 'Nero Claudius',
+  title: 'The Emperor of Roses',
+  className: 'Saber',
+  trueName: 'Nero Claudius',
+  maxHp: 1100,
+  atk: 105,
+  def: 58,
+  agility: 60,
+  critChance: 0.2,
+  rank: 'B+',
+  strengths: ['Critical Hits'],
+  weaknesses: ['Low Defense'],
+  passiveDescription: 'A theatrical Emperor of Rome, loud, passionate, and utterly convinced of her own genius.',
+  skills: [
+    {
+      id: 'imperial-privilege',
+      name: 'Imperial Privilege',
+      description: "An emperor's authority heals every wound. Heals self for 18% max HP.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.18);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Nero Claudius invokes Imperial Privilege, healing ${healed} HP.`);
+      },
+    },
+    {
+      id: 'rooms-of-guest',
+      name: "Roomu no Kyaku",
+      description: "A theatrical flourish raises her spirits. Raises own Attack by 22% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'rooms-of-guest',
+          name: "Roomu no Kyaku",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.22,
+          turnsRemaining: 2,
+          description: '+22% ATK',
+        });
+        ctx.log('Nero Claudius performs a rousing flourish!');
+      },
+    },
+    {
+      id: 'a-flash-of-blades-song',
+      name: "A Flash of Blade's Song",
+      description: 'A performer never misses her cue. Next attack is a guaranteed critical hit.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'blades-song__critReady',
+          name: "A Flash of Blade's Song",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log('Nero Claudius readies a Flash of Blade\'s Song.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Aestus Domus Aurea: The Golden Theater',
+    japaneseName: 'Aestus Domus Aurea',
+    description: "A golden palace of flame, raised as the final act of the Emperor's stage.",
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Nero Claudius raises Aestus Domus Aurea!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Aestus Domus Aurea' });
+    },
+  },
+};
+
+const okitaSouji: ServantDefinition = {
+  id: 'okita-souji',
+  name: 'Okita Souji',
+  title: 'The First Unit Captain of the Shinsengumi',
+  className: 'Saber',
+  trueName: 'Okita Souji',
+  maxHp: 950,
+  atk: 122,
+  def: 52,
+  agility: 88,
+  critChance: 0.25,
+  rank: 'A+',
+  strengths: ['Highest Crit Rate', 'Speed'],
+  weaknesses: ['Low HP', 'Fragile'],
+  passiveDescription: "A deadly Shinsengumi captain whose swordplay is undercut only by her own failing health.",
+  skills: [
+    {
+      id: 'mumyo-sinken',
+      name: 'Mumyo Sinken',
+      description: 'A technique too fast for the eye to follow. Raises own crit rate for 2 turns.',
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'mumyo-sinken',
+          name: 'Mumyo Sinken',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.35,
+          turnsRemaining: 2,
+          description: '+35% crit chance scaling',
+        });
+        ctx.log('Okita Souji unleashes Mumyo Sinken!');
+      },
+    },
+    {
+      id: 'threefold-lotus-strike',
+      name: 'Threefold Lotus Strike',
+      description: 'Three strikes disguised as one. Deals 1.2x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Threefold Lotus Strike' });
+        ctx.log('Okita Souji lands a Threefold Lotus Strike!');
+      },
+    },
+    {
+      id: 'blood-cough',
+      name: 'Endure the Illness',
+      description: 'A will stronger than her failing lungs. Recovers 6% max HP at the start of each of her next 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'endure-the-illness-regen',
+          name: 'Endure the Illness',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.06),
+          turnsRemaining: 2,
+          description: 'Recovers 6% max HP per turn',
+        });
+        ctx.log('Okita Souji fights through her illness.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Kikuichimonji: Three-Part Certain Kill Technique',
+    japaneseName: 'Kikuichimonji',
+    description: 'A blade strike so fast it lands three times before the eye can register one.',
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Okita Souji unleashes Kikuichimonji!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { guaranteedCrit: true, label: 'Kikuichimonji' });
+    },
+  },
+};
+
 export const SABER_SERVANTS: ServantDefinition[] = [
   arthur,
   siegfried,
@@ -627,4 +874,7 @@ export const SABER_SERVANTS: ServantDefinition[] = [
   altera,
   sengoMuramasa,
   mordred,
+  yagyuMunenori,
+  nero,
+  okitaSouji,
 ];

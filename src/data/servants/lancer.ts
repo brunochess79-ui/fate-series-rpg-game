@@ -707,6 +707,94 @@ const melusine: ServantDefinition = {
   },
 };
 
+const ereshkigal: ServantDefinition = {
+  id: 'ereshkigal',
+  name: 'Ereshkigal',
+  title: 'The Goddess of the Underworld',
+  className: 'Lancer',
+  trueName: 'Ereshkigal',
+  maxHp: 1200,
+  atk: 112,
+  def: 65,
+  agility: 55,
+  critChance: 0.12,
+  rank: 'A',
+  strengths: ['Debuffs', 'Regeneration'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The tsundere Goddess of the Underworld, ruling the dead alone with a heart she refuses to admit is kind.',
+  skills: [
+    {
+      id: 'nins-authority',
+      name: "Nin's Authority",
+      description: "An underworld queen's authority saps the enemy's strength. Lowers enemy Attack by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'nins-authority',
+          name: "Nin's Authority",
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% ATK',
+        });
+        ctx.log("Ereshkigal invokes Nin's Authority!");
+      },
+    },
+    {
+      id: 'irkallas-embrace',
+      name: "Irkalla's Embrace",
+      description: "The land of no return sustains its queen. Recovers 8% max HP at the start of each of her next 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'irkallas-embrace-regen',
+          name: "Irkalla's Embrace",
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.08),
+          turnsRemaining: 2,
+          description: 'Recovers 8% max HP per turn',
+        });
+        ctx.log("Ereshkigal calls upon Irkalla's Embrace.");
+      },
+    },
+    {
+      id: 'seven-gates-decree',
+      name: 'Seven Gates Decree',
+      description: "A decree that strips the enemy bare, gate by gate. Lowers enemy Defense by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'seven-gates-decree',
+          name: 'Seven Gates Decree',
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log('Ereshkigal issues the Seven Gates Decree!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Kur: Beyond the Realm of Death',
+    japaneseName: 'Kur',
+    description: 'A judgment cast from the underworld itself, dragging the enemy toward the land of no return.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Ereshkigal casts Kur: Beyond the Realm of Death!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'Kur' });
+    },
+  },
+};
+
 export const LANCER_SERVANTS: ServantDefinition[] = [
   cuChulainn,
   diarmuid,
@@ -716,4 +804,5 @@ export const LANCER_SERVANTS: ServantDefinition[] = [
   enkidu,
   scathach,
   melusine,
+  ereshkigal,
 ];

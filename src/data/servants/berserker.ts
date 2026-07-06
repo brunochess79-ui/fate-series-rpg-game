@@ -743,6 +743,91 @@ const cuChulainnAlter: ServantDefinition = {
   },
 };
 
+const hijikata: ServantDefinition = {
+  id: 'hijikata',
+  name: 'Hijikata Toshizo',
+  title: 'The Demon Vice-Commander',
+  className: 'Berserker',
+  trueName: 'Hijikata Toshizo',
+  maxHp: 1250,
+  atk: 118,
+  def: 60,
+  agility: 62,
+  critChance: 0.14,
+  rank: 'A+',
+  strengths: ['Sustain via Lifesteal', 'Regeneration'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The Shinsengumi Vice-Commander who refuses to die, growing more dangerous the closer death comes.',
+  skills: [
+    {
+      id: 'demons-resolve',
+      name: "Demon's Resolve",
+      description: 'A refusal to fall that only strengthens with every wound. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'demons-resolve',
+          name: "Demon's Resolve",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log("Hijikata Toshizo's Demon's Resolve hardens!");
+      },
+    },
+    {
+      id: 'shinsengumi-blade',
+      name: 'Shinsengumi Blade',
+      description: 'A commander leading from the front line. Deals 1.3x damage, and heals for 20% of the damage dealt.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Shinsengumi Blade' });
+        const healed = Math.round(dmg * 0.2);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Hijikata Toshizo recovers ${healed} HP from the exchange.`);
+      },
+    },
+    {
+      id: 'unyielding-vice-commander',
+      name: 'Unyielding Vice-Commander',
+      description: "A vow to lead the Shinsengumi to the very end. Recovers 8% max HP at the start of each of his next 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'unyielding-vice-commander-regen',
+          name: 'Unyielding Vice-Commander',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.08),
+          turnsRemaining: 2,
+          description: 'Recovers 8% max HP per turn',
+        });
+        ctx.log('Hijikata Toshizo refuses to fall.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Shinsengumi: Til the Last Man Falls',
+    japaneseName: 'Shinsengumi',
+    description: "A final charge, leading his men even as a demon in a man's uniform.",
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log("Hijikata Toshizo charges: Til the Last Man Falls!");
+      const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'Til the Last Man Falls' });
+      const healed = Math.round(dmg * 0.15);
+      ctx.self.hp = ctx.self.hp + healed;
+      ctx.log(`Hijikata Toshizo recovers ${healed} HP, refusing to fall.`);
+    },
+  },
+};
+
 export const BERSERKER_SERVANTS: ServantDefinition[] = [
   heracles,
   lancelot,
@@ -752,4 +837,5 @@ export const BERSERKER_SERVANTS: ServantDefinition[] = [
   arjunaAlter,
   ibukiDouji,
   cuChulainnAlter,
+  hijikata,
 ];

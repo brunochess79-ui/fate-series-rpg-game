@@ -259,4 +259,92 @@ const edmondDantes: ServantDefinition = {
   },
 };
 
-export const AVENGER_SERVANTS: ServantDefinition[] = [kama, nobunaga, edmondDantes];
+const jeanneAlter: ServantDefinition = {
+  id: 'jeanne-alter',
+  name: "Jeanne d'Arc (Alter)",
+  title: 'The Dragon Witch',
+  className: 'Avenger',
+  trueName: "Jeanne d'Arc",
+  maxHp: 1250,
+  atk: 125,
+  def: 62,
+  agility: 60,
+  critChance: 0.15,
+  rank: 'A+',
+  strengths: ['Highest Damage', 'Debuffs'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'A cynical, fire-wreathed corruption of the Holy Maiden, burning with resentment for the world that failed her.',
+  skills: [
+    {
+      id: 'black-barrel-2',
+      name: 'Black Barrel',
+      description: "A dragon's fury sharpens every strike. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'jalter-black-barrel',
+          name: 'Black Barrel',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log("Jeanne d'Arc (Alter) bares her Black Barrel!");
+      },
+    },
+    {
+      id: 'dragon-witchs-scorn',
+      name: "Dragon Witch's Scorn",
+      description: "A scorn for the world that betrayed her. Lowers enemy Attack by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'dragon-witchs-scorn',
+          name: "Dragon Witch's Scorn",
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% ATK',
+        });
+        ctx.log("Jeanne d'Arc (Alter) unleashes her Scorn upon the enemy!");
+      },
+    },
+    {
+      id: 'flames-of-resentment',
+      name: 'Flames of Resentment',
+      description: 'A dragon-fire that never forgives. Afflicts the enemy with a curse.',
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'flames-of-resentment',
+          name: 'Flames of Resentment',
+          kind: 'dot',
+          potency: Math.round(ctx.enemy.maxHp * 0.05),
+          turnsRemaining: 3,
+          description: 'Burning with resentment',
+        });
+        ctx.log("Jeanne d'Arc (Alter) wreathes the enemy in Flames of Resentment!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Ruler of the End: Formal Craft',
+    japaneseName: 'Formal Craft',
+    description: "A dragon's judgment, delivered in a single black-flame detonation.",
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log("Jeanne d'Arc (Alter) unleashes Formal Craft!");
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'Formal Craft' });
+    },
+  },
+};
+
+export const AVENGER_SERVANTS: ServantDefinition[] = [kama, nobunaga, edmondDantes, jeanneAlter];
