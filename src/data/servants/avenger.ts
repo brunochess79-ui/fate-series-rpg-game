@@ -347,4 +347,79 @@ const jeanneAlter: ServantDefinition = {
   },
 };
 
-export const AVENGER_SERVANTS: ServantDefinition[] = [kama, nobunaga, edmondDantes, jeanneAlter];
+const alcides: ServantDefinition = {
+  id: 'alcides',
+  name: 'Alcides',
+  title: 'The Twelve Labors, Broken',
+  className: 'Avenger',
+  trueName: 'Heracles',
+  maxHp: 1400,
+  atk: 128,
+  def: 58,
+  agility: 55,
+  critChance: 0.1,
+  rank: 'A+',
+  strengths: ['Raw Power', 'Sustain'],
+  weaknesses: ['No Escape'],
+  passiveDescription: 'A hero robbed of his sanity and his glory alike, raging at the gods who did it.',
+  skills: [
+    {
+      id: 'broken-fetters',
+      name: 'Broken Fetters',
+      description: 'Every chain meant to bind him has failed. Raises own Attack by 30% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'broken-fetters',
+          name: 'Broken Fetters',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.3,
+          turnsRemaining: 3,
+          description: '+30% Attack',
+        });
+        ctx.log('Alcides shatters his Broken Fetters, raging with power!');
+      },
+    },
+    {
+      id: 'twelve-trials',
+      name: 'Twelve Trials',
+      description: 'A hero who has already survived every labor set before him. Deals a bonus strike.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'utility',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.log('Alcides recalls his Twelve Trials and strikes again!');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.5, { label: 'Twelve Trials' });
+      },
+    },
+    {
+      id: 'undying-wrath',
+      name: 'Undying Wrath',
+      description: 'A berserker fury he can no longer fully restrain. Heals self for 20% max HP.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Alcides endures through Undying Wrath, healing ${healed} HP.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'God Hand: Twelve Trials Bring Death',
+    japaneseName: 'God Hand',
+    description: "Nine lives are not enough to stop him. He simply gets back up and swings again.",
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Alcides unleashes the full weight of God Hand!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'God Hand' });
+    },
+  },
+};
+
+export const AVENGER_SERVANTS: ServantDefinition[] = [kama, nobunaga, edmondDantes, jeanneAlter, alcides];

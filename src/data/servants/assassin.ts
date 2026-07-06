@@ -525,6 +525,84 @@ const tezcatlipoca: ServantDefinition = {
   },
 };
 
+const koyanskaya: ServantDefinition = {
+  id: 'koyanskaya',
+  name: 'Koyanskaya of Light',
+  title: 'Golden Wolf of Chaldea',
+  className: 'Assassin',
+  trueName: 'Koyanskaya',
+  maxHp: 1050,
+  atk: 108,
+  def: 55,
+  agility: 75,
+  critChance: 0.18,
+  rank: 'A',
+  strengths: ['Crit Damage', 'Drains'],
+  weaknesses: ['Fragile'],
+  passiveDescription: 'A trickster wolf-spirit wearing the shape of a familiar ally.',
+  skills: [
+    {
+      id: 'predation',
+      name: 'Predation',
+      description: 'The wolf feeds on the weak. Deals damage and heals self for half the damage dealt.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.log('Koyanskaya of Light preys upon the enemy!');
+        const dealt = ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: 'Predation' });
+        const healed = Math.round(dealt * 0.5);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Koyanskaya of Light feeds, recovering ${healed} HP.`);
+      },
+    },
+    {
+      id: 'cheat-code',
+      name: 'Video Game-esque Cheat',
+      description: "A tilted rule of her own making. Raises own Crit Chance by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'cheat-code',
+          name: 'Video Game-esque Cheat',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Crit Chance',
+        });
+        ctx.log('Koyanskaya of Light bends the rules with a Video Game-esque Cheat!');
+      },
+    },
+    {
+      id: 'for-rin-chans-sake',
+      name: "For Rin-chan's Sake",
+      description: 'A loyalty that outlasts any script. Heals self for 20% max HP.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Koyanskaya of Light presses on, healing ${healed} HP.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Garden of Avalon: False',
+    japaneseName: 'Garden of Avalon',
+    description: 'A borrowed miracle, imitated to devastating effect.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Koyanskaya of Light invokes the Garden of Avalon!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Garden of Avalon' });
+    },
+  },
+};
+
 export const ASSASSIN_SERVANTS: ServantDefinition[] = [
   hassan,
   theRipper,
@@ -532,4 +610,5 @@ export const ASSASSIN_SERVANTS: ServantDefinition[] = [
   sasakiKojiro,
   kingHassan,
   tezcatlipoca,
+  koyanskaya,
 ];

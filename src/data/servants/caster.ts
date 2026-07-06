@@ -631,6 +631,361 @@ const tamamo: ServantDefinition = {
   },
 };
 
+const castoria: ServantDefinition = {
+  id: 'castoria',
+  name: 'Artoria Pendragon',
+  title: 'Lily of the Lake, Caster',
+  className: 'Caster',
+  trueName: 'Artoria Pendragon (Caster)',
+  maxHp: 1050,
+  atk: 85,
+  def: 60,
+  agility: 58,
+  critChance: 0.1,
+  rank: 'C+',
+  strengths: ['Utility', 'Versatility'],
+  weaknesses: ['Low Attack'],
+  passiveDescription: 'A young king who never drew the sword, wielding magecraft in its place.',
+  skills: [
+    {
+      id: 'mystic-face',
+      name: 'Mystic Face',
+      description: 'Petrifying eyes unsettle the foe. Lowers enemy Crit Chance by 12% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'mystic-face',
+          name: 'Mystic Face',
+          kind: 'debuff',
+          stat: 'critChance',
+          amount: -0.12,
+          turnsRemaining: 3,
+          description: '-12% Crit Chance',
+        });
+        ctx.log('Artoria Pendragon unsettles the enemy with her Mystic Face!');
+      },
+    },
+    {
+      id: 'discernment-of-the-poor',
+      name: 'Discernment of the Poor',
+      description: 'A clear-eyed judgment of the battlefield. Raises own Agility by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'discernment',
+          name: 'Discernment of the Poor',
+          kind: 'buff',
+          stat: 'agility',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Agility',
+        });
+        ctx.log('Artoria Pendragon reads the flow of battle with Discernment of the Poor!');
+      },
+    },
+    {
+      id: 'mana-burst-flame',
+      name: 'Mana Burst (Flame)',
+      description: "A burst of magecraft through her staff. Raises own Attack by 25% for 3 turns.",
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'mana-burst-flame',
+          name: 'Mana Burst (Flame)',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 3,
+          description: '+25% ATK',
+        });
+        ctx.log('Artoria Pendragon channels Mana Burst (Flame)!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Excalibur Morgan',
+    japaneseName: 'Excalibur Morgan',
+    description: "A lake-forged blade of magecraft, unleashed as a torrent of light.",
+    rank: 'B',
+    effect: (ctx) => {
+      ctx.log('Artoria Pendragon calls forth Excalibur Morgan!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.5, { label: 'Excalibur Morgan' });
+    },
+  },
+};
+
+const zhugeLiang: ServantDefinition = {
+  id: 'zhuge-liang',
+  name: 'Zhuge Liang',
+  title: 'Lord El-Melloi II',
+  className: 'Caster',
+  trueName: 'Zhuge Kongming',
+  maxHp: 1000,
+  atk: 78,
+  def: 55,
+  agility: 50,
+  critChance: 0.08,
+  rank: 'C',
+  strengths: ['Strategy', 'Debuffs'],
+  weaknesses: ['Frail', 'Low Attack'],
+  passiveDescription: 'A sleeping dragon of unmatched strategy, more dangerous in mind than in body.',
+  skills: [
+    {
+      id: 'eight-trigrams',
+      name: 'Eight Trigrams Formation',
+      description: 'A defensive array of shifting positions. Raises own Defense by 25% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'eight-trigrams',
+          name: 'Eight Trigrams Formation',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.25,
+          turnsRemaining: 3,
+          description: '+25% Defense',
+        });
+        ctx.log('Zhuge Liang arrays the Eight Trigrams Formation!');
+      },
+    },
+    {
+      id: 'empty-fort-strategy',
+      name: 'Empty Fort Strategy',
+      description: 'A calculated bluff leaves the enemy hesitant. Lowers enemy Attack by 18% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'empty-fort',
+          name: 'Empty Fort Strategy',
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.18,
+          turnsRemaining: 3,
+          description: '-18% Attack',
+        });
+        ctx.log('Zhuge Liang bluffs the enemy with the Empty Fort Strategy!');
+      },
+    },
+    {
+      id: 'banka-no-kaze',
+      name: 'Banka no Kaze',
+      description: 'A borrowed wind fills the sails of fortune. Heals self for 16% max HP.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.16);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Zhuge Liang calls the Banka no Kaze, healing ${healed} HP.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'The Wisdom That Traverses the Heavens',
+    japaneseName: 'Guardian of the Heavenly Tetrapoles',
+    description: 'A strategem centuries in the making, brought to bear all at once.',
+    rank: 'B',
+    effect: (ctx) => {
+      ctx.log('Zhuge Liang unveils The Wisdom That Traverses the Heavens!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.3, { label: 'Heavenly Tetrapoles' });
+      applyStatus(ctx.enemy, {
+        id: 'strategy-exposed',
+        name: 'Strategy Exposed',
+        kind: 'debuff',
+        stat: 'def',
+        amount: -0.15,
+        turnsRemaining: 2,
+        description: '-15% Defense',
+      });
+    },
+  },
+};
+
+const scathachSkadi: ServantDefinition = {
+  id: 'scathach-skadi',
+  name: 'Scáthach-Skadi',
+  title: 'Goddess of the Iceberg',
+  className: 'Caster',
+  trueName: 'Scáthach-Skadi',
+  maxHp: 1200,
+  atk: 105,
+  def: 60,
+  agility: 80,
+  critChance: 0.15,
+  rank: 'A',
+  strengths: ['Frost Magecraft', 'Debuffs'],
+  weaknesses: ['Divided Focus'],
+  passiveDescription: 'The Instructor of Shadows, fused with a frost goddess of the Norse Lostbelt.',
+  skills: [
+    {
+      id: 'ansuz-rune',
+      name: 'Ansuz: Rune of the Beginning',
+      description: 'A rune of dawning power. Raises own Attack by 28% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'ansuz-rune',
+          name: 'Ansuz: Rune of the Beginning',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.28,
+          turnsRemaining: 3,
+          description: '+28% Attack',
+        });
+        ctx.log("Scáthach-Skadi inscribes the Ansuz Rune!");
+      },
+    },
+    {
+      id: 'skadis-judgment',
+      name: "Skadi's Judgment",
+      description: 'A frozen verdict cast upon the enemy. Lowers enemy Defense by 22% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'skadis-judgment',
+          name: "Skadi's Judgment",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.22,
+          turnsRemaining: 3,
+          description: '-22% Defense',
+        });
+        ctx.log("Scáthach-Skadi passes Skadi's Judgment on the enemy!");
+      },
+    },
+    {
+      id: 'mystic-eyes-enchantment',
+      name: 'Mystic Eyes of Enchantment',
+      description: 'Twin gazes of shadow and frost. Raises own Crit Chance by 15% for 3 turns.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'mystic-eyes-enchantment',
+          name: 'Mystic Eyes of Enchantment',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Crit Chance',
+        });
+        ctx.log('Scáthach-Skadi opens her Mystic Eyes of Enchantment!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Skoll and Hati: Chasing Wolves of the Twilight',
+    japaneseName: 'Skoll and Hati',
+    description: 'Twin wolves of shadow and ice, loosed to run down the sun and moon.',
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Scáthach-Skadi unleashes Skoll and Hati!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'Skoll and Hati' });
+    },
+  },
+};
+
+const chenGong: ServantDefinition = {
+  id: 'chen-gong',
+  name: 'Chen Gong',
+  title: 'Strategist of the Three Kingdoms',
+  className: 'Caster',
+  trueName: 'Chen Gong',
+  maxHp: 900,
+  atk: 82,
+  def: 48,
+  agility: 55,
+  critChance: 0.1,
+  rank: 'C',
+  strengths: ['Traps', 'Debuffs'],
+  weaknesses: ['Frail', 'Low HP'],
+  passiveDescription: 'An advisor whose cunning outlasted his master, laying traps within traps.',
+  skills: [
+    {
+      id: 'cunning-strategy',
+      name: 'Cunning Strategy',
+      description: 'A plan within a plan. Lowers enemy Attack by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'cunning-strategy',
+          name: 'Cunning Strategy',
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% Attack',
+        });
+        ctx.log("Chen Gong lays out a Cunning Strategy!");
+      },
+    },
+    {
+      id: 'feigned-retreat',
+      name: 'Feigned Retreat',
+      description: 'A false withdrawal draws the enemy astray. Grants self a full dodge next turn.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'utility',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'feigned-retreat',
+          name: 'Feigned Retreat',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Will evade the next attack',
+        });
+        ctx.log('Chen Gong stages a Feigned Retreat!');
+      },
+    },
+    {
+      id: 'poisoned-trap',
+      name: 'Poisoned Arrow Trap',
+      description: 'A hidden trap laced with poison. Afflicts the enemy with a damage-over-time effect.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'poisoned-trap',
+          name: 'Poisoned Arrow Trap',
+          kind: 'dot',
+          potency: Math.round(ctx.enemy.maxHp * 0.05),
+          turnsRemaining: 3,
+          description: 'Afflicted by a poisoned trap',
+        });
+        ctx.log('Chen Gong springs a Poisoned Arrow Trap!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Chapters of the Grand Strategy',
+    japaneseName: 'Chapters of the Grand Strategy',
+    description: 'A treatise of war given form, closing every avenue of escape.',
+    rank: 'B',
+    effect: (ctx) => {
+      ctx.log('Chen Gong opens the Chapters of the Grand Strategy!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.4, { label: 'Grand Strategy' });
+    },
+  },
+};
+
 export const CASTER_SERVANTS: ServantDefinition[] = [
   medea,
   circe,
@@ -639,4 +994,8 @@ export const CASTER_SERVANTS: ServantDefinition[] = [
   gillesDeRais,
   solomon,
   tamamo,
+  castoria,
+  zhugeLiang,
+  scathachSkadi,
+  chenGong,
 ];
