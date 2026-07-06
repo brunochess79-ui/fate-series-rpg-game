@@ -453,10 +453,98 @@ const romulusQuirinus: ServantDefinition = {
   },
 };
 
+const enkidu: ServantDefinition = {
+  id: 'enkidu',
+  name: 'Enkidu',
+  title: "Heaven's Chains",
+  className: 'Lancer',
+  trueName: 'Enkidu',
+  maxHp: 1300,
+  atk: 105,
+  def: 70,
+  agility: 55,
+  critChance: 0.1,
+  rank: 'A',
+  strengths: ['Crowd Control', 'Durability'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'A being of clay shaped by the gods to oppose Gilgamesh, and bound to him ever since.',
+  skills: [
+    {
+      id: 'heavens-restraint',
+      name: "Heaven's Restraint",
+      description: 'Chains woven from the will of the gods. Stuns the enemy for 1 turn.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'heavens-restraint-stun',
+          name: 'Bound in Chains',
+          kind: 'stun',
+          turnsRemaining: 1,
+          description: 'Cannot act next turn',
+        });
+        ctx.log("Enkidu binds the enemy in Heaven's Restraint!");
+      },
+    },
+    {
+      id: 'clay-of-the-beginning',
+      name: 'Clay of the Beginning',
+      description: 'A body shaped from the raw clay of creation. Raises own Defense by 25% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'clay-of-the-beginning',
+          name: 'Clay of the Beginning',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.25,
+          turnsRemaining: 3,
+          description: '+25% DEF',
+        });
+        ctx.log('Enkidu reshapes into the Clay of the Beginning!');
+      },
+    },
+    {
+      id: 'enkidus-bond',
+      name: "Enkidu's Bond",
+      description: 'A friendship that outlasted the gods themselves. Heals self for 18% max HP.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.18);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Enkidu's Bond heals ${healed} HP.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: "Enkidu's Grasp: The Binding Chains",
+    japaneseName: 'Enkidu',
+    description: "Chains without beginning or end, wrapping around the enemy's every escape.",
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log("Enkidu unleashes the Binding Chains!");
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { label: 'The Binding Chains' });
+      applyStatus(ctx.enemy, {
+        id: 'binding-chains-stun',
+        name: 'Bound Without End',
+        kind: 'stun',
+        turnsRemaining: 1,
+        description: 'Cannot act next turn',
+      });
+    },
+  },
+};
+
 export const LANCER_SERVANTS: ServantDefinition[] = [
   cuChulainn,
   diarmuid,
   achilles,
   karna,
   romulusQuirinus,
+  enkidu,
 ];

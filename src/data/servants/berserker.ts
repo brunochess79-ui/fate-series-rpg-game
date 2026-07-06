@@ -388,4 +388,192 @@ const frankenstein: ServantDefinition = {
   },
 };
 
-export const BERSERKER_SERVANTS: ServantDefinition[] = [heracles, lancelot, spartacus, frankenstein];
+const morganLeFay: ServantDefinition = {
+  id: 'morgan-le-fay',
+  name: 'Morgan le Fay',
+  title: 'The Winter Queen',
+  className: 'Berserker',
+  trueName: 'Morgan le Fay',
+  maxHp: 1500,
+  atk: 122,
+  def: 60,
+  agility: 55,
+  critChance: 0.08,
+  rank: 'A+',
+  strengths: ['Highest HP', 'Debuffs'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The tragic Winter Queen, ruler of a Lostbelt frozen in endless twilight.',
+  skills: [
+    {
+      id: 'le-fays-curse',
+      name: "Le Fay's Curse",
+      description: "A sorceress's curse saps the enemy's strength. Lowers enemy Attack by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'le-fays-curse',
+          name: "Le Fay's Curse",
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% ATK',
+        });
+        ctx.log("Morgan le Fay casts Le Fay's Curse upon the enemy!");
+      },
+    },
+    {
+      id: 'winters-reign',
+      name: "Winter's Reign",
+      description: "An endless winter sustains its queen. Recovers 7% max HP at the start of each of her next 3 turns.",
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'winters-reign-regen',
+          name: "Winter's Reign",
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.07),
+          turnsRemaining: 3,
+          description: 'Recovers 7% max HP per turn',
+        });
+        ctx.log("Morgan le Fay calls upon Winter's Reign.");
+      },
+    },
+    {
+      id: 'fairy-queens-wrath',
+      name: "Fairy Queen's Wrath",
+      description: 'A queen who tolerates no defiance. Next attack is a guaranteed critical hit.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'fairy-queens-wrath__critReady',
+          name: "Fairy Queen's Wrath",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log("Morgan le Fay's Fairy Queen's Wrath rises.");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: "Le Morte d'Arthur: Winter's Judgment",
+    japaneseName: "Le Morte d'Arthur",
+    description: "A frozen judgment, passed down by the Winter Queen upon all who defy her.",
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log("Morgan le Fay passes Winter's Judgment!");
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: "Winter's Judgment" });
+      applyStatus(ctx.enemy, {
+        id: 'winters-judgment-dot',
+        name: 'Frostbite',
+        kind: 'dot',
+        potency: Math.round(ctx.enemy.maxHp * 0.04),
+        turnsRemaining: 2,
+        description: 'Afflicted by frostbite',
+      });
+    },
+  },
+};
+
+const arjunaAlter: ServantDefinition = {
+  id: 'arjuna-alter',
+  name: 'Arjuna Alter',
+  title: 'The Malignant Vigilante',
+  className: 'Berserker',
+  trueName: 'Arjuna',
+  maxHp: 1400,
+  atk: 130,
+  def: 62,
+  agility: 58,
+  critChance: 0.1,
+  rank: 'A+',
+  strengths: ['Highest Damage'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'A hero who absorbed an entire pantheon of gods, now sitting in terrible judgment over creation.',
+  skills: [
+    {
+      id: 'diamond-rain',
+      name: 'Diamond Rain',
+      description: "A rain of divine splinters shatters the enemy's guard. Lowers enemy Defense by 22% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'diamond-rain',
+          name: 'Diamond Rain',
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.22,
+          turnsRemaining: 3,
+          description: '-22% DEF',
+        });
+        ctx.log('Arjuna Alter calls down a Diamond Rain!');
+      },
+    },
+    {
+      id: 'fated-wheel',
+      name: 'Fated Wheel',
+      description: "A pantheon's borrowed might turns in his favor. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'fated-wheel',
+          name: 'Fated Wheel',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('Arjuna Alter turns the Fated Wheel!');
+      },
+    },
+    {
+      id: 'vayus-judgment',
+      name: "Vayu's Judgment",
+      description: "The wind god's speed lends him an opening. Next attack is a guaranteed critical hit.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'vayus-judgment__critReady',
+          name: "Vayu's Judgment",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log("Arjuna Alter channels Vayu's Judgment.");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Pashupata: Anger of the Terrible One',
+    japaneseName: 'Pashupata',
+    description: "A weapon of world-ending judgment, wielded without a shred of hesitation.",
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Arjuna Alter unleashes Pashupata: Anger of the Terrible One!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { guaranteedCrit: true, label: 'Pashupata' });
+    },
+  },
+};
+
+export const BERSERKER_SERVANTS: ServantDefinition[] = [
+  heracles,
+  lancelot,
+  spartacus,
+  frankenstein,
+  morganLeFay,
+  arjunaAlter,
+];

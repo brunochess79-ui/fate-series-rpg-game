@@ -540,6 +540,93 @@ const noah: ServantDefinition = {
   },
 };
 
+const ozymandias: ServantDefinition = {
+  id: 'ozymandias',
+  name: 'Ozymandias',
+  title: 'The Sun King of Egypt',
+  className: 'Rider',
+  trueName: 'Rameses II',
+  maxHp: 1150,
+  atk: 120,
+  def: 62,
+  agility: 55,
+  critChance: 0.12,
+  rank: 'A',
+  strengths: ['Highest Damage'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The radiant Sun King of Egypt, endlessly arrogant and endlessly certain of his own divinity.',
+  skills: [
+    {
+      id: 'ramesseum-tentyris',
+      name: 'Ramesseum Tentyris',
+      description: "A pharaoh's authority radiates outward. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'ramesseum-tentyris',
+          name: 'Ramesseum Tentyris',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('Ozymandias invokes Ramesseum Tentyris!');
+      },
+    },
+    {
+      id: 'pharaohs-decree',
+      name: "Pharaoh's Decree",
+      description: "A living god's decree cannot be refused. Lowers enemy Defense by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'pharaohs-decree',
+          name: "Pharaoh's Decree",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log("Ozymandias issues a Pharaoh's Decree!");
+      },
+    },
+    {
+      id: 'sunlights-authority',
+      name: "Sunlight's Authority",
+      description: 'The sun itself answers to him. Next attack is a guaranteed critical hit.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'sunlights-authority__critReady',
+          name: "Sunlight's Authority",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log("Ozymandias calls upon Sunlight's Authority.");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Ramesseum Tentyris: The Pyramids Descend',
+    japaneseName: 'Ramesseum Tentyris',
+    description: "Monuments to his own divinity, dropped from the sky upon anyone who doubts him.",
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Ozymandias calls down the Pyramids!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'The Pyramids Descend' });
+    },
+  },
+};
+
 export const RIDER_SERVANTS: ServantDefinition[] = [
   iskandar,
   bellerophon,
@@ -547,4 +634,5 @@ export const RIDER_SERVANTS: ServantDefinition[] = [
   marcoPolo,
   medusa,
   noah,
+  ozymandias,
 ];
