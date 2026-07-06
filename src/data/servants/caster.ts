@@ -74,9 +74,9 @@ const medea: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Medea invokes the Rule of the Jeweled Sword!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.15, { label: 'Jeweled Sword I' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.15, { label: 'Jeweled Sword II' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.15, { label: 'Jeweled Sword III' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Jeweled Sword I' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Jeweled Sword II' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Jeweled Sword III' });
       applyStatus(ctx.enemy, {
         id: 'jeweled-curse',
         name: 'Lingering Curse',
@@ -164,7 +164,7 @@ const circe: ServantDefinition = {
     rank: 'C+',
     effect: (ctx) => {
       ctx.log("Circe's Curse turns the enemy into a Beast of Aeaea!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.1, { label: "Circe's Curse" });
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.4, { label: "Circe's Curse" });
       applyStatus(ctx.enemy, {
         id: 'aeaea-stun',
         name: 'Transmuted',
@@ -252,7 +252,7 @@ const merlin: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log("Merlin bestows the Once and Future Wizard's Gift!");
-      const healed = Math.round(ctx.self.maxHp * 0.4);
+      const healed = Math.round(ctx.self.maxHp * 0.45);
       ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
       ctx.self.statuses = ctx.self.statuses.filter((s) => s.kind !== 'debuff' && s.kind !== 'dot');
       applyStatus(ctx.self, {
@@ -260,9 +260,9 @@ const merlin: ServantDefinition = {
         name: "Wizard's Gift",
         kind: 'buff',
         stat: 'atk',
-        amount: 0.2,
+        amount: 0.25,
         turnsRemaining: 3,
-        description: '+20% ATK',
+        description: '+25% ATK',
       });
       ctx.log(`Merlin recovers ${healed} HP, clears his afflictions, and rises renewed.`);
     },
@@ -350,7 +350,7 @@ const nostradamus: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log('Nostradamus reads from Les Propheties — the Written Fate comes due!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.65, { label: 'Les Propheties' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.05, { label: 'Les Propheties' });
       applyStatus(ctx.enemy, {
         id: 'written-fate-curse',
         name: 'Written Fate',
@@ -447,7 +447,7 @@ const gillesDeRais: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log("Gilles de Rais opens Prelati's Spellbook — a Forbidden Grimoire!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.3, { label: 'Forbidden Grimoire' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 2.65, { label: 'Forbidden Grimoire' });
       applyStatus(ctx.enemy, {
         id: 'grimoire-curse',
         name: 'Grimoire Curse',
