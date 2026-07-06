@@ -828,6 +828,87 @@ const hijikata: ServantDefinition = {
   },
 };
 
+const barghest: ServantDefinition = {
+  id: 'barghest',
+  name: 'Barghest',
+  title: 'The Fairy Knight Gawain',
+  className: 'Berserker',
+  trueName: 'Gawain',
+  maxHp: 1500,
+  atk: 120,
+  def: 65,
+  agility: 50,
+  critChance: 0.08,
+  rank: 'A+',
+  strengths: ['Highest HP', 'Durability'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'A towering, honorable Fairy Knight bearing the name of Gawain, loyal unto the last swing of her blade.',
+  skills: [
+    {
+      id: 'fairy-knights-oath',
+      name: "Fairy Knight's Oath",
+      description: "An oath of loyalty that never wavers. Raises own Attack by 25% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'fairy-knights-oath',
+          name: "Fairy Knight's Oath",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log("Barghest's Fairy Knight's Oath burns bright!");
+      },
+    },
+    {
+      id: 'giants-greatsword',
+      name: "Giant's Greatsword",
+      description: 'A blade too heavy for any but her to wield. Deals 1.3x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: "Giant's Greatsword" });
+        ctx.log("Barghest swings the Giant's Greatsword!");
+      },
+    },
+    {
+      id: 'unbreakable-loyalty',
+      name: 'Unbreakable Loyalty',
+      description: "A loyalty that outlasts any wound. Raises own Defense by 25% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'unbreakable-loyalty',
+          name: 'Unbreakable Loyalty',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.25,
+          turnsRemaining: 3,
+          description: '+25% DEF',
+        });
+        ctx.log("Barghest's Unbreakable Loyalty holds firm!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Excalibur Galatine: The Fang of Loyalty',
+    japaneseName: 'Excalibur Galatine',
+    description: 'A borrowed name and a borrowed blade, wielded with a fidelity all her own.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Barghest unleashes the Fang of Loyalty!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'The Fang of Loyalty' });
+    },
+  },
+};
+
 export const BERSERKER_SERVANTS: ServantDefinition[] = [
   heracles,
   lancelot,
@@ -838,4 +919,5 @@ export const BERSERKER_SERVANTS: ServantDefinition[] = [
   ibukiDouji,
   cuChulainnAlter,
   hijikata,
+  barghest,
 ];

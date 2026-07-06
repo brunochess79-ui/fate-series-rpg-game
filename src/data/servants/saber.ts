@@ -866,6 +866,262 @@ const okitaSouji: ServantDefinition = {
   },
 };
 
+const gawain: ServantDefinition = {
+  id: 'gawain',
+  name: 'Gawain',
+  title: 'The Knight of the Sun',
+  className: 'Saber',
+  trueName: 'Gawain',
+  maxHp: 1450,
+  atk: 115,
+  def: 85,
+  agility: 55,
+  critChance: 0.1,
+  rank: 'A+',
+  strengths: ['Highest Defense', 'Highest HP'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The Knight of the Sun, whose strength swells to unbreakable heights beneath an open sky.',
+  skills: [
+    {
+      id: 'chivalric-blessing',
+      name: 'Chivalric Blessing',
+      description: "A knight's honor is its own shield. Raises own Defense by 30% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'chivalric-blessing',
+          name: 'Chivalric Blessing',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.3,
+          turnsRemaining: 3,
+          description: '+30% DEF',
+        });
+        ctx.log('Gawain is warded by a Chivalric Blessing!');
+      },
+    },
+    {
+      id: 'gift-of-the-sun',
+      name: 'Gift of the Sun',
+      description: 'The sun itself lends him its strength. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'gift-of-the-sun',
+          name: 'Gift of the Sun',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('Gawain basks in the Gift of the Sun!');
+      },
+    },
+    {
+      id: 'round-table-oath',
+      name: 'Round Table Oath',
+      description: "A knight's vow mends every wound. Recovers 7% max HP at the start of each of his next 3 turns.",
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'round-table-oath-regen',
+          name: 'Round Table Oath',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.07),
+          turnsRemaining: 3,
+          description: 'Recovers 7% max HP per turn',
+        });
+        ctx.log('Gawain honors the Round Table Oath.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Excalibur Galatine: Sword of Chivalry',
+    japaneseName: 'Excalibur Galatine',
+    description: "A blade of pure sunlight, wielded with the unshakable honor of the Round Table.",
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Gawain unsheathes Excalibur Galatine!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Excalibur Galatine' });
+    },
+  },
+};
+
+const richard: ServantDefinition = {
+  id: 'richard',
+  name: 'Richard I',
+  title: 'The Lionheart',
+  className: 'Saber',
+  trueName: 'Richard I',
+  maxHp: 1150,
+  atk: 118,
+  def: 62,
+  agility: 62,
+  critChance: 0.14,
+  rank: 'A',
+  strengths: ['Versatility'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The Lionheart King, whose sheer force of will can turn any blade he holds into Excalibur itself.',
+  skills: [
+    {
+      id: 'kingship-become-a-blade',
+      name: 'Kingship: Become a Blade',
+      description: 'A king who becomes the sword he needs. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'kingship-become-a-blade',
+          name: 'Kingship: Become a Blade',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log("Richard I invokes Kingship: Become a Blade!");
+      },
+    },
+    {
+      id: 'lionhearted-resolve',
+      name: 'Lionhearted Resolve',
+      description: "A king's heart that will not break. Raises own Defense by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'lionhearted-resolve',
+          name: 'Lionhearted Resolve',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% DEF',
+        });
+        ctx.log("Richard I's Lionhearted Resolve steadies him!");
+      },
+    },
+    {
+      id: 'crusaders-vanguard',
+      name: "Crusader's Vanguard",
+      description: 'A king who always leads the charge. Next attack is a guaranteed critical hit.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'crit',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'crusaders-vanguard__critReady',
+          name: "Crusader's Vanguard",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log("Richard I leads the Crusader's Vanguard.");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Excalibur: Sword of Promised Kingship',
+    japaneseName: 'Excalibur',
+    description: 'Any blade Richard wields becomes, for a moment, the legendary sword itself.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Richard I becomes the Sword of Promised Kingship!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Sword of Promised Kingship' });
+    },
+  },
+};
+
+const charlemagne: ServantDefinition = {
+  id: 'charlemagne',
+  name: 'Charlemagne',
+  title: 'The King of the Franks',
+  className: 'Saber',
+  trueName: 'Charlemagne',
+  maxHp: 1150,
+  atk: 112,
+  def: 65,
+  agility: 58,
+  critChance: 0.12,
+  rank: 'A',
+  strengths: ['Durability'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: "A dashing, cool-headed king who does things simply because they're worth doing well.",
+  skills: [
+    {
+      id: 'kingly-charisma',
+      name: 'Kingly Charisma',
+      description: "A king who leads simply by being himself. Raises own Attack by 22% for 2 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'kingly-charisma',
+          name: 'Kingly Charisma',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.22,
+          turnsRemaining: 2,
+          description: '+22% ATK',
+        });
+        ctx.log("Charlemagne's Kingly Charisma inspires confidence!");
+      },
+    },
+    {
+      id: 'twelve-paladins-oath',
+      name: "Twelve Paladins' Oath",
+      description: 'An oath sworn beside his greatest knights. Raises own Defense by 22% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'twelve-paladins-oath',
+          name: "Twelve Paladins' Oath",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.22,
+          turnsRemaining: 3,
+          description: '+22% DEF',
+        });
+        ctx.log("Charlemagne swears the Twelve Paladins' Oath!");
+      },
+    },
+    {
+      id: 'joyeuse-strike',
+      name: 'Joyeuse Strike',
+      description: 'A joyful blade never strikes twice the same way. Deals 1.2x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Joyeuse Strike' });
+        ctx.log('Charlemagne strikes with Joyeuse!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Joyeuse: The Radiant Coronation',
+    japaneseName: 'Joyeuse',
+    description: 'A blade that once crowned an empire, brought to bear one final time.',
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Charlemagne invokes Joyeuse: The Radiant Coronation!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'The Radiant Coronation' });
+    },
+  },
+};
+
 export const SABER_SERVANTS: ServantDefinition[] = [
   arthur,
   siegfried,
@@ -877,4 +1133,7 @@ export const SABER_SERVANTS: ServantDefinition[] = [
   yagyuMunenori,
   nero,
   okitaSouji,
+  gawain,
+  richard,
+  charlemagne,
 ];
