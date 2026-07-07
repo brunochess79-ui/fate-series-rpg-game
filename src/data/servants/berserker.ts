@@ -12,7 +12,7 @@ const heracles: ServantDefinition = {
   def: 40,
   agility: 48,
   critChance: 0.08,
-  rank: 'A',
+  rank: 'A+',
   strengths: ['Highest Damage', 'Regeneration'],
   weaknesses: ['Lowest Defense', 'Low Crit Rate', 'Slow'],
   passiveDescription:
@@ -733,7 +733,7 @@ const hijikata: ServantDefinition = {
   def: 60,
   agility: 62,
   critChance: 0.14,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Sustain via Lifesteal', 'Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The Shinsengumi Vice-Commander who refuses to die, growing more dangerous the closer death comes.',

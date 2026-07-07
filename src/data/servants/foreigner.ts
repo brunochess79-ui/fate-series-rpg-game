@@ -12,7 +12,7 @@ const kukulkan: ServantDefinition = {
   def: 55,
   agility: 60,
   critChance: 0.12,
-  rank: 'A',
+  rank: 'A+',
   strengths: ['Highest Damage'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The feathered serpent sun goddess of the Lostbelt, radiant with cosmic, kinetic power.',

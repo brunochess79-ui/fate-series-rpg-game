@@ -12,7 +12,7 @@ const kiara: ServantDefinition = {
   def: 58,
   agility: 65,
   critChance: 0.15,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage', 'Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A Buddhist saint whose boundless compassion, twisted by despair, birthed a Beast of humanity.',
