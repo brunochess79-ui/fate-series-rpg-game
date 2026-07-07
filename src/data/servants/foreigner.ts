@@ -131,7 +131,7 @@ const uOlgaMarie: ServantDefinition = {
   def: 50,
   agility: 55,
   critChance: 0.15,
-  rank: 'A',
+  rank: 'A+',
   strengths: ['Highest Damage', 'Critical Hits'],
   weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: "A director consumed and remade as the herald of an Alien God, burning with cosmic corruption.",
