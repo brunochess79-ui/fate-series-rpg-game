@@ -907,7 +907,7 @@ const richardIII: ServantDefinition = {
     {
       id: 'karma-of-the-wicked',
       name: 'Karma of the Wicked',
-      description: "A villain's reputation, embraced without shame. Raises own Attack by 30% for 2 turns.",
+      description: "A villain's reputation, embraced without shame. Raises own Attack by 25% for 2 turns.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -917,9 +917,9 @@ const richardIII: ServantDefinition = {
           name: 'Karma of the Wicked',
           kind: 'buff',
           stat: 'atk',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% Attack',
+          description: '+25% Attack',
         });
         ctx.log('Richard III embraces the Karma of the Wicked!');
       },
@@ -940,12 +940,12 @@ const richardIII: ServantDefinition = {
     {
       id: 'villains-resolve',
       name: "Villain's Resolve",
-      description: 'A grim determination no slander can break. Heals self for 18% max HP.',
+      description: 'A grim determination no slander can break. Heals self for 15% max HP.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.18);
+        const healed = Math.round(ctx.self.maxHp * 0.15);
         ctx.self.hp = ctx.self.hp + healed;
         ctx.log(`Richard III steels himself with Villain's Resolve, healing ${healed} HP.`);
       },
