@@ -934,7 +934,7 @@ const richardIII: ServantDefinition = {
       dealsDamage: true,
       effect: (ctx) => {
         ctx.log('Richard III charges, crying for A Kingdom for a Horse!');
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.5, { label: 'Kingdom for a Horse' });
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Kingdom for a Horse' });
       },
     },
     {
