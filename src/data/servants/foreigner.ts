@@ -68,9 +68,48 @@ const kukulkan: ServantDefinition = {
         ctx.log('Kukulkan gathers cosmic speed for a Kinetic Strike.');
       },
     },
+    {
+      id: 'suns-full-radiance',
+      name: "The Sun's Full Radiance",
+      description: "The goddess sheds every ounce of restraint and shines as bright as the sun she carries. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'suns-full-radiance-atk',
+          name: "The Sun's Full Radiance",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'suns-full-radiance-def',
+          name: "The Sun's Full Radiance",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'suns-full-radiance-dmg',
+          name: "The Sun's Full Radiance",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Kukulkan blazes with The Sun's Full Radiance!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Ehecatl: The Precious Radiance',
+    name: "Ehecatl: The Precious Radiance",
     japaneseName: 'Ehecatl',
     description: 'A goddess descending as a shooting star, radiant enough to end a world.',
     rank: 'A',
@@ -154,9 +193,48 @@ const uOlgaMarie: ServantDefinition = {
         ctx.log('U-Olga Marie pushes her Overload to the limit.');
       },
     },
+    {
+      id: 'directors-final-cut',
+      name: "The Director's Final Cut",
+      description: "Whatever watches through her camera finally steps fully into frame. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'directors-final-cut-atk',
+          name: "The Director's Final Cut",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'directors-final-cut-def',
+          name: "The Director's Final Cut",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'directors-final-cut-dmg',
+          name: "The Director's Final Cut",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("U-Olga Marie invokes The Director's Final Cut!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'The Crawling Chaos: Final Grade',
+    name: "The Crawling Chaos: Final Grade",
     japaneseName: 'Final Grade',
     description: "An Alien God's herald, giving her final grade in a single cosmic detonation.",
     rank: 'B+',
