@@ -73,9 +73,48 @@ const jeanne: ServantDefinition = {
         );
       },
     },
+    {
+      id: 'voice-of-the-saints',
+      name: "The Voice of the Saints",
+      description: "The voices that guided her since childhood speak again, louder than ever. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'voice-of-the-saints-atk',
+          name: "The Voice of the Saints",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'voice-of-the-saints-def',
+          name: "The Voice of the Saints",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'voice-of-the-saints-dmg',
+          name: "The Voice of the Saints",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Jeanne d'Arc hears The Voice of the Saints!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'La Pucelle: Flag of the Crusade',
+    name: "La Pucelle: Flag of the Crusade",
     japaneseName: 'La Pucelle',
     description: 'A banner raised high, rallying courage and smiting the wicked in one motion.',
     rank: 'A',
@@ -156,9 +195,48 @@ const amakusa: ServantDefinition = {
         ctx.log('Amakusa Shirou pronounces the Blessing of the Kingdom of God!');
       },
     },
+    {
+      id: 'undying-faith-of-amakusa',
+      name: "The Undying Faith of Amakusa",
+      description: "The conviction of thirty-seven thousand martyrs settles onto his shoulders. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'undying-faith-of-amakusa-atk',
+          name: "The Undying Faith of Amakusa",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'undying-faith-of-amakusa-def',
+          name: "The Undying Faith of Amakusa",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'undying-faith-of-amakusa-dmg',
+          name: "The Undying Faith of Amakusa",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Amakusa Shirou channels The Undying Faith of Amakusa!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Perfect Nirvana',
+    name: "Perfect Nirvana",
     japaneseName: 'Kanzen Naru Nyorai Nehan',
     description: 'A wave of absolute peace that leaves nothing standing in its path.',
     rank: 'A',
@@ -238,9 +316,48 @@ const sherlock: ServantDefinition = {
         ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: 'Bartitsu' });
       },
     },
+    {
+      id: 'greatest-detective-alive',
+      name: "The Greatest Detective Alive",
+      description: "Every clue, every deduction, every case ever solved converges on this single moment. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'greatest-detective-alive-atk',
+          name: "The Greatest Detective Alive",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'greatest-detective-alive-def',
+          name: "The Greatest Detective Alive",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'greatest-detective-alive-dmg',
+          name: "The Greatest Detective Alive",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Sherlock Holmes becomes The Greatest Detective Alive!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'The Vanished People',
+    name: "The Vanished People",
     japaneseName: 'The Vanished People',
     description: 'A truth so absolute it erases every possibility but one: defeat.',
     rank: 'A',
