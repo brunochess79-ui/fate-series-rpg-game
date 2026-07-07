@@ -888,81 +888,6 @@ const barghest: ServantDefinition = {
   },
 };
 
-const richardIII: ServantDefinition = {
-  id: 'richard-iii',
-  name: 'Richard III',
-  title: 'The Last Plantagenet',
-  className: 'Berserker',
-  trueName: 'Richard III',
-  maxHp: 1400,
-  atk: 130,
-  def: 62,
-  agility: 52,
-  critChance: 0.09,
-  rank: 'A+',
-  strengths: ['Raw Power', 'Debuffs'],
-  weaknesses: ['Slow'],
-  passiveDescription: 'A king slandered by history, wielding a villain\'s cruelty as a weapon of its own.',
-  skills: [
-    {
-      id: 'karma-of-the-wicked',
-      name: 'Karma of the Wicked',
-      description: "A villain's reputation, embraced without shame. Raises own Attack by 25% for 2 turns.",
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'buff',
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'karma-of-the-wicked',
-          name: 'Karma of the Wicked',
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.25,
-          turnsRemaining: 2,
-          description: '+25% Attack',
-        });
-        ctx.log('Richard III embraces the Karma of the Wicked!');
-      },
-    },
-    {
-      id: 'kingdom-for-a-horse',
-      name: 'A Kingdom for a Horse',
-      description: 'A desperate, reckless charge. Deals a bonus strike.',
-      cooldown: 5,
-      npGainSelf: 20,
-      tag: 'utility',
-      dealsDamage: true,
-      effect: (ctx) => {
-        ctx.log('Richard III charges, crying for A Kingdom for a Horse!');
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Kingdom for a Horse' });
-      },
-    },
-    {
-      id: 'villains-resolve',
-      name: "Villain's Resolve",
-      description: 'A grim determination no slander can break. Heals self for 15% max HP.',
-      cooldown: 5,
-      npGainSelf: 20,
-      tag: 'heal',
-      effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.15);
-        ctx.self.hp = ctx.self.hp + healed;
-        ctx.log(`Richard III steels himself with Villain's Resolve, healing ${healed} HP.`);
-      },
-    },
-  ],
-  noblePhantasm: {
-    name: "One for All the Roses",
-    japaneseName: 'One for All the Roses',
-    description: "A king's last stand, every grievance spent in a single, furious charge.",
-    rank: 'A+',
-    effect: (ctx) => {
-      ctx.log('Richard III unleashes One for All the Roses!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'One for All the Roses' });
-    },
-  },
-};
-
 const vladIII: ServantDefinition = {
   id: 'vlad-iii',
   name: 'Vlad III',
@@ -1062,6 +987,5 @@ export const BERSERKER_SERVANTS: ServantDefinition[] = [
   cuChulainnAlter,
   hijikata,
   barghest,
-  richardIII,
   vladIII,
 ];

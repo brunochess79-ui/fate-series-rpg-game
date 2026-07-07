@@ -503,6 +503,94 @@ const kagekiyo: ServantDefinition = {
   },
 };
 
+const johnLackland: ServantDefinition = {
+  id: 'john-lackland',
+  name: 'John Lackland',
+  title: 'The Landless King',
+  className: 'Avenger',
+  trueName: 'John, King of England',
+  maxHp: 1470,
+  atk: 85,
+  def: 68,
+  agility: 48,
+  critChance: 0.08,
+  rank: 'B+',
+  strengths: ['Highest HP', 'Sustain', 'Debuffs'],
+  weaknesses: ['Lowest Attack', 'Slow'],
+  passiveDescription: 'The king who lost Normandy and was forced to sign away his own power, yet somehow still refuses to fall.',
+  skills: [
+    {
+      id: 'kings-hollow-pride',
+      name: "King Lackland's Pride",
+      description: "A tyrant's hollow pride, sharpened into a weapon. Raises own Attack by 25% for 3 turns and floods his Noble Phantasm gauge.",
+      cooldown: 4,
+      npGainSelf: 35,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'kings-hollow-pride',
+          name: "King Lackland's Pride",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 3,
+          description: '+25% Attack',
+        });
+        ctx.log("John Lackland postures with King Lackland's Pride!");
+      },
+    },
+    {
+      id: 'loss-of-normandy',
+      name: 'Loss of Normandy',
+      description: "He lost his lands once; now he takes what little the enemy has left. Drains 15% from the enemy's Noble Phantasm gauge.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        ctx.enemy.npGauge = Math.max(0, ctx.enemy.npGauge - 15);
+        ctx.log("John Lackland's Loss of Normandy drains the enemy's resolve!");
+      },
+    },
+    {
+      id: 'magna-cartas-burden',
+      name: "Magna Carta's Burden",
+      description: 'The document that once bound him becomes a shield instead. Recovers 6% max HP at the start of each of his next 3 turns.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'magna-cartas-burden-regen',
+          name: "Magna Carta's Burden",
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.06),
+          turnsRemaining: 3,
+          description: 'Recovers 6% max HP per turn',
+        });
+        ctx.log("John Lackland turns Magna Carta's Burden into a shield.");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Inversio Libertatis Oraculum',
+    japaneseName: 'Inversio Libertatis Oraculum',
+    description: 'The oath that once stripped him of power, turned inside out to become his shield and blade at once.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('John Lackland invokes Inversio Libertatis Oraculum!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.4, { label: 'Inversio Libertatis Oraculum' });
+      const before = ctx.self.statuses.length;
+      ctx.self.statuses = ctx.self.statuses.filter((s) => s.kind !== 'debuff' && s.kind !== 'dot');
+      if (ctx.self.statuses.length < before) {
+        ctx.log('The reversed oath cleanses every curse laid upon him!');
+      }
+      const healed = Math.round(ctx.self.maxHp * 0.1);
+      ctx.self.hp = ctx.self.hp + healed;
+      ctx.log(`John Lackland recovers ${healed} HP as the curse turns to blessing.`);
+    },
+  },
+};
+
 export const AVENGER_SERVANTS: ServantDefinition[] = [
   kama,
   nobunaga,
@@ -510,4 +598,5 @@ export const AVENGER_SERVANTS: ServantDefinition[] = [
   jeanneAlter,
   alcides,
   kagekiyo,
+  johnLackland,
 ];
