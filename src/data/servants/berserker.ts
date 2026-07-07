@@ -976,6 +976,79 @@ const vladIII: ServantDefinition = {
   },
 };
 
+const sakataKintoki: ServantDefinition = {
+  id: 'sakata-kintoki',
+  name: 'Sakata Kintoki',
+  title: 'The Golden Boy',
+  className: 'Berserker',
+  trueName: 'Sakata Kintoki',
+  maxHp: 1300,
+  atk: 134,
+  def: 38,
+  agility: 55,
+  critChance: 0.1,
+  rank: 'A+',
+  strengths: ['Highest Damage', 'NP Gauge Charge'],
+  weaknesses: ['Lowest Defense'],
+  passiveDescription: 'Raised by a mountain witch and strong enough to wrestle bears as a child, he never learned to hold back.',
+  skills: [
+    {
+      id: 'monstrous-strength-kintoki',
+      name: 'Monstrous Strength',
+      description: 'A child who threw boulders for sport, grown into a man who throws mountains. Raises own Attack by 25% for 1 turn.',
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'monstrous-strength-kintoki',
+          name: 'Monstrous Strength',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 1,
+          description: '+25% Attack (1 turn)',
+        });
+        ctx.log('Sakata Kintoki flexes with Monstrous Strength!');
+      },
+    },
+    {
+      id: 'animal-communication',
+      name: 'Animal Communication',
+      description: 'Old friends from the mountain still answer his call. Floods his Noble Phantasm gauge.',
+      cooldown: 5,
+      npGainSelf: 40,
+      tag: 'utility',
+      effect: (ctx) => {
+        ctx.log('Sakata Kintoki calls on Animal Communication!');
+      },
+    },
+    {
+      id: 'natural-body',
+      name: 'Natural Body',
+      description: "A child of the mountains, hale and hearty. Heals self for 20% max HP.",
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Sakata Kintoki's Natural Body recovers ${healed} HP.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Golden Spark',
+    japaneseName: 'Kongou Rikishi Retsuzan',
+    description: "A flash of golden lightning loosed from the axe Golden Eater, splitting the mountain in one blow.",
+    rank: 'B+',
+    effect: (ctx) => {
+      ctx.log('Sakata Kintoki unleashes Golden Spark!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Golden Spark' });
+    },
+  },
+};
+
 export const BERSERKER_SERVANTS: ServantDefinition[] = [
   heracles,
   lancelot,
@@ -988,4 +1061,5 @@ export const BERSERKER_SERVANTS: ServantDefinition[] = [
   hijikata,
   barghest,
   vladIII,
+  sakataKintoki,
 ];
