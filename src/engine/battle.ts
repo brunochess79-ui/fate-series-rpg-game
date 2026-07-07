@@ -78,7 +78,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     // case Agility still gets to influence the roll.
     const dodgeChance = options.isNP && !evadeStatus
       ? 0.02
-      : Math.min(0.15, Math.max(0.02, 0.02 + (defenderDef.agility - attackerDef.agility) * 0.003));
+      : Math.min(0.1, Math.max(0.02, 0.02 + (defenderDef.agility - attackerDef.agility) * 0.003));
     if (rng() < dodgeChance) {
       log(`${defenderDef.name} is too quick — the attack whiffs entirely!`);
       return 0;

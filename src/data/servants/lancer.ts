@@ -106,7 +106,7 @@ const diarmuid: ServantDefinition = {
   def: 65,
   agility: 95,
   critChance: 0.12,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Speed', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'Cursed with an irresistible charm, and blessed with peerless spearplay.',
