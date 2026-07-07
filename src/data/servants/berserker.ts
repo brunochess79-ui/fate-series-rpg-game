@@ -894,7 +894,7 @@ const richardIII: ServantDefinition = {
   title: 'The Last Plantagenet',
   className: 'Berserker',
   trueName: 'Richard III',
-  maxHp: 1450,
+  maxHp: 1400,
   atk: 130,
   def: 62,
   agility: 52,

@@ -393,7 +393,7 @@ const alcides: ServantDefinition = {
       dealsDamage: true,
       effect: (ctx) => {
         ctx.log('Alcides recalls his Twelve Trials and strikes again!');
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.5, { label: 'Twelve Trials' });
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Twelve Trials' });
       },
     },
     {
