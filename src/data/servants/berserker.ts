@@ -7,14 +7,14 @@ const heracles: ServantDefinition = {
   title: 'The Twelve Labors',
   className: 'Berserker',
   trueName: 'Heracles',
-  maxHp: 1450,
+  maxHp: 1375,
   atk: 125,
   def: 40,
-  agility: 63,
+  agility: 48,
   critChance: 0.08,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage', 'Regeneration'],
-  weaknesses: ['Lowest Defense', 'Low Crit Rate'],
+  weaknesses: ['Lowest Defense', 'Low Crit Rate', 'Slow'],
   passiveDescription:
     'Mad Enhancement: sanity is traded for raw, monstrous power. The mightiest of the Berserkers.',
   skills: [
@@ -64,18 +64,11 @@ const heracles: ServantDefinition = {
       id: 'monstrous-strength',
       name: 'Monstrous Strength',
       description:
-        "Overwhelming physical power. Next attack is a guaranteed crit, and Heracles denies the enemy any Noble Phantasm gauge they'd gain this round.",
+        "Overwhelming physical power. Heracles denies the enemy any Noble Phantasm gauge they'd gain this round.",
       cooldown: 5,
       npGainSelf: 20,
-      tag: 'crit',
+      tag: 'debuff',
       effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'monstrous-strength__critReady',
-          name: 'Monstrous Strength',
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
         applyStatus(ctx.self, {
           id: 'monstrous-strength__npDeny',
           name: 'Monstrous Strength',
@@ -94,7 +87,7 @@ const heracles: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Heracles unleashes Nine Lives in a berserk frenzy!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'Nine Lives' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Nine Lives' });
       const recoil = Math.round(ctx.self.maxHp * 0.075);
       ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Heracles takes ${recoil} recoil damage from their own fury.`);
