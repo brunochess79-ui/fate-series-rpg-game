@@ -170,7 +170,7 @@ const theRipper: ServantDefinition = {
     rank: 'D',
     effect: (ctx) => {
       ctx.log('The Ripper strikes with From Hell — the Final Cut!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { guaranteedCrit: true, label: 'From Hell' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'From Hell' });
     },
   },
 };
@@ -433,7 +433,7 @@ const kingHassan: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log('King Hassan pronounces the judgment of the Old Man of the Mountain!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { guaranteedCrit: true, label: 'The Old Man of the Mountain' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'The Old Man of the Mountain' });
     },
   },
 };

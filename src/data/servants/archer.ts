@@ -76,7 +76,7 @@ const arash: ServantDefinition = {
     rank: 'A++',
     effect: (ctx) => {
       ctx.log('Arash draws their bow to the very limit — Stella, the Farthest Arrow!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.25, { guaranteedCrit: true, label: 'Stella' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.25, { label: 'Stella' });
       const recoil = Math.round(ctx.self.maxHp * 0.05);
       ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Arash spends their own life force, taking ${recoil} recoil damage.`);
@@ -245,7 +245,7 @@ const williamTell: ServantDefinition = {
     rank: 'C+',
     effect: (ctx) => {
       ctx.log('William Tell fires the Shot Heard Round the Cantons!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { guaranteedCrit: true, label: 'Round the Cantons' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { label: 'Round the Cantons' });
     },
   },
 };
