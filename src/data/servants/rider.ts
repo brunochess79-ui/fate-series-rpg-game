@@ -387,9 +387,9 @@ const medusa: ServantDefinition = {
           name: "Serpent's Gaze",
           kind: 'buff',
           stat: 'critChance',
-          amount: 0.4,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+40% crit chance scaling',
+          description: '+25% crit chance scaling',
         });
         ctx.log("Medusa's Serpent's Gaze sharpens!");
       },

@@ -199,7 +199,7 @@ const achilles: ServantDefinition = {
     {
       id: 'rage-of-achilles',
       name: 'Rage of Achilles',
-      description: 'A wrath that shakes the battlefield. Raises own Attack by 30% for 2 turns.',
+      description: 'A wrath that shakes the battlefield. Raises own Attack by 25% for 2 turns.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -209,9 +209,9 @@ const achilles: ServantDefinition = {
           name: 'Rage of Achilles',
           kind: 'buff',
           stat: 'atk',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% ATK',
+          description: '+25% ATK',
         });
         ctx.log('Achilles is consumed by the Rage of Achilles!');
       },
@@ -326,7 +326,7 @@ const karna: ServantDefinition = {
     {
       id: 'karnas-resolve',
       name: "Karna's Resolve",
-      description: 'A hero who never abandons a duel. Raises own Attack by 30% but lowers own Defense by 30% for 2 turns.',
+      description: 'A hero who never abandons a duel. Raises own Attack by 25% but lowers own Defense by 30% for 2 turns.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -336,9 +336,9 @@ const karna: ServantDefinition = {
           name: "Karna's Resolve",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% ATK',
+          description: '+25% ATK',
         });
         applyStatus(ctx.self, {
           id: 'karnas-resolve-def',

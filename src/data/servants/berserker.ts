@@ -34,7 +34,7 @@ const heracles: ServantDefinition = {
     {
       id: 'reckless-assault',
       name: 'Reckless Assault',
-      description: 'Throws caution to the wind. +30% ATK but -20% DEF for 2 turns.',
+      description: 'Throws caution to the wind. +25% ATK but -20% DEF for 2 turns.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -44,9 +44,9 @@ const heracles: ServantDefinition = {
           name: 'Reckless Assault',
           kind: 'buff',
           stat: 'atk',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% ATK',
+          description: '+25% ATK',
         });
         applyStatus(ctx.self, {
           id: 'reckless-assault-def',
@@ -114,7 +114,7 @@ const lancelot: ServantDefinition = {
     {
       id: 'mad-charge',
       name: 'Mad Charge',
-      description: 'A charge with no thought for his own safety. +30% ATK but -15% DEF for 2 turns.',
+      description: 'A charge with no thought for his own safety. +25% ATK but -15% DEF for 2 turns.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -124,9 +124,9 @@ const lancelot: ServantDefinition = {
           name: 'Mad Charge',
           kind: 'buff',
           stat: 'atk',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% ATK',
+          description: '+25% ATK',
         });
         applyStatus(ctx.self, {
           id: 'mad-charge-def',
@@ -586,7 +586,7 @@ const ibukiDouji: ServantDefinition = {
     {
       id: 'eight-heads-fury',
       name: "Eight Heads' Fury",
-      description: 'An eight-headed serpent lends its rage. Raises own Attack by 30% for 2 turns.',
+      description: 'An eight-headed serpent lends its rage. Raises own Attack by 25% for 2 turns.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -596,9 +596,9 @@ const ibukiDouji: ServantDefinition = {
           name: "Eight Heads' Fury",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% ATK',
+          description: '+25% ATK',
         });
         ctx.log("Ibuki-Douji channels the Eight Heads' Fury!");
       },
@@ -658,7 +658,7 @@ const cuChulainnAlter: ServantDefinition = {
     {
       id: 'warp-spasm',
       name: 'Warp Spasm',
-      description: "A berserk transformation that twists flesh and mind alike. Raises own Attack by 30% for 2 turns.",
+      description: "A berserk transformation that twists flesh and mind alike. Raises own Attack by 25% for 2 turns.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -668,9 +668,9 @@ const cuChulainnAlter: ServantDefinition = {
           name: 'Warp Spasm',
           kind: 'buff',
           stat: 'atk',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% ATK',
+          description: '+25% ATK',
         });
         ctx.log('Cú Chulainn (Alter) is consumed by the Warp Spasm!');
       },

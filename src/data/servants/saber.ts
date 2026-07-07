@@ -50,9 +50,9 @@ const arthur: ServantDefinition = {
           name: 'Mana Burst',
           kind: 'buff',
           stat: 'atk',
-          amount: 0.4,
+          amount: 0.25,
           turnsRemaining: 1,
-          description: '+40% ATK (1 turn)',
+          description: '+25% ATK (1 turn)',
         });
         ctx.log('Artoria channels Mana Burst!');
       },
@@ -107,7 +107,7 @@ const siegfried: ServantDefinition = {
     {
       id: 'dragon-skin',
       name: 'Dragon Skin',
-      description: "The dragon's blood wards his body. Raises own Defense by 30% for 2 turns.",
+      description: "The dragon's blood wards his body. Raises own Defense by 25% for 2 turns.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -117,9 +117,9 @@ const siegfried: ServantDefinition = {
           name: 'Dragon Skin',
           kind: 'buff',
           stat: 'def',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% DEF',
+          description: '+25% DEF',
         });
         ctx.log("Siegfried's Dragon Skin hardens against harm!");
       },
@@ -225,9 +225,9 @@ const musashi: ServantDefinition = {
           name: 'Void Perception',
           kind: 'buff',
           stat: 'critChance',
-          amount: 0.4,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+40% crit chance scaling',
+          description: '+25% crit chance scaling',
         });
         ctx.log('Musashi perceives the Void — every opening is clear.');
       },
@@ -333,7 +333,7 @@ const elCid: ServantDefinition = {
     {
       id: 'undying-resolve',
       name: 'Undying Resolve',
-      description: 'He rides on even in death. Raises own Defense by 40% for 1 turn.',
+      description: 'He rides on even in death. Raises own Defense by 25% for 1 turn.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -343,9 +343,9 @@ const elCid: ServantDefinition = {
           name: 'Undying Resolve',
           kind: 'buff',
           stat: 'def',
-          amount: 0.4,
+          amount: 0.25,
           turnsRemaining: 1,
-          description: '+40% DEF (1 turn)',
+          description: '+25% DEF (1 turn)',
         });
         ctx.log('El Cid steels himself with Undying Resolve!');
       },
@@ -488,9 +488,9 @@ const sengoMuramasa: ServantDefinition = {
           name: 'Forge of Madness',
           kind: 'buff',
           stat: 'critChance',
-          amount: 0.4,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+40% crit chance scaling',
+          description: '+25% crit chance scaling',
         });
         ctx.log('Sengo Muramasa stokes the Forge of Madness!');
       },
@@ -587,9 +587,9 @@ const mordred: ServantDefinition = {
           name: 'Secret of Pedigree',
           kind: 'buff',
           stat: 'critChance',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% crit chance scaling',
+          description: '+25% crit chance scaling',
         });
         ctx.log("Mordred's Secret of Pedigree drives her forward!");
       },
@@ -648,9 +648,9 @@ const yagyuMunenori: ServantDefinition = {
           name: 'No-Sword',
           kind: 'buff',
           stat: 'critChance',
-          amount: 0.35,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+35% crit chance scaling',
+          description: '+25% crit chance scaling',
         });
         ctx.log('Yagyu Munenori takes the stance of No-Sword.');
       },
@@ -815,9 +815,9 @@ const okitaSouji: ServantDefinition = {
           name: 'Mumyo Sinken',
           kind: 'buff',
           stat: 'critChance',
-          amount: 0.35,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+35% crit chance scaling',
+          description: '+25% crit chance scaling',
         });
         ctx.log('Okita Souji unleashes Mumyo Sinken!');
       },
@@ -885,7 +885,7 @@ const gawain: ServantDefinition = {
     {
       id: 'chivalric-blessing',
       name: 'Chivalric Blessing',
-      description: "A knight's honor is its own shield. Raises own Defense by 30% for 3 turns.",
+      description: "A knight's honor is its own shield. Raises own Defense by 25% for 3 turns.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -895,9 +895,9 @@ const gawain: ServantDefinition = {
           name: 'Chivalric Blessing',
           kind: 'buff',
           stat: 'def',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 3,
-          description: '+30% DEF',
+          description: '+25% DEF',
         });
         ctx.log('Gawain is warded by a Chivalric Blessing!');
       },

@@ -43,9 +43,9 @@ const arash: ServantDefinition = {
           name: 'Clairvoyance',
           kind: 'buff',
           stat: 'critChance',
-          amount: 0.5,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+50% crit chance scaling',
+          description: '+25% crit chance scaling',
         });
         ctx.log('Arash activates Clairvoyance!');
       },
@@ -198,9 +198,9 @@ const williamTell: ServantDefinition = {
           name: 'Steady Hand',
           kind: 'buff',
           stat: 'critChance',
-          amount: 0.4,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+40% crit chance scaling',
+          description: '+25% crit chance scaling',
         });
         ctx.log('William Tell steadies his hand.');
       },
@@ -461,9 +461,9 @@ const emiya: ServantDefinition = {
           name: 'Structural Analysis',
           kind: 'buff',
           stat: 'critChance',
-          amount: 0.35,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+35% crit chance scaling',
+          description: '+25% crit chance scaling',
         });
         ctx.log('EMIYA reads the Structural Analysis of the battlefield!');
       },
@@ -801,7 +801,7 @@ const ashwatthama: ServantDefinition = {
     {
       id: 'jewel-of-wrath',
       name: 'Jewel of Wrath',
-      description: "A gem embedded in his brow, burning with his father's memory. Raises own Attack by 28% for 3 turns.",
+      description: "A gem embedded in his brow, burning with his father's memory. Raises own Attack by 25% for 3 turns.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -811,9 +811,9 @@ const ashwatthama: ServantDefinition = {
           name: 'Jewel of Wrath',
           kind: 'buff',
           stat: 'atk',
-          amount: 0.28,
+          amount: 0.25,
           turnsRemaining: 3,
-          description: '+28% Attack',
+          description: '+25% Attack',
         });
         ctx.log('Ashwatthama channels rage through the Jewel of Wrath!');
       },

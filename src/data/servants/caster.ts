@@ -195,7 +195,7 @@ const merlin: ServantDefinition = {
     {
       id: 'mana-blessing',
       name: 'Mana Blessing',
-      description: 'A gift of magical power. Raises own Attack by 30% for 2 turns.',
+      description: 'A gift of magical power. Raises own Attack by 25% for 2 turns.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -205,9 +205,9 @@ const merlin: ServantDefinition = {
           name: 'Mana Blessing',
           kind: 'buff',
           stat: 'atk',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% ATK',
+          description: '+25% ATK',
         });
         ctx.log('Merlin grants himself a Mana Blessing!');
       },
@@ -569,9 +569,9 @@ const tamamo: ServantDefinition = {
           name: 'Foxfire Charm',
           kind: 'buff',
           stat: 'critChance',
-          amount: 0.4,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+40% crit chance scaling',
+          description: '+25% crit chance scaling',
         });
         ctx.log('Tamamo-no-Mae kindles a Foxfire Charm!');
       },
@@ -830,7 +830,7 @@ const scathachSkadi: ServantDefinition = {
     {
       id: 'ansuz-rune',
       name: 'Ansuz: Rune of the Beginning',
-      description: 'A rune of dawning power. Raises own Attack by 28% for 3 turns.',
+      description: 'A rune of dawning power. Raises own Attack by 25% for 3 turns.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -840,9 +840,9 @@ const scathachSkadi: ServantDefinition = {
           name: 'Ansuz: Rune of the Beginning',
           kind: 'buff',
           stat: 'atk',
-          amount: 0.28,
+          amount: 0.25,
           turnsRemaining: 3,
-          description: '+28% Attack',
+          description: '+25% Attack',
         });
         ctx.log("Scáthach-Skadi inscribes the Ansuz Rune!");
       },

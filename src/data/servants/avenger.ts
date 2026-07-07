@@ -366,7 +366,7 @@ const alcides: ServantDefinition = {
     {
       id: 'broken-fetters',
       name: 'Broken Fetters',
-      description: 'Every chain meant to bind him has failed. Raises own Attack by 30% for 2 turns.',
+      description: 'Every chain meant to bind him has failed. Raises own Attack by 25% for 2 turns.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -376,9 +376,9 @@ const alcides: ServantDefinition = {
           name: 'Broken Fetters',
           kind: 'buff',
           stat: 'atk',
-          amount: 0.3,
+          amount: 0.25,
           turnsRemaining: 2,
-          description: '+30% Attack',
+          description: '+25% Attack',
         });
         ctx.log('Alcides shatters his Broken Fetters, raging with power!');
       },
