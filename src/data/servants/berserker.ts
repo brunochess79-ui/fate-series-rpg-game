@@ -79,9 +79,48 @@ const heracles: ServantDefinition = {
         ctx.log('Heracles bristles with Monstrous Strength.');
       },
     },
+    {
+      id: 'gods-forgiveness',
+      name: "The God's Forgiveness",
+      description: "For the span of a breath, the madness lifts and only the hero beneath remains. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'gods-forgiveness-atk',
+          name: "The God's Forgiveness",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'gods-forgiveness-def',
+          name: "The God's Forgiveness",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'gods-forgiveness-dmg',
+          name: "The God's Forgiveness",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Heracles is granted The God's Forgiveness!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Nine Lives',
+    name: "Nine Lives",
     japaneseName: 'Nine Lives',
     description: "A reckless, world-ending smash that spends the wielder's own vitality.",
     rank: 'B+',
@@ -177,6 +216,45 @@ const lancelot: ServantDefinition = {
         ctx.dealDamage(ctx.self, ctx.enemy, 1.3 * executeBonus, { label: 'Berserk Fury' });
       },
     },
+    {
+      id: 'knight-before-the-fall',
+      name: "The Knight Before the Fall",
+      description: "A flicker of the man he was before madness and betrayal took him. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'knight-before-the-fall-atk',
+          name: "The Knight Before the Fall",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'knight-before-the-fall-def',
+          name: "The Knight Before the Fall",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'knight-before-the-fall-dmg',
+          name: "The Knight Before the Fall",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Lancelot remembers The Knight Before the Fall!");
+      },
+    },
   ],
   noblePhantasm: {
     name: "Arondight: The Betrayer's Blade",
@@ -260,9 +338,48 @@ const spartacus: ServantDefinition = {
         ctx.log(`Spartacus breaks his chains, recovering ${healed} HP!`);
       },
     },
+    {
+      id: 'gladiators-final-stand',
+      name: "The Gladiator's Final Stand",
+      description: "Every slave who ever stood beside him seems to stand there again. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'gladiators-final-stand-atk',
+          name: "The Gladiator's Final Stand",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'gladiators-final-stand-def',
+          name: "The Gladiator's Final Stand",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'gladiators-final-stand-dmg',
+          name: "The Gladiator's Final Stand",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Spartacus rallies for The Gladiator's Final Stand!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Roar of the Uprising',
+    name: "Roar of the Uprising",
     japaneseName: 'Roar of the Uprising',
     description: 'The full fury of a rebellion given a single, crushing form.',
     rank: 'B+',
@@ -351,9 +468,48 @@ const frankenstein: ServantDefinition = {
         ctx.log("Frankenstein's Monster tightens its Monstrous Grip.");
       },
     },
+    {
+      id: 'creations-final-plea',
+      name: "The Creation's Final Plea",
+      description: "Rejected by its maker, the creature finds a last reason to keep fighting. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'creations-final-plea-atk',
+          name: "The Creation's Final Plea",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'creations-final-plea-def',
+          name: "The Creation's Final Plea",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'creations-final-plea-dmg',
+          name: "The Creation's Final Plea",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Frankenstein's Monster answers The Creation's Final Plea!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Requiem for the Wretched',
+    name: "Requiem for the Wretched",
     japaneseName: 'Requiem for the Wretched',
     description: "All the creature's sorrow and strength poured into one final, devastating blow.",
     rank: 'B',
@@ -438,6 +594,45 @@ const morganLeFay: ServantDefinition = {
           description: 'Next attack guaranteed crit',
         });
         ctx.log("Morgan le Fay's Fairy Queen's Wrath rises.");
+      },
+    },
+    {
+      id: 'winter-queens-true-crown',
+      name: "The Winter Queen's True Crown",
+      description: "The fairy queen sheds her courtly manners and shows the cold, ancient power beneath. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'winter-queens-true-crown-atk',
+          name: "The Winter Queen's True Crown",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'winter-queens-true-crown-def',
+          name: "The Winter Queen's True Crown",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'winter-queens-true-crown-dmg',
+          name: "The Winter Queen's True Crown",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Morgan le Fay dons The Winter Queen's True Crown!");
       },
     },
   ],
@@ -535,9 +730,48 @@ const arjunaAlter: ServantDefinition = {
         ctx.log("Arjuna Alter channels Vayu's Judgment.");
       },
     },
+    {
+      id: 'vigilantes-last-restraint',
+      name: "The Vigilante's Last Restraint",
+      description: "Whatever restraint remained finally burns away entirely. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'vigilantes-last-restraint-atk',
+          name: "The Vigilante's Last Restraint",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'vigilantes-last-restraint-def',
+          name: "The Vigilante's Last Restraint",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'vigilantes-last-restraint-dmg',
+          name: "The Vigilante's Last Restraint",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Arjuna Alter loses The Vigilante's Last Restraint!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Pashupata: Anger of the Terrible One',
+    name: "Pashupata: Anger of the Terrible One",
     japaneseName: 'Pashupata',
     description: "A weapon of world-ending judgment, wielded without a shred of hesitation.",
     rank: 'A+',
@@ -623,9 +857,48 @@ const ibukiDouji: ServantDefinition = {
         ctx.log("Ibuki-Douji's Mountain Fiend's Hide hardens!");
       },
     },
+    {
+      id: 'great-fiends-true-form',
+      name: "The Great Fiend's True Form",
+      description: "The mountain oni sets aside her human shape for something far older. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'great-fiends-true-form-atk',
+          name: "The Great Fiend's True Form",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'great-fiends-true-form-def',
+          name: "The Great Fiend's True Form",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'great-fiends-true-form-dmg',
+          name: "The Great Fiend's True Form",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Ibuki-Douji reveals The Great Fiend's True Form!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Yamata no Orochi: The Eight-Forked Ruin',
+    name: "Yamata no Orochi: The Eight-Forked Ruin",
     japaneseName: 'Yamata no Orochi',
     description: 'A titanic serpent of ancient Japan, unleashed in eight simultaneous strikes.',
     rank: 'A+',
@@ -709,9 +982,48 @@ const cuChulainnAlter: ServantDefinition = {
         ctx.log("Cú Chulainn (Alter)'s Hound's Hunger gnaws at the enemy's guard!");
       },
     },
+    {
+      id: 'hounds-final-warp-spasm',
+      name: "The Hound's Final Warp Spasm",
+      description: "The curse of the warp spasm consumes what little remains of the man. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'hounds-final-warp-spasm-atk',
+          name: "The Hound's Final Warp Spasm",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'hounds-final-warp-spasm-def',
+          name: "The Hound's Final Warp Spasm",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'hounds-final-warp-spasm-dmg',
+          name: "The Hound's Final Warp Spasm",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Cú Chulainn (Alter) succumbs to The Hound's Final Warp Spasm!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Curruid Coinchenn: The Twisted Spear',
+    name: "Curruid Coinchenn: The Twisted Spear",
     japaneseName: 'Curruid Coinchenn',
     description: 'A cursed spear thrown with all the brutality of a broken mind.',
     rank: 'A+',
@@ -791,9 +1103,48 @@ const hijikata: ServantDefinition = {
         ctx.log('Hijikata Toshizo refuses to fall.');
       },
     },
+    {
+      id: 'vice-commanders-last-order',
+      name: "The Vice-Commander's Last Order",
+      description: "The Shinsengumi may be gone, but its discipline still moves through his blade. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'vice-commanders-last-order-atk',
+          name: "The Vice-Commander's Last Order",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'vice-commanders-last-order-def',
+          name: "The Vice-Commander's Last Order",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'vice-commanders-last-order-dmg',
+          name: "The Vice-Commander's Last Order",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Hijikata Toshizo gives The Vice-Commander's Last Order!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Shinsengumi: Til the Last Man Falls',
+    name: "Shinsengumi: Til the Last Man Falls",
     japaneseName: 'Shinsengumi',
     description: "A final charge, leading his men even as a demon in a man's uniform.",
     rank: 'B+',
@@ -875,9 +1226,48 @@ const barghest: ServantDefinition = {
         ctx.log("Barghest's Unbreakable Loyalty holds firm!");
       },
     },
+    {
+      id: 'fairy-knights-true-loyalty',
+      name: "The Fairy Knight's True Loyalty",
+      description: "Beneath the black dog and the borrowed name, a knight of the Round Table still keeps her oath. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'fairy-knights-true-loyalty-atk',
+          name: "The Fairy Knight's True Loyalty",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'fairy-knights-true-loyalty-def',
+          name: "The Fairy Knight's True Loyalty",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'fairy-knights-true-loyalty-dmg',
+          name: "The Fairy Knight's True Loyalty",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Barghest calls upon The Fairy Knight's True Loyalty!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Excalibur Galatine: The Fang of Loyalty',
+    name: "Excalibur Galatine: The Fang of Loyalty",
     japaneseName: 'Excalibur Galatine',
     description: 'A borrowed name and a borrowed blade, wielded with a fidelity all her own.',
     rank: 'A',
@@ -950,9 +1340,48 @@ const richardIII: ServantDefinition = {
         ctx.log(`Richard III steels himself with Villain's Resolve, healing ${healed} HP.`);
       },
     },
+    {
+      id: 'last-plantagenets-gambit',
+      name: "The Last Plantagenet's Gambit",
+      description: "A kingdom for a horse was never enough; now he wagers everything at once. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'last-plantagenets-gambit-atk',
+          name: "The Last Plantagenet's Gambit",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'last-plantagenets-gambit-def',
+          name: "The Last Plantagenet's Gambit",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'last-plantagenets-gambit-dmg',
+          name: "The Last Plantagenet's Gambit",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Richard III stakes it all on The Last Plantagenet's Gambit!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'One for All the Roses',
+    name: "One for All the Roses",
     japaneseName: 'One for All the Roses',
     description: "A king's last stand, every grievance spent in a single, furious charge.",
     rank: 'A+',
@@ -1038,9 +1467,48 @@ const vladIII: ServantDefinition = {
         ctx.log('Vlad III raises the Corpse Forest around the enemy!');
       },
     },
+    {
+      id: 'impalers-undying-order',
+      name: "The Impaler's Undying Order",
+      description: "The Lord Impaler's ruthless discipline hardens into something almost regal. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'impalers-undying-order-atk',
+          name: "The Impaler's Undying Order",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'impalers-undying-order-def',
+          name: "The Impaler's Undying Order",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'impalers-undying-order-dmg',
+          name: "The Impaler's Undying Order",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Vlad III enforces The Impaler's Undying Order!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Kazikli Bey: Lord of Impalement',
+    name: "Kazikli Bey: Lord of Impalement",
     japaneseName: 'Kazikli Bey',
     description: 'A field of iron stakes driven home all at once, in the name of a broken vow.',
     rank: 'A+',
