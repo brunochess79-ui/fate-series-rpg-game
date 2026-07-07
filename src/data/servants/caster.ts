@@ -298,7 +298,7 @@ const merlin: ServantDefinition = {
       npGainSelf: 20,
       tag: 'utility',
       effect: (ctx) => {
-        ctx.self.skillCooldowns = ctx.self.skillCooldowns.map(() => 0);
+        ctx.self.skillCooldowns = ctx.self.skillCooldowns.map((cd) => (cd === Infinity ? cd : 0));
         ctx.log('Merlin recalls a Sacred Prophecy — every path is already prepared.');
       },
     },
@@ -693,7 +693,7 @@ const solomon: ServantDefinition = {
       npGainSelf: 20,
       tag: 'utility',
       effect: (ctx) => {
-        ctx.self.skillCooldowns = ctx.self.skillCooldowns.map(() => 0);
+        ctx.self.skillCooldowns = ctx.self.skillCooldowns.map((cd) => (cd === Infinity ? cd : 0));
         ctx.log('Solomon draws on the Wisdom of Solomon - every path is already known.');
       },
     },

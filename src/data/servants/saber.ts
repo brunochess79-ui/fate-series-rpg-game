@@ -797,39 +797,22 @@ const mordred: ServantDefinition = {
     },
     {
       id: 'secret-of-pedigree',
-      name: "Secret of Pedigree",
-      description: "The truth of her bloodline, bared as a weapon. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
-      cooldown: 0,
+      name: 'Secret of Pedigree',
+      description: 'A bloodline she refuses to be denied. Raises own crit rate for 2 turns.',
+      cooldown: 3,
       npGainSelf: 20,
-      tag: 'crit',
-      oneTimeUse: true,
+      tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'secret-of-pedigree-atk',
-          name: "Secret of Pedigree",
+          id: 'secret-of-pedigree',
+          name: 'Secret of Pedigree',
           kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
+          stat: 'critChance',
+          amount: 0.3,
+          turnsRemaining: 2,
+          description: '+30% crit chance scaling',
         });
-        applyStatus(ctx.self, {
-          id: 'secret-of-pedigree-dmg',
-          name: "Secret of Pedigree",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        applyStatus(ctx.self, {
-          id: 'secret-of-pedigree__critReady',
-          name: "Secret of Pedigree",
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log("Mordred lays bare the Secret of Pedigree!");
+        ctx.log("Mordred's Secret of Pedigree drives her forward!");
       },
     },
     {
@@ -845,42 +828,40 @@ const mordred: ServantDefinition = {
       },
     },
     {
-      id: 'secret-of-pedigree',
-      name: "Secret of Pedigree",
-      description: "The truth of her bloodline, bared as a weapon. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      id: 'bloodlines-reckoning',
+      name: "The Bloodline's Reckoning",
+      description: "The truth of her bloodline, bared as a weapon. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'secret-of-pedigree-atk',
-          name: "Secret of Pedigree",
+          id: 'bloodlines-reckoning-atk',
+          name: "The Bloodline's Reckoning",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'secret-of-pedigree-def',
-          name: "Secret of Pedigree",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
-          id: 'secret-of-pedigree-dmg',
-          name: "Secret of Pedigree",
+          id: 'bloodlines-reckoning-dmg',
+          name: "The Bloodline's Reckoning",
           kind: 'buff',
           stat: 'damage',
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
         });
-        ctx.log("Mordred lays bare the Secret of Pedigree!");
+        applyStatus(ctx.self, {
+          id: 'bloodlines-reckoning__critReady',
+          name: "The Bloodline's Reckoning",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log("Mordred lays bare The Bloodline's Reckoning!");
       },
     },
   ],
