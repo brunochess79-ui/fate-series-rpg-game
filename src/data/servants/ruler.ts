@@ -76,7 +76,7 @@ const jeanne: ServantDefinition = {
     {
       id: 'voice-of-the-saints',
       name: "The Voice of the Saints",
-      description: "The voices that guided her since childhood speak again, louder than ever. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The voices that guided her since childhood speak again, louder than ever. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -87,27 +87,26 @@ const jeanne: ServantDefinition = {
           name: "The Voice of the Saints",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'voice-of-the-saints-def',
           name: "The Voice of the Saints",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'voice-of-the-saints-dmg',
+          id: 'voice-of-the-saints-shield',
           name: "The Voice of the Saints",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
         });
         ctx.log("Jeanne d'Arc hears The Voice of the Saints!");
       },
@@ -198,7 +197,7 @@ const amakusa: ServantDefinition = {
     {
       id: 'undying-faith-of-amakusa',
       name: "The Undying Faith of Amakusa",
-      description: "The conviction of thirty-seven thousand martyrs settles onto his shoulders. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The conviction of thirty-seven thousand martyrs settles onto his shoulders. Raises own Attack by 15% and Defense by 10% for 3 turns, and guarantees the next enemy attack will miss entirely.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -209,27 +208,25 @@ const amakusa: ServantDefinition = {
           name: "The Undying Faith of Amakusa",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'undying-faith-of-amakusa-def',
           name: "The Undying Faith of Amakusa",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.1,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+10% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'undying-faith-of-amakusa-dmg',
+          id: 'undying-faith-of-amakusa-evade',
           name: "The Undying Faith of Amakusa",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
         });
         ctx.log("Amakusa Shirou channels The Undying Faith of Amakusa!");
       },
@@ -319,10 +316,10 @@ const sherlock: ServantDefinition = {
     {
       id: 'greatest-detective-alive',
       name: "The Greatest Detective Alive",
-      description: "Every clue, every deduction, every case ever solved converges on this single moment. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Every clue, every deduction, every case ever solved converges on this single moment. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -330,18 +327,9 @@ const sherlock: ServantDefinition = {
           name: "The Greatest Detective Alive",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'greatest-detective-alive-def',
-          name: "The Greatest Detective Alive",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'greatest-detective-alive-dmg',
@@ -351,6 +339,13 @@ const sherlock: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'greatest-detective-alive__critReady',
+          name: "The Greatest Detective Alive",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Sherlock Holmes becomes The Greatest Detective Alive!");
       },

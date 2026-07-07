@@ -70,10 +70,10 @@ const kiara: ServantDefinition = {
     {
       id: 'beast-of-bliss-true-hunger',
       name: "The Beast of Bliss, True Hunger",
-      description: "The cheerful mask cracks, and something vast and starving looks out from behind it. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The cheerful mask cracks, and something vast and starving looks out from behind it. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'heal',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -94,16 +94,9 @@ const kiara: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'beast-of-bliss-true-hunger-dmg',
-          name: "The Beast of Bliss, True Hunger",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        ctx.log("Sessyoin Kiara reveals The Beast of Bliss, True Hunger!");
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log("Sessyoin Kiara reveals The Beast of Bliss, True Hunger!" + ` Recovers ${healed} HP.`);
       },
     },
   ],
@@ -196,7 +189,7 @@ const tiamat: ServantDefinition = {
     {
       id: 'primordial-mothers-true-scale',
       name: "The Primordial Mother's True Scale",
-      description: "The chains that bind a goddess of creation strain, if only for a moment. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The chains that bind a goddess of creation strain, if only for a moment. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -207,27 +200,26 @@ const tiamat: ServantDefinition = {
           name: "The Primordial Mother's True Scale",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'primordial-mothers-true-scale-def',
           name: "The Primordial Mother's True Scale",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'primordial-mothers-true-scale-dmg',
+          id: 'primordial-mothers-true-scale-shield',
           name: "The Primordial Mother's True Scale",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
         });
         ctx.log("Tiamat strains against The Primordial Mother's True Scale!");
       },

@@ -78,7 +78,7 @@ const oberon: ServantDefinition = {
     {
       id: 'kings-final-storybook',
       name: "The King's Final Storybook",
-      description: "Every stolen legend he ever wore folds into one last, mischievous tale. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Every stolen legend he ever wore folds into one last, mischievous tale. Raises own Attack by 15% and Defense by 10% for 3 turns, and guarantees the next enemy attack will miss entirely.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -89,27 +89,25 @@ const oberon: ServantDefinition = {
           name: "The King's Final Storybook",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'kings-final-storybook-def',
           name: "The King's Final Storybook",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.1,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+10% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'kings-final-storybook-dmg',
+          id: 'kings-final-storybook-evade',
           name: "The King's Final Storybook",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
         });
         ctx.log("Oberon writes The King's Final Storybook!");
       },

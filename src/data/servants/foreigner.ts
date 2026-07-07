@@ -71,7 +71,7 @@ const kukulkan: ServantDefinition = {
     {
       id: 'suns-full-radiance',
       name: "The Sun's Full Radiance",
-      description: "The goddess sheds every ounce of restraint and shines as bright as the sun she carries. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The goddess sheds every ounce of restraint and shines as bright as the sun she carries. Raises own Attack by 30% and damage dealt by 20%, but lowers Defense by 10%, for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -82,27 +82,27 @@ const kukulkan: ServantDefinition = {
           name: "The Sun's Full Radiance",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'suns-full-radiance-def',
-          name: "The Sun's Full Radiance",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Attack',
         });
         applyStatus(ctx.self, {
           id: 'suns-full-radiance-dmg',
           name: "The Sun's Full Radiance",
           kind: 'buff',
           stat: 'damage',
-          amount: 0.15,
+          amount: 0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '+20% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'suns-full-radiance-def',
+          name: "The Sun's Full Radiance",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.1,
+          turnsRemaining: 3,
+          description: '-10% Defense',
         });
         ctx.log("Kukulkan blazes with The Sun's Full Radiance!");
       },
@@ -196,10 +196,10 @@ const uOlgaMarie: ServantDefinition = {
     {
       id: 'directors-final-cut',
       name: "The Director's Final Cut",
-      description: "Whatever watches through her camera finally steps fully into frame. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Whatever watches through her camera finally steps fully into frame. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -207,18 +207,9 @@ const uOlgaMarie: ServantDefinition = {
           name: "The Director's Final Cut",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'directors-final-cut-def',
-          name: "The Director's Final Cut",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'directors-final-cut-dmg',
@@ -228,6 +219,13 @@ const uOlgaMarie: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'directors-final-cut__critReady',
+          name: "The Director's Final Cut",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("U-Olga Marie invokes The Director's Final Cut!");
       },

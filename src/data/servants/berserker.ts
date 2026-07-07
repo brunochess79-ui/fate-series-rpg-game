@@ -82,10 +82,10 @@ const heracles: ServantDefinition = {
     {
       id: 'gods-forgiveness',
       name: "The God's Forgiveness",
-      description: "For the span of a breath, the madness lifts and only the hero beneath remains. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "For the span of a breath, the madness lifts and only the hero beneath remains. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'heal',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -106,16 +106,9 @@ const heracles: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'gods-forgiveness-dmg',
-          name: "The God's Forgiveness",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        ctx.log("Heracles is granted The God's Forgiveness!");
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log("Heracles is granted The God's Forgiveness!" + ` Recovers ${healed} HP.`);
       },
     },
   ],
@@ -219,10 +212,10 @@ const lancelot: ServantDefinition = {
     {
       id: 'knight-before-the-fall',
       name: "The Knight Before the Fall",
-      description: "A flicker of the man he was before madness and betrayal took him. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "A flicker of the man he was before madness and betrayal took him. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'heal',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -243,16 +236,9 @@ const lancelot: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'knight-before-the-fall-dmg',
-          name: "The Knight Before the Fall",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        ctx.log("Lancelot remembers The Knight Before the Fall!");
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log("Lancelot remembers The Knight Before the Fall!" + ` Recovers ${healed} HP.`);
       },
     },
   ],
@@ -341,7 +327,7 @@ const spartacus: ServantDefinition = {
     {
       id: 'gladiators-final-stand',
       name: "The Gladiator's Final Stand",
-      description: "Every slave who ever stood beside him seems to stand there again. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Every slave who ever stood beside him seems to stand there again. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -352,27 +338,26 @@ const spartacus: ServantDefinition = {
           name: "The Gladiator's Final Stand",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'gladiators-final-stand-def',
           name: "The Gladiator's Final Stand",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'gladiators-final-stand-dmg',
+          id: 'gladiators-final-stand-shield',
           name: "The Gladiator's Final Stand",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
         });
         ctx.log("Spartacus rallies for The Gladiator's Final Stand!");
       },
@@ -471,10 +456,10 @@ const frankenstein: ServantDefinition = {
     {
       id: 'creations-final-plea',
       name: "The Creation's Final Plea",
-      description: "Rejected by its maker, the creature finds a last reason to keep fighting. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Rejected by its maker, the creature finds a last reason to keep fighting. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'heal',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -495,16 +480,9 @@ const frankenstein: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'creations-final-plea-dmg',
-          name: "The Creation's Final Plea",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        ctx.log("Frankenstein's Monster answers The Creation's Final Plea!");
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log("Frankenstein's Monster answers The Creation's Final Plea!" + ` Recovers ${healed} HP.`);
       },
     },
   ],
@@ -599,10 +577,10 @@ const morganLeFay: ServantDefinition = {
     {
       id: 'winter-queens-true-crown',
       name: "The Winter Queen's True Crown",
-      description: "The fairy queen sheds her courtly manners and shows the cold, ancient power beneath. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The fairy queen sheds her courtly manners and shows the cold, ancient power beneath. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'debuff',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -610,9 +588,9 @@ const morganLeFay: ServantDefinition = {
           name: "The Winter Queen's True Crown",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'winter-queens-true-crown-def',
@@ -623,14 +601,14 @@ const morganLeFay: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'winter-queens-true-crown-dmg',
+        applyStatus(ctx.enemy, {
+          id: 'winter-queens-true-crown-enemy-atk-down',
           name: "The Winter Queen's True Crown",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '-20% ATK',
         });
         ctx.log("Morgan le Fay dons The Winter Queen's True Crown!");
       },
@@ -733,7 +711,7 @@ const arjunaAlter: ServantDefinition = {
     {
       id: 'vigilantes-last-restraint',
       name: "The Vigilante's Last Restraint",
-      description: "Whatever restraint remained finally burns away entirely. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Whatever restraint remained finally burns away entirely. Raises own Attack by 30% and damage dealt by 20%, but lowers Defense by 10%, for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -744,27 +722,27 @@ const arjunaAlter: ServantDefinition = {
           name: "The Vigilante's Last Restraint",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'vigilantes-last-restraint-def',
-          name: "The Vigilante's Last Restraint",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Attack',
         });
         applyStatus(ctx.self, {
           id: 'vigilantes-last-restraint-dmg',
           name: "The Vigilante's Last Restraint",
           kind: 'buff',
           stat: 'damage',
-          amount: 0.15,
+          amount: 0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '+20% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'vigilantes-last-restraint-def',
+          name: "The Vigilante's Last Restraint",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.1,
+          turnsRemaining: 3,
+          description: '-10% Defense',
         });
         ctx.log("Arjuna Alter loses The Vigilante's Last Restraint!");
       },
@@ -860,7 +838,7 @@ const ibukiDouji: ServantDefinition = {
     {
       id: 'great-fiends-true-form',
       name: "The Great Fiend's True Form",
-      description: "The mountain oni sets aside her human shape for something far older. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The mountain oni sets aside her human shape for something far older. Raises own Attack by 30% and damage dealt by 20%, but lowers Defense by 10%, for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -871,27 +849,27 @@ const ibukiDouji: ServantDefinition = {
           name: "The Great Fiend's True Form",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'great-fiends-true-form-def',
-          name: "The Great Fiend's True Form",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Attack',
         });
         applyStatus(ctx.self, {
           id: 'great-fiends-true-form-dmg',
           name: "The Great Fiend's True Form",
           kind: 'buff',
           stat: 'damage',
-          amount: 0.15,
+          amount: 0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '+20% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'great-fiends-true-form-def',
+          name: "The Great Fiend's True Form",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.1,
+          turnsRemaining: 3,
+          description: '-10% Defense',
         });
         ctx.log("Ibuki-Douji reveals The Great Fiend's True Form!");
       },
@@ -985,10 +963,10 @@ const cuChulainnAlter: ServantDefinition = {
     {
       id: 'hounds-final-warp-spasm',
       name: "The Hound's Final Warp Spasm",
-      description: "The curse of the warp spasm consumes what little remains of the man. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The curse of the warp spasm consumes what little remains of the man. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'heal',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -1009,16 +987,9 @@ const cuChulainnAlter: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'hounds-final-warp-spasm-dmg',
-          name: "The Hound's Final Warp Spasm",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        ctx.log("Cú Chulainn (Alter) succumbs to The Hound's Final Warp Spasm!");
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log("Cú Chulainn (Alter) succumbs to The Hound's Final Warp Spasm!" + ` Recovers ${healed} HP.`);
       },
     },
   ],
@@ -1106,10 +1077,10 @@ const hijikata: ServantDefinition = {
     {
       id: 'vice-commanders-last-order',
       name: "The Vice-Commander's Last Order",
-      description: "The Shinsengumi may be gone, but its discipline still moves through his blade. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The Shinsengumi may be gone, but its discipline still moves through his blade. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'heal',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -1130,16 +1101,9 @@ const hijikata: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'vice-commanders-last-order-dmg',
-          name: "The Vice-Commander's Last Order",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        ctx.log("Hijikata Toshizo gives The Vice-Commander's Last Order!");
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log("Hijikata Toshizo gives The Vice-Commander's Last Order!" + ` Recovers ${healed} HP.`);
       },
     },
   ],
@@ -1229,7 +1193,7 @@ const barghest: ServantDefinition = {
     {
       id: 'fairy-knights-true-loyalty',
       name: "The Fairy Knight's True Loyalty",
-      description: "Beneath the black dog and the borrowed name, a knight of the Round Table still keeps her oath. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Beneath the black dog and the borrowed name, a knight of the Round Table still keeps her oath. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -1240,27 +1204,26 @@ const barghest: ServantDefinition = {
           name: "The Fairy Knight's True Loyalty",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'fairy-knights-true-loyalty-def',
           name: "The Fairy Knight's True Loyalty",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'fairy-knights-true-loyalty-dmg',
+          id: 'fairy-knights-true-loyalty-shield',
           name: "The Fairy Knight's True Loyalty",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
         });
         ctx.log("Barghest calls upon The Fairy Knight's True Loyalty!");
       },
@@ -1343,10 +1306,10 @@ const richardIII: ServantDefinition = {
     {
       id: 'last-plantagenets-gambit',
       name: "The Last Plantagenet's Gambit",
-      description: "A kingdom for a horse was never enough; now he wagers everything at once. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "A kingdom for a horse was never enough; now he wagers everything at once. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'debuff',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -1354,9 +1317,9 @@ const richardIII: ServantDefinition = {
           name: "The Last Plantagenet's Gambit",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'last-plantagenets-gambit-def',
@@ -1367,14 +1330,14 @@ const richardIII: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'last-plantagenets-gambit-dmg',
+        applyStatus(ctx.enemy, {
+          id: 'last-plantagenets-gambit-enemy-atk-down',
           name: "The Last Plantagenet's Gambit",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '-20% ATK',
         });
         ctx.log("Richard III stakes it all on The Last Plantagenet's Gambit!");
       },
@@ -1470,10 +1433,10 @@ const vladIII: ServantDefinition = {
     {
       id: 'impalers-undying-order',
       name: "The Impaler's Undying Order",
-      description: "The Lord Impaler's ruthless discipline hardens into something almost regal. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The Lord Impaler's ruthless discipline hardens into something almost regal. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'debuff',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -1481,9 +1444,9 @@ const vladIII: ServantDefinition = {
           name: "The Impaler's Undying Order",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'impalers-undying-order-def',
@@ -1494,14 +1457,14 @@ const vladIII: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'impalers-undying-order-dmg',
+        applyStatus(ctx.enemy, {
+          id: 'impalers-undying-order-enemy-atk-down',
           name: "The Impaler's Undying Order",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '-20% ATK',
         });
         ctx.log("Vlad III enforces The Impaler's Undying Order!");
       },

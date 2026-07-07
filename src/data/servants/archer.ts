@@ -71,7 +71,7 @@ const arash: ServantDefinition = {
     {
       id: 'gods-final-arrow',
       name: "The God's Final Arrow",
-      description: "The hunter recalls the one shot that ended a hydra, and every shot after it becomes that shot. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The hunter recalls the one shot that ended a hydra, and every shot after it becomes that shot. Raises own Attack by 30% and damage dealt by 20%, but lowers Defense by 10%, for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -82,27 +82,27 @@ const arash: ServantDefinition = {
           name: "The God's Final Arrow",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'gods-final-arrow-def',
-          name: "The God's Final Arrow",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Attack',
         });
         applyStatus(ctx.self, {
           id: 'gods-final-arrow-dmg',
           name: "The God's Final Arrow",
           kind: 'buff',
           stat: 'damage',
-          amount: 0.15,
+          amount: 0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '+20% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'gods-final-arrow-def',
+          name: "The God's Final Arrow",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.1,
+          turnsRemaining: 3,
+          description: '-10% Defense',
         });
         ctx.log("Arash draws on the God's Final Arrow!");
       },
@@ -198,7 +198,7 @@ const robinHood: ServantDefinition = {
     {
       id: 'heros-legend-retold',
       name: "The Hero's Legend, Retold",
-      description: "A hundred ballads of Sherwood rise up to lend him their weight. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "A hundred ballads of Sherwood rise up to lend him their weight. Raises own Attack by 15% and Defense by 10% for 3 turns, and guarantees the next enemy attack will miss entirely.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -209,27 +209,25 @@ const robinHood: ServantDefinition = {
           name: "The Hero's Legend, Retold",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'heros-legend-retold-def',
           name: "The Hero's Legend, Retold",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.1,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+10% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'heros-legend-retold-dmg',
+          id: 'heros-legend-retold-evade',
           name: "The Hero's Legend, Retold",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
         });
         ctx.log("Robin Hood calls upon The Hero's Legend, Retold!");
       },
@@ -318,10 +316,10 @@ const williamTell: ServantDefinition = {
     {
       id: 'fathers-resolve',
       name: "A Father's Resolve",
-      description: "The apple is gone; only the marksman's nerve remains, steadier than ever. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The apple is gone; only the marksman's nerve remains, steadier than ever. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -329,18 +327,9 @@ const williamTell: ServantDefinition = {
           name: "A Father's Resolve",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'fathers-resolve-def',
-          name: "A Father's Resolve",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'fathers-resolve-dmg',
@@ -350,6 +339,13 @@ const williamTell: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'fathers-resolve__critReady',
+          name: "A Father's Resolve",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("William Tell steels himself with A Father's Resolve!");
       },
@@ -437,7 +433,7 @@ const atalanta: ServantDefinition = {
     {
       id: 'huntress-unleashed',
       name: "The Huntress Unleashed",
-      description: "The wild strength that outran Argonauts surges to the surface. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The wild strength that outran Argonauts surges to the surface. Raises own Attack by 15% and Defense by 10% for 3 turns, and guarantees the next enemy attack will miss entirely.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -448,27 +444,25 @@ const atalanta: ServantDefinition = {
           name: "The Huntress Unleashed",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'huntress-unleashed-def',
           name: "The Huntress Unleashed",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.1,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+10% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'huntress-unleashed-dmg',
+          id: 'huntress-unleashed-evade',
           name: "The Huntress Unleashed",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
         });
         ctx.log("Atalanta becomes The Huntress Unleashed!");
       },
@@ -558,10 +552,10 @@ const gilgamesh: ServantDefinition = {
     {
       id: 'kings-true-radiance',
       name: "The King's True Radiance",
-      description: "For a moment he sheds his disdain and burns as bright as the treasury behind him. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "For a moment he sheds his disdain and burns as bright as the treasury behind him. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'debuff',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -569,9 +563,9 @@ const gilgamesh: ServantDefinition = {
           name: "The King's True Radiance",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'kings-true-radiance-def',
@@ -582,14 +576,14 @@ const gilgamesh: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'kings-true-radiance-dmg',
+        applyStatus(ctx.enemy, {
+          id: 'kings-true-radiance-enemy-atk-down',
           name: "The King's True Radiance",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '-20% ATK',
         });
         ctx.log("Gilgamesh reveals The King's True Radiance!");
       },
@@ -678,10 +672,10 @@ const emiya: ServantDefinition = {
     {
       id: 'one-who-severs-fate',
       name: "One Who Severs Fate",
-      description: "A thousand blades remembered, a thousand deaths survived - all of it aimed at this one moment. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "A thousand blades remembered, a thousand deaths survived - all of it aimed at this one moment. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -689,18 +683,9 @@ const emiya: ServantDefinition = {
           name: "One Who Severs Fate",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'one-who-severs-fate-def',
-          name: "One Who Severs Fate",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'one-who-severs-fate-dmg',
@@ -710,6 +695,13 @@ const emiya: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'one-who-severs-fate__critReady',
+          name: "One Who Severs Fate",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("EMIYA becomes One Who Severs Fate!");
       },
@@ -804,10 +796,10 @@ const orion: ServantDefinition = {
     {
       id: 'twin-star-alignment',
       name: "Twin-Star Alignment",
-      description: "The hunter and the goddess's blessing align as one, if only for an instant. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The hunter and the goddess's blessing align as one, if only for an instant. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -815,18 +807,9 @@ const orion: ServantDefinition = {
           name: "Twin-Star Alignment",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'twin-star-alignment-def',
-          name: "Twin-Star Alignment",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'twin-star-alignment-dmg',
@@ -836,6 +819,13 @@ const orion: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'twin-star-alignment__critReady',
+          name: "Twin-Star Alignment",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Orion channels the Twin-Star Alignment!");
       },
@@ -932,7 +922,7 @@ const tametomo: ServantDefinition = {
     {
       id: 'giants-full-draw',
       name: "The Giant's Full Draw",
-      description: "His inhuman arms finally draw the great bow to its true limit. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "His inhuman arms finally draw the great bow to its true limit. Raises own Attack by 30% and damage dealt by 20%, but lowers Defense by 10%, for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -943,27 +933,27 @@ const tametomo: ServantDefinition = {
           name: "The Giant's Full Draw",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'giants-full-draw-def',
-          name: "The Giant's Full Draw",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Attack',
         });
         applyStatus(ctx.self, {
           id: 'giants-full-draw-dmg',
           name: "The Giant's Full Draw",
           kind: 'buff',
           stat: 'damage',
-          amount: 0.15,
+          amount: 0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '+20% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'giants-full-draw-def',
+          name: "The Giant's Full Draw",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.1,
+          turnsRemaining: 3,
+          description: '-10% Defense',
         });
         ctx.log("Tametomo unleashes The Giant's Full Draw!");
       },
@@ -1051,10 +1041,10 @@ const ishtar: ServantDefinition = {
     {
       id: 'goddess-of-love-and-war',
       name: "Goddess of Love and War",
-      description: "Vain and glorious, she reminds the battlefield exactly which goddess it is facing. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Vain and glorious, she reminds the battlefield exactly which goddess it is facing. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -1062,18 +1052,9 @@ const ishtar: ServantDefinition = {
           name: "Goddess of Love and War",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'goddess-of-love-and-war-def',
-          name: "Goddess of Love and War",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'goddess-of-love-and-war-dmg',
@@ -1083,6 +1064,13 @@ const ishtar: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'goddess-of-love-and-war__critReady',
+          name: "Goddess of Love and War",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Ishtar rises as the Goddess of Love and War!");
       },
@@ -1172,10 +1160,10 @@ const ashwatthama: ServantDefinition = {
     {
       id: 'sons-undying-fury',
       name: "The Son's Undying Fury",
-      description: "The near-immortal warrior's rage finally boils past his famous restraint. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The near-immortal warrior's rage finally boils past his famous restraint. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'debuff',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -1183,9 +1171,9 @@ const ashwatthama: ServantDefinition = {
           name: "The Son's Undying Fury",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'sons-undying-fury-def',
@@ -1196,14 +1184,14 @@ const ashwatthama: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'sons-undying-fury-dmg',
+        applyStatus(ctx.enemy, {
+          id: 'sons-undying-fury-enemy-atk-down',
           name: "The Son's Undying Fury",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '-20% ATK',
         });
         ctx.log("Ashwatthama gives in to The Son's Undying Fury!");
       },
@@ -1299,10 +1287,10 @@ const moriarty: ServantDefinition = {
     {
       id: 'napoleon-of-crime',
       name: "The Napoleon of Crime",
-      description: "Every thread of his web pulls taut at once, and the spider steps forward. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Every thread of his web pulls taut at once, and the spider steps forward. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -1310,18 +1298,9 @@ const moriarty: ServantDefinition = {
           name: "The Napoleon of Crime",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'napoleon-of-crime-def',
-          name: "The Napoleon of Crime",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'napoleon-of-crime-dmg',
@@ -1331,6 +1310,13 @@ const moriarty: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'napoleon-of-crime__critReady',
+          name: "The Napoleon of Crime",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Moriarty reveals himself as The Napoleon of Crime!");
       },

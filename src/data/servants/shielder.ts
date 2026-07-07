@@ -72,7 +72,7 @@ const mash: ServantDefinition = {
     {
       id: 'shielders-unbreakable-vow',
       name: "The Shielder's Unbreakable Vow",
-      description: "Every ounce of her borrowed strength answers her one desperate wish to protect. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Every ounce of her borrowed strength answers her one desperate wish to protect. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -83,27 +83,26 @@ const mash: ServantDefinition = {
           name: "The Shielder's Unbreakable Vow",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'shielders-unbreakable-vow-def',
           name: "The Shielder's Unbreakable Vow",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'shielders-unbreakable-vow-dmg',
+          id: 'shielders-unbreakable-vow-shield',
           name: "The Shielder's Unbreakable Vow",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
         });
         ctx.log("Mash Kyrielight upholds The Shielder's Unbreakable Vow!");
       },

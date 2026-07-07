@@ -75,7 +75,7 @@ const hassan: ServantDefinition = {
     {
       id: 'old-mans-final-truth',
       name: "The Old Man's Final Truth",
-      description: "The mountain of illusions finally shows the one truth he never lets anyone see. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The mountain of illusions finally shows the one truth he never lets anyone see. Raises own Attack by 15% and Defense by 10% for 3 turns, and guarantees the next enemy attack will miss entirely.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -86,27 +86,25 @@ const hassan: ServantDefinition = {
           name: "The Old Man's Final Truth",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'old-mans-final-truth-def',
           name: "The Old Man's Final Truth",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.1,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+10% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'old-mans-final-truth-dmg',
+          id: 'old-mans-final-truth-evade',
           name: "The Old Man's Final Truth",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
         });
         ctx.log("Hassan-i Sabbah reveals The Old Man's Final Truth!");
       },
@@ -204,10 +202,10 @@ const theRipper: ServantDefinition = {
     {
       id: 'phantoms-final-alley',
       name: "The Phantom's Final Alley",
-      description: "The fog of Whitechapel closes in one last time, and the Ripper steps free of it. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The fog of Whitechapel closes in one last time, and the Ripper steps free of it. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -215,18 +213,9 @@ const theRipper: ServantDefinition = {
           name: "The Phantom's Final Alley",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'phantoms-final-alley-def',
-          name: "The Phantom's Final Alley",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'phantoms-final-alley-dmg',
@@ -236,6 +225,13 @@ const theRipper: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'phantoms-final-alley__critReady',
+          name: "The Phantom's Final Alley",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("The Ripper vanishes into The Phantom's Final Alley!");
       },
@@ -264,7 +260,7 @@ const semiramis: ServantDefinition = {
   def: 59,
   agility: 70,
   critChance: 0.12,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Damage over Time', 'Shielding'],
   weaknesses: ['Low Damage'],
   passiveDescription: 'Ruler of the Hanging Gardens, she strikes with serpents and poison.',
@@ -331,7 +327,7 @@ const semiramis: ServantDefinition = {
     {
       id: 'babylons-final-decree',
       name: "Babylon's Final Decree",
-      description: "The queen who tamed a hanging garden calls on the full weight of her city. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The queen who tamed a hanging garden calls on the full weight of her city. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -342,27 +338,26 @@ const semiramis: ServantDefinition = {
           name: "Babylon's Final Decree",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'babylons-final-decree-def',
           name: "Babylon's Final Decree",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'babylons-final-decree-dmg',
+          id: 'babylons-final-decree-shield',
           name: "Babylon's Final Decree",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
         });
         ctx.log("Semiramis issues Babylon's Final Decree!");
       },
@@ -459,10 +454,10 @@ const sasakiKojiro: ServantDefinition = {
     {
       id: 'demons-perfect-stillness',
       name: "The Demon's Perfect Stillness",
-      description: "Every motion falls away until only the perfect cut remains. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Every motion falls away until only the perfect cut remains. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -470,18 +465,9 @@ const sasakiKojiro: ServantDefinition = {
           name: "The Demon's Perfect Stillness",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'demons-perfect-stillness-def',
-          name: "The Demon's Perfect Stillness",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'demons-perfect-stillness-dmg',
@@ -491,6 +477,13 @@ const sasakiKojiro: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'demons-perfect-stillness__critReady',
+          name: "The Demon's Perfect Stillness",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Sasaki Kojirō reaches The Demon's Perfect Stillness!");
       },
@@ -584,7 +577,7 @@ const kingHassan: ServantDefinition = {
     {
       id: 'grand-assassins-true-name',
       name: "The Grand Assassin's True Name",
-      description: "For a heartbeat, the nameless king of a hundred Hassans remembers who he was. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "For a heartbeat, the nameless king of a hundred Hassans remembers who he was. Raises own Attack by 15% and Defense by 10% for 3 turns, and guarantees the next enemy attack will miss entirely.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -595,27 +588,25 @@ const kingHassan: ServantDefinition = {
           name: "The Grand Assassin's True Name",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'grand-assassins-true-name-def',
           name: "The Grand Assassin's True Name",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.1,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+10% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'grand-assassins-true-name-dmg',
+          id: 'grand-assassins-true-name-evade',
           name: "The Grand Assassin's True Name",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
         });
         ctx.log("King Hassan speaks The Grand Assassin's True Name!");
       },
@@ -710,10 +701,10 @@ const tezcatlipoca: ServantDefinition = {
     {
       id: 'smoking-mirrors-true-reflection',
       name: "The Smoking Mirror's True Reflection",
-      description: "The obsidian mirror shows the god exactly as he is, and he likes what he sees. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The obsidian mirror shows the god exactly as he is, and he likes what he sees. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -721,18 +712,9 @@ const tezcatlipoca: ServantDefinition = {
           name: "The Smoking Mirror's True Reflection",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'smoking-mirrors-true-reflection-def',
-          name: "The Smoking Mirror's True Reflection",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'smoking-mirrors-true-reflection-dmg',
@@ -742,6 +724,13 @@ const tezcatlipoca: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'smoking-mirrors-true-reflection__critReady',
+          name: "The Smoking Mirror's True Reflection",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Tezcatlipoca gazes into The Smoking Mirror's True Reflection!");
       },
@@ -827,10 +816,10 @@ const koyanskaya: ServantDefinition = {
     {
       id: 'golden-wolfs-hidden-fang',
       name: "The Golden Wolf's Hidden Fang",
-      description: "Behind the borrowed kindness, the wolf finally bares its true fang. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Behind the borrowed kindness, the wolf finally bares its true fang. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -838,18 +827,9 @@ const koyanskaya: ServantDefinition = {
           name: "The Golden Wolf's Hidden Fang",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'golden-wolfs-hidden-fang-def',
-          name: "The Golden Wolf's Hidden Fang",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'golden-wolfs-hidden-fang-dmg',
@@ -859,6 +839,13 @@ const koyanskaya: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'golden-wolfs-hidden-fang__critReady',
+          name: "The Golden Wolf's Hidden Fang",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Koyanskaya of Light shows The Golden Wolf's Hidden Fang!");
       },

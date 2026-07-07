@@ -78,7 +78,7 @@ const arthur: ServantDefinition = {
     {
       id: 'avalons-blessing',
       name: "Avalon's Blessing",
-      description: "The scabbard's grace answers her call one final time. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The scabbard's grace answers her call one final time. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -89,27 +89,26 @@ const arthur: ServantDefinition = {
           name: "Avalon's Blessing",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'avalons-blessing-def',
           name: "Avalon's Blessing",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'avalons-blessing-dmg',
+          id: 'avalons-blessing-shield',
           name: "Avalon's Blessing",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
         });
         ctx.log("Artoria invokes Avalon's Blessing!");
       },
@@ -205,10 +204,10 @@ const siegfried: ServantDefinition = {
     {
       id: 'dragons-blood-awakening',
       name: "Dragon's Blood Awakening",
-      description: "His invulnerable skin hardens further as the dragon's blood surges anew. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "His invulnerable skin hardens further as the dragon's blood surges anew. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'heal',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -229,16 +228,9 @@ const siegfried: ServantDefinition = {
           turnsRemaining: 3,
           description: '+15% Defense',
         });
-        applyStatus(ctx.self, {
-          id: 'dragons-blood-awakening-dmg',
-          name: "Dragon's Blood Awakening",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        ctx.log("Siegfried undergoes a Dragon's Blood Awakening!");
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log("Siegfried undergoes a Dragon's Blood Awakening!" + ` Recovers ${healed} HP.`);
       },
     },
   ],
@@ -331,10 +323,10 @@ const musashi: ServantDefinition = {
     {
       id: 'sword-saints-enlightenment',
       name: "The Sword Saint's Enlightenment",
-      description: "A moment of perfect clarity, beyond technique or thought. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "A moment of perfect clarity, beyond technique or thought. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -342,18 +334,9 @@ const musashi: ServantDefinition = {
           name: "The Sword Saint's Enlightenment",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'sword-saints-enlightenment-def',
-          name: "The Sword Saint's Enlightenment",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'sword-saints-enlightenment-dmg',
@@ -363,6 +346,13 @@ const musashi: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'sword-saints-enlightenment__critReady',
+          name: "The Sword Saint's Enlightenment",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Musashi reaches the Sword Saint's Enlightenment!");
       },
@@ -470,7 +460,7 @@ const elCid: ServantDefinition = {
     {
       id: 'undying-campeador',
       name: "The Undying Campeador",
-      description: "Even death could not unseat him from his horse; it will not stop him now. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Even death could not unseat him from his horse; it will not stop him now. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -481,27 +471,26 @@ const elCid: ServantDefinition = {
           name: "The Undying Campeador",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'undying-campeador-def',
           name: "The Undying Campeador",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'undying-campeador-dmg',
+          id: 'undying-campeador-shield',
           name: "The Undying Campeador",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
         });
         ctx.log("El Cid rises again as the Undying Campeador!");
       },
@@ -605,7 +594,7 @@ const altera: ServantDefinition = {
     {
       id: 'aspect-of-ruin',
       name: "Aspect of Ruin",
-      description: "The alien weapon beneath her human shell stirs, if only for a moment. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The alien weapon beneath her human shell stirs, if only for a moment. Raises own Attack by 30% and damage dealt by 20%, but lowers Defense by 10%, for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -616,27 +605,27 @@ const altera: ServantDefinition = {
           name: "Aspect of Ruin",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'aspect-of-ruin-def',
-          name: "Aspect of Ruin",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Attack',
         });
         applyStatus(ctx.self, {
           id: 'aspect-of-ruin-dmg',
           name: "Aspect of Ruin",
           kind: 'buff',
           stat: 'damage',
-          amount: 0.15,
+          amount: 0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '+20% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'aspect-of-ruin-def',
+          name: "Aspect of Ruin",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.1,
+          turnsRemaining: 3,
+          description: '-10% Defense',
         });
         ctx.log("Altera awakens her Aspect of Ruin!");
       },
@@ -723,10 +712,10 @@ const sengoMuramasa: ServantDefinition = {
     {
       id: 'curse-given-form',
       name: "Curse Given Form",
-      description: "The blade's hunger for causality bleeds into its wielder. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The blade's hunger for causality bleeds into its wielder. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -734,18 +723,9 @@ const sengoMuramasa: ServantDefinition = {
           name: "Curse Given Form",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'curse-given-form-def',
-          name: "Curse Given Form",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'curse-given-form-dmg',
@@ -755,6 +735,13 @@ const sengoMuramasa: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'curse-given-form__critReady',
+          name: "Curse Given Form",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Sengo Muramasa becomes Curse Given Form!");
       },
@@ -810,22 +797,39 @@ const mordred: ServantDefinition = {
     },
     {
       id: 'secret-of-pedigree',
-      name: 'Secret of Pedigree',
-      description: 'A bloodline she refuses to be denied. Raises own crit rate for 2 turns.',
-      cooldown: 3,
+      name: "Secret of Pedigree",
+      description: "The truth of her bloodline, bared as a weapon. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
+      cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
+      oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'secret-of-pedigree',
-          name: 'Secret of Pedigree',
+          id: 'secret-of-pedigree-atk',
+          name: "Secret of Pedigree",
           kind: 'buff',
-          stat: 'critChance',
-          amount: 0.3,
-          turnsRemaining: 2,
-          description: '+30% crit chance scaling',
+          stat: 'atk',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Attack',
         });
-        ctx.log("Mordred's Secret of Pedigree drives her forward!");
+        applyStatus(ctx.self, {
+          id: 'secret-of-pedigree-dmg',
+          name: "Secret of Pedigree",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'secret-of-pedigree__critReady',
+          name: "Secret of Pedigree",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
+        });
+        ctx.log("Mordred lays bare the Secret of Pedigree!");
       },
     },
     {
@@ -969,10 +973,10 @@ const yagyuMunenori: ServantDefinition = {
     {
       id: 'no-sword-final-form',
       name: "No-Sword Style: Final Form",
-      description: "The sword that cuts nothing becomes the sword that cuts everything. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The sword that cuts nothing becomes the sword that cuts everything. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -980,18 +984,9 @@ const yagyuMunenori: ServantDefinition = {
           name: "No-Sword Style: Final Form",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'no-sword-final-form-def',
-          name: "No-Sword Style: Final Form",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'no-sword-final-form-dmg',
@@ -1001,6 +996,13 @@ const yagyuMunenori: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'no-sword-final-form__critReady',
+          name: "No-Sword Style: Final Form",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Yagyu Munenori reaches the No-Sword Style: Final Form!");
       },
@@ -1088,10 +1090,10 @@ const nero: ServantDefinition = {
     {
       id: 'emperors-grand-overture',
       name: "The Emperor's Grand Overture",
-      description: "The curtain rises on Rome's most theatrical act. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The curtain rises on Rome's most theatrical act. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -1099,18 +1101,9 @@ const nero: ServantDefinition = {
           name: "The Emperor's Grand Overture",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'emperors-grand-overture-def',
-          name: "The Emperor's Grand Overture",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'emperors-grand-overture-dmg',
@@ -1120,6 +1113,13 @@ const nero: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'emperors-grand-overture__critReady',
+          name: "The Emperor's Grand Overture",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Nero Claudius begins The Emperor's Grand Overture!");
       },
@@ -1207,7 +1207,7 @@ const okitaSouji: ServantDefinition = {
     {
       id: 'one-final-bloom',
       name: "One Final Bloom",
-      description: "She spends what little health she has left on a single, perfect blow. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "She spends what little health she has left on a single, perfect blow. Raises own Attack by 30% and damage dealt by 20%, but lowers Defense by 10%, for 3 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -1218,27 +1218,27 @@ const okitaSouji: ServantDefinition = {
           name: "One Final Bloom",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'one-final-bloom-def',
-          name: "One Final Bloom",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Attack',
         });
         applyStatus(ctx.self, {
           id: 'one-final-bloom-dmg',
           name: "One Final Bloom",
           kind: 'buff',
           stat: 'damage',
-          amount: 0.15,
+          amount: 0.2,
           turnsRemaining: 3,
-          description: '+15% damage dealt',
+          description: '+20% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'one-final-bloom-def',
+          name: "One Final Bloom",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.1,
+          turnsRemaining: 3,
+          description: '-10% Defense',
         });
         ctx.log("Okita Souji blazes with One Final Bloom!");
       },
@@ -1334,7 +1334,7 @@ const gawain: ServantDefinition = {
     {
       id: 'knight-of-the-suns-zenith',
       name: "Knight of the Sun's Zenith",
-      description: "His strength peaks with the sun overhead, as it always has. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "His strength peaks with the sun overhead, as it always has. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -1345,27 +1345,26 @@ const gawain: ServantDefinition = {
           name: "Knight of the Sun's Zenith",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'knight-of-the-suns-zenith-def',
           name: "Knight of the Sun's Zenith",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'knight-of-the-suns-zenith-dmg',
+          id: 'knight-of-the-suns-zenith-shield',
           name: "Knight of the Sun's Zenith",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
         });
         ctx.log("Gawain reaches the Knight of the Sun's Zenith!");
       },
@@ -1460,10 +1459,10 @@ const richard: ServantDefinition = {
     {
       id: 'crusader-kings-vow',
       name: "The Crusader King's Vow",
-      description: "Every oath he has ever sworn answers at once. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "Every oath he has ever sworn answers at once. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -1471,18 +1470,9 @@ const richard: ServantDefinition = {
           name: "The Crusader King's Vow",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'crusader-kings-vow-def',
-          name: "The Crusader King's Vow",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'crusader-kings-vow-dmg',
@@ -1492,6 +1482,13 @@ const richard: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'crusader-kings-vow__critReady',
+          name: "The Crusader King's Vow",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Richard I calls upon The Crusader King's Vow!");
       },
@@ -1580,7 +1577,7 @@ const charlemagne: ServantDefinition = {
     {
       id: 'twelve-peers-assembled',
       name: "Twelve Peers Assembled",
-      description: "The legendary paladins of his court lend their strength in spirit. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The legendary paladins of his court lend their strength in spirit. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
       cooldown: 0,
       npGainSelf: 20,
       tag: 'buff',
@@ -1591,27 +1588,26 @@ const charlemagne: ServantDefinition = {
           name: "Twelve Peers Assembled",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.15,
           turnsRemaining: 3,
-          description: '+20% Attack',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'twelve-peers-assembled-def',
           name: "Twelve Peers Assembled",
           kind: 'buff',
           stat: 'def',
-          amount: 0.15,
+          amount: 0.3,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+30% Defense',
         });
         applyStatus(ctx.self, {
-          id: 'twelve-peers-assembled-dmg',
+          id: 'twelve-peers-assembled-shield',
           name: "Twelve Peers Assembled",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 2,
+          description: 'Absorbs damage until depleted',
         });
         ctx.log("Charlemagne summons the spirit of the Twelve Peers Assembled!");
       },
@@ -1640,7 +1636,7 @@ const saito: ServantDefinition = {
   def: 62,
   agility: 70,
   critChance: 0.12,
-  rank: 'A',
+  rank: 'A+',
   strengths: ['Speed', 'Critical Strikes'],
   weaknesses: ['Low HP'],
   passiveDescription: 'A relaxed swordsman whose blade moves faster than the eye can follow.',
@@ -1701,10 +1697,10 @@ const saito: ServantDefinition = {
     {
       id: 'wolfs-true-bite',
       name: "The Wolf's True Bite",
-      description: "The relaxed swordsman's mask finally slips. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      description: "The relaxed swordsman's mask finally slips. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
       cooldown: 0,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
       oneTimeUse: true,
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -1712,18 +1708,9 @@ const saito: ServantDefinition = {
           name: "The Wolf's True Bite",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'wolfs-true-bite-def',
-          name: "The Wolf's True Bite",
-          kind: 'buff',
-          stat: 'def',
           amount: 0.15,
           turnsRemaining: 3,
-          description: '+15% Defense',
+          description: '+15% Attack',
         });
         applyStatus(ctx.self, {
           id: 'wolfs-true-bite-dmg',
@@ -1733,6 +1720,13 @@ const saito: ServantDefinition = {
           amount: 0.15,
           turnsRemaining: 3,
           description: '+15% damage dealt',
+        });
+        applyStatus(ctx.self, {
+          id: 'wolfs-true-bite__critReady',
+          name: "The Wolf's True Bite",
+          kind: 'buff',
+          turnsRemaining: 1,
+          description: 'Next attack guaranteed crit',
         });
         ctx.log("Saito Hajime bares The Wolf's True Bite!");
       },
