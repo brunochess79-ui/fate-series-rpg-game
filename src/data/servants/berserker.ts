@@ -714,10 +714,10 @@ const cuChulainnAlter: ServantDefinition = {
     name: 'Curruid Coinchenn: The Twisted Spear',
     japaneseName: 'Curruid Coinchenn',
     description: 'A cursed spear thrown with all the brutality of a broken mind.',
-    rank: 'B+',
+    rank: 'A+',
     effect: (ctx) => {
       ctx.log('Cú Chulainn (Alter) hurls the Curruid Coinchenn!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Curruid Coinchenn' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'Curruid Coinchenn' });
     },
   },
 };
