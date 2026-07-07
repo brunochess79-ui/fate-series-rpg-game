@@ -68,9 +68,48 @@ const arash: ServantDefinition = {
         ctx.log('Arash takes aim — the next shot will not miss.');
       },
     },
+    {
+      id: 'gods-final-arrow',
+      name: "The God's Final Arrow",
+      description: "The hunter recalls the one shot that ended a hydra, and every shot after it becomes that shot. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'gods-final-arrow-atk',
+          name: "The God's Final Arrow",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'gods-final-arrow-def',
+          name: "The God's Final Arrow",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'gods-final-arrow-dmg',
+          name: "The God's Final Arrow",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Arash draws on the God's Final Arrow!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Stella, the Farthest Arrow',
+    name: "Stella, the Farthest Arrow",
     japaneseName: 'Hayagrahana Stella',
     description: 'A single arrow loosed with every last drop of life force.',
     rank: 'A++',
@@ -156,9 +195,48 @@ const robinHood: ServantDefinition = {
         ctx.log('Robin Hood vanishes into Woodland Cover.');
       },
     },
+    {
+      id: 'heros-legend-retold',
+      name: "The Hero's Legend, Retold",
+      description: "A hundred ballads of Sherwood rise up to lend him their weight. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'heros-legend-retold-atk',
+          name: "The Hero's Legend, Retold",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'heros-legend-retold-def',
+          name: "The Hero's Legend, Retold",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'heros-legend-retold-dmg',
+          name: "The Hero's Legend, Retold",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Robin Hood calls upon The Hero's Legend, Retold!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Yew Bow of Sherwood: Piercing Shot',
+    name: "Yew Bow of Sherwood: Piercing Shot",
     japaneseName: 'Yew Bow',
     description: 'A single shot loosed with unerring, guaranteed precision.',
     rank: 'C',
@@ -237,9 +315,48 @@ const williamTell: ServantDefinition = {
         ctx.log('William Tell lines up the impossible shot.');
       },
     },
+    {
+      id: 'fathers-resolve',
+      name: "A Father's Resolve",
+      description: "The apple is gone; only the marksman's nerve remains, steadier than ever. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'fathers-resolve-atk',
+          name: "A Father's Resolve",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'fathers-resolve-def',
+          name: "A Father's Resolve",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'fathers-resolve-dmg',
+          name: "A Father's Resolve",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("William Tell steels himself with A Father's Resolve!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'The Shot Heard Round the Cantons',
+    name: "The Shot Heard Round the Cantons",
     japaneseName: 'Wilhelm Tell',
     description: 'A single bolt loosed with absolute, unerring certainty.',
     rank: 'C+',
@@ -317,9 +434,48 @@ const atalanta: ServantDefinition = {
         ctx.log('Atalanta marks her prey with the hunt of Calydon.');
       },
     },
+    {
+      id: 'huntress-unleashed',
+      name: "The Huntress Unleashed",
+      description: "The wild strength that outran Argonauts surges to the surface. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'huntress-unleashed-atk',
+          name: "The Huntress Unleashed",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'huntress-unleashed-def',
+          name: "The Huntress Unleashed",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'huntress-unleashed-dmg',
+          name: "The Huntress Unleashed",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Atalanta becomes The Huntress Unleashed!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Phoebus Catastrophe',
+    name: "Phoebus Catastrophe",
     japaneseName: 'Phoebus Catastrophe',
     description: 'A hail of arrows loosed faster than the eye can track.',
     rank: 'C',
@@ -399,9 +555,48 @@ const gilgamesh: ServantDefinition = {
         ctx.log('Gilgamesh invokes the Golden Rule!');
       },
     },
+    {
+      id: 'kings-true-radiance',
+      name: "The King's True Radiance",
+      description: "For a moment he sheds his disdain and burns as bright as the treasury behind him. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'kings-true-radiance-atk',
+          name: "The King's True Radiance",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'kings-true-radiance-def',
+          name: "The King's True Radiance",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'kings-true-radiance-dmg',
+          name: "The King's True Radiance",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Gilgamesh reveals The King's True Radiance!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'The Star of Creation That Split Heaven and Earth',
+    name: "The Star of Creation That Split Heaven and Earth",
     japaneseName: 'Enuma Elish',
     description: "Every treasure in the King's vault, loosed at once to end the battle outright.",
     rank: 'A++',
@@ -480,9 +675,48 @@ const emiya: ServantDefinition = {
         ctx.log('EMIYA hurls Kanshou and Bakuya as one!');
       },
     },
+    {
+      id: 'one-who-severs-fate',
+      name: "One Who Severs Fate",
+      description: "A thousand blades remembered, a thousand deaths survived - all of it aimed at this one moment. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'one-who-severs-fate-atk',
+          name: "One Who Severs Fate",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'one-who-severs-fate-def',
+          name: "One Who Severs Fate",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'one-who-severs-fate-dmg',
+          name: "One Who Severs Fate",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("EMIYA becomes One Who Severs Fate!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Unlimited Blade Works',
+    name: "Unlimited Blade Works",
     japaneseName: 'Unlimited Blade Works',
     description: 'A reality marble of infinite swords, projected to end the fight in a single trace.',
     rank: 'B+',
@@ -565,6 +799,45 @@ const orion: ServantDefinition = {
           description: 'Next attack guaranteed crit',
         });
         ctx.log("Orion sets his Hunter's Mark.");
+      },
+    },
+    {
+      id: 'twin-star-alignment',
+      name: "Twin-Star Alignment",
+      description: "The hunter and the goddess's blessing align as one, if only for an instant. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'twin-star-alignment-atk',
+          name: "Twin-Star Alignment",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'twin-star-alignment-def',
+          name: "Twin-Star Alignment",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'twin-star-alignment-dmg',
+          name: "Twin-Star Alignment",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Orion channels the Twin-Star Alignment!");
       },
     },
   ],
@@ -656,9 +929,48 @@ const tametomo: ServantDefinition = {
         ctx.log("Minamoto no Tametomo's Plated Hide locks into place!");
       },
     },
+    {
+      id: 'giants-full-draw',
+      name: "The Giant's Full Draw",
+      description: "His inhuman arms finally draw the great bow to its true limit. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'giants-full-draw-atk',
+          name: "The Giant's Full Draw",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'giants-full-draw-def',
+          name: "The Giant's Full Draw",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'giants-full-draw-dmg',
+          name: "The Giant's Full Draw",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Tametomo unleashes The Giant's Full Draw!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Chinzei Hachiro Tametomo: The Star-Shattering Shot',
+    name: "Chinzei Hachiro Tametomo: The Star-Shattering Shot",
     japaneseName: 'Chinzei Hachiro',
     description: 'A single railgun shot loosed with enough force to shatter a star.',
     rank: 'A',
@@ -734,6 +1046,45 @@ const ishtar: ServantDefinition = {
           description: 'Next attack guaranteed crit',
         });
         ctx.log('Ishtar issues a Bratty Decree.');
+      },
+    },
+    {
+      id: 'goddess-of-love-and-war',
+      name: "Goddess of Love and War",
+      description: "Vain and glorious, she reminds the battlefield exactly which goddess it is facing. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'goddess-of-love-and-war-atk',
+          name: "Goddess of Love and War",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'goddess-of-love-and-war-def',
+          name: "Goddess of Love and War",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'goddess-of-love-and-war-dmg',
+          name: "Goddess of Love and War",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Ishtar rises as the Goddess of Love and War!");
       },
     },
   ],
@@ -818,9 +1169,48 @@ const ashwatthama: ServantDefinition = {
         ctx.log('Ashwatthama channels rage through the Jewel of Wrath!');
       },
     },
+    {
+      id: 'sons-undying-fury',
+      name: "The Son's Undying Fury",
+      description: "The near-immortal warrior's rage finally boils past his famous restraint. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'sons-undying-fury-atk',
+          name: "The Son's Undying Fury",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'sons-undying-fury-def',
+          name: "The Son's Undying Fury",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'sons-undying-fury-dmg',
+          name: "The Son's Undying Fury",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Ashwatthama gives in to The Son's Undying Fury!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Brahmastra: Doom of the Universe',
+    name: "Brahmastra: Doom of the Universe",
     japaneseName: 'Brahmastra',
     description: 'A weapon capable of unmaking creation itself, loosed toward a single foe.',
     rank: 'A+',
@@ -906,9 +1296,48 @@ const moriarty: ServantDefinition = {
         ctx.log('James Moriarty springs the Reichenbach Gambit!');
       },
     },
+    {
+      id: 'napoleon-of-crime',
+      name: "The Napoleon of Crime",
+      description: "Every thread of his web pulls taut at once, and the spider steps forward. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'napoleon-of-crime-atk',
+          name: "The Napoleon of Crime",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'napoleon-of-crime-def',
+          name: "The Napoleon of Crime",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'napoleon-of-crime-dmg',
+          name: "The Napoleon of Crime",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Moriarty reveals himself as The Napoleon of Crime!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'The Norwood Plot',
+    name: "The Norwood Plot",
     japaneseName: 'The Norwood Plot',
     description: 'A weaponized coffin, opened only once its target is already trapped.',
     rank: 'A',
