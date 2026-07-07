@@ -149,6 +149,7 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
   const [p2Name, setP2Name] = useState('Master 2');
   const [p2Servant, setP2Servant] = useState<string | null>(null);
   const [classFilter, setClassFilter] = useState<ServantClass | 'All'>('All');
+  const [search, setSearch] = useState('');
 
   const isFirstStep = step === 0;
   const currentName = isFirstStep ? p1Name : p2Name;
@@ -157,13 +158,18 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
   const setCurrentServant = isFirstStep ? setP1Servant : setP2Servant;
   const excludeId = isFirstStep ? null : p1Servant;
 
-  const visibleServants = useMemo(
-    () =>
-      SERVANT_LIST.filter((s) => s.id !== excludeId).filter(
-        (s) => classFilter === 'All' || s.className === classFilter,
-      ),
-    [excludeId, classFilter],
-  );
+  const visibleServants = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return SERVANT_LIST.filter((s) => s.id !== excludeId)
+      .filter((s) => classFilter === 'All' || s.className === classFilter)
+      .filter(
+        (s) =>
+          query === '' ||
+          s.name.toLowerCase().includes(query) ||
+          s.title.toLowerCase().includes(query) ||
+          s.trueName.toLowerCase().includes(query),
+      );
+  }, [excludeId, classFilter, search]);
 
   const handleRandomServant = () => {
     if (visibleServants.length === 0) return;
@@ -206,6 +212,26 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
           />
         </label>
       </div>
+      <div className="servant-search-row">
+        <input
+          type="search"
+          className="servant-search-input"
+          placeholder="Search Servants by name or title..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          aria-label="Search Servants"
+        />
+        {search !== '' && (
+          <button
+            type="button"
+            className="servant-search-clear"
+            onClick={() => setSearch('')}
+            aria-label="Clear search"
+          >
+            ✕
+          </button>
+        )}
+      </div>
       <div className="class-filter-row">
         {CLASS_FILTERS.map((c) => (
           <button
@@ -220,16 +246,20 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
           Random Servant
         </button>
       </div>
-      <div className="servant-grid">
-        {visibleServants.map((s) => (
-          <ServantCard
-            key={s.id}
-            servant={s}
-            selected={currentServant === s.id}
-            onSelect={() => setCurrentServant(s.id)}
-          />
-        ))}
-      </div>
+      {visibleServants.length === 0 ? (
+        <p className="servant-search-empty">No Servants match "{search}".</p>
+      ) : (
+        <div className="servant-grid">
+          {visibleServants.map((s) => (
+            <ServantCard
+              key={s.id}
+              servant={s}
+              selected={currentServant === s.id}
+              onSelect={() => setCurrentServant(s.id)}
+            />
+          ))}
+        </div>
+      )}
       <div className="setup-actions">
         <button className="secondary-btn" onClick={onBack}>
           Back
