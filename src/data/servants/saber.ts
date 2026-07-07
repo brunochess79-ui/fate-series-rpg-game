@@ -533,7 +533,7 @@ const sengoMuramasa: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Sengo Muramasa severs causality itself!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { guaranteedCrit: true, label: 'Causality Severed' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'Causality Severed' });
     },
   },
 };
@@ -701,7 +701,7 @@ const yagyuMunenori: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Yagyu Munenori draws Shinkage-ryu!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { guaranteedCrit: true, label: 'Shinkage-ryu' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'Shinkage-ryu' });
     },
   },
 };
@@ -861,7 +861,7 @@ const okitaSouji: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Okita Souji unleashes Kikuichimonji!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { guaranteedCrit: true, label: 'Kikuichimonji' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Kikuichimonji' });
     },
   },
 };

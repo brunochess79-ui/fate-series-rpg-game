@@ -543,7 +543,7 @@ const arjunaAlter: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Arjuna Alter unleashes Pashupata: Anger of the Terrible One!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { guaranteedCrit: true, label: 'Pashupata' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'Pashupata' });
     },
   },
 };

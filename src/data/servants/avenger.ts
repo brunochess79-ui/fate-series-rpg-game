@@ -166,7 +166,7 @@ const nobunaga: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Oda Nobunaga invokes the Total Purge of Evil!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { guaranteedCrit: true, label: 'Total Purge of Evil' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Total Purge of Evil' });
     },
   },
 };
