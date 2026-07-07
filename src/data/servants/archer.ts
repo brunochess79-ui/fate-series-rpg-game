@@ -261,7 +261,7 @@ const atalanta: ServantDefinition = {
   def: 55,
   agility: 105,
   critChance: 0.15,
-  rank: 'B',
+  rank: 'B+',
   strengths: ['Speed', 'Evasion'],
   weaknesses: ['Fragile'],
   passiveDescription: 'None can outrun her, on two legs or four.',
