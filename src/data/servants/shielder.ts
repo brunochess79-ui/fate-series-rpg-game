@@ -69,9 +69,48 @@ const mash: ServantDefinition = {
         ctx.log('Mash hurls her shield like the White Lion!');
       },
     },
+    {
+      id: 'shielders-unbreakable-vow',
+      name: "The Shielder's Unbreakable Vow",
+      description: "Every ounce of her borrowed strength answers her one desperate wish to protect. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'shielders-unbreakable-vow-atk',
+          name: "The Shielder's Unbreakable Vow",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'shielders-unbreakable-vow-def',
+          name: "The Shielder's Unbreakable Vow",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'shielders-unbreakable-vow-dmg',
+          name: "The Shielder's Unbreakable Vow",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Mash Kyrielight upholds The Shielder's Unbreakable Vow!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Lord Camelot',
+    name: "Lord Camelot",
     japaneseName: 'Lord Camelot',
     description: "A vision of Camelot's golden age, sheltering her from any harm.",
     rank: 'A+',

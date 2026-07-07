@@ -75,9 +75,48 @@ const oberon: ServantDefinition = {
         ctx.log('Oberon rewrites the enemy into a Tale as Old as Time!');
       },
     },
+    {
+      id: 'kings-final-storybook',
+      name: "The King's Final Storybook",
+      description: "Every stolen legend he ever wore folds into one last, mischievous tale. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'kings-final-storybook-atk',
+          name: "The King's Final Storybook",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'kings-final-storybook-def',
+          name: "The King's Final Storybook",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'kings-final-storybook-dmg',
+          name: "The King's Final Storybook",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Oberon writes The King's Final Storybook!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'This Is My Story',
+    name: "This Is My Story",
     japaneseName: 'Zone of the Absolute Territory',
     description: "A fantasy space where Oberon's story is the only ending that can happen.",
     rank: 'B',

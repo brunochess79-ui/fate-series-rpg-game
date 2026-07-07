@@ -72,9 +72,48 @@ const hassan: ServantDefinition = {
         ctx.log('Hassan-i Sabbah strikes with a Poison Needle!');
       },
     },
+    {
+      id: 'old-mans-final-truth',
+      name: "The Old Man's Final Truth",
+      description: "The mountain of illusions finally shows the one truth he never lets anyone see. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'old-mans-final-truth-atk',
+          name: "The Old Man's Final Truth",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'old-mans-final-truth-def',
+          name: "The Old Man's Final Truth",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'old-mans-final-truth-dmg',
+          name: "The Old Man's Final Truth",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Hassan-i Sabbah reveals The Old Man's Final Truth!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Delusional Illusion',
+    name: "Delusional Illusion",
     japaneseName: 'Zabaniya',
     description: 'A perfect, unavoidable assassination.',
     rank: 'C',
@@ -162,9 +201,48 @@ const theRipper: ServantDefinition = {
         ctx.log('Whispers of Dread unsettle the enemy!');
       },
     },
+    {
+      id: 'phantoms-final-alley',
+      name: "The Phantom's Final Alley",
+      description: "The fog of Whitechapel closes in one last time, and the Ripper steps free of it. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'phantoms-final-alley-atk',
+          name: "The Phantom's Final Alley",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'phantoms-final-alley-def',
+          name: "The Phantom's Final Alley",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'phantoms-final-alley-dmg',
+          name: "The Phantom's Final Alley",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("The Ripper vanishes into The Phantom's Final Alley!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'From Hell: The Final Cut',
+    name: "From Hell: The Final Cut",
     japaneseName: 'From Hell',
     description: 'A legend given form for one final, unavoidable strike.',
     rank: 'D',
@@ -248,6 +326,45 @@ const semiramis: ServantDefinition = {
           description: '-15% DEF',
         });
         ctx.log("Semiramis exposes a weakness with Queen's Guile!");
+      },
+    },
+    {
+      id: 'babylons-final-decree',
+      name: "Babylon's Final Decree",
+      description: "The queen who tamed a hanging garden calls on the full weight of her city. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'babylons-final-decree-atk',
+          name: "Babylon's Final Decree",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'babylons-final-decree-def',
+          name: "Babylon's Final Decree",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'babylons-final-decree-dmg',
+          name: "Babylon's Final Decree",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Semiramis issues Babylon's Final Decree!");
       },
     },
   ],
@@ -339,9 +456,48 @@ const sasakiKojiro: ServantDefinition = {
         ctx.log(`Sasaki Kojirō reads the exchange, recovering ${healed} HP.`);
       },
     },
+    {
+      id: 'demons-perfect-stillness',
+      name: "The Demon's Perfect Stillness",
+      description: "Every motion falls away until only the perfect cut remains. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'demons-perfect-stillness-atk',
+          name: "The Demon's Perfect Stillness",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'demons-perfect-stillness-def',
+          name: "The Demon's Perfect Stillness",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'demons-perfect-stillness-dmg',
+          name: "The Demon's Perfect Stillness",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Sasaki Kojirō reaches The Demon's Perfect Stillness!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Tsubame Gaeshi: The Swallow Reversal',
+    name: "Tsubame Gaeshi: The Swallow Reversal",
     japaneseName: 'Tsubame Gaeshi',
     description: 'Three cuts thrown in the time it takes a swallow to turn in flight.',
     rank: 'B',
@@ -425,9 +581,48 @@ const kingHassan: ServantDefinition = {
         ctx.log('King Hassan readies the Blade of Wisdom.');
       },
     },
+    {
+      id: 'grand-assassins-true-name',
+      name: "The Grand Assassin's True Name",
+      description: "For a heartbeat, the nameless king of a hundred Hassans remembers who he was. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'grand-assassins-true-name-atk',
+          name: "The Grand Assassin's True Name",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'grand-assassins-true-name-def',
+          name: "The Grand Assassin's True Name",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'grand-assassins-true-name-dmg',
+          name: "The Grand Assassin's True Name",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("King Hassan speaks The Grand Assassin's True Name!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'The Old Man of the Mountain',
+    name: "The Old Man of the Mountain",
     japaneseName: 'Zabaniya',
     description: 'A death sentence imposed on even the divine and the immortal.',
     rank: 'A',
@@ -512,9 +707,48 @@ const tezcatlipoca: ServantDefinition = {
         ctx.log('Tezcatlipoca draws the Obsidian Blade!');
       },
     },
+    {
+      id: 'smoking-mirrors-true-reflection',
+      name: "The Smoking Mirror's True Reflection",
+      description: "The obsidian mirror shows the god exactly as he is, and he likes what he sees. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'smoking-mirrors-true-reflection-atk',
+          name: "The Smoking Mirror's True Reflection",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'smoking-mirrors-true-reflection-def',
+          name: "The Smoking Mirror's True Reflection",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'smoking-mirrors-true-reflection-dmg',
+          name: "The Smoking Mirror's True Reflection",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Tezcatlipoca gazes into The Smoking Mirror's True Reflection!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Titlacauan: We Are His Slaves',
+    name: "Titlacauan: We Are His Slaves",
     japaneseName: 'Titlacauan',
     description: "The rival of all creation, striking without warning or mercy.",
     rank: 'B+',
@@ -590,9 +824,48 @@ const koyanskaya: ServantDefinition = {
         ctx.log(`Koyanskaya of Light presses on, healing ${healed} HP.`);
       },
     },
+    {
+      id: 'golden-wolfs-hidden-fang',
+      name: "The Golden Wolf's Hidden Fang",
+      description: "Behind the borrowed kindness, the wolf finally bares its true fang. Raises own Attack by 20%, Defense by 15%, and damage dealt by 15% for 3 turns.",
+      cooldown: 0,
+      npGainSelf: 20,
+      tag: 'buff',
+      oneTimeUse: true,
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'golden-wolfs-hidden-fang-atk',
+          name: "The Golden Wolf's Hidden Fang",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% Attack',
+        });
+        applyStatus(ctx.self, {
+          id: 'golden-wolfs-hidden-fang-def',
+          name: "The Golden Wolf's Hidden Fang",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% Defense',
+        });
+        applyStatus(ctx.self, {
+          id: 'golden-wolfs-hidden-fang-dmg',
+          name: "The Golden Wolf's Hidden Fang",
+          kind: 'buff',
+          stat: 'damage',
+          amount: 0.15,
+          turnsRemaining: 3,
+          description: '+15% damage dealt',
+        });
+        ctx.log("Koyanskaya of Light shows The Golden Wolf's Hidden Fang!");
+      },
+    },
   ],
   noblePhantasm: {
-    name: 'Garden of Avalon: False',
+    name: "Garden of Avalon: False",
     japaneseName: 'Garden of Avalon',
     description: 'A borrowed miracle, imitated to devastating effect.',
     rank: 'A',
