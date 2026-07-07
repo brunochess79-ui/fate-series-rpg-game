@@ -244,7 +244,7 @@ export function resolveRound(
         if (skill.npGainSelf) {
           self.servant.npGauge = Math.min(100, self.servant.npGauge + skill.npGainSelf);
         }
-        self.servant.skillCooldowns[action.skillIndex] = skill.cooldown;
+        self.servant.skillCooldowns[action.skillIndex] = skill.oneTimeUse ? Infinity : skill.cooldown;
         break;
       }
       case 'np': {

@@ -80,12 +80,16 @@ export function ActionPanel({ player, disabled, onAction }: Props) {
       <div className="action-row skills">
         {def.skills.map((skill, i) => {
           const cd = player.servant.skillCooldowns[i];
+          const label = cd > 0 ? `${skill.name} (${cd === Infinity ? 'Used' : cd})` : skill.name;
+          const description = `${skill.description} ${
+            skill.oneTimeUse ? 'One-time use per battle.' : `Cooldown: ${skill.cooldown} turns.`
+          }`;
           return (
             <ActionItem
               key={skill.id}
               id={skill.id}
-              label={cd > 0 ? `${skill.name} (${cd})` : skill.name}
-              description={`${skill.description} Cooldown: ${skill.cooldown} turns.`}
+              label={label}
+              description={description}
               className="action-btn skill"
               disabled={disabled || cd > 0}
               onClick={() => act({ type: 'skill', skillIndex: i })}
