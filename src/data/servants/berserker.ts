@@ -88,7 +88,7 @@ const heracles: ServantDefinition = {
     effect: (ctx) => {
       ctx.log('Heracles unleashes Nine Lives in a berserk frenzy!');
       ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Nine Lives' });
-      const recoil = Math.round(ctx.self.maxHp * 0.075);
+      const recoil = Math.round(ctx.self.maxHp * 0.01875);
       ctx.self.hp = ctx.self.hp - recoil;
       ctx.log(`Heracles takes ${recoil} recoil damage from their own fury.`);
     },
