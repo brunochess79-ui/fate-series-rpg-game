@@ -907,7 +907,7 @@ const richardIII: ServantDefinition = {
     {
       id: 'karma-of-the-wicked',
       name: 'Karma of the Wicked',
-      description: "A villain's reputation, embraced without shame. Raises own Attack by 30% for 3 turns.",
+      description: "A villain's reputation, embraced without shame. Raises own Attack by 30% for 2 turns.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -918,7 +918,7 @@ const richardIII: ServantDefinition = {
           kind: 'buff',
           stat: 'atk',
           amount: 0.3,
-          turnsRemaining: 3,
+          turnsRemaining: 2,
           description: '+30% Attack',
         });
         ctx.log('Richard III embraces the Karma of the Wicked!');
