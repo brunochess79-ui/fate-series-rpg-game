@@ -805,8 +805,8 @@ const drake: ServantDefinition = {
   agility: 68,
   critChance: 0.14,
   rank: 'A',
-  strengths: ['Buffs', 'Aggression'],
-  weaknesses: ['Overextension'],
+  strengths: ['Buffs', 'Debuffs'],
+  weaknesses: ['Low Defense'],
   passiveDescription: 'A privateer queen who claims the seas belong to whoever is bold enough to take them.',
   skills: [
     {

@@ -901,7 +901,7 @@ const richardIII: ServantDefinition = {
   critChance: 0.09,
   rank: 'A+',
   strengths: ['Raw Power', 'Debuffs'],
-  weaknesses: ['Cursed Reputation'],
+  weaknesses: ['Slow'],
   passiveDescription: 'A king slandered by history, wielding a villain\'s cruelty as a weapon of its own.',
   skills: [
     {

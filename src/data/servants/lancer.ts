@@ -193,7 +193,7 @@ const achilles: ServantDefinition = {
   critChance: 0.15,
   rank: 'A+',
   strengths: ['Burst Damage', 'Shielding'],
-  weaknesses: ['Single Weak Point'],
+  weaknesses: ['No Self-Heal'],
   passiveDescription: 'Nigh invulnerable but for a single, fatal spot upon his heel.',
   skills: [
     {

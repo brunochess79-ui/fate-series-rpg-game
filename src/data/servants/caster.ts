@@ -643,7 +643,7 @@ const castoria: ServantDefinition = {
   agility: 58,
   critChance: 0.1,
   rank: 'C+',
-  strengths: ['Utility', 'Versatility'],
+  strengths: ['Debuffs', 'Buffs'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A young king who never drew the sword, wielding magecraft in its place.',
   skills: [
@@ -732,7 +732,7 @@ const zhugeLiang: ServantDefinition = {
   agility: 50,
   critChance: 0.08,
   rank: 'C',
-  strengths: ['Strategy', 'Debuffs'],
+  strengths: ['Sustain', 'Debuffs'],
   weaknesses: ['Frail', 'Low Attack'],
   passiveDescription: 'A sleeping dragon of unmatched strategy, more dangerous in mind than in body.',
   skills: [
@@ -823,8 +823,8 @@ const scathachSkadi: ServantDefinition = {
   agility: 80,
   critChance: 0.15,
   rank: 'A',
-  strengths: ['Frost Magecraft', 'Debuffs'],
-  weaknesses: ['Divided Focus'],
+  strengths: ['Critical Hits', 'Debuffs'],
+  weaknesses: ['Low Defense'],
   passiveDescription: 'The Instructor of Shadows, fused with a frost goddess of the Norse Lostbelt.',
   skills: [
     {
@@ -999,7 +999,7 @@ const anastasia: ServantDefinition = {
   critChance: 0.13,
   rank: 'B+',
   strengths: ['Debuffs', 'Sustain'],
-  weaknesses: ['Fragile Body'],
+  weaknesses: ['Low Attack'],
   passiveDescription: 'A young duchess bearing a frozen crown, her sorrow given the shape of winter itself.',
   skills: [
     {

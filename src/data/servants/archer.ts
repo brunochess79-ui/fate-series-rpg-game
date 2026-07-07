@@ -762,7 +762,7 @@ const ashwatthama: ServantDefinition = {
   critChance: 0.13,
   rank: 'A',
   strengths: ['Sustain', 'Debuffs'],
-  weaknesses: ['Cursed Immortality'],
+  weaknesses: ['Low Crit Rate'],
   passiveDescription: "A warrior cursed to wander forever, his father's death fueling an endless fury.",
   skills: [
     {
@@ -844,7 +844,7 @@ const moriarty: ServantDefinition = {
   critChance: 0.16,
   rank: 'A',
   strengths: ['Debuffs', 'Critical Strikes'],
-  weaknesses: ['Overreliance on Schemes'],
+  weaknesses: ['Low Defense'],
   passiveDescription: 'A criminal mastermind whose every plan accounts for the plans of others.',
   skills: [
     {

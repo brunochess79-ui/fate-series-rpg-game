@@ -102,7 +102,7 @@ const amakusa: ServantDefinition = {
   critChance: 0.12,
   rank: 'A',
   strengths: ['Evasion', 'Debuffs'],
-  weaknesses: ['Reliance on Faith'],
+  weaknesses: ['Low Attack'],
   passiveDescription: 'A saintly boy-priest, gentle to allies and merciless to those who prey on the weak.',
   skills: [
     {
@@ -182,7 +182,7 @@ const sherlock: ServantDefinition = {
   critChance: 0.15,
   rank: 'A',
   strengths: ['Critical Strikes', 'Debuffs'],
-  weaknesses: ['Overconfidence'],
+  weaknesses: ['No Self-Heal'],
   passiveDescription: 'A detective whose deductions cut deeper than any blade, exposing every flaw.',
   skills: [
     {

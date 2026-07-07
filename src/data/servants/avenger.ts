@@ -360,7 +360,7 @@ const alcides: ServantDefinition = {
   critChance: 0.1,
   rank: 'A+',
   strengths: ['Raw Power', 'Sustain'],
-  weaknesses: ['No Escape'],
+  weaknesses: ['Low Defense'],
   passiveDescription: 'A hero robbed of his sanity and his glory alike, raging at the gods who did it.',
   skills: [
     {
@@ -435,7 +435,7 @@ const kagekiyo: ServantDefinition = {
   critChance: 0.1,
   rank: 'B',
   strengths: ['Sustain', 'Damage over Time'],
-  weaknesses: ['Consumed by Hatred'],
+  weaknesses: ['Low Attack'],
   passiveDescription: 'A samurai spirit who tore out his own eyes rather than watch his enemies triumph.',
   skills: [
     {
