@@ -12,7 +12,7 @@ const mash: ServantDefinition = {
   def: 92,
   agility: 50,
   critChance: 0.05,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Highest Defense', 'Shielding'],
   weaknesses: ['Low Damage', 'Low Crit Rate'],
   passiveDescription: 'A demi-servant whose devotion to protecting others outweighs any fear for herself.',
@@ -67,44 +67,6 @@ const mash: ServantDefinition = {
       effect: (ctx) => {
         ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'The White Lion' });
         ctx.log('Mash hurls her shield like the White Lion!');
-      },
-    },
-    {
-      id: 'shielders-unbreakable-vow',
-      name: "The Shielder's Unbreakable Vow",
-      description: "Every ounce of her borrowed strength answers her one desperate wish to protect. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'shielders-unbreakable-vow-atk',
-          name: "The Shielder's Unbreakable Vow",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'shielders-unbreakable-vow-def',
-          name: "The Shielder's Unbreakable Vow",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.3,
-          turnsRemaining: 3,
-          description: '+30% Defense',
-        });
-        applyStatus(ctx.self, {
-          id: 'shielders-unbreakable-vow-shield',
-          name: "The Shielder's Unbreakable Vow",
-          kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.2),
-          turnsRemaining: 2,
-          description: 'Absorbs damage until depleted',
-        });
-        ctx.log("Mash Kyrielight upholds The Shielder's Unbreakable Vow!");
       },
     },
   ],

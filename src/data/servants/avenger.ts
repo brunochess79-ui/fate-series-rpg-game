@@ -12,7 +12,7 @@ const kama: ServantDefinition = {
   def: 55,
   agility: 70,
   critChance: 0.15,
-  rank: 'A+',
+  rank: 'B+',
   strengths: ['Critical Hits', 'Regeneration'],
   weaknesses: ['Fragile'],
   passiveDescription: 'The god of love and desire, whose devotion curdles into Mara when spurned.',
@@ -69,43 +69,6 @@ const kama: ServantDefinition = {
         ctx.log(`Kama's Boundless Compassion heals ${healed} HP.`);
       },
     },
-    {
-      id: 'gods-of-loves-true-desire',
-      name: "The God of Love's True Desire",
-      description: "The gentle goddess of love and the demon of temptation are, in the end, the same being. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'crit',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'gods-of-loves-true-desire-atk',
-          name: "The God of Love's True Desire",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'gods-of-loves-true-desire-dmg',
-          name: "The God of Love's True Desire",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        applyStatus(ctx.self, {
-          id: 'gods-of-loves-true-desire__critReady',
-          name: "The God of Love's True Desire",
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log("Kama unleashes The God of Love's True Desire!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Mara's Fury: The Burning World",
@@ -138,7 +101,7 @@ const nobunaga: ServantDefinition = {
   def: 58,
   agility: 62,
   critChance: 0.15,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage', 'Critical Hits'],
   weaknesses: ['Low HP'],
   passiveDescription: 'The self-proclaimed Demon King, who would burn down gods themselves to remake the world.',
@@ -195,43 +158,6 @@ const nobunaga: ServantDefinition = {
         ctx.log('Oda Nobunaga threatens to Burn Mount Hiei!');
       },
     },
-    {
-      id: 'demon-kings-final-decree',
-      name: "The Demon King's Final Decree",
-      description: "Every province he ever burned answers his call one final time. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'crit',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'demon-kings-final-decree-atk',
-          name: "The Demon King's Final Decree",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'demon-kings-final-decree-dmg',
-          name: "The Demon King's Final Decree",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        applyStatus(ctx.self, {
-          id: 'demon-kings-final-decree__critReady',
-          name: "The Demon King's Final Decree",
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log("Oda Nobunaga issues The Demon King's Final Decree!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Three Thousand Worlds: Total Purge of Evil",
@@ -256,7 +182,7 @@ const edmondDantes: ServantDefinition = {
   def: 60,
   agility: 58,
   critChance: 0.14,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A wrongfully imprisoned man reborn as pure vengeance, wreathed in shadow and green flame.',
@@ -318,45 +244,6 @@ const edmondDantes: ServantDefinition = {
           description: 'Burning with green flame',
         });
         ctx.log('Edmond Dantès wreathes the enemy in Green Flame!');
-      },
-    },
-    {
-      id: 'counts-final-reckoning',
-      name: "The Count's Final Reckoning",
-      description: "Fourteen years in a dungeon taught him patience; now that patience runs out. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'counts-final-reckoning-atk',
-          name: "The Count's Final Reckoning",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'counts-final-reckoning-def',
-          name: "The Count's Final Reckoning",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'counts-final-reckoning-enemy-atk-down',
-          name: "The Count's Final Reckoning",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Edmond Dantès demands The Count's Final Reckoning!");
       },
     },
   ],
@@ -447,45 +334,6 @@ const jeanneAlter: ServantDefinition = {
         ctx.log("Jeanne d'Arc (Alter) wreathes the enemy in Flames of Resentment!");
       },
     },
-    {
-      id: 'dragon-witchs-final-flame',
-      name: "The Dragon Witch's Final Flame",
-      description: "The saint who burned finds she still has one more fire left to give. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'dragon-witchs-final-flame-atk',
-          name: "The Dragon Witch's Final Flame",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'dragon-witchs-final-flame-def',
-          name: "The Dragon Witch's Final Flame",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'dragon-witchs-final-flame-enemy-atk-down',
-          name: "The Dragon Witch's Final Flame",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Jeanne d'Arc (Alter) unleashes The Dragon Witch's Final Flame!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Ruler of the End: Formal Craft",
@@ -561,38 +409,6 @@ const alcides: ServantDefinition = {
         ctx.log(`Alcides endures through Undying Wrath, healing ${healed} HP.`);
       },
     },
-    {
-      id: 'broken-heros-last-labor',
-      name: "The Broken Hero's Last Labor",
-      description: "Even shattered and cursed, he takes up one final, impossible task. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'heal',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'broken-heros-last-labor-atk',
-          name: "The Broken Hero's Last Labor",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'broken-heros-last-labor-def',
-          name: "The Broken Hero's Last Labor",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        const healed = Math.round(ctx.self.maxHp * 0.2);
-        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
-        ctx.log("Alcides begins The Broken Hero's Last Labor!" + ` Recovers ${healed} HP.`);
-      },
-    },
   ],
   noblePhantasm: {
     name: "God Hand: Twelve Trials Bring Death",
@@ -617,7 +433,7 @@ const kagekiyo: ServantDefinition = {
   def: 58,
   agility: 55,
   critChance: 0.1,
-  rank: 'A',
+  rank: 'B',
   strengths: ['Sustain', 'Damage over Time'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A samurai spirit who tore out his own eyes rather than watch his enemies triumph.',
@@ -672,45 +488,6 @@ const kagekiyo: ServantDefinition = {
         const healed = Math.round(ctx.self.maxHp * 0.18);
         ctx.self.hp = ctx.self.hp + healed;
         ctx.log(`Taira no Kagekiyo endures through Blinded Resolve, healing ${healed} HP.`);
-      },
-    },
-    {
-      id: 'vengeful-spirits-last-curse',
-      name: "The Vengeful Spirit's Last Curse",
-      description: "Blinded in life and furious in death, his grudge finds one last target. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'vengeful-spirits-last-curse-atk',
-          name: "The Vengeful Spirit's Last Curse",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'vengeful-spirits-last-curse-def',
-          name: "The Vengeful Spirit's Last Curse",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'vengeful-spirits-last-curse-enemy-atk-down',
-          name: "The Vengeful Spirit's Last Curse",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Taira no Kagekiyo casts The Vengeful Spirit's Last Curse!");
       },
     },
   ],

@@ -12,7 +12,7 @@ const cuChulainn: ServantDefinition = {
   def: 63,
   agility: 100,
   critChance: 0.1,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Speed', 'Sustained Regeneration', 'Evasion'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The fastest Servant on the battlefield.',
@@ -74,43 +74,6 @@ const cuChulainn: ServantDefinition = {
         ctx.log('Cú Chulainn is uplifted by battle-fury, faster than any strike!');
       },
     },
-    {
-      id: 'hound-of-culanns-vow',
-      name: "The Hound of Culann's Vow",
-      description: "The geas that bound him and the fury that broke him rise together, one final time. Raises own Attack by 15% and Defense by 10% for 3 turns, and guarantees the next enemy attack will miss entirely.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'hound-of-culanns-vow-atk',
-          name: "The Hound of Culann's Vow",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'hound-of-culanns-vow-def',
-          name: "The Hound of Culann's Vow",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.1,
-          turnsRemaining: 3,
-          description: '+10% Defense',
-        });
-        applyStatus(ctx.self, {
-          id: 'hound-of-culanns-vow-evade',
-          name: "The Hound of Culann's Vow",
-          kind: 'evade',
-          turnsRemaining: 1,
-          description: 'Next incoming attack is evaded',
-        });
-        ctx.log("Cú Chulainn honors The Hound of Culann's Vow!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Cursed Spear of the Barbed Thorn",
@@ -143,7 +106,7 @@ const diarmuid: ServantDefinition = {
   def: 65,
   agility: 95,
   critChance: 0.12,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Speed', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'Cursed with an irresistible charm, and blessed with peerless spearplay.',
@@ -202,45 +165,6 @@ const diarmuid: ServantDefinition = {
           description: '+20% ATK',
         });
         ctx.log("Diarmuid's Loyal Heart steels his resolve!");
-      },
-    },
-    {
-      id: 'knights-forsaken-love',
-      name: "The Knight's Forsaken Love",
-      description: "The love spot that cursed him becomes, for a moment, a source of strength instead. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'knights-forsaken-love-atk',
-          name: "The Knight's Forsaken Love",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'knights-forsaken-love-def',
-          name: "The Knight's Forsaken Love",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'knights-forsaken-love-enemy-atk-down',
-          name: "The Knight's Forsaken Love",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Diarmuid draws on The Knight's Forsaken Love!");
       },
     },
   ],
@@ -328,44 +252,6 @@ const achilles: ServantDefinition = {
           description: 'Next attack guaranteed crit',
         });
         ctx.log('Achilles readies a Phalanx Break!');
-      },
-    },
-    {
-      id: 'invulnerable-heel-no-more',
-      name: "The Invulnerable Heel, No More",
-      description: "He casts aside the one weakness that ever mattered and fights as though whole. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'invulnerable-heel-no-more-atk',
-          name: "The Invulnerable Heel, No More",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'invulnerable-heel-no-more-def',
-          name: "The Invulnerable Heel, No More",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.3,
-          turnsRemaining: 3,
-          description: '+30% Defense',
-        });
-        applyStatus(ctx.self, {
-          id: 'invulnerable-heel-no-more-shield',
-          name: "The Invulnerable Heel, No More",
-          kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.2),
-          turnsRemaining: 2,
-          description: 'Absorbs damage until depleted',
-        });
-        ctx.log("Achilles becomes The Invulnerable Heel, No More!");
       },
     },
   ],
@@ -466,44 +352,6 @@ const karna: ServantDefinition = {
         ctx.log("Karna's Resolve hardens - all offense, no retreat!");
       },
     },
-    {
-      id: 'suns-final-gift',
-      name: "The Sun's Final Gift",
-      description: "The armor he gave away still remembers the warmth of his skin. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'suns-final-gift-atk',
-          name: "The Sun's Final Gift",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'suns-final-gift-def',
-          name: "The Sun's Final Gift",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.3,
-          turnsRemaining: 3,
-          description: '+30% Defense',
-        });
-        applyStatus(ctx.self, {
-          id: 'suns-final-gift-shield',
-          name: "The Sun's Final Gift",
-          kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.2),
-          turnsRemaining: 2,
-          description: 'Absorbs damage until depleted',
-        });
-        ctx.log("Karna calls upon The Sun's Final Gift!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Vasavi Shakti: Spear of the Sun God",
@@ -528,7 +376,7 @@ const romulusQuirinus: ServantDefinition = {
   def: 68,
   agility: 60,
   critChance: 0.1,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage', 'Sustain via Lifesteal'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The founder of Rome, apotheosized into a god who carries the light of civilization itself.',
@@ -592,38 +440,6 @@ const romulusQuirinus: ServantDefinition = {
         ctx.log("Romulus-Quirinus casts Civilization's Light upon the enemy!");
       },
     },
-    {
-      id: 'eternal-city-reborn',
-      name: "The Eternal City, Reborn",
-      description: "Founder and king merge into one, and Rome itself seems to stand at his back. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'heal',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'eternal-city-reborn-atk',
-          name: "The Eternal City, Reborn",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'eternal-city-reborn-def',
-          name: "The Eternal City, Reborn",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        const healed = Math.round(ctx.self.maxHp * 0.2);
-        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
-        ctx.log("Romulus-Quirinus becomes The Eternal City, Reborn!" + ` Recovers ${healed} HP.`);
-      },
-    },
   ],
   noblePhantasm: {
     name: "Trecento Anni: 300 Years of Roman History",
@@ -648,7 +464,7 @@ const enkidu: ServantDefinition = {
   def: 70,
   agility: 55,
   critChance: 0.1,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Crowd Control', 'Durability'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A being of clay shaped by the gods to oppose Gilgamesh, and bound to him ever since.',
@@ -702,45 +518,6 @@ const enkidu: ServantDefinition = {
         const healed = Math.round(ctx.self.maxHp * 0.18);
         ctx.self.hp = ctx.self.hp + healed;
         ctx.log(`Enkidu's Bond heals ${healed} HP.`);
-      },
-    },
-    {
-      id: 'clay-remembers-heaven',
-      name: "The Clay Remembers Heaven",
-      description: "Made to bind gods, the weapon of clay recalls exactly what it was for. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'clay-remembers-heaven-atk',
-          name: "The Clay Remembers Heaven",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'clay-remembers-heaven-def',
-          name: "The Clay Remembers Heaven",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'clay-remembers-heaven-enemy-atk-down',
-          name: "The Clay Remembers Heaven",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Enkidu awakens as The Clay Remembers Heaven!");
       },
     },
   ],
@@ -837,45 +614,6 @@ const scathach: ServantDefinition = {
         ctx.log("Scáthach's Immortal Resolve steadies her.");
       },
     },
-    {
-      id: 'queen-of-shadows-true-form',
-      name: "The Queen of Shadows' True Form",
-      description: "Her true strength, kept sealed even from her own students, finally surfaces. Raises own Attack by 30% and damage dealt by 20%, but lowers Defense by 10%, for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'queen-of-shadows-true-form-atk',
-          name: "The Queen of Shadows' True Form",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.3,
-          turnsRemaining: 3,
-          description: '+30% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'queen-of-shadows-true-form-dmg',
-          name: "The Queen of Shadows' True Form",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% damage dealt',
-        });
-        applyStatus(ctx.self, {
-          id: 'queen-of-shadows-true-form-def',
-          name: "The Queen of Shadows' True Form",
-          kind: 'debuff',
-          stat: 'def',
-          amount: -0.1,
-          turnsRemaining: 3,
-          description: '-10% Defense',
-        });
-        ctx.log("Scáthach reveals The Queen of Shadows' True Form!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Gáe Bolg Alternate: The Piercing Death Spear",
@@ -900,7 +638,7 @@ const melusine: ServantDefinition = {
   def: 68,
   agility: 60,
   critChance: 0.1,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Durability', 'Sustain via Lifesteal'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A fairy knight who bears the name of Lancelot, able to become a sleek, supersonic dragon.',
@@ -956,38 +694,6 @@ const melusine: ServantDefinition = {
         ctx.log('Melusine strikes with a Supersonic Dive!');
       },
     },
-    {
-      id: 'draconic-bloodline-awakens',
-      name: "The Draconic Bloodline Awakens",
-      description: "The dragon blood beneath her fairy skin stirs and answers her call. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'heal',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'draconic-bloodline-awakens-atk',
-          name: "The Draconic Bloodline Awakens",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'draconic-bloodline-awakens-def',
-          name: "The Draconic Bloodline Awakens",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        const healed = Math.round(ctx.self.maxHp * 0.2);
-        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
-        ctx.log("Melusine feels The Draconic Bloodline Awakens!" + ` Recovers ${healed} HP.`);
-      },
-    },
   ],
   noblePhantasm: {
     name: "Almace: The Dragon Descends",
@@ -1012,7 +718,7 @@ const ereshkigal: ServantDefinition = {
   def: 65,
   agility: 55,
   critChance: 0.12,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Debuffs', 'Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The tsundere Goddess of the Underworld, ruling the dead alone with a heart she refuses to admit is kind.',
@@ -1074,45 +780,6 @@ const ereshkigal: ServantDefinition = {
           description: '-20% DEF',
         });
         ctx.log('Ereshkigal issues the Seven Gates Decree!');
-      },
-    },
-    {
-      id: 'goddess-of-the-great-below',
-      name: "Goddess of the Great Below",
-      description: "The seven gates behind her throne swing open, and the Queen of the Underworld steps through. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'goddess-of-the-great-below-atk',
-          name: "Goddess of the Great Below",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'goddess-of-the-great-below-def',
-          name: "Goddess of the Great Below",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'goddess-of-the-great-below-enemy-atk-down',
-          name: "Goddess of the Great Below",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Ereshkigal rises as Goddess of the Great Below!");
       },
     },
   ],

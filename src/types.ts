@@ -57,9 +57,6 @@ export interface SkillDefinition {
    * (shield/evade) before any damage in a simultaneous round, so it
    * doesn't matter which player is processed first. */
   dealsDamage?: boolean;
-  /** True if this skill can only ever be used once per battle - its cooldown
-   * never resets after use, no matter how many rounds pass. */
-  oneTimeUse?: boolean;
   effect: (ctx: BattleContext) => void;
 }
 

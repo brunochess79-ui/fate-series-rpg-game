@@ -12,7 +12,7 @@ const iskandar: ServantDefinition = {
   def: 75,
   agility: 60,
   critChance: 0.1,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Durability', 'High HP', 'Sustain via Lifesteal'],
   weaknesses: ['Slow', 'Low Crit Rate'],
   passiveDescription: 'A king of unmatched vitality, the toughest Servant on the field.',
@@ -80,38 +80,6 @@ const iskandar: ServantDefinition = {
         ctx.log(`Iskandar rouses for the charge, recovering ${healed} HP!`);
       },
     },
-    {
-      id: 'kings-final-conquest',
-      name: "The King's Final Conquest",
-      description: "Every soldier he ever led marches with him again, if only in spirit. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'heal',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'kings-final-conquest-atk',
-          name: "The King's Final Conquest",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'kings-final-conquest-def',
-          name: "The King's Final Conquest",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        const healed = Math.round(ctx.self.maxHp * 0.2);
-        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
-        ctx.log("Iskandar rides into The King's Final Conquest!" + ` Recovers ${healed} HP.`);
-      },
-    },
   ],
   noblePhantasm: {
     name: "Army of Bonds",
@@ -145,7 +113,7 @@ const bellerophon: ServantDefinition = {
   def: 68,
   agility: 95,
   critChance: 0.1,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Evasion', 'Tempo Control'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'Astride the winged Pegasus, he strikes from where no blade can follow.',
@@ -200,43 +168,6 @@ const bellerophon: ServantDefinition = {
         ctx.log("Bellerophon's Skybound Charge disrupts the enemy's focus!");
       },
     },
-    {
-      id: 'tamers-final-flight',
-      name: "The Tamer's Final Flight",
-      description: "Man and pegasus move as one, higher and faster than any hero has flown. Raises own Attack by 15% and Defense by 10% for 3 turns, and guarantees the next enemy attack will miss entirely.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'tamers-final-flight-atk',
-          name: "The Tamer's Final Flight",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'tamers-final-flight-def',
-          name: "The Tamer's Final Flight",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.1,
-          turnsRemaining: 3,
-          description: '+10% Defense',
-        });
-        applyStatus(ctx.self, {
-          id: 'tamers-final-flight-evade',
-          name: "The Tamer's Final Flight",
-          kind: 'evade',
-          turnsRemaining: 1,
-          description: 'Next incoming attack is evaded',
-        });
-        ctx.log("Bellerophon takes The Tamer's Final Flight!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Pegasus Dive: Chimera's End",
@@ -261,7 +192,7 @@ const boudica: ServantDefinition = {
   def: 78,
   agility: 58,
   critChance: 0.08,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Durability', 'Shielding', 'Regeneration'],
   weaknesses: ['Slow', 'Low Crit Rate'],
   passiveDescription: "A queen's fury drives her chariot through the ranks of her enemies.",
@@ -325,44 +256,6 @@ const boudica: ServantDefinition = {
         ctx.log("Boudica's Rallying Cry steadies her allies and herself.");
       },
     },
-    {
-      id: 'queens-undying-vengeance',
-      name: "The Queen's Undying Vengeance",
-      description: "The grief of a wronged mother and a broken kingdom hardens into pure will. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'queens-undying-vengeance-atk',
-          name: "The Queen's Undying Vengeance",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'queens-undying-vengeance-def',
-          name: "The Queen's Undying Vengeance",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.3,
-          turnsRemaining: 3,
-          description: '+30% Defense',
-        });
-        applyStatus(ctx.self, {
-          id: 'queens-undying-vengeance-shield',
-          name: "The Queen's Undying Vengeance",
-          kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.2),
-          turnsRemaining: 2,
-          description: 'Absorbs damage until depleted',
-        });
-        ctx.log("Boudica calls upon The Queen's Undying Vengeance!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Chariot of the Iceni: Vengeance Ride",
@@ -396,7 +289,7 @@ const marcoPolo: ServantDefinition = {
   def: 65,
   agility: 70,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Regeneration', 'Finishing Blows'],
   weaknesses: ['Low Damage'],
   passiveDescription: 'Having crossed the Silk Road, he commands a caravan that overwhelms with numbers, not strength.',
@@ -450,38 +343,6 @@ const marcoPolo: ServantDefinition = {
             : 'Marco Polo presses forward with Silk Road Momentum!',
         );
         ctx.dealDamage(ctx.self, ctx.enemy, 1.1 * executeBonus, { label: 'Silk Road Momentum' });
-      },
-    },
-    {
-      id: 'wonders-of-the-world',
-      name: "Wonders of the World",
-      description: "A lifetime of impossible journeys condenses into a single unstoppable advance. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'heal',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'wonders-of-the-world-atk',
-          name: "Wonders of the World",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'wonders-of-the-world-def',
-          name: "Wonders of the World",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        const healed = Math.round(ctx.self.maxHp * 0.2);
-        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
-        ctx.log("Marco Polo recounts the Wonders of the World!" + ` Recovers ${healed} HP.`);
       },
     },
   ],
@@ -563,43 +424,6 @@ const medusa: ServantDefinition = {
         ctx.log("Medusa's Mystic Eyes turn the enemy to stone!");
       },
     },
-    {
-      id: 'gorgons-true-visage',
-      name: "The Gorgon's True Visage",
-      description: "For a moment the cursed beauty beneath the myth shows her true, terrible face. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'crit',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'gorgons-true-visage-atk',
-          name: "The Gorgon's True Visage",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'gorgons-true-visage-dmg',
-          name: "The Gorgon's True Visage",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        applyStatus(ctx.self, {
-          id: 'gorgons-true-visage__critReady',
-          name: "The Gorgon's True Visage",
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log("Medusa reveals The Gorgon's True Visage!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Blood Fort Andromeda",
@@ -631,7 +455,7 @@ const noah: ServantDefinition = {
   def: 80,
   agility: 40,
   critChance: 0.05,
-  rank: 'A+',
+  rank: 'B+',
   strengths: ['Highest HP', 'Shielding'],
   weaknesses: ['Slowest'],
   passiveDescription: "The captain of the Ark, who stood against a flood that erased the world.",
@@ -694,44 +518,6 @@ const noah: ServantDefinition = {
         ctx.log('Noah steadies himself for the Voyage of the Faithful!');
       },
     },
-    {
-      id: 'covenant-of-the-faithful',
-      name: "Covenant of the Faithful",
-      description: "The promise kept through forty days and nights of rain steadies him once more. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'covenant-of-the-faithful-atk',
-          name: "Covenant of the Faithful",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'covenant-of-the-faithful-def',
-          name: "Covenant of the Faithful",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.3,
-          turnsRemaining: 3,
-          description: '+30% Defense',
-        });
-        applyStatus(ctx.self, {
-          id: 'covenant-of-the-faithful-shield',
-          name: "Covenant of the Faithful",
-          kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.2),
-          turnsRemaining: 2,
-          description: 'Absorbs damage until depleted',
-        });
-        ctx.log("Noah stands by the Covenant of the Faithful!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Noah's Ark: The Great Flood",
@@ -765,7 +551,7 @@ const ozymandias: ServantDefinition = {
   def: 62,
   agility: 55,
   critChance: 0.12,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The radiant Sun King of Egypt, endlessly arrogant and endlessly certain of his own divinity.',
@@ -828,45 +614,6 @@ const ozymandias: ServantDefinition = {
         ctx.log("Ozymandias calls upon Sunlight's Authority.");
       },
     },
-    {
-      id: 'pharaohs-eternal-glory',
-      name: "The Pharaoh's Eternal Glory",
-      description: "The Sun King casts off his aloof airs and burns as bright as Ra himself. Raises own Attack by 30% and damage dealt by 20%, but lowers Defense by 10%, for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'pharaohs-eternal-glory-atk',
-          name: "The Pharaoh's Eternal Glory",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.3,
-          turnsRemaining: 3,
-          description: '+30% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'pharaohs-eternal-glory-dmg',
-          name: "The Pharaoh's Eternal Glory",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% damage dealt',
-        });
-        applyStatus(ctx.self, {
-          id: 'pharaohs-eternal-glory-def',
-          name: "The Pharaoh's Eternal Glory",
-          kind: 'debuff',
-          stat: 'def',
-          amount: -0.1,
-          turnsRemaining: 3,
-          description: '-10% Defense',
-        });
-        ctx.log("Ozymandias basks in The Pharaoh's Eternal Glory!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Ramesseum Tentyris: The Pyramids Descend",
@@ -891,7 +638,7 @@ const quetzalcoatl: ServantDefinition = {
   def: 65,
   agility: 65,
   critChance: 0.15,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage', 'Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A cheerful Aztec goddess who crashes down from the sky like a living, luchadora meteor.',
@@ -953,38 +700,6 @@ const quetzalcoatl: ServantDefinition = {
         ctx.log('Quetzalcoatl winds up for a Meteor Drop!');
       },
     },
-    {
-      id: 'feathered-serpents-descent',
-      name: "The Feathered Serpent's Descent",
-      description: "The luchador mask slips, and the god beneath steps fully into the ring. Raises own Attack by 20% and Defense by 15% for 3 turns, and instantly restores 20% of max HP.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'heal',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'feathered-serpents-descent-atk',
-          name: "The Feathered Serpent's Descent",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.2,
-          turnsRemaining: 3,
-          description: '+20% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'feathered-serpents-descent-def',
-          name: "The Feathered Serpent's Descent",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        const healed = Math.round(ctx.self.maxHp * 0.2);
-        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
-        ctx.log("Quetzalcoatl performs The Feathered Serpent's Descent!" + ` Recovers ${healed} HP.`);
-      },
-    },
   ],
   noblePhantasm: {
     name: "Xiuhcoatl: The Crash of the Turquoise Serpent",
@@ -1009,7 +724,7 @@ const astolfo: ServantDefinition = {
   def: 55,
   agility: 90,
   critChance: 0.15,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Speed', 'Evasion'],
   weaknesses: ['Low Damage'],
   passiveDescription: "A carefree Paladin of Charlemagne, riding a hippogriff and beloved across the fandom.",
@@ -1065,43 +780,6 @@ const astolfo: ServantDefinition = {
         ctx.log(`Astolfo's Paladin's Cheer heals ${healed} HP.`);
       },
     },
-    {
-      id: 'paladins-hidden-resolve',
-      name: "The Paladin's Hidden Resolve",
-      description: "Beneath the cheerful mask lies a knight of Charlemagne's court, and that knight steps forward now. Raises own Attack by 15% and Defense by 10% for 3 turns, and guarantees the next enemy attack will miss entirely.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'paladins-hidden-resolve-atk',
-          name: "The Paladin's Hidden Resolve",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'paladins-hidden-resolve-def',
-          name: "The Paladin's Hidden Resolve",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.1,
-          turnsRemaining: 3,
-          description: '+10% Defense',
-        });
-        applyStatus(ctx.self, {
-          id: 'paladins-hidden-resolve-evade',
-          name: "The Paladin's Hidden Resolve",
-          kind: 'evade',
-          turnsRemaining: 1,
-          description: 'Next incoming attack is evaded',
-        });
-        ctx.log("Astolfo shows The Paladin's Hidden Resolve!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Hippogriff: La Black Luna",
@@ -1126,7 +804,7 @@ const drake: ServantDefinition = {
   def: 58,
   agility: 68,
   critChance: 0.14,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Buffs', 'Debuffs'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'A privateer queen who claims the seas belong to whoever is bold enough to take them.',
@@ -1189,45 +867,6 @@ const drake: ServantDefinition = {
           description: '-18% Defense',
         });
         ctx.log("Francis Drake raises her Privateer's Flag!");
-      },
-    },
-    {
-      id: 'pirate-queens-fair-wind',
-      name: "The Pirate Queen's Fair Wind",
-      description: "Every following sea she ever sailed fills her sails again at once. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'pirate-queens-fair-wind-atk',
-          name: "The Pirate Queen's Fair Wind",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'pirate-queens-fair-wind-def',
-          name: "The Pirate Queen's Fair Wind",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'pirate-queens-fair-wind-enemy-atk-down',
-          name: "The Pirate Queen's Fair Wind",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Francis Drake catches The Pirate Queen's Fair Wind!");
       },
     },
   ],

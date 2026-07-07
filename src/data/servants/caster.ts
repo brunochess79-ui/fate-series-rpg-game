@@ -12,7 +12,7 @@ const medea: ServantDefinition = {
   def: 61,
   agility: 55,
   critChance: 0.08,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Debuffs', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile'],
   passiveDescription: 'A sorceress who unravels enemies with curses rather than steel.',
@@ -66,45 +66,6 @@ const medea: ServantDefinition = {
         ctx.log('Medea curses the enemy with a Cursed Talisman!');
       },
     },
-    {
-      id: 'witch-of-colchis-true-power',
-      name: "The Witch of Colchis, Unbound",
-      description: "The princess who once betrayed her own kingdom for love lets her full sorcery show. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'witch-of-colchis-true-power-atk',
-          name: "The Witch of Colchis, Unbound",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'witch-of-colchis-true-power-def',
-          name: "The Witch of Colchis, Unbound",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'witch-of-colchis-true-power-enemy-atk-down',
-          name: "The Witch of Colchis, Unbound",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Medea becomes The Witch of Colchis, Unbound!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Rule of the Jeweled Sword",
@@ -139,7 +100,7 @@ const circe: ServantDefinition = {
   def: 59,
   agility: 55,
   critChance: 0.08,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Debuffs', 'Tempo Control', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile'],
   passiveDescription: 'Her potions and spells twist the body and mind of any who cross her.',
@@ -195,45 +156,6 @@ const circe: ServantDefinition = {
         ctx.log("Circe's Enchanted Chalice saps the enemy's resolve!");
       },
     },
-    {
-      id: 'goddess-of-aeaea-awakened',
-      name: "The Goddess of Aeaea, Awakened",
-      description: "The island witch remembers she was a goddess long before she was a witch. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'goddess-of-aeaea-awakened-atk',
-          name: "The Goddess of Aeaea, Awakened",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'goddess-of-aeaea-awakened-def',
-          name: "The Goddess of Aeaea, Awakened",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'goddess-of-aeaea-awakened-enemy-atk-down',
-          name: "The Goddess of Aeaea, Awakened",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Circe becomes The Goddess of Aeaea, Awakened!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Circe's Curse: Beasts of Aeaea",
@@ -265,7 +187,7 @@ const merlin: ServantDefinition = {
   def: 65,
   agility: 55,
   critChance: 0.1,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Cooldown Manipulation', 'Support'],
   weaknesses: ['Low Damage'],
   passiveDescription: 'A trickster mage whose prophecy sees three steps ahead.',
@@ -322,39 +244,6 @@ const merlin: ServantDefinition = {
         ctx.log('Merlin conjures an Illusory Fog around the enemy!');
       },
     },
-    {
-      id: 'prophets-final-vision',
-      name: "The Prophet's Final Vision",
-      description: "He has seen every ending already; now he chooses to fight past this one. Raises own Attack by 10% and Defense by 10% for 3 turns, and resets the cooldown of every other skill.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'utility',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'prophets-final-vision-atk',
-          name: "The Prophet's Final Vision",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.1,
-          turnsRemaining: 3,
-          description: '+10% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'prophets-final-vision-def',
-          name: "The Prophet's Final Vision",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.1,
-          turnsRemaining: 3,
-          description: '+10% Defense',
-        });
-        ctx.self.skillCooldowns[0] = 0;
-        ctx.self.skillCooldowns[1] = 0;
-        ctx.self.skillCooldowns[2] = 0;
-        ctx.log("Merlin reveals The Prophet's Final Vision!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "The Once and Future Wizard's Gift",
@@ -391,7 +280,7 @@ const nostradamus: ServantDefinition = {
   def: 56,
   agility: 50,
   critChance: 0.07,
-  rank: 'A',
+  rank: 'B',
   strengths: ['Debuffs', 'Damage over Time', 'Self-Cleanse'],
   weaknesses: ['Low Damage', 'Fragile', 'Low HP'],
   passiveDescription: 'Foretells calamity, and shapes the battlefield with grim portents.',
@@ -453,45 +342,6 @@ const nostradamus: ServantDefinition = {
         );
       },
     },
-    {
-      id: 'seers-unwritten-verse',
-      name: "The Seer's Unwritten Verse",
-      description: "For once, he writes a prophecy that has not yet come to pass. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'seers-unwritten-verse-atk',
-          name: "The Seer's Unwritten Verse",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'seers-unwritten-verse-def',
-          name: "The Seer's Unwritten Verse",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'seers-unwritten-verse-enemy-atk-down',
-          name: "The Seer's Unwritten Verse",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Nostradamus pens The Seer's Unwritten Verse!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Les Propheties: The Written Fate",
@@ -524,7 +374,7 @@ const gillesDeRais: ServantDefinition = {
   def: 59,
   agility: 50,
   critChance: 0.08,
-  rank: 'A',
+  rank: 'B',
   strengths: ['Debuffs', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile', 'Low HP'],
   passiveDescription:
@@ -587,45 +437,6 @@ const gillesDeRais: ServantDefinition = {
           description: '+18% ATK',
         });
         ctx.log("Gilles de Rais calls upon a Marshal's Discipline!");
-      },
-    },
-    {
-      id: 'marshals-final-devotion',
-      name: "The Marshal's Final Devotion",
-      description: "Every twisted rite he ever performed was, in his mind, an act of devotion - and it answers him now. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'marshals-final-devotion-atk',
-          name: "The Marshal's Final Devotion",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'marshals-final-devotion-def',
-          name: "The Marshal's Final Devotion",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'marshals-final-devotion-enemy-atk-down',
-          name: "The Marshal's Final Devotion",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Gilles de Rais gives in to The Marshal's Final Devotion!");
       },
     },
   ],
@@ -716,39 +527,6 @@ const solomon: ServantDefinition = {
         ctx.log('Solomon commands his Djinn to shield him!');
       },
     },
-    {
-      id: 'kings-true-authority',
-      name: "The King's True Authority",
-      description: "The ring on his finger remembers it once commanded seventy-two pillars of devils. Raises own Attack by 10% and Defense by 10% for 3 turns, and resets the cooldown of every other skill.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'utility',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'kings-true-authority-atk',
-          name: "The King's True Authority",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.1,
-          turnsRemaining: 3,
-          description: '+10% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'kings-true-authority-def',
-          name: "The King's True Authority",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.1,
-          turnsRemaining: 3,
-          description: '+10% Defense',
-        });
-        ctx.self.skillCooldowns[0] = 0;
-        ctx.self.skillCooldowns[1] = 0;
-        ctx.self.skillCooldowns[2] = 0;
-        ctx.log("Solomon exercises The King's True Authority!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Ars Nova: The 72 Pillars",
@@ -773,7 +551,7 @@ const tamamo: ServantDefinition = {
   def: 55,
   agility: 62,
   critChance: 0.15,
-  rank: 'A+',
+  rank: 'B+',
   strengths: ['Critical Hits', 'Regeneration'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'A witty, devoted nine-tailed fox spirit, eternally rivaling Nero for her Master\'s affection.',
@@ -837,43 +615,6 @@ const tamamo: ServantDefinition = {
         ctx.log('Tamamo-no-Mae plays a bit of Vulpine Mischief!');
       },
     },
-    {
-      id: 'nine-tails-unveiled',
-      name: "Nine Tails, Unveiled",
-      description: "The playful mask falls away, and the ancient fox spirit shows her true age and power. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'crit',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'nine-tails-unveiled-atk',
-          name: "Nine Tails, Unveiled",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'nine-tails-unveiled-dmg',
-          name: "Nine Tails, Unveiled",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        applyStatus(ctx.self, {
-          id: 'nine-tails-unveiled__critReady',
-          name: "Nine Tails, Unveiled",
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log("Tamamo-no-Mae becomes Nine Tails, Unveiled!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Song of Kayo-Manaka: The Fox's Blessing",
@@ -901,7 +642,7 @@ const castoria: ServantDefinition = {
   def: 60,
   agility: 58,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'C+',
   strengths: ['Debuffs', 'Buffs'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A young king who never drew the sword, wielding magecraft in its place.',
@@ -966,45 +707,6 @@ const castoria: ServantDefinition = {
         ctx.log('Artoria Pendragon channels Mana Burst (Flame)!');
       },
     },
-    {
-      id: 'lakes-gentlest-blessing',
-      name: "The Lake's Gentlest Blessing",
-      description: "The kindness she never got to give as a king, she gives now as something else entirely. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'lakes-gentlest-blessing-atk',
-          name: "The Lake's Gentlest Blessing",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'lakes-gentlest-blessing-def',
-          name: "The Lake's Gentlest Blessing",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'lakes-gentlest-blessing-enemy-atk-down',
-          name: "The Lake's Gentlest Blessing",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Artoria calls upon The Lake's Gentlest Blessing!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Excalibur Morgan",
@@ -1029,7 +731,7 @@ const zhugeLiang: ServantDefinition = {
   def: 55,
   agility: 50,
   critChance: 0.08,
-  rank: 'B',
+  rank: 'C',
   strengths: ['Sustain', 'Debuffs'],
   weaknesses: ['Frail', 'Low Attack'],
   passiveDescription: 'A sleeping dragon of unmatched strategy, more dangerous in mind than in body.',
@@ -1087,45 +789,6 @@ const zhugeLiang: ServantDefinition = {
         ctx.log(`Zhuge Liang calls the Banka no Kaze, healing ${healed} HP.`);
       },
     },
-    {
-      id: 'sleeping-dragons-last-plan',
-      name: "The Sleeping Dragon's Last Plan",
-      description: "One final stratagem, calculated to the smallest detail, unfolds exactly as written. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'sleeping-dragons-last-plan-atk',
-          name: "The Sleeping Dragon's Last Plan",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'sleeping-dragons-last-plan-def',
-          name: "The Sleeping Dragon's Last Plan",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'sleeping-dragons-last-plan-enemy-atk-down',
-          name: "The Sleeping Dragon's Last Plan",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Zhuge Liang enacts The Sleeping Dragon's Last Plan!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "The Wisdom That Traverses the Heavens",
@@ -1159,7 +822,7 @@ const scathachSkadi: ServantDefinition = {
   def: 60,
   agility: 80,
   critChance: 0.15,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Critical Hits', 'Debuffs'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'The Instructor of Shadows, fused with a frost goddess of the Norse Lostbelt.',
@@ -1224,43 +887,6 @@ const scathachSkadi: ServantDefinition = {
         ctx.log('Scáthach-Skadi opens her Mystic Eyes of Enchantment!');
       },
     },
-    {
-      id: 'iceberg-goddess-unbound',
-      name: "The Iceberg Goddess, Unbound",
-      description: "The cold beneath her cheer finally shows itself, vast and absolute. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'crit',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'iceberg-goddess-unbound-atk',
-          name: "The Iceberg Goddess, Unbound",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'iceberg-goddess-unbound-dmg',
-          name: "The Iceberg Goddess, Unbound",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        applyStatus(ctx.self, {
-          id: 'iceberg-goddess-unbound__critReady',
-          name: "The Iceberg Goddess, Unbound",
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log("Scáthach-Skadi becomes The Iceberg Goddess, Unbound!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Skoll and Hati: Chasing Wolves of the Twilight",
@@ -1285,7 +911,7 @@ const chenGong: ServantDefinition = {
   def: 48,
   agility: 55,
   critChance: 0.1,
-  rank: 'B',
+  rank: 'C',
   strengths: ['Traps', 'Debuffs'],
   weaknesses: ['Frail', 'Low HP'],
   passiveDescription: 'An advisor whose cunning outlasted his master, laying traps within traps.',
@@ -1347,45 +973,6 @@ const chenGong: ServantDefinition = {
         ctx.log('Chen Gong springs a Poisoned Arrow Trap!');
       },
     },
-    {
-      id: 'strategists-hidden-hand',
-      name: "The Strategist's Hidden Hand",
-      description: "Every plan within a plan he has ever laid finally converges on this one move. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'strategists-hidden-hand-atk',
-          name: "The Strategist's Hidden Hand",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'strategists-hidden-hand-def',
-          name: "The Strategist's Hidden Hand",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'strategists-hidden-hand-enemy-atk-down',
-          name: "The Strategist's Hidden Hand",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Chen Gong reveals The Strategist's Hidden Hand!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Chapters of the Grand Strategy",
@@ -1410,7 +997,7 @@ const anastasia: ServantDefinition = {
   def: 62,
   agility: 62,
   critChance: 0.13,
-  rank: 'A',
+  rank: 'B',
   strengths: ['Debuffs', 'Sustain'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A young duchess bearing a frozen crown, her sorrow given the shape of winter itself.',
@@ -1465,45 +1052,6 @@ const anastasia: ServantDefinition = {
           description: 'Afflicted by the Frozen Curse',
         });
         ctx.log('Anastasia lays a Frozen Curse upon the enemy!');
-      },
-    },
-    {
-      id: 'duchess-of-the-frozen-dawn',
-      name: "Duchess of the Frozen Dawn",
-      description: "The last princess of a fallen empire calls on a colder, older kind of miracle. Raises own Attack by 15% and Defense by 15% for 3 turns, and lowers the enemy's Attack by 20% for 3 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'debuff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'duchess-of-the-frozen-dawn-atk',
-          name: "Duchess of the Frozen Dawn",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'duchess-of-the-frozen-dawn-def',
-          name: "Duchess of the Frozen Dawn",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Defense',
-        });
-        applyStatus(ctx.enemy, {
-          id: 'duchess-of-the-frozen-dawn-enemy-atk-down',
-          name: "Duchess of the Frozen Dawn",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% ATK',
-        });
-        ctx.log("Anastasia becomes Duchess of the Frozen Dawn!");
       },
     },
   ],

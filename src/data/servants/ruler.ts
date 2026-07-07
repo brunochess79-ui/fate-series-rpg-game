@@ -12,7 +12,7 @@ const jeanne: ServantDefinition = {
   def: 70,
   agility: 65,
   critChance: 0.08,
-  rank: 'A',
+  rank: 'B',
   strengths: ['Regeneration', 'Shielding'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A saint who hears the voice of God, mediating the Grail War with mercy for all sides.',
@@ -73,44 +73,6 @@ const jeanne: ServantDefinition = {
         );
       },
     },
-    {
-      id: 'voice-of-the-saints',
-      name: "The Voice of the Saints",
-      description: "The voices that guided her since childhood speak again, louder than ever. Raises own Attack by 15% and Defense by 30% for 3 turns, and grants a shield absorbing damage equal to 20% of max HP for 2 turns.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'voice-of-the-saints-atk',
-          name: "The Voice of the Saints",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'voice-of-the-saints-def',
-          name: "The Voice of the Saints",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.3,
-          turnsRemaining: 3,
-          description: '+30% Defense',
-        });
-        applyStatus(ctx.self, {
-          id: 'voice-of-the-saints-shield',
-          name: "The Voice of the Saints",
-          kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.2),
-          turnsRemaining: 2,
-          description: 'Absorbs damage until depleted',
-        });
-        ctx.log("Jeanne d'Arc hears The Voice of the Saints!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "La Pucelle: Flag of the Crusade",
@@ -138,7 +100,7 @@ const amakusa: ServantDefinition = {
   def: 75,
   agility: 62,
   critChance: 0.12,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Evasion', 'Debuffs'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A saintly boy-priest, gentle to allies and merciless to those who prey on the weak.',
@@ -194,43 +156,6 @@ const amakusa: ServantDefinition = {
         ctx.log('Amakusa Shirou pronounces the Blessing of the Kingdom of God!');
       },
     },
-    {
-      id: 'undying-faith-of-amakusa',
-      name: "The Undying Faith of Amakusa",
-      description: "The conviction of thirty-seven thousand martyrs settles onto his shoulders. Raises own Attack by 15% and Defense by 10% for 3 turns, and guarantees the next enemy attack will miss entirely.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'undying-faith-of-amakusa-atk',
-          name: "The Undying Faith of Amakusa",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'undying-faith-of-amakusa-def',
-          name: "The Undying Faith of Amakusa",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.1,
-          turnsRemaining: 3,
-          description: '+10% Defense',
-        });
-        applyStatus(ctx.self, {
-          id: 'undying-faith-of-amakusa-evade',
-          name: "The Undying Faith of Amakusa",
-          kind: 'evade',
-          turnsRemaining: 1,
-          description: 'Next incoming attack is evaded',
-        });
-        ctx.log("Amakusa Shirou channels The Undying Faith of Amakusa!");
-      },
-    },
   ],
   noblePhantasm: {
     name: "Perfect Nirvana",
@@ -255,7 +180,7 @@ const sherlock: ServantDefinition = {
   def: 65,
   agility: 70,
   critChance: 0.15,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Critical Strikes', 'Debuffs'],
   weaknesses: ['No Self-Heal'],
   passiveDescription: 'A detective whose deductions cut deeper than any blade, exposing every flaw.',
@@ -311,43 +236,6 @@ const sherlock: ServantDefinition = {
       effect: (ctx) => {
         ctx.log('Sherlock Holmes strikes with Bartitsu!');
         ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: 'Bartitsu' });
-      },
-    },
-    {
-      id: 'greatest-detective-alive',
-      name: "The Greatest Detective Alive",
-      description: "Every clue, every deduction, every case ever solved converges on this single moment. Raises own Attack by 15% and damage dealt by 15% for 3 turns, and guarantees the next attack is a critical hit.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'crit',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'greatest-detective-alive-atk',
-          name: "The Greatest Detective Alive",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'greatest-detective-alive-dmg',
-          name: "The Greatest Detective Alive",
-          kind: 'buff',
-          stat: 'damage',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% damage dealt',
-        });
-        applyStatus(ctx.self, {
-          id: 'greatest-detective-alive__critReady',
-          name: "The Greatest Detective Alive",
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log("Sherlock Holmes becomes The Greatest Detective Alive!");
       },
     },
   ],

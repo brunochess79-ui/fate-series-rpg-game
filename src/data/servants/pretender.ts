@@ -12,7 +12,7 @@ const oberon: ServantDefinition = {
   def: 60,
   agility: 70,
   critChance: 0.12,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Debuffs', 'Evasion'],
   weaknesses: ['Low Damage'],
   passiveDescription: "The King of Fairies and Stories, who rewrites the tale of any battle to suit his ending.",
@@ -73,43 +73,6 @@ const oberon: ServantDefinition = {
           description: '-20% ATK',
         });
         ctx.log('Oberon rewrites the enemy into a Tale as Old as Time!');
-      },
-    },
-    {
-      id: 'kings-final-storybook',
-      name: "The King's Final Storybook",
-      description: "Every stolen legend he ever wore folds into one last, mischievous tale. Raises own Attack by 15% and Defense by 10% for 3 turns, and guarantees the next enemy attack will miss entirely.",
-      cooldown: 0,
-      npGainSelf: 20,
-      tag: 'buff',
-      oneTimeUse: true,
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'kings-final-storybook-atk',
-          name: "The King's Final Storybook",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 3,
-          description: '+15% Attack',
-        });
-        applyStatus(ctx.self, {
-          id: 'kings-final-storybook-def',
-          name: "The King's Final Storybook",
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.1,
-          turnsRemaining: 3,
-          description: '+10% Defense',
-        });
-        applyStatus(ctx.self, {
-          id: 'kings-final-storybook-evade',
-          name: "The King's Final Storybook",
-          kind: 'evade',
-          turnsRemaining: 1,
-          description: 'Next incoming attack is evaded',
-        });
-        ctx.log("Oberon writes The King's Final Storybook!");
       },
     },
   ],
