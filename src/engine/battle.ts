@@ -203,18 +203,21 @@ export function resolveRound(
   startOfRound(p2, p1, p2Action);
 
   // A heal is never clamped to maxHp at the moment it's applied - only once,
-  // here, after everything queued for the round so far has landed. Otherwise
-  // a heal resolved in Pass 1 (before this round's damage) could get wasted
-  // by overflowing at full HP, while the same heal would land in full if it
-  // happened to be processed after the damage - an order-dependent outcome
-  // for two things meant to happen at the same time. The lower bound is
-  // intentionally left uncapped so a lethal blow still shows as overkill.
+  // at the very end of the round, after everything queued this round (the
+  // start-of-round regen/dot tick, Pass 1 setup heals, and Pass 2 damage)
+  // has landed. Otherwise a heal resolved before this round's damage could
+  // get wasted by overflowing at full HP, while the same heal would land in
+  // full if it happened to be processed after the damage - an order-
+  // dependent outcome for things meant to happen at the same time. The
+  // lower bound is intentionally left uncapped so a lethal blow still shows
+  // as overkill.
   const clampHp = (instance: ServantInstance) => {
     instance.hp = Math.min(instance.hp, instance.maxHp);
   };
-  clampHp(p1.servant);
-  clampHp(p2.servant);
 
+  // A dot tick alone can still kill outright, so check for that (using the
+  // raw, unclamped HP - clamping only affects the upper bound and has no
+  // bearing on a death check) before any of this round's other actions run.
   if (finalizeIfDefeated(next, log)) return next;
 
   const performAction = (self: PlayerState, enemy: PlayerState, action: BattleAction, enemyHpFraction?: number) => {
