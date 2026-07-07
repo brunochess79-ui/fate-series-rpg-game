@@ -12,7 +12,7 @@ const heracles: ServantDefinition = {
   def: 40,
   agility: 48,
   critChance: 0.08,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage', 'Regeneration'],
   weaknesses: ['Lowest Defense', 'Low Crit Rate', 'Slow'],
   passiveDescription:
@@ -106,7 +106,7 @@ const lancelot: ServantDefinition = {
   def: 53,
   agility: 73,
   critChance: 0.1,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Burst Damage', 'Regeneration', 'Finishing Blows'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'Grief and madness have stolen his mind, leaving only unstoppable strength.',
