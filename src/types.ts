@@ -78,6 +78,9 @@ export interface ServantDefinition {
    * mythological being, or literary/folkloric character this Servant is
    * based on. Omitted for Servants with no such real-world basis. */
   wikiUrl?: string;
+  /** Link to this Servant's page on a Fate fan wiki, where their official
+   * in-game/anime artwork is displayed by that site (not reproduced here). */
+  fateWikiUrl?: string;
   maxHp: number;
   atk: number;
   def: number;
