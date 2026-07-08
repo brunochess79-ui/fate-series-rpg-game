@@ -7,6 +7,7 @@ const mash: ServantDefinition = {
   title: 'The Shielder of Chaldea',
   className: 'Shielder',
   trueName: 'Galahad',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Mashu_Kyrielight",
   maxHp: 1400,
   atk: 70,
   def: 92,
