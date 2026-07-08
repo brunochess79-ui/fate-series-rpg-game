@@ -7,6 +7,7 @@ const mash: ServantDefinition = {
   title: 'The Shielder of Chaldea',
   className: 'Shielder',
   trueName: 'Galahad',
+  wikiUrl: "https://en.wikipedia.org/wiki/Galahad",
   maxHp: 1400,
   atk: 70,
   def: 92,

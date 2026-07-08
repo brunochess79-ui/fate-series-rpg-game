@@ -86,6 +86,7 @@ const tiamat: ServantDefinition = {
   title: 'The Primordial Mother',
   className: 'Alter Ego',
   trueName: 'Tiamat',
+  wikiUrl: "https://en.wikipedia.org/wiki/Tiamat",
   maxHp: 1600,
   atk: 100,
   def: 65,

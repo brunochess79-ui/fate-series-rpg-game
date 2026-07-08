@@ -7,6 +7,7 @@ const kukulkan: ServantDefinition = {
   title: 'The Radiant Sun Goddess',
   className: 'Foreigner',
   trueName: 'Kukulkan',
+  wikiUrl: "https://en.wikipedia.org/wiki/Kukulkan",
   maxHp: 1150,
   atk: 125,
   def: 55,
