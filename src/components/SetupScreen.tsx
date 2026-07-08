@@ -136,35 +136,20 @@ function ServantCard({ servant, selected, onSelect }: ServantCardProps) {
               )}
             </div>
           </div>
-          {(servant.wikiUrl || servant.fateWikiUrl) && (
+          {servant.fateWikiUrl && (
             <div className="servant-card-details-section">
               <div className="servant-card-details-label">Learn More</div>
-              {servant.wikiUrl && (
-                <div className="servant-card-details-line">
-                  <a
-                    href={servant.wikiUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="servant-wiki-link"
-                  >
-                    {servant.trueName} on Wikipedia (historical / mythological basis) ↗
-                  </a>
-                </div>
-              )}
-              {servant.fateWikiUrl && (
-                <div className="servant-card-details-line">
-                  <a
-                    href={servant.fateWikiUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="servant-wiki-link"
-                  >
-                    {servant.name} on the Fate Wiki (character art & lore) ↗
-                  </a>
-                </div>
-              )}
+              <div className="servant-card-details-line">
+                <a
+                  href={servant.fateWikiUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="servant-wiki-link"
+                >
+                  {servant.name} on the Fate Wiki (character art & lore) ↗
+                </a>
+              </div>
             </div>
           )}
         </div>

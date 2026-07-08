@@ -7,7 +7,6 @@ const oberon: ServantDefinition = {
   title: 'The King of Stories',
   className: 'Pretender',
   trueName: 'Oberon',
-  wikiUrl: "https://en.wikipedia.org/wiki/Oberon",
   maxHp: 1150,
   atk: 95,
   def: 60,
