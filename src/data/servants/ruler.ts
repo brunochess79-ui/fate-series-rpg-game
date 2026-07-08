@@ -9,11 +9,11 @@ const jeanne: ServantDefinition = {
   trueName: "Jeanne d'Arc",
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Jeanne_d'Arc",
   maxHp: 1300,
-  atk: 85,
+  atk: 91,
   def: 70,
   agility: 65,
   critChance: 0.08,
-  rank: 'C+',
+  rank: 'A',
   strengths: ['Regeneration', 'Shielding'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A saint who hears the voice of God, mediating the Grail War with mercy for all sides.',
@@ -82,7 +82,7 @@ const jeanne: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log("Jeanne d'Arc raises La Pucelle: Flag of the Crusade!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.9, { label: 'Flag of the Crusade' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 5, { label: 'Flag of the Crusade' });
       const healed = Math.round(ctx.self.maxHp * 0.15);
       ctx.self.hp = ctx.self.hp + healed;
       ctx.log(`Jeanne d'Arc recovers ${healed} HP, borne up by her own faith.`);
@@ -98,11 +98,11 @@ const amakusa: ServantDefinition = {
   trueName: 'Amakusa Shirou Tokisada',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Amakusa_Shirō",
   maxHp: 1250,
-  atk: 95,
+  atk: 96,
   def: 75,
   agility: 62,
   critChance: 0.12,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Evasion', 'Debuffs'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A saintly boy-priest, gentle to allies and merciless to those who prey on the weak.',
@@ -166,7 +166,7 @@ const amakusa: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log('Amakusa Shirou invokes Perfect Nirvana!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.4, { label: 'Perfect Nirvana' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.48, { label: 'Perfect Nirvana' });
     },
   },
 };
@@ -183,7 +183,7 @@ const sherlock: ServantDefinition = {
   def: 65,
   agility: 70,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Critical Strikes', 'Debuffs'],
   weaknesses: ['No Self-Heal'],
   passiveDescription: 'A detective whose deductions cut deeper than any blade, exposing every flaw.',
@@ -249,9 +249,92 @@ const sherlock: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log('Sherlock Holmes reveals The Vanished People!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'The Vanished People' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.25, { label: 'The Vanished People' });
     },
   },
 };
 
-export const RULER_SERVANTS: ServantDefinition[] = [jeanne, amakusa, sherlock];
+const hakuno: ServantDefinition = {
+  id: 'hakuno',
+  name: 'Kishinami Hakuno',
+  title: 'The Sovereign of the Moon Cell',
+  className: 'Ruler',
+  trueName: 'Kishinami Hakuno',
+  fateWikiUrl: "https://typemoon.fandom.com/wiki/Hakuno_Kishinami",
+  maxHp: 1250,
+  atk: 120,
+  def: 66,
+  agility: 64,
+  critChance: 0.12,
+  rank: 'A+',
+  strengths: ['Buffs', 'Debuffs', 'Sustain'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The Master who survived the Moon Cell war and now bears the Regalia of its sovereign.',
+  skills: [
+    {
+      id: 'code-cast-hack',
+      name: 'Code Cast: Hack',
+      description: "A digital intrusion corrodes the enemy's strength. Lowers enemy Attack by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'code-cast-hack',
+          name: 'Code Cast: Hack',
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% ATK',
+        });
+        ctx.log('Hakuno executes a Code Cast — the enemy\'s parameters corrode!');
+      },
+    },
+    {
+      id: 'code-cast-cure',
+      name: 'Code Cast: Cure',
+      description: 'A restoration protocol rebuilds damaged code. Heals self for 15% max HP.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.15);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log(`Hakuno runs a restoration protocol, recovering ${healed} HP.`);
+      },
+    },
+    {
+      id: 'regalias-authority',
+      name: "Regalia's Authority",
+      description: 'The ring of sovereignty amplifies its bearer. Raises own Attack by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'regalias-authority',
+          name: "Regalia's Authority",
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% ATK',
+        });
+        ctx.log("The Regalia gleams — Hakuno's authority rises!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Regalia: Decree of the Moon Cell Sovereign',
+    japaneseName: 'Regalia',
+    description: 'The full administrative authority of the Moon Cell, brought down as a single sovereign decree.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Hakuno raises the Regalia — the Moon Cell itself passes judgment!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Regalia' });
+    },
+  },
+};
+
+export const RULER_SERVANTS: ServantDefinition[] = [jeanne, amakusa, sherlock, hakuno];

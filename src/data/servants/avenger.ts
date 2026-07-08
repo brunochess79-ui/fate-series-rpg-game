@@ -13,7 +13,7 @@ const kama: ServantDefinition = {
   def: 55,
   agility: 70,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Critical Hits', 'Regeneration'],
   weaknesses: ['Fragile'],
   passiveDescription: 'The god of love and desire, whose devotion curdles into Mara when spurned.',
@@ -78,7 +78,7 @@ const kama: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log("Kama unleashes Mara's Fury: The Burning World!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.3, { label: "Mara's Fury" });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.77, { label: "Mara's Fury" });
       applyStatus(ctx.enemy, {
         id: 'burning-world-dot',
         name: 'Burning Desire',
@@ -351,81 +351,6 @@ const jeanneAlter: ServantDefinition = {
   },
 };
 
-const alcides: ServantDefinition = {
-  id: 'alcides',
-  name: 'Alcides',
-  title: 'The Twelve Labors, Broken',
-  className: 'Avenger',
-  trueName: 'Heracles',
-  fateWikiUrl: "https://typemoon.fandom.com/wiki/Alcides",
-  maxHp: 1400,
-  atk: 128,
-  def: 58,
-  agility: 55,
-  critChance: 0.1,
-  rank: 'A+',
-  strengths: ['Raw Power', 'Sustain'],
-  weaknesses: ['Low Defense'],
-  passiveDescription: 'A hero robbed of his sanity and his glory alike, raging at the gods who did it.',
-  skills: [
-    {
-      id: 'broken-fetters',
-      name: 'Broken Fetters',
-      description: 'Every chain meant to bind him has failed. Raises own Attack by 25% for 2 turns.',
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'buff',
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'broken-fetters',
-          name: 'Broken Fetters',
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.25,
-          turnsRemaining: 2,
-          description: '+25% Attack',
-        });
-        ctx.log('Alcides shatters his Broken Fetters, raging with power!');
-      },
-    },
-    {
-      id: 'twelve-trials',
-      name: 'Twelve Trials',
-      description: 'A hero who has already survived every labor set before him. Deals a bonus strike.',
-      cooldown: 5,
-      npGainSelf: 20,
-      tag: 'utility',
-      dealsDamage: true,
-      effect: (ctx) => {
-        ctx.log('Alcides recalls his Twelve Trials and strikes again!');
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Twelve Trials' });
-      },
-    },
-    {
-      id: 'undying-wrath',
-      name: 'Undying Wrath',
-      description: 'A berserker fury he can no longer fully restrain. Heals self for 20% max HP.',
-      cooldown: 5,
-      npGainSelf: 20,
-      tag: 'heal',
-      effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.2);
-        ctx.self.hp = ctx.self.hp + healed;
-        ctx.log(`Alcides endures through Undying Wrath, healing ${healed} HP.`);
-      },
-    },
-  ],
-  noblePhantasm: {
-    name: "God Hand: Twelve Trials Bring Death",
-    japaneseName: 'God Hand',
-    description: "Nine lives are not enough to stop him. He simply gets back up and swings again.",
-    rank: 'A+',
-    effect: (ctx) => {
-      ctx.log('Alcides unleashes the full weight of God Hand!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'God Hand' });
-    },
-  },
-};
 
 const kagekiyo: ServantDefinition = {
   id: 'kagekiyo',
@@ -435,11 +360,11 @@ const kagekiyo: ServantDefinition = {
   trueName: 'Taira no Kagekiyo',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Taira_no_Kagekiyo",
   maxHp: 1050,
-  atk: 95,
+  atk: 107,
   def: 58,
   agility: 55,
   critChance: 0.1,
-  rank: 'C+',
+  rank: 'A',
   strengths: ['Sustain', 'Damage over Time'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A samurai spirit who tore out his own eyes rather than watch his enemies triumph.',
@@ -504,7 +429,7 @@ const kagekiyo: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Taira no Kagekiyo swings the Vengeful Blade of the Taira!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.2, { label: 'Vengeful Blade of the Taira' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.48, { label: 'Vengeful Blade of the Taira' });
     },
   },
 };
@@ -517,11 +442,11 @@ const johnLackland: ServantDefinition = {
   trueName: 'John, King of England',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/John_Lackland",
   maxHp: 1470,
-  atk: 85,
+  atk: 90,
   def: 68,
   agility: 48,
   critChance: 0.08,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Highest HP', 'Sustain', 'Debuffs'],
   weaknesses: ['Lowest Attack', 'Slow'],
   passiveDescription: 'The king who lost Normandy and was forced to sign away his own power, yet somehow still refuses to fall.',
@@ -585,7 +510,7 @@ const johnLackland: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log('John Lackland invokes Inversio Libertatis Oraculum!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.4, { label: 'Inversio Libertatis Oraculum' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 5, { label: 'Inversio Libertatis Oraculum' });
       const before = ctx.self.statuses.length;
       ctx.self.statuses = ctx.self.statuses.filter((s) => s.kind !== 'debuff' && s.kind !== 'dot');
       if (ctx.self.statuses.length < before) {
@@ -603,7 +528,6 @@ export const AVENGER_SERVANTS: ServantDefinition[] = [
   nobunaga,
   edmondDantes,
   jeanneAlter,
-  alcides,
   kagekiyo,
   johnLackland,
 ];

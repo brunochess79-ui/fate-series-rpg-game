@@ -13,7 +13,7 @@ const iskandar: ServantDefinition = {
   def: 75,
   agility: 60,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Durability', 'High HP', 'Sustain via Lifesteal'],
   weaknesses: ['Slow', 'Low Crit Rate'],
   passiveDescription: 'A king of unmatched vitality, the toughest Servant on the field.',
@@ -89,7 +89,7 @@ const iskandar: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Iskandar summons the Army of Bonds!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Ionioi Hetairoi' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.25, { label: 'Ionioi Hetairoi' });
       applyStatus(ctx.self, {
         id: 'conquerors-momentum',
         name: "Conqueror's Momentum",
@@ -103,84 +103,6 @@ const iskandar: ServantDefinition = {
   },
 };
 
-const bellerophon: ServantDefinition = {
-  id: 'bellerophon',
-  name: 'Bellerophon',
-  title: 'The Tamer of Pegasus',
-  className: 'Rider',
-  trueName: 'Bellerophon',
-  maxHp: 1140,
-  atk: 100,
-  def: 68,
-  agility: 95,
-  critChance: 0.1,
-  rank: 'B+',
-  strengths: ['Evasion', 'Tempo Control'],
-  weaknesses: ['Low Crit Rate'],
-  passiveDescription: 'Astride the winged Pegasus, he strikes from where no blade can follow.',
-  skills: [
-    {
-      id: 'wings-of-pegasus',
-      name: 'Wings of Pegasus',
-      description: "Rising beyond the enemy's reach. Guarantees the next enemy attack will miss entirely.",
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'buff',
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'wings-of-pegasus-evade',
-          name: 'Wings of Pegasus',
-          kind: 'evade',
-          turnsRemaining: 1,
-          description: 'Next incoming attack is evaded',
-        });
-        ctx.log('Bellerophon takes to the sky on the Wings of Pegasus!');
-      },
-    },
-    {
-      id: 'chimeras-bane',
-      name: "Chimera's Bane",
-      description: 'A lesson learned slaying monsters. Lowers enemy Defense by 20% for 3 turns.',
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'debuff',
-      effect: (ctx) => {
-        applyStatus(ctx.enemy, {
-          id: 'chimeras-bane',
-          name: "Chimera's Bane",
-          kind: 'debuff',
-          stat: 'def',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% DEF',
-        });
-        ctx.log("Bellerophon strikes true with Chimera's Bane!");
-      },
-    },
-    {
-      id: 'skybound-charge',
-      name: 'Skybound Charge',
-      description: "A diving charge that disrupts the enemy's rhythm. Drains 15% from the enemy's Noble Phantasm gauge.",
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'debuff',
-      effect: (ctx) => {
-        ctx.enemy.npGauge = Math.max(0, ctx.enemy.npGauge - 15);
-        ctx.log("Bellerophon's Skybound Charge disrupts the enemy's focus!");
-      },
-    },
-  ],
-  noblePhantasm: {
-    name: "Pegasus Dive: Chimera's End",
-    japaneseName: 'Pegasus Dive',
-    description: 'A lance-first dive from the heavens that ended even the Chimera.',
-    rank: 'B+',
-    effect: (ctx) => {
-      ctx.log("Bellerophon dives from the sky — Chimera's End!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.55, { label: 'Pegasus Dive' });
-    },
-  },
-};
 
 const boudica: ServantDefinition = {
   id: 'boudica',
@@ -194,7 +116,7 @@ const boudica: ServantDefinition = {
   def: 78,
   agility: 58,
   critChance: 0.08,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Durability', 'Shielding', 'Regeneration'],
   weaknesses: ['Slow', 'Low Crit Rate'],
   passiveDescription: "A queen's fury drives her chariot through the ranks of her enemies.",
@@ -266,7 +188,7 @@ const boudica: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Boudica rides the Chariot of the Iceni to vengeance!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.35, { label: 'Vengeance Ride' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.34, { label: 'Vengeance Ride' });
       applyStatus(ctx.self, {
         id: 'vengeance-fury',
         name: 'Vengeance Fury',
@@ -280,85 +202,6 @@ const boudica: ServantDefinition = {
   },
 };
 
-const marcoPolo: ServantDefinition = {
-  id: 'marco-polo',
-  name: 'Marco Polo',
-  title: 'The Far-Traveled Caravan Master',
-  className: 'Rider',
-  trueName: 'Marco Polo',
-  maxHp: 1090,
-  atk: 90,
-  def: 65,
-  agility: 70,
-  critChance: 0.1,
-  rank: 'C+',
-  strengths: ['Regeneration', 'Finishing Blows'],
-  weaknesses: ['Low Damage'],
-  passiveDescription: 'Having crossed the Silk Road, he commands a caravan that overwhelms with numbers, not strength.',
-  skills: [
-    {
-      id: 'caravans-bounty',
-      name: "Caravan's Bounty",
-      description: 'Supplies drawn from a well-stocked caravan. Heals self for 17% max HP.',
-      cooldown: 5,
-      npGainSelf: 20,
-      tag: 'heal',
-      effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.17);
-        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
-        ctx.log(`Marco Polo draws on the Caravan's Bounty, healing ${healed} HP.`);
-      },
-    },
-    {
-      id: 'merchants-bargain',
-      name: "Merchant's Bargain",
-      description: "A deal the enemy can't refuse — to their detriment. Lowers enemy Attack by 15% for 3 turns.",
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'debuff',
-      effect: (ctx) => {
-        applyStatus(ctx.enemy, {
-          id: 'merchants-bargain',
-          name: "Merchant's Bargain",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.15,
-          turnsRemaining: 3,
-          description: '-15% ATK',
-        });
-        ctx.log("Marco Polo strikes a Merchant's Bargain, dulling the enemy's edge!");
-      },
-    },
-    {
-      id: 'silk-road-momentum',
-      name: 'Silk Road Momentum',
-      description:
-        'The caravan closes in when prey is weak. Deals 1.1x damage, boosted by 80% if the enemy is below 30% HP.',
-      cooldown: 4,
-      tag: 'crit',
-      dealsDamage: true,
-      effect: (ctx) => {
-        const executeBonus = ctx.enemyHpFraction < 0.3 ? 1.8 : 1.0;
-        ctx.log(
-          executeBonus > 1
-            ? 'Marco Polo senses weakness and drives the caravan in for the kill!'
-            : 'Marco Polo presses forward with Silk Road Momentum!',
-        );
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.1 * executeBonus, { label: 'Silk Road Momentum' });
-      },
-    },
-  ],
-  noblePhantasm: {
-    name: "Il Milione: The Great Caravan Charge",
-    japaneseName: 'Il Milione',
-    description: "An entire caravan's worth of might, thrown into a single overwhelming charge.",
-    rank: 'C+',
-    effect: (ctx) => {
-      ctx.log('Marco Polo leads Il Milione — the Great Caravan Charge!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.85, { label: 'Il Milione' });
-    },
-  },
-};
 
 const medusa: ServantDefinition = {
   id: 'medusa',
@@ -372,7 +215,7 @@ const medusa: ServantDefinition = {
   def: 58,
   agility: 78,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Critical Hits', 'Crowd Control'],
   weaknesses: ['Fragile'],
   passiveDescription: 'A gorgon who once was a gentle priestess, now cursed with a gaze that turns flesh to stone.',
@@ -435,7 +278,7 @@ const medusa: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Medusa unleashes Blood Fort Andromeda!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.1, { label: 'Blood Fort Andromeda' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.05, { label: 'Blood Fort Andromeda' });
       applyStatus(ctx.enemy, {
         id: 'blood-fort-stun',
         name: 'Bound in Stone',
@@ -455,11 +298,11 @@ const noah: ServantDefinition = {
   trueName: 'Noah',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Nemo/Noah",
   maxHp: 1450,
-  atk: 90,
+  atk: 91,
   def: 80,
   agility: 40,
   critChance: 0.05,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Highest HP', 'Shielding'],
   weaknesses: ['Slowest'],
   passiveDescription: "The captain of the Ark, who stood against a flood that erased the world.",
@@ -530,7 +373,7 @@ const noah: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log("Noah calls down the Great Flood!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.3, { label: 'The Great Flood' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.73, { label: 'The Great Flood' });
       applyStatus(ctx.enemy, {
         id: 'great-flood-debuff',
         name: 'Erosion',
@@ -551,12 +394,12 @@ const ozymandias: ServantDefinition = {
   className: 'Rider',
   trueName: 'Rameses II',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Ozymandias",
-  maxHp: 1150,
-  atk: 120,
-  def: 62,
+  maxHp: 1300,
+  atk: 133,
+  def: 68,
   agility: 55,
   critChance: 0.12,
-  rank: 'A',
+  rank: 'A+',
   strengths: ['Highest Damage'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The radiant Sun King of Egypt, endlessly arrogant and endlessly certain of his own divinity.',
@@ -627,7 +470,7 @@ const ozymandias: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log('Ozymandias calls down the Pyramids!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'The Pyramids Descend' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.1, { label: 'The Pyramids Descend' });
     },
   },
 };
@@ -731,7 +574,7 @@ const astolfo: ServantDefinition = {
   def: 55,
   agility: 90,
   critChance: 0.15,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Speed', 'Evasion'],
   weaknesses: ['Low Damage'],
   passiveDescription: "A carefree Paladin of Charlemagne, riding a hippogriff and beloved across the fandom.",
@@ -795,7 +638,7 @@ const astolfo: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Astolfo charges in with La Black Luna!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { label: 'La Black Luna' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.48, { label: 'La Black Luna' });
     },
   },
 };
@@ -885,20 +728,180 @@ const drake: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log('Francis Drake fires a full broadside from the Golden Hind!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Golden Hind' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Golden Hind' });
+    },
+  },
+};
+
+const odysseus: ServantDefinition = {
+  id: 'odysseus',
+  name: 'Odysseus',
+  title: 'The Hero of the Long Voyage',
+  className: 'Rider',
+  trueName: 'Odysseus',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Odysseus",
+  maxHp: 1300,
+  atk: 127,
+  def: 66,
+  agility: 72,
+  critChance: 0.13,
+  rank: 'A+',
+  strengths: ['Burst Damage', 'Tempo Control'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The cunning strategist of Troy, whose schemes end wars that swords cannot.',
+  skills: [
+    {
+      id: 'strategist-of-the-voyage',
+      name: 'Strategist of the Voyage',
+      description: 'Ten years of scheming compressed into a single plan. Charges his Noble Phantasm gauge by 30%.',
+      cooldown: 5,
+      npGainSelf: 30,
+      tag: 'utility',
+      effect: (ctx) => {
+        ctx.log('Odysseus lays out the next stage of his grand design.');
+      },
+    },
+    {
+      id: 'trojan-stratagem',
+      name: 'Trojan Stratagem',
+      description: 'The walls always open from the inside. Lowers enemy Defense by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'trojan-stratagem',
+          name: 'Trojan Stratagem',
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log("Odysseus's Trojan Stratagem opens the enemy's guard from within!");
+      },
+    },
+    {
+      id: 'veil-of-deceit',
+      name: 'Veil of Deceit',
+      description: 'Nobody is here. Guarantees the next enemy attack will miss entirely.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'veil-of-deceit-evade',
+          name: 'Veil of Deceit',
+          kind: 'evade',
+          turnsRemaining: 1,
+          description: 'Next incoming attack is evaded',
+        });
+        ctx.log('Odysseus slips behind a Veil of Deceit.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Troia Hippos: Wooden Horse of Ruin',
+    japaneseName: 'Troia Hippos',
+    description: 'The great engine of Troy\'s fall, crashing through every wall between him and victory.',
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('The gates open — Troia Hippos thunders forth!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Troia Hippos' });
+    },
+  },
+};
+
+const ivanTheTerrible: ServantDefinition = {
+  id: 'ivan-the-terrible',
+  name: 'Ivan the Terrible',
+  title: 'The Tsar of the Frozen Empire',
+  className: 'Rider',
+  trueName: 'Ivan IV Vasilyevich',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Ivan_the_Terrible",
+  maxHp: 1530,
+  atk: 129,
+  def: 68,
+  agility: 46,
+  critChance: 0.08,
+  rank: 'A+',
+  strengths: ['Highest HP', 'Raw Power', 'Crowd Control'],
+  weaknesses: ['Slowest', 'Low Crit Rate'],
+  passiveDescription: 'A tsar fused with a colossal beast, dreaming and dreadful, ruler of a frozen land.',
+  skills: [
+    {
+      id: 'absolutism',
+      name: 'Absolutism',
+      description: 'The tsar\'s word is the only law. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'absolutism',
+          name: 'Absolutism',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('Ivan the Terrible asserts his Absolutism!');
+      },
+    },
+    {
+      id: 'terror-of-the-frozen-tsardom',
+      name: 'Terror of the Frozen Tsardom',
+      description: 'A glare that freezes courage itself. Stuns the enemy for 1 turn.',
+      cooldown: 6,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'frozen-terror-stun',
+          name: 'Frozen in Terror',
+          kind: 'stun',
+          turnsRemaining: 1,
+          description: 'Cannot act next turn',
+        });
+        ctx.log('The Terror of the Frozen Tsardom roots the enemy where they stand!');
+      },
+    },
+    {
+      id: 'contradictory-soul',
+      name: 'Contradictory Soul',
+      description: 'The pious monk and the tyrant share one body, and one endures the other\'s wounds. Heals self for 15% max HP.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.15);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log(`Ivan's Contradictory Soul knits his wounds for ${healed} HP.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Zveri — Krestnyi Khod: Beast of the Crossing',
+    japaneseName: 'Zveri Krestnyi Khod',
+    description: 'The mammoth-beast of the tsar advances, and everything before it is trampled flat.',
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Ivan the Terrible advances — Zveri, Krestnyi Khod!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.75, { label: 'Zveri Krestnyi Khod' });
     },
   },
 };
 
 export const RIDER_SERVANTS: ServantDefinition[] = [
   iskandar,
-  bellerophon,
   boudica,
-  marcoPolo,
   medusa,
   noah,
   ozymandias,
   quetzalcoatl,
   astolfo,
   drake,
+  odysseus,
+  ivanTheTerrible,
 ];

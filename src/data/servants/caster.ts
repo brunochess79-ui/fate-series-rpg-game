@@ -9,11 +9,11 @@ const medea: ServantDefinition = {
   trueName: 'Medea',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Medea",
   maxHp: 1015,
-  atk: 116,
+  atk: 118,
   def: 61,
   agility: 55,
   critChance: 0.08,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Debuffs', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile'],
   passiveDescription: 'A sorceress who unravels enemies with curses rather than steel.',
@@ -75,9 +75,9 @@ const medea: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Medea invokes the Rule of the Jeweled Sword!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Jeweled Sword I' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Jeweled Sword II' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Jeweled Sword III' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.43, { label: 'Jeweled Sword I' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.43, { label: 'Jeweled Sword II' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.43, { label: 'Jeweled Sword III' });
       applyStatus(ctx.enemy, {
         id: 'jeweled-curse',
         name: 'Lingering Curse',
@@ -98,11 +98,11 @@ const circe: ServantDefinition = {
   trueName: 'Circe',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Circe",
   maxHp: 1025,
-  atk: 113,
+  atk: 118,
   def: 59,
   agility: 55,
   critChance: 0.08,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Debuffs', 'Tempo Control', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile'],
   passiveDescription: 'Her potions and spells twist the body and mind of any who cross her.',
@@ -166,7 +166,7 @@ const circe: ServantDefinition = {
     rank: 'C+',
     effect: (ctx) => {
       ctx.log("Circe's Curse turns the enemy into a Beast of Aeaea!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.4, { label: "Circe's Curse" });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.77, { label: "Circe's Curse" });
       applyStatus(ctx.enemy, {
         id: 'aeaea-stun',
         name: 'Transmuted',
@@ -186,11 +186,11 @@ const merlin: ServantDefinition = {
   trueName: 'Merlin',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Merlin",
   maxHp: 1050,
-  atk: 108,
+  atk: 112,
   def: 65,
   agility: 55,
   critChance: 0.1,
-  rank: 'C',
+  rank: 'A',
   strengths: ['Cooldown Manipulation', 'Support'],
   weaknesses: ['Low Damage'],
   passiveDescription: 'A trickster mage whose prophecy sees three steps ahead.',
@@ -251,10 +251,11 @@ const merlin: ServantDefinition = {
   noblePhantasm: {
     name: "The Once and Future Wizard's Gift",
     japaneseName: 'Kaleidoscope',
-    description: "A wizard's blessing beyond death, mending all wounds and clearing every curse.",
+    description: "A burst of Avalon's radiance scours the enemy while mending all wounds and clearing every curse.",
     rank: 'A',
     effect: (ctx) => {
       ctx.log("Merlin bestows the Once and Future Wizard's Gift!");
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.94, { label: 'Radiance of Avalon' });
       const healed = Math.round(ctx.self.maxHp * 0.45);
       ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
       ctx.self.statuses = ctx.self.statuses.filter((s) => s.kind !== 'debuff' && s.kind !== 'dot');
@@ -272,99 +273,6 @@ const merlin: ServantDefinition = {
   },
 };
 
-const nostradamus: ServantDefinition = {
-  id: 'nostradamus',
-  name: 'Nostradamus',
-  title: 'The Seer of Prophecy',
-  className: 'Caster',
-  trueName: 'Nostradamus',
-  maxHp: 975,
-  atk: 106,
-  def: 56,
-  agility: 50,
-  critChance: 0.07,
-  rank: 'B',
-  strengths: ['Debuffs', 'Damage over Time', 'Self-Cleanse'],
-  weaknesses: ['Low Damage', 'Fragile', 'Low HP'],
-  passiveDescription: 'Foretells calamity, and shapes the battlefield with grim portents.',
-  skills: [
-    {
-      id: 'prophecy-of-ruin',
-      name: 'Prophecy of Ruin',
-      description: "A foretold collapse of the enemy's guard. Lowers enemy Defense by 20% for 3 turns.",
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'debuff',
-      effect: (ctx) => {
-        applyStatus(ctx.enemy, {
-          id: 'prophecy-of-ruin',
-          name: 'Prophecy of Ruin',
-          kind: 'debuff',
-          stat: 'def',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% DEF',
-        });
-        ctx.log('Nostradamus foretells a Prophecy of Ruin!');
-      },
-    },
-    {
-      id: 'foreseen-doom',
-      name: 'Foreseen Doom',
-      description: "A grim portent saps the enemy's strength. Lowers enemy Attack by 18% for 3 turns.",
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'debuff',
-      effect: (ctx) => {
-        applyStatus(ctx.enemy, {
-          id: 'foreseen-doom',
-          name: 'Foreseen Doom',
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.18,
-          turnsRemaining: 3,
-          description: '-18% ATK',
-        });
-        ctx.log('Nostradamus reveals a Foreseen Doom!');
-      },
-    },
-    {
-      id: 'omen-ward',
-      name: 'Omen Ward',
-      description: 'He foresees his own ill fortune and turns it aside. Clears all of his own debuffs and curses.',
-      cooldown: 5,
-      npGainSelf: 20,
-      tag: 'heal',
-      effect: (ctx) => {
-        const cleared = ctx.self.statuses.some((s) => s.kind === 'debuff' || s.kind === 'dot');
-        ctx.self.statuses = ctx.self.statuses.filter((s) => s.kind !== 'debuff' && s.kind !== 'dot');
-        ctx.log(
-          cleared
-            ? 'Nostradamus raises an Omen Ward, casting off every ill omen!'
-            : 'Nostradamus raises an Omen Ward, but no ill omen yet clings to him.',
-        );
-      },
-    },
-  ],
-  noblePhantasm: {
-    name: "Les Propheties: The Written Fate",
-    japaneseName: 'Les Propheties',
-    description: 'A calamity foretold in verse, made real upon the enemy.',
-    rank: 'C',
-    effect: (ctx) => {
-      ctx.log('Nostradamus reads from Les Propheties — the Written Fate comes due!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.05, { label: 'Les Propheties' });
-      applyStatus(ctx.enemy, {
-        id: 'written-fate-curse',
-        name: 'Written Fate',
-        kind: 'dot',
-        potency: Math.round(ctx.enemy.maxHp * 0.04),
-        turnsRemaining: 3,
-        description: 'Bound by a foretold curse',
-      });
-    },
-  },
-};
 
 const gillesDeRais: ServantDefinition = {
   id: 'gilles-de-rais',
@@ -374,11 +282,11 @@ const gillesDeRais: ServantDefinition = {
   trueName: 'Gilles de Rais',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Gilles_de_Rais",
   maxHp: 975,
-  atk: 111,
+  atk: 119,
   def: 59,
   agility: 50,
   critChance: 0.08,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Debuffs', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile', 'Low HP'],
   passiveDescription:
@@ -451,7 +359,7 @@ const gillesDeRais: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log("Gilles de Rais opens Prelati's Spellbook — a Forbidden Grimoire!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.65, { label: 'Forbidden Grimoire' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.83, { label: 'Forbidden Grimoire' });
       applyStatus(ctx.enemy, {
         id: 'grimoire-curse',
         name: 'Grimoire Curse',
@@ -553,11 +461,11 @@ const tamamo: ServantDefinition = {
   trueName: 'Tamamo-no-Mae',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Tamamo_no_Mae",
   maxHp: 1100,
-  atk: 103,
+  atk: 108,
   def: 55,
   agility: 62,
   critChance: 0.15,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Critical Hits', 'Regeneration'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'A witty, devoted nine-tailed fox spirit, eternally rivaling Nero for her Master\'s affection.',
@@ -629,7 +537,7 @@ const tamamo: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Tamamo-no-Mae sings the Song of Kayo-Manaka!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.7, { label: 'Kayo-Manaka' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.13, { label: 'Kayo-Manaka' });
       const healed = Math.round(ctx.self.maxHp * 0.15);
       ctx.self.hp = ctx.self.hp + healed;
       ctx.log(`Tamamo-no-Mae recovers ${healed} HP from her own song.`);
@@ -645,11 +553,11 @@ const castoria: ServantDefinition = {
   trueName: 'Artoria Pendragon (Caster)',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Artoria_Caster",
   maxHp: 1050,
-  atk: 85,
-  def: 60,
+  atk: 97,
+  def: 70,
   agility: 58,
   critChance: 0.1,
-  rank: 'C',
+  rank: 'A',
   strengths: ['Debuffs', 'Buffs'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A young king who never drew the sword, wielding magecraft in its place.',
@@ -722,7 +630,7 @@ const castoria: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Artoria Pendragon calls forth Excalibur Morgan!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.5, { label: 'Excalibur Morgan' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 5, { label: 'Excalibur Morgan' });
     },
   },
 };
@@ -734,12 +642,12 @@ const zhugeLiang: ServantDefinition = {
   className: 'Caster',
   trueName: 'Zhuge Kongming',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Zhuge_Liang_(Lord_El-Melloi_II)",
-  maxHp: 1000,
-  atk: 78,
-  def: 55,
+  maxHp: 1160,
+  atk: 90,
+  def: 75,
   agility: 50,
   critChance: 0.08,
-  rank: 'C',
+  rank: 'A',
   strengths: ['Sustain', 'Debuffs'],
   weaknesses: ['Frail', 'Low Attack'],
   passiveDescription: 'A sleeping dragon of unmatched strategy, more dangerous in mind than in body.',
@@ -805,7 +713,7 @@ const zhugeLiang: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Zhuge Liang unveils The Wisdom That Traverses the Heavens!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.3, { label: 'Heavenly Tetrapoles' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 5.45, { label: 'Heavenly Tetrapoles' });
       applyStatus(ctx.enemy, {
         id: 'strategy-exposed',
         name: 'Strategy Exposed',
@@ -904,7 +812,7 @@ const scathachSkadi: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Scáthach-Skadi unleashes Skoll and Hati!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'Skoll and Hati' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.05, { label: 'Skoll and Hati' });
     },
   },
 };
@@ -916,12 +824,12 @@ const chenGong: ServantDefinition = {
   className: 'Caster',
   trueName: 'Chen Gong',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Chen_Gong",
-  maxHp: 900,
-  atk: 82,
-  def: 48,
+  maxHp: 1140,
+  atk: 94,
+  def: 68,
   agility: 55,
   critChance: 0.1,
-  rank: 'C',
+  rank: 'A',
   strengths: ['Traps', 'Debuffs'],
   weaknesses: ['Frail', 'Low HP'],
   passiveDescription: 'An advisor whose cunning outlasted his master, laying traps within traps.',
@@ -991,7 +899,7 @@ const chenGong: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Chen Gong opens the Chapters of the Grand Strategy!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.4, { label: 'Grand Strategy' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 5.19, { label: 'Grand Strategy' });
     },
   },
 };
@@ -1004,11 +912,11 @@ const anastasia: ServantDefinition = {
   trueName: 'Anastasia Nikolaevna Romanova',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Anastasia",
   maxHp: 1180,
-  atk: 96,
+  atk: 101,
   def: 62,
   agility: 62,
   critChance: 0.13,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Debuffs', 'Sustain'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A young duchess bearing a frozen crown, her sorrow given the shape of winter itself.',
@@ -1073,7 +981,7 @@ const anastasia: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Anastasia calls, General Frost, Backup!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { label: 'General Frost' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.43, { label: 'General Frost' });
       applyStatus(ctx.enemy, {
         id: 'general-frost-chill',
         name: 'Frostbitten',
@@ -1087,11 +995,90 @@ const anastasia: ServantDefinition = {
   },
 };
 
+const avicebron: ServantDefinition = {
+  id: 'avicebron',
+  name: 'Avicebron',
+  title: 'The Master of Golems',
+  className: 'Caster',
+  trueName: 'Avicebron',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Avicebron",
+  maxHp: 1180,
+  atk: 119,
+  def: 64,
+  agility: 55,
+  critChance: 0.1,
+  rank: 'A',
+  strengths: ['Shielding', 'Durability'],
+  weaknesses: ['Slow', 'Low Crit Rate'],
+  passiveDescription: 'A kabbalist and poet who shapes clay into servants, dreaming of a paradise he will never enter.',
+  skills: [
+    {
+      id: 'numerology',
+      name: 'Numerology',
+      description: 'Sacred mathematics reinforce his wards. Raises own Defense by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'numerology',
+          name: 'Numerology',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.2,
+          turnsRemaining: 3,
+          description: '+20% DEF',
+        });
+        ctx.log('Avicebron reinforces his wards with Numerology.');
+      },
+    },
+    {
+      id: 'golem-craft',
+      name: 'Golem Craft',
+      description: 'A clay guardian interposes itself. Grants a shield that absorbs damage equal to 20% of his max HP, lasting this turn and the next.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'golem-craft-shield',
+          name: 'Golem Craft',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 1,
+          description: 'Absorbs damage until depleted',
+        });
+        ctx.log('A golem of clay rises to guard Avicebron!');
+      },
+    },
+    {
+      id: 'kabbalistic-meditation',
+      name: 'Kabbalistic Meditation',
+      description: 'Every verse of his poetry is also a formula. Charges his Noble Phantasm gauge by 30%.',
+      cooldown: 5,
+      npGainSelf: 30,
+      tag: 'utility',
+      effect: (ctx) => {
+        ctx.log('Avicebron recites a working of sacred verse.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Golem Keter Malkuth: Royal Crown, Light of Wisdom',
+    japaneseName: 'Golem Keter Malkuth',
+    description: 'The great golem of paradise, a walking Eden that crushes everything before it.',
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('The great golem rises — Golem Keter Malkuth!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.0, { label: 'Golem Keter Malkuth' });
+    },
+  },
+};
+
 export const CASTER_SERVANTS: ServantDefinition[] = [
   medea,
   circe,
   merlin,
-  nostradamus,
   gillesDeRais,
   solomon,
   tamamo,
@@ -1100,4 +1087,5 @@ export const CASTER_SERVANTS: ServantDefinition[] = [
   scathachSkadi,
   chenGong,
   anastasia,
+  avicebron,
 ];

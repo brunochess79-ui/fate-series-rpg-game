@@ -9,11 +9,11 @@ const oberon: ServantDefinition = {
   trueName: 'Oberon',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Oberon",
   maxHp: 1150,
-  atk: 95,
+  atk: 100,
   def: 60,
   agility: 70,
   critChance: 0.12,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Debuffs', 'Evasion'],
   weaknesses: ['Low Damage'],
   passiveDescription: "The King of Fairies and Stories, who rewrites the tale of any battle to suit his ending.",
@@ -84,7 +84,7 @@ const oberon: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Oberon declares: This Is My Story!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.9, { label: 'This Is My Story' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.48, { label: 'This Is My Story' });
       applyStatus(ctx.enemy, {
         id: 'my-story-stun',
         name: 'Written Out',

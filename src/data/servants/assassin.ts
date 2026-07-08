@@ -13,7 +13,7 @@ const hassan: ServantDefinition = {
   def: 54,
   agility: 90,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Critical Hits', 'Evasion'],
   weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: 'A killer who strikes from the shadows with unmatched precision.',
@@ -81,7 +81,7 @@ const hassan: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log('Hassan-i Sabbah unleashes Delusional Illusion — there is no escape.');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.35, {
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.87, {
         guaranteedCrit: true,
         label: 'Zabaniya',
       });
@@ -185,11 +185,11 @@ const semiramis: ServantDefinition = {
   trueName: 'Semiramis',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Semiramis",
   maxHp: 1025,
-  atk: 95,
+  atk: 104,
   def: 59,
   agility: 70,
   critChance: 0.12,
-  rank: 'C+',
+  rank: 'A',
   strengths: ['Damage over Time', 'Shielding'],
   weaknesses: ['Low Damage'],
   passiveDescription: 'Ruler of the Hanging Gardens, she strikes with serpents and poison.',
@@ -261,7 +261,7 @@ const semiramis: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log("Semiramis invokes the Walls of Babylon — Ishtar's Judgment!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.95, { label: "Ishtar's Judgment" });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.48, { label: "Ishtar's Judgment" });
       applyStatus(ctx.enemy, {
         id: 'babylon-poison',
         name: 'Serpent Venom',
@@ -282,7 +282,7 @@ const sasakiKojiro: ServantDefinition = {
   trueName: 'Sasaki Kojirō',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Sasaki_Kojirō",
   maxHp: 1010,
-  atk: 112,
+  atk: 115,
   def: 58,
   agility: 100,
   critChance: 0.15,
@@ -351,9 +351,9 @@ const sasakiKojiro: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Sasaki Kojirō unleashes Tsubame Gaeshi — the Swallow Reversal!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Swallow I' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Swallow II' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Swallow III' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.48, { label: 'Swallow I' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.48, { label: 'Swallow II' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.48, { label: 'Swallow III' });
     },
   },
 };
@@ -543,7 +543,7 @@ const koyanskaya: ServantDefinition = {
   def: 55,
   agility: 75,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Crit Damage', 'Drains'],
   weaknesses: ['Fragile'],
   passiveDescription: 'A trickster wolf-spirit wearing the shape of a familiar ally.',
@@ -605,7 +605,7 @@ const koyanskaya: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log('Koyanskaya of Light invokes the Garden of Avalon!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Garden of Avalon' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.83, { label: 'Garden of Avalon' });
     },
   },
 };

@@ -9,11 +9,11 @@ const mash: ServantDefinition = {
   trueName: 'Galahad',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Mashu_Kyrielight",
   maxHp: 1400,
-  atk: 70,
+  atk: 77,
   def: 92,
   agility: 50,
   critChance: 0.05,
-  rank: 'C',
+  rank: 'A',
   strengths: ['Highest Defense', 'Shielding'],
   weaknesses: ['Low Damage', 'Low Crit Rate'],
   passiveDescription: 'A demi-servant whose devotion to protecting others outweighs any fear for herself.',
@@ -74,10 +74,11 @@ const mash: ServantDefinition = {
   noblePhantasm: {
     name: "Lord Camelot",
     japaneseName: 'Lord Camelot',
-    description: "A vision of Camelot's golden age, sheltering her from any harm.",
+    description: "The wall of Camelot slams forward as both bulwark and battering ram, sheltering her from harm.",
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Mash calls forth the vision of Lord Camelot!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 6.08, { label: 'Lord Camelot' });
       applyStatus(ctx.self, {
         id: 'lord-camelot-shield',
         name: 'Lord Camelot',

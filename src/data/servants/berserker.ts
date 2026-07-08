@@ -187,7 +187,7 @@ const lancelot: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log("Lancelot swings Arondight, the Betrayer's Blade!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.65, { label: 'Arondight' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.67, { label: 'Arondight' });
     },
   },
 };
@@ -995,7 +995,7 @@ const sakataKintoki: ServantDefinition = {
   trueName: 'Sakata Kintoki',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Sakata_Kintoki",
   maxHp: 1300,
-  atk: 134,
+  atk: 140,
   def: 38,
   agility: 55,
   critChance: 0.1,
@@ -1007,7 +1007,7 @@ const sakataKintoki: ServantDefinition = {
     {
       id: 'monstrous-strength-kintoki',
       name: 'Monstrous Strength',
-      description: 'A child who threw boulders for sport, grown into a man who throws mountains. Raises own Attack by 25% for 1 turn.',
+      description: 'A child who threw boulders for sport, grown into a man who throws mountains. Raises own Attack by 25% for 3 turns.',
       cooldown: 3,
       npGainSelf: 20,
       tag: 'buff',
@@ -1018,8 +1018,8 @@ const sakataKintoki: ServantDefinition = {
           kind: 'buff',
           stat: 'atk',
           amount: 0.25,
-          turnsRemaining: 1,
-          description: '+25% Attack (1 turn)',
+          turnsRemaining: 3,
+          description: '+25% Attack',
         });
         ctx.log('Sakata Kintoki flexes with Monstrous Strength!');
       },
@@ -1053,10 +1053,257 @@ const sakataKintoki: ServantDefinition = {
     name: 'Golden Spark',
     japaneseName: 'Kongou Rikishi Retsuzan',
     description: "A flash of golden lightning loosed from the axe Golden Eater, splitting the mountain in one blow.",
-    rank: 'B+',
+    rank: 'A+',
     effect: (ctx) => {
       ctx.log('Sakata Kintoki unleashes Golden Spark!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Golden Spark' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.3, { label: 'Golden Spark' });
+    },
+  },
+};
+
+const dariusIII: ServantDefinition = {
+  id: 'darius-iii',
+  name: 'Darius III',
+  title: 'The Great King of Persia',
+  className: 'Berserker',
+  trueName: 'Darius III',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Darius_III",
+  maxHp: 1460,
+  atk: 131,
+  def: 52,
+  agility: 58,
+  critChance: 0.09,
+  rank: 'A+',
+  strengths: ['Raw Power', 'High HP', 'Regeneration'],
+  weaknesses: ['Low Defense', 'Low Crit Rate'],
+  passiveDescription: 'The rival of the King of Conquerors, risen again with his deathless army at his back.',
+  skills: [
+    {
+      id: 'immortal-ten-thousand',
+      name: 'The Immortal Ten Thousand',
+      description: 'His deathless soldiers lend him their strength. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'immortal-ten-thousand',
+          name: 'The Immortal Ten Thousand',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('The Immortal Ten Thousand rally behind Darius III!');
+      },
+    },
+    {
+      id: 'battle-continuation-darius',
+      name: 'Battle Continuation',
+      description: 'A king who met the Conqueror three times and never yielded. Recovers 5% max HP at the start of each of his next 3 turns.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'battle-continuation-darius-regen',
+          name: 'Battle Continuation',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.05),
+          turnsRemaining: 3,
+          description: 'Recovers 5% max HP per turn',
+        });
+        ctx.log('Darius III refuses to fall — his wounds begin to close.');
+      },
+    },
+    {
+      id: 'great-kings-bulk',
+      name: "The Great King's Bulk",
+      description: 'A colossal frame that shrugs off lesser blows. Raises own Defense by 20% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'great-kings-bulk',
+          name: "The Great King's Bulk",
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.2,
+          turnsRemaining: 2,
+          description: '+20% DEF',
+        });
+        ctx.log("Darius III braces his colossal frame.");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Athanaton Ten Thousand: Army of the Immortal',
+    japaneseName: 'Athanaton Ten Thousand',
+    description: 'The deathless army of Persia surges forward as one crushing wave.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Darius III raises his hand — Athanaton Ten Thousand!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'Athanaton Ten Thousand' });
+    },
+  },
+};
+
+const bhima: ServantDefinition = {
+  id: 'bhima',
+  name: 'Bhima',
+  title: 'The Son of the Wind God',
+  className: 'Berserker',
+  trueName: 'Bhima',
+  maxHp: 1410,
+  atk: 133,
+  def: 55,
+  agility: 62,
+  critChance: 0.1,
+  rank: 'A+',
+  strengths: ['Raw Power', 'High HP'],
+  weaknesses: ['Low Defense', 'Low Crit Rate'],
+  passiveDescription: 'The mightiest of the five Pandava brothers, with the strength of ten thousand elephants.',
+  skills: [
+    {
+      id: 'blessing-of-the-wind-god',
+      name: 'Blessing of the Wind God',
+      description: 'Vayu\'s gale fills his limbs. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'blessing-of-the-wind-god',
+          name: 'Blessing of the Wind God',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('The wind rises — Bhima receives his father\'s blessing!');
+      },
+    },
+    {
+      id: 'gada-strike',
+      name: 'Gada Strike',
+      description: 'A blow of the great mace that shatters stone. Deals 1.35x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Gada Strike' });
+        ctx.log('Bhima brings his great mace down in a Gada Strike!');
+      },
+    },
+    {
+      id: 'adamantine-vow',
+      name: 'Adamantine Vow',
+      description: 'An oath sworn in blood hardens his body. Raises own Defense by 20% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'adamantine-vow',
+          name: 'Adamantine Vow',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.2,
+          turnsRemaining: 2,
+          description: '+20% DEF',
+        });
+        ctx.log('Bhima renews his Adamantine Vow.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Vayavya Astra: Wrath of the Wind God\'s Son',
+    japaneseName: 'Vayavya Astra',
+    description: 'A divine gale given form, striking with the full fury of the storm.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Bhima calls the storm down — Vayavya Astra!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.85, { label: 'Vayavya Astra' });
+    },
+  },
+};
+
+const samson: ServantDefinition = {
+  id: 'samson',
+  name: 'Samson',
+  title: 'The Nazirite of the Unshorn Hair',
+  className: 'Berserker',
+  trueName: 'Samson',
+  maxHp: 1430,
+  atk: 134,
+  def: 50,
+  agility: 56,
+  critChance: 0.09,
+  rank: 'A+',
+  strengths: ['Raw Power', 'High HP'],
+  weaknesses: ['Lowest Defense', 'Low Crit Rate'],
+  passiveDescription: 'A judge of impossible strength, unbeatable while his sacred vow remains unbroken.',
+  skills: [
+    {
+      id: 'nazirite-vow',
+      name: 'Nazirite Vow',
+      description: 'The unshorn vow burns bright in his blood. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'nazirite-vow',
+          name: 'Nazirite Vow',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('Samson\'s Nazirite Vow blazes with strength!');
+      },
+    },
+    {
+      id: 'jawbone-strike',
+      name: 'Jawbone Strike',
+      description: 'The improvised weapon of a thousand-strong rout. Deals 1.4x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: 'Jawbone Strike' });
+        ctx.log('Samson swings the jawbone in a wide, bone-cracking arc!');
+      },
+    },
+    {
+      id: 'strength-returned',
+      name: 'Strength Returned',
+      description: 'What was taken from him always comes back. Heals self for 15% max HP.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.15);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log(`Samson's strength returns to him, restoring ${healed} HP.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Pillars of the Temple: Strength That Brings the House Down',
+    japaneseName: 'Pillars of the Temple',
+    description: 'He seizes the pillars of the world itself and pulls them down upon his enemy.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Samson seizes the pillars — and brings the house down!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Pillars of the Temple' });
+      const recoil = Math.round(ctx.self.maxHp * 0.04);
+      ctx.self.hp = ctx.self.hp - recoil;
+      ctx.log(`Samson takes ${recoil} damage in the collapse.`);
     },
   },
 };
@@ -1074,4 +1321,7 @@ export const BERSERKER_SERVANTS: ServantDefinition[] = [
   barghest,
   vladIII,
   sakataKintoki,
+  dariusIII,
+  bhima,
+  samson,
 ];

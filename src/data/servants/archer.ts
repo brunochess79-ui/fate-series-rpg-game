@@ -9,11 +9,11 @@ const arash: ServantDefinition = {
   trueName: 'Arash',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Arash",
   maxHp: 980,
-  atk: 100,
+  atk: 102,
   def: 58,
   agility: 85,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Burst Damage', 'Speed'],
   weaknesses: ['Fragile', 'Low HP'],
   passiveDescription: 'A master marksman who trades durability for precision.',
@@ -93,11 +93,11 @@ const robinHood: ServantDefinition = {
   trueName: 'Robin Hood',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Robin_Hood",
   maxHp: 950,
-  atk: 100,
+  atk: 104,
   def: 53,
   agility: 88,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Finishing Blows', 'Evasion'],
   weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: "An unerring aim, said to split another's arrow mid-flight.",
@@ -166,7 +166,7 @@ const robinHood: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log('Robin Hood looses the Yew Bow of Sherwood!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { guaranteedCrit: true, label: 'Piercing Shot' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.25, { guaranteedCrit: true, label: 'Piercing Shot' });
     },
   },
 };
@@ -179,11 +179,11 @@ const williamTell: ServantDefinition = {
   trueName: 'Wilhelm Tell',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/William_Tell",
   maxHp: 920,
-  atk: 98,
+  atk: 108,
   def: 48,
   agility: 75,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Critical Hits', 'Sustain via Lifesteal'],
   weaknesses: ['Fragile', 'Low Damage'],
   passiveDescription: 'A single shot, however narrow the target, always finds its mark.',
@@ -248,7 +248,7 @@ const williamTell: ServantDefinition = {
     rank: 'C+',
     effect: (ctx) => {
       ctx.log('William Tell fires the Shot Heard Round the Cantons!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { label: 'Round the Cantons' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.34, { label: 'Round the Cantons' });
     },
   },
 };
@@ -261,11 +261,11 @@ const atalanta: ServantDefinition = {
   trueName: 'Atalanta',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Atalanta",
   maxHp: 990,
-  atk: 96,
+  atk: 98,
   def: 55,
   agility: 105,
   critChance: 0.15,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Speed', 'Evasion'],
   weaknesses: ['Fragile'],
   passiveDescription: 'None can outrun her, on two legs or four.',
@@ -329,7 +329,7 @@ const atalanta: ServantDefinition = {
     rank: 'C',
     effect: (ctx) => {
       ctx.log('Atalanta unleashes the Phoebus Catastrophe!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.25, { label: 'Phoebus Catastrophe' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.43, { label: 'Phoebus Catastrophe' });
     },
   },
 };
@@ -494,7 +494,7 @@ const emiya: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('EMIYA unveils Unlimited Blade Works!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Unlimited Blade Works' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.77, { label: 'Unlimited Blade Works' });
     },
   },
 };
@@ -766,11 +766,11 @@ const ashwatthama: ServantDefinition = {
   trueName: 'Ashwatthama',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Aśvatthāman",
   maxHp: 1150,
-  atk: 108,
-  def: 60,
+  atk: 120,
+  def: 64,
   agility: 62,
   critChance: 0.13,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Sustain', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: "A warrior cursed to wander forever, his father's death fueling an endless fury.",
@@ -836,7 +836,7 @@ const ashwatthama: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Ashwatthama unleashes Brahmastra!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'Brahmastra' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.85, { label: 'Brahmastra' });
     },
   },
 };
@@ -925,7 +925,7 @@ const moriarty: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log('James Moriarty triggers The Norwood Plot!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'The Norwood Plot' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.77, { label: 'The Norwood Plot' });
       applyStatus(ctx.enemy, {
         id: 'norwood-exposed',
         name: 'Norwood Exposed',
@@ -935,6 +935,82 @@ const moriarty: ServantDefinition = {
         turnsRemaining: 2,
         description: '-15% Defense',
       });
+    },
+  },
+};
+
+const alcides: ServantDefinition = {
+  id: 'alcides',
+  name: 'Alcides',
+  title: 'The True Archer, Twelve Labors Broken',
+  className: 'Archer',
+  trueName: 'Heracles',
+  fateWikiUrl: "https://typemoon.fandom.com/wiki/Alcides",
+  maxHp: 1400,
+  atk: 128,
+  def: 58,
+  agility: 55,
+  critChance: 0.1,
+  rank: 'A+',
+  strengths: ['Raw Power', 'Sustain'],
+  weaknesses: ['Low Defense'],
+  passiveDescription: 'A hero robbed of his sanity and his glory alike, raging at the gods who did it.',
+  skills: [
+    {
+      id: 'broken-fetters',
+      name: 'Broken Fetters',
+      description: 'Every chain meant to bind him has failed. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'broken-fetters',
+          name: 'Broken Fetters',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% Attack',
+        });
+        ctx.log('Alcides shatters his Broken Fetters, raging with power!');
+      },
+    },
+    {
+      id: 'twelve-trials',
+      name: 'Twelve Trials',
+      description: 'A hero who has already survived every labor set before him. Deals a bonus strike.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'utility',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.log('Alcides recalls his Twelve Trials and strikes again!');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Twelve Trials' });
+      },
+    },
+    {
+      id: 'undying-wrath',
+      name: 'Undying Wrath',
+      description: 'A berserker fury he can no longer fully restrain. Heals self for 20% max HP.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Alcides endures through Undying Wrath, healing ${healed} HP.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: "God Hand: Twelve Trials Bring Death",
+    japaneseName: 'God Hand',
+    description: "Nine lives are not enough to stop him. He simply gets back up and swings again.",
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Alcides unleashes the full weight of God Hand!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'God Hand' });
     },
   },
 };
@@ -951,4 +1027,5 @@ export const ARCHER_SERVANTS: ServantDefinition[] = [
   ishtar,
   ashwatthama,
   moriarty,
+  alcides,
 ];

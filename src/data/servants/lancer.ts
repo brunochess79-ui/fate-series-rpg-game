@@ -13,7 +13,7 @@ const cuChulainn: ServantDefinition = {
   def: 63,
   agility: 100,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Speed', 'Sustained Regeneration', 'Evasion'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The fastest Servant on the battlefield.',
@@ -83,7 +83,7 @@ const cuChulainn: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Cú Chulainn hurls the Cursed Spear of the Barbed Thorn!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 2.95, { label: 'Gáe Bolg' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Gáe Bolg' });
       applyStatus(ctx.enemy, {
         id: 'barbed-curse',
         name: 'Barbed Curse',
@@ -108,7 +108,7 @@ const diarmuid: ServantDefinition = {
   def: 65,
   agility: 95,
   critChance: 0.12,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Speed', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'Cursed with an irresistible charm, and blessed with peerless spearplay.',
@@ -177,7 +177,7 @@ const diarmuid: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Diarmuid crosses the Twin Lances of Sorrow!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.05, { label: 'Twin Lances' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Twin Lances' });
     },
   },
 };
@@ -278,11 +278,11 @@ const karna: ServantDefinition = {
   trueName: 'Karna',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Karna",
   maxHp: 1310,
-  atk: 109,
-  def: 93,
+  atk: 121,
+  def: 104,
   agility: 60,
   critChance: 0.1,
-  rank: 'A',
+  rank: 'A+',
   strengths: ['Durability', 'Shielding'],
   weaknesses: ['Slow'],
   passiveDescription: 'Born wearing radiant armor and earrings that ward off death itself.',
@@ -364,7 +364,7 @@ const karna: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Karna hurls the Vasavi Shakti, the Spear of the Sun God!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.4, { label: 'Vasavi Shakti' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Vasavi Shakti' });
     },
   },
 };
@@ -466,11 +466,11 @@ const enkidu: ServantDefinition = {
   trueName: 'Enkidu',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Enkidu",
   maxHp: 1300,
-  atk: 105,
+  atk: 115,
   def: 70,
   agility: 55,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Crowd Control', 'Durability'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A being of clay shaped by the gods to oppose Gilgamesh, and bound to him ever since.',
@@ -534,7 +534,7 @@ const enkidu: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log("Enkidu unleashes the Binding Chains!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.0, { label: 'The Binding Chains' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.05, { label: 'The Binding Chains' });
       applyStatus(ctx.enemy, {
         id: 'binding-chains-stun',
         name: 'Bound Without End',
@@ -646,7 +646,7 @@ const melusine: ServantDefinition = {
   def: 68,
   agility: 60,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Durability', 'Sustain via Lifesteal'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A fairy knight who bears the name of Lancelot, able to become a sleek, supersonic dragon.',
@@ -710,7 +710,7 @@ const melusine: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Melusine descends with Almace!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.4, { label: 'Almace' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.87, { label: 'Almace' });
     },
   },
 };
@@ -727,7 +727,7 @@ const ereshkigal: ServantDefinition = {
   def: 65,
   agility: 55,
   critChance: 0.12,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Debuffs', 'Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The tsundere Goddess of the Underworld, ruling the dead alone with a heart she refuses to admit is kind.',
@@ -799,7 +799,269 @@ const ereshkigal: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log('Ereshkigal casts Kur: Beyond the Realm of Death!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'Kur' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Kur' });
+    },
+  },
+};
+
+const romulus: ServantDefinition = {
+  id: 'romulus',
+  name: 'Romulus',
+  title: 'The Founder of Rome',
+  className: 'Lancer',
+  trueName: 'Romulus',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Romulus",
+  maxHp: 1290,
+  atk: 125,
+  def: 66,
+  agility: 66,
+  critChance: 0.12,
+  rank: 'A+',
+  strengths: ['Durability', 'Buffs'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The first king, whose spear took root and became a sacred tree on the Palatine.',
+  skills: [
+    {
+      id: 'imperial-privilege',
+      name: 'Imperial Privilege',
+      description: 'A king claims what a king needs. Heals self for 12% max HP and raises own Attack by 15% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.12);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        applyStatus(ctx.self, {
+          id: 'imperial-privilege-atk',
+          name: 'Imperial Privilege',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.15,
+          turnsRemaining: 2,
+          description: '+15% ATK',
+        });
+        ctx.log(`Romulus claims Imperial Privilege, recovering ${healed} HP and rising in might!`);
+      },
+    },
+    {
+      id: 'seven-hills',
+      name: 'Seven Hills of Rome',
+      description: 'The city itself shields its founder. Grants a shield that absorbs damage equal to 20% of his max HP, lasting this turn and the next.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'seven-hills-shield',
+          name: 'Seven Hills of Rome',
+          kind: 'shield',
+          potency: Math.round(ctx.self.maxHp * 0.2),
+          turnsRemaining: 1,
+          description: 'Absorbs damage until depleted',
+        });
+        ctx.log('The Seven Hills of Rome rise around their founder!');
+      },
+    },
+    {
+      id: 'founders-roar',
+      name: "Founder's Roar",
+      description: 'All roads lead to Rome, and all courage bends before its founder. Lowers enemy Attack by 18% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'founders-roar',
+          name: "Founder's Roar",
+          kind: 'debuff',
+          stat: 'atk',
+          amount: -0.18,
+          turnsRemaining: 3,
+          description: '-18% ATK',
+        });
+        ctx.log("Romulus's Founder's Roar shakes the enemy's resolve!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Magna Voluisse Magnum: All Things Lead to My Spear',
+    japaneseName: 'Magna Voluisse Magnum',
+    description: 'The divine spear that founded a city, driven home with the weight of all Rome.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Romulus levels his spear — Magna Voluisse Magnum!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Magna Voluisse Magnum' });
+    },
+  },
+};
+
+const percival: ServantDefinition = {
+  id: 'percival',
+  name: 'Percival',
+  title: 'The Knight of the Grail',
+  className: 'Lancer',
+  trueName: 'Percival',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Percival",
+  maxHp: 1330,
+  atk: 122,
+  def: 71,
+  agility: 68,
+  critChance: 0.12,
+  rank: 'A+',
+  strengths: ['Durability', 'Regeneration'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The purest knight of the Round Table, who beheld the Grail and was found worthy.',
+  skills: [
+    {
+      id: 'grails-grace',
+      name: "Grail's Grace",
+      description: 'The blessing of the cup he once beheld. Recovers 6% max HP at the start of each of his next 3 turns.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'grails-grace-regen',
+          name: "Grail's Grace",
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.06),
+          turnsRemaining: 3,
+          description: 'Recovers 6% max HP per turn',
+        });
+        ctx.log("The Grail's Grace settles over Percival.");
+      },
+    },
+    {
+      id: 'knight-of-the-round',
+      name: 'Knight of the Round',
+      description: 'A guard drilled at the Round Table itself. Raises own Defense by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'knight-of-the-round',
+          name: 'Knight of the Round',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% DEF',
+        });
+        ctx.log('Percival raises his guard as a Knight of the Round.');
+      },
+    },
+    {
+      id: 'piercing-charge',
+      name: 'Piercing Charge',
+      description: 'A lance charge in perfect form. Deals 1.35x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Piercing Charge' });
+        ctx.log('Percival drives home a Piercing Charge!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Longinus Count Zero: The Holy Lance, Unsealed',
+    japaneseName: 'Longinus Count Zero',
+    description: 'The holy lance answers the purest of knights, its light burning away all it touches.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Percival unseals the holy lance — Longinus Count Zero!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.85, { label: 'Longinus Count Zero' });
+    },
+  },
+};
+
+const brynhildr: ServantDefinition = {
+  id: 'brynhildr',
+  name: 'Brynhildr',
+  title: 'The Valkyrie of Tragic Love',
+  className: 'Lancer',
+  trueName: 'Brynhildr',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Brynhildr",
+  maxHp: 1260,
+  atk: 129,
+  def: 60,
+  agility: 76,
+  critChance: 0.14,
+  rank: 'A+',
+  strengths: ['Critical Hits', 'Burst Damage'],
+  weaknesses: ['Low Defense'],
+  passiveDescription: 'A fallen valkyrie whose spear grows heavier and crueler the more she loves.',
+  skills: [
+    {
+      id: 'primordial-rune-valkyrie',
+      name: 'Primordial Rune (Valkyrie)',
+      description: 'Runes of the battle-maidens guide her spearpoint. Raises own crit rate for 2 turns.',
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'primordial-rune-valkyrie',
+          name: 'Primordial Rune (Valkyrie)',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% crit chance scaling',
+        });
+        ctx.log('Brynhildr traces a Primordial Rune in the air!');
+      },
+    },
+    {
+      id: 'heros-bride',
+      name: "Hero's Bride",
+      description: 'The better she knows a hero, the deeper her spear reaches. Lowers enemy Defense by 20% for 3 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'heros-bride',
+          name: "Hero's Bride",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log("Brynhildr's gaze finds every flaw in the enemy's guard.");
+      },
+    },
+    {
+      id: 'mana-burst-flame',
+      name: 'Mana Burst (Flame)',
+      description: 'Her spear ignites with valkyrie fire. Raises own Attack by 25% for 1 turn.',
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'mana-burst-flame',
+          name: 'Mana Burst (Flame)',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 1,
+          description: '+25% ATK (1 turn)',
+        });
+        ctx.log("Brynhildr's spear ignites with white flame!");
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Brynhildr Romantia: Until Death Divide the Two',
+    japaneseName: 'Brynhildr Romantia',
+    description: 'A spear of love and death, heaviest against the one she holds dearest.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Brynhildr casts her whole heart with the spear — Brynhildr Romantia!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.95, { label: 'Brynhildr Romantia' });
     },
   },
 };
@@ -814,4 +1076,7 @@ export const LANCER_SERVANTS: ServantDefinition[] = [
   scathach,
   melusine,
   ereshkigal,
+  romulus,
+  percival,
+  brynhildr,
 ];

@@ -13,7 +13,7 @@ const arthur: ServantDefinition = {
   def: 81,
   agility: 70,
   critChance: 0.12,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Balanced Stats', 'Durability'],
   weaknesses: ['No Specialty'],
   passiveDescription: 'A king born to lead: steady stats with no glaring weakness.',
@@ -84,7 +84,7 @@ const arthur: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Artoria unsheathes the Sword of Promised Victory!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.15, { label: 'Excalibur' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.05, { label: 'Excalibur' });
     },
   },
 };
@@ -96,12 +96,12 @@ const siegfried: ServantDefinition = {
   className: 'Saber',
   trueName: 'Siegfried',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Siegfried",
-  maxHp: 1210,
-  atk: 110,
-  def: 76,
+  maxHp: 1490,
+  atk: 122,
+  def: 96,
   agility: 65,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'A+',
   strengths: ['Durability', 'Sustained Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: "Bathed in a dragon's blood, his skin turns aside nearly any blow — save one hidden weak point.",
@@ -173,7 +173,7 @@ const siegfried: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Siegfried unleashes the Twilight of the Dragonslayer!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.2, { label: 'Balmung' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.87, { label: 'Balmung' });
     },
   },
 };
@@ -261,119 +261,13 @@ const musashi: ServantDefinition = {
     rank: 'B',
     effect: (ctx) => {
       ctx.log('Musashi unleashes Nine Heavens, One Blade!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Nine Heavens I' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Nine Heavens II' });
-      ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'Nine Heavens III' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.43, { label: 'Nine Heavens I' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.43, { label: 'Nine Heavens II' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 1.43, { label: 'Nine Heavens III' });
     },
   },
 };
 
-const elCid: ServantDefinition = {
-  id: 'el-cid',
-  name: 'El Cid',
-  title: 'The Undefeated Champion',
-  className: 'Saber',
-  trueName: 'Rodrigo Díaz de Vivar',
-  maxHp: 1190,
-  atk: 103,
-  def: 84,
-  agility: 55,
-  critChance: 0.08,
-  rank: 'B+',
-  strengths: ['Durability', 'Shielding'],
-  weaknesses: ['Slow', 'Low Crit Rate'],
-  passiveDescription: 'Even in death, his legend rides on — a champion who never loses.',
-  skills: [
-    {
-      id: 'banner-of-valencia',
-      name: 'Banner of Valencia',
-      description: 'A banner that rallies the faithful. Raises own Attack and Defense by 10% for 3 turns.',
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'buff',
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'banner-of-valencia-atk',
-          name: 'Banner of Valencia',
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.1,
-          turnsRemaining: 3,
-          description: '+10% ATK',
-        });
-        applyStatus(ctx.self, {
-          id: 'banner-of-valencia-def',
-          name: 'Banner of Valencia',
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.1,
-          turnsRemaining: 3,
-          description: '+10% DEF',
-        });
-        ctx.log('El Cid raises the Banner of Valencia!');
-      },
-    },
-    {
-      id: 'tizonas-oath',
-      name: "Tizona's Oath",
-      description:
-        "An oath sworn on his blade. Grants a shield that absorbs damage equal to 20% of his max HP, lasting this turn and the next.",
-      cooldown: 5,
-      npGainSelf: 20,
-      tag: 'buff',
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'tizonas-oath-shield',
-          name: "Tizona's Oath",
-          kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.2),
-          turnsRemaining: 1,
-          description: 'Absorbs damage until depleted',
-        });
-        ctx.log("El Cid swears Tizona's Oath — a ward surrounds him.");
-      },
-    },
-    {
-      id: 'undying-resolve',
-      name: 'Undying Resolve',
-      description: 'He rides on even in death. Raises own Defense by 25% for 1 turn.',
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'buff',
-      effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'undying-resolve',
-          name: 'Undying Resolve',
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.25,
-          turnsRemaining: 1,
-          description: '+25% DEF (1 turn)',
-        });
-        ctx.log('El Cid steels himself with Undying Resolve!');
-      },
-    },
-  ],
-  noblePhantasm: {
-    name: 'The Last Ride of the Campeador',
-    japaneseName: 'Tizona',
-    description: "Legend says his corpse rode to one final victory — the champion charges on regardless.",
-    rank: 'B+',
-    effect: (ctx) => {
-      ctx.log('El Cid rides out for one last, undying charge!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.05, { label: 'Tizona' });
-      applyStatus(ctx.self, {
-        id: 'campeadors-legend',
-        name: "Campeador's Legend",
-        kind: 'buff',
-        stat: 'atk',
-        amount: 0.15,
-        turnsRemaining: 2,
-        description: '+15% ATK',
-      });
-    },
-  },
-};
 
 const altera: ServantDefinition = {
   id: 'altera',
@@ -550,8 +444,8 @@ const mordred: ServantDefinition = {
   className: 'Saber',
   trueName: 'Mordred',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Mordred",
-  maxHp: 1150,
-  atk: 125,
+  maxHp: 1220,
+  atk: 132,
   def: 58,
   agility: 68,
   critChance: 0.15,
@@ -708,7 +602,7 @@ const yagyuMunenori: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Yagyu Munenori draws Shinkage-ryu!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.5, { label: 'Shinkage-ryu' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.55, { label: 'Shinkage-ryu' });
     },
   },
 };
@@ -721,11 +615,11 @@ const nero: ServantDefinition = {
   trueName: 'Nero Claudius',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Nero_Claudius",
   maxHp: 1100,
-  atk: 110,
+  atk: 111,
   def: 58,
   agility: 60,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Critical Hits'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'A theatrical Emperor of Rome, loud, passionate, and utterly convinced of her own genius.',
@@ -789,7 +683,7 @@ const nero: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Nero Claudius raises Aestus Domus Aurea!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.6, { label: 'Aestus Domus Aurea' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.87, { label: 'Aestus Domus Aurea' });
     },
   },
 };
@@ -883,7 +777,7 @@ const gawain: ServantDefinition = {
   trueName: 'Gawain',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Gawain",
   maxHp: 1450,
-  atk: 115,
+  atk: 124,
   def: 85,
   agility: 55,
   critChance: 0.1,
@@ -1129,7 +1023,7 @@ const charlemagne: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Charlemagne invokes Joyeuse: The Radiant Coronation!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'The Radiant Coronation' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'The Radiant Coronation' });
     },
   },
 };
@@ -1142,11 +1036,11 @@ const saito: ServantDefinition = {
   trueName: 'Saito Hajime',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Saitō_Hajime",
   maxHp: 1100,
-  atk: 100,
+  atk: 104,
   def: 62,
   agility: 70,
   critChance: 0.12,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Speed', 'Critical Strikes'],
   weaknesses: ['Low HP'],
   passiveDescription: 'A relaxed swordsman whose blade moves faster than the eye can follow.',
@@ -1212,7 +1106,246 @@ const saito: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Saito Hajime unleashes Gyakuryuu!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.4, { label: 'Gyakuryuu' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.25, { label: 'Gyakuryuu' });
+    },
+  },
+};
+
+const sigurd: ServantDefinition = {
+  id: 'sigurd',
+  name: 'Sigurd',
+  title: 'The Crown Prince of Dragonslayers',
+  className: 'Saber',
+  trueName: 'Sigurd',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Sigurd",
+  maxHp: 1300,
+  atk: 132,
+  def: 66,
+  agility: 70,
+  critChance: 0.14,
+  rank: 'A+',
+  strengths: ['Critical Hits', 'Burst Damage'],
+  weaknesses: ['Low Defense'],
+  passiveDescription: 'The Norse hero who slew Fafnir, cool-headed where his other self burns hot.',
+  skills: [
+    {
+      id: 'primordial-rune-warrior',
+      name: 'Primordial Rune (Warrior)',
+      description: 'Runes etched for battle sharpen every strike. Raises own crit rate for 2 turns.',
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'primordial-rune-warrior',
+          name: 'Primordial Rune (Warrior)',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% crit chance scaling',
+        });
+        ctx.log('Sigurd inscribes a Primordial Rune of war!');
+      },
+    },
+    {
+      id: 'dragonslayers-insight',
+      name: "Dragonslayer's Insight",
+      description: "Eyes that found Fafnir's heart find every weakness. Lowers enemy Defense by 20% for 3 turns.",
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'debuff',
+      effect: (ctx) => {
+        applyStatus(ctx.enemy, {
+          id: 'dragonslayers-insight',
+          name: "Dragonslayer's Insight",
+          kind: 'debuff',
+          stat: 'def',
+          amount: -0.2,
+          turnsRemaining: 3,
+          description: '-20% DEF',
+        });
+        ctx.log("Sigurd's Dragonslayer's Insight lays the enemy's guard bare!");
+      },
+    },
+    {
+      id: 'crystallized-wisdom',
+      name: 'Crystallized Wisdom',
+      description: "The dragon's heart granted him wisdom beyond men. Heals self for 15% max HP.",
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.15);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log(`Sigurd's Crystallized Wisdom mends his wounds for ${healed} HP.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Bolverk Gram: The Sword of Actualization',
+    japaneseName: 'Bolverk Gram',
+    description: 'The demonic sword that split an anvil, swung with the full might of the dragonslayer.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Sigurd ignites Gram — Bolverk Gram!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Bolverk Gram' });
+    },
+  },
+};
+
+const rama: ServantDefinition = {
+  id: 'rama',
+  name: 'Rama',
+  title: 'The Seventh Avatar',
+  className: 'Saber',
+  trueName: 'Rama',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Rama",
+  maxHp: 1220,
+  atk: 127,
+  def: 62,
+  agility: 76,
+  critChance: 0.14,
+  rank: 'A+',
+  strengths: ['Critical Hits', 'Speed'],
+  weaknesses: ['Low Defense'],
+  passiveDescription: 'The hero-king of the Ramayana, cursed to be forever parted from his beloved.',
+  skills: [
+    {
+      id: 'blessing-of-martial-arts',
+      name: 'Blessing of Martial Arts',
+      description: 'Divine training honed to perfection. Raises own crit rate for 2 turns.',
+      cooldown: 3,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'blessing-of-martial-arts',
+          name: 'Blessing of Martial Arts',
+          kind: 'buff',
+          stat: 'critChance',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% crit chance scaling',
+        });
+        ctx.log('Rama invokes the Blessing of Martial Arts!');
+      },
+    },
+    {
+      id: 'rakshasa-slaying-arrow',
+      name: 'Rakshasa-Slaying Arrow',
+      description: 'An arrow that felled demon-kind. Deals 1.35x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Rakshasa-Slaying Arrow' });
+        ctx.log('Rama looses a Rakshasa-Slaying Arrow!');
+      },
+    },
+    {
+      id: 'grace-of-the-raghu',
+      name: 'Grace of the Raghu',
+      description: 'The blood of a divine dynasty restores him. Heals self for 15% max HP.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        const healed = Math.round(ctx.self.maxHp * 0.15);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log(`The Grace of the Raghu restores ${healed} HP to Rama.`);
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Brahmastra: The Bow of Sanction',
+    japaneseName: 'Brahmastra',
+    description: 'The ultimate divine weapon, loosed as a single all-annihilating arrow.',
+    rank: 'A+',
+    effect: (ctx) => {
+      ctx.log('Rama draws the Bow of Sanction — Brahmastra!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.85, { label: 'Brahmastra' });
+    },
+  },
+};
+
+const bedivere: ServantDefinition = {
+  id: 'bedivere',
+  name: 'Bedivere',
+  title: 'The Knight of the Silver Arm',
+  className: 'Saber',
+  trueName: 'Bedivere',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Bedivere",
+  maxHp: 1240,
+  atk: 123,
+  def: 69,
+  agility: 72,
+  critChance: 0.12,
+  rank: 'A+',
+  strengths: ['Durability', 'Regeneration'],
+  weaknesses: ['Low Crit Rate'],
+  passiveDescription: 'The last knight at his king\'s side, who carried Excalibur back to the lake.',
+  skills: [
+    {
+      id: 'oath-of-the-lake',
+      name: 'Oath of the Lake',
+      description: 'A duty carried to the very end steadies him. Recovers 5% max HP at the start of each of his next 3 turns.',
+      cooldown: 5,
+      npGainSelf: 20,
+      tag: 'heal',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'oath-of-the-lake-regen',
+          name: 'Oath of the Lake',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.05),
+          turnsRemaining: 3,
+          description: 'Recovers 5% max HP per turn',
+        });
+        ctx.log('Bedivere renews his Oath of the Lake.');
+      },
+    },
+    {
+      id: 'calm-and-collected',
+      name: 'Calm and Collected',
+      description: 'The steadiest hand of the Round Table. Raises own Defense by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'calm-and-collected',
+          name: 'Calm and Collected',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% DEF',
+        });
+        ctx.log('Bedivere stands Calm and Collected.');
+      },
+    },
+    {
+      id: 'silver-arm',
+      name: 'Silver Arm',
+      description: 'The prosthetic arm of silver strikes with hidden force. Deals 1.35x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Silver Arm' });
+        ctx.log('Bedivere strikes with the Silver Arm!');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Switch On — Airgetlam: Sword of the Unfading Light',
+    japaneseName: 'Airgetlam',
+    description: 'The silver arm unbound, releasing all of its stored light in one blow.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Bedivere releases the restraints — Switch On, Airgetlam!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Airgetlam' });
     },
   },
 };
@@ -1221,7 +1354,6 @@ export const SABER_SERVANTS: ServantDefinition[] = [
   arthur,
   siegfried,
   musashi,
-  elCid,
   altera,
   sengoMuramasa,
   mordred,
@@ -1232,4 +1364,7 @@ export const SABER_SERVANTS: ServantDefinition[] = [
   richard,
   charlemagne,
   saito,
+  sigurd,
+  rama,
+  bedivere,
 ];
