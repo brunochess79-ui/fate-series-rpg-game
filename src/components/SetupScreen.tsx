@@ -136,6 +136,22 @@ function ServantCard({ servant, selected, onSelect }: ServantCardProps) {
               )}
             </div>
           </div>
+          {servant.wikiUrl && (
+            <div className="servant-card-details-section">
+              <div className="servant-card-details-label">Historical / Mythological Basis</div>
+              <div className="servant-card-details-line">
+                <a
+                  href={servant.wikiUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="servant-wiki-link"
+                >
+                  {servant.trueName} on Wikipedia ↗
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -74,6 +74,10 @@ export interface ServantDefinition {
   title: string;
   className: ServantClass;
   trueName: string;
+  /** Link to a Wikipedia article about the real historical figure,
+   * mythological being, or literary/folkloric character this Servant is
+   * based on. Omitted for Servants with no such real-world basis. */
+  wikiUrl?: string;
   maxHp: number;
   atk: number;
   def: number;

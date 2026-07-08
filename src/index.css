@@ -397,6 +397,13 @@ button:disabled {
   font-size: 11px;
   white-space: nowrap;
 }
+.servant-wiki-link {
+  color: var(--gold-bright);
+  text-decoration: underline;
+}
+.servant-wiki-link:hover {
+  color: var(--gold);
+}
 .setup-actions {
   display: flex;
   justify-content: center;
