@@ -12,7 +12,8 @@ export type ServantClass =
   | 'Alter Ego'
   | 'Foreigner'
   | 'Beast'
-  | 'Pretender';
+  | 'Pretender'
+  | 'MoonCancer';
 
 export type StatKey = 'atk' | 'def' | 'agility' | 'critChance' | 'damage';
 

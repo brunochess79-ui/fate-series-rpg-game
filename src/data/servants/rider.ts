@@ -801,13 +801,13 @@ const odysseus: ServantDefinition = {
     },
   ],
   noblePhantasm: {
-    name: 'Troia Hippos: Wooden Horse of Ruin',
-    japaneseName: 'Troia Hippos',
+    name: 'Troya Hippos: Great Wooden Horse of Demise',
+    japaneseName: 'Troya Hippos',
     description: 'The great engine of Troy\'s fall, crashing through every wall between him and victory.',
     rank: 'A+',
     effect: (ctx) => {
-      ctx.log('The gates open — Troia Hippos thunders forth!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Troia Hippos' });
+      ctx.log('The gates open — Troya Hippos thunders forth!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Troya Hippos' });
     },
   },
 };
@@ -882,13 +882,13 @@ const ivanTheTerrible: ServantDefinition = {
     },
   ],
   noblePhantasm: {
-    name: 'Zveri — Krestnyi Khod: Beast of the Crossing',
-    japaneseName: 'Zveri Krestnyi Khod',
+    name: 'Zveri — Krestnyy Khod: Beast of the Crossing',
+    japaneseName: 'Zveri Krestnyy Khod',
     description: 'The mammoth-beast of the tsar advances, and everything before it is trampled flat.',
     rank: 'A+',
     effect: (ctx) => {
-      ctx.log('Ivan the Terrible advances — Zveri, Krestnyi Khod!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.75, { label: 'Zveri Krestnyi Khod' });
+      ctx.log('Ivan the Terrible advances — Zveri, Krestnyy Khod!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.75, { label: 'Zveri Krestnyy Khod' });
     },
   },
 };

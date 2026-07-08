@@ -1183,13 +1183,13 @@ const sigurd: ServantDefinition = {
     },
   ],
   noblePhantasm: {
-    name: 'Bolverk Gram: The Sword of Actualization',
-    japaneseName: 'Bolverk Gram',
+    name: 'Bölverkr Gram: The Sword of Actualization',
+    japaneseName: 'Bölverkr Gram',
     description: 'The demonic sword that split an anvil, swung with the full might of the dragonslayer.',
     rank: 'A',
     effect: (ctx) => {
-      ctx.log('Sigurd ignites Gram — Bolverk Gram!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Bolverk Gram' });
+      ctx.log('Sigurd ignites Gram — Bölverkr Gram!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Bölverkr Gram' });
     },
   },
 };
@@ -1339,13 +1339,13 @@ const bedivere: ServantDefinition = {
     },
   ],
   noblePhantasm: {
-    name: 'Switch On — Airgetlam: Sword of the Unfading Light',
-    japaneseName: 'Airgetlam',
+    name: 'Switch On — Airgetlám: Sword of the Unfading Light',
+    japaneseName: 'Airgetlám',
     description: 'The silver arm unbound, releasing all of its stored light in one blow.',
     rank: 'A',
     effect: (ctx) => {
-      ctx.log('Bedivere releases the restraints — Switch On, Airgetlam!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Airgetlam' });
+      ctx.log('Bedivere releases the restraints — Switch On, Airgetlám!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Airgetlám' });
     },
   },
 };

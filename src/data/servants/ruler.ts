@@ -258,7 +258,7 @@ const hakuno: ServantDefinition = {
   id: 'hakuno',
   name: 'Kishinami Hakuno',
   title: 'The Sovereign of the Moon Cell',
-  className: 'Ruler',
+  className: 'MoonCancer',
   trueName: 'Kishinami Hakuno',
   fateWikiUrl: "https://typemoon.fandom.com/wiki/Hakuno_Kishinami",
   maxHp: 1250,

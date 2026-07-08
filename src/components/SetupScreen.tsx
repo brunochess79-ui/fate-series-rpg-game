@@ -27,6 +27,7 @@ const CLASS_FILTERS: Array<ServantClass | 'All'> = [
   'Foreigner',
   'Beast',
   'Pretender',
+  'MoonCancer',
 ];
 
 interface ServantCardProps {

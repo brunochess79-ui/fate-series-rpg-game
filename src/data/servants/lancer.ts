@@ -1066,6 +1066,87 @@ const brynhildr: ServantDefinition = {
   },
 };
 
+const bhima: ServantDefinition = {
+  id: 'bhima',
+  name: 'Bhima',
+  title: 'The Son of the Wind God',
+  className: 'Lancer',
+  trueName: 'Bhima',
+  fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Bhima",
+  maxHp: 1410,
+  atk: 133,
+  def: 55,
+  agility: 62,
+  critChance: 0.1,
+  rank: 'A+',
+  strengths: ['Raw Power', 'High HP'],
+  weaknesses: ['Low Defense', 'Low Crit Rate'],
+  passiveDescription: 'The mightiest of the five Pandava brothers, with the strength of ten thousand elephants.',
+  skills: [
+    {
+      id: 'blessing-of-the-wind-god',
+      name: 'Blessing of the Wind God',
+      description: 'Vayu\'s gale fills his limbs. Raises own Attack by 25% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'blessing-of-the-wind-god',
+          name: 'Blessing of the Wind God',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
+        ctx.log('The wind rises — Bhima receives his father\'s blessing!');
+      },
+    },
+    {
+      id: 'gada-strike',
+      name: 'Gada Strike',
+      description: 'A blow of the great mace that shatters stone. Deals 1.35x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
+      effect: (ctx) => {
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Gada Strike' });
+        ctx.log('Bhima brings his great mace down in a Gada Strike!');
+      },
+    },
+    {
+      id: 'adamantine-vow',
+      name: 'Adamantine Vow',
+      description: 'An oath sworn in blood hardens his body. Raises own Defense by 20% for 2 turns.',
+      cooldown: 4,
+      npGainSelf: 20,
+      tag: 'buff',
+      effect: (ctx) => {
+        applyStatus(ctx.self, {
+          id: 'adamantine-vow',
+          name: 'Adamantine Vow',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.2,
+          turnsRemaining: 2,
+          description: '+20% DEF',
+        });
+        ctx.log('Bhima renews his Adamantine Vow.');
+      },
+    },
+  ],
+  noblePhantasm: {
+    name: 'Maruti Vayuputra: O Son of the Wind God',
+    japaneseName: 'Maruti Vayuputra',
+    description: 'The white banner lance of the wind god Vayu, awakening the divinity in his blood.',
+    rank: 'A',
+    effect: (ctx) => {
+      ctx.log('Bhima raises the wind god\'s white lance — Maruti Vayuputra!');
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.85, { label: 'Maruti Vayuputra' });
+    },
+  },
+};
 export const LANCER_SERVANTS: ServantDefinition[] = [
   cuChulainn,
   diarmuid,
@@ -1079,4 +1160,5 @@ export const LANCER_SERVANTS: ServantDefinition[] = [
   romulus,
   percival,
   brynhildr,
+  bhima,
 ];
