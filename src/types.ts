@@ -118,7 +118,8 @@ export interface PlayerState {
   id: 'p1' | 'p2';
   kind: PlayerKind;
   master: MasterState;
-  servant: ServantInstance;
+  /** The Master's team: one Servant in a classic duel, two in 2v2. */
+  servants: ServantInstance[];
   /** Tracks whether the last round's action was a healing Command Spell,
    * so it can't be used two rounds in a row. */
   lastRestrictedAction: 'heal' | null;
@@ -129,6 +130,16 @@ export type BattleAction =
   | { type: 'skill'; skillIndex: number }
   | { type: 'np' }
   | { type: 'commandSpell'; effect: 'heal' | 'crit' };
+
+/** One Servant's committed move for a round: the action plus which enemy
+ * Servant it is aimed at (an index into the enemy team's servants array;
+ * ignored by self-only actions). Null entries mark defeated Servants. */
+export interface ServantOrder {
+  action: BattleAction;
+  target: number;
+}
+
+export type TeamOrders = Array<ServantOrder | null>;
 
 export interface BattleState {
   players: [PlayerState, PlayerState];

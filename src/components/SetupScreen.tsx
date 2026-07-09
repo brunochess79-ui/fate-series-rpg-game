@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react';
 import { SERVANT_LIST } from '../data/servants';
-import type { GameMode, SetupResult } from '../game';
+import type { GameMode, SetupResult, TeamSize } from '../game';
 import type { ServantClass, ServantDefinition } from '../types';
 import { estimateNpDamage } from '../utils/npPreview';
 import { formatStanding, getStatRankings } from '../utils/statRanking';
 
 interface Props {
   mode: GameMode;
+  teamSize: TeamSize;
   onComplete: (result: SetupResult) => void;
   onBack: () => void;
 }
@@ -159,25 +160,37 @@ function ServantCard({ servant, selected, onSelect }: ServantCardProps) {
   );
 }
 
-export function SetupScreen({ mode, onComplete, onBack }: Props) {
+export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
   const [step, setStep] = useState<0 | 1>(0);
   const [p1Name, setP1Name] = useState('Master 1');
-  const [p1Servant, setP1Servant] = useState<string | null>(null);
+  const [p1Servants, setP1Servants] = useState<string[]>([]);
   const [p2Name, setP2Name] = useState('Master 2');
-  const [p2Servant, setP2Servant] = useState<string | null>(null);
+  const [p2Servants, setP2Servants] = useState<string[]>([]);
   const [classFilter, setClassFilter] = useState<ServantClass | 'All'>('All');
   const [search, setSearch] = useState('');
 
   const isFirstStep = step === 0;
   const currentName = isFirstStep ? p1Name : p2Name;
-  const currentServant = isFirstStep ? p1Servant : p2Servant;
+  const currentPicks = isFirstStep ? p1Servants : p2Servants;
   const setCurrentName = isFirstStep ? setP1Name : setP2Name;
-  const setCurrentServant = isFirstStep ? setP1Servant : setP2Servant;
-  const excludeId = isFirstStep ? null : p1Servant;
+  const setCurrentPicks = isFirstStep ? setP1Servants : setP2Servants;
+  // Player 2 can't field a Servant Player 1 already picked.
+  const excludeIds = isFirstStep ? [] : p1Servants;
+
+  const togglePick = (id: string) => {
+    setCurrentPicks((prev) => {
+      if (prev.includes(id)) return prev.filter((x) => x !== id);
+      if (prev.length >= teamSize) {
+        // Team already full: swap the earliest pick out for the new one.
+        return [...prev.slice(1), id];
+      }
+      return [...prev, id];
+    });
+  };
 
   const visibleServants = useMemo(() => {
     const query = search.trim().toLowerCase();
-    return SERVANT_LIST.filter((s) => s.id !== excludeId)
+    return SERVANT_LIST.filter((s) => !excludeIds.includes(s.id))
       .filter((s) => classFilter === 'All' || s.className === classFilter)
       .filter(
         (s) =>
@@ -186,38 +199,48 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
           s.title.toLowerCase().includes(query) ||
           s.trueName.toLowerCase().includes(query),
       );
-  }, [excludeId, classFilter, search]);
+  }, [excludeIds, classFilter, search]);
 
   const handleRandomServant = () => {
-    if (visibleServants.length === 0) return;
-    const pick = visibleServants[Math.floor(Math.random() * visibleServants.length)];
-    setCurrentServant(pick.id);
+    const pool = visibleServants.filter((s) => !currentPicks.includes(s.id));
+    if (pool.length === 0) return;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    togglePick(pick.id);
   };
 
+  const teamReady = currentPicks.length === teamSize;
+
   const handleConfirm = () => {
-    if (!currentServant) return;
+    if (!teamReady) return;
     if (isFirstStep) {
       if (mode === 'ai') {
-        const pool = SERVANT_LIST.filter((s) => s.id !== currentServant);
-        const aiServant = pool[Math.floor(Math.random() * pool.length)];
+        const pool = SERVANT_LIST.filter((s) => !currentPicks.includes(s.id));
+        const aiPicks: string[] = [];
+        while (aiPicks.length < teamSize) {
+          const candidate = pool[Math.floor(Math.random() * pool.length)];
+          if (!aiPicks.includes(candidate.id)) aiPicks.push(candidate.id);
+        }
         onComplete({
+          teamSize,
           p1Name,
-          p1ServantId: currentServant,
+          p1ServantIds: currentPicks,
           p2Name: 'Rival Master',
-          p2ServantId: aiServant.id,
+          p2ServantIds: aiPicks,
         });
       } else {
         setStep(1);
       }
     } else {
-      onComplete({ p1Name, p1ServantId: p1Servant!, p2Name, p2ServantId: currentServant });
+      onComplete({ teamSize, p1Name, p1ServantIds: p1Servants, p2Name, p2ServantIds: currentPicks });
     }
   };
 
+  const servantWord = teamSize === 2 ? 'Servants' : 'Servant';
   return (
     <div className="setup-screen">
       <h2>
-        {mode === 'hotseat' ? `Player ${step + 1}, choose your Servant` : 'Choose your Servant'}
+        {mode === 'hotseat' ? `Player ${step + 1}, choose your ${servantWord}` : `Choose your ${servantWord}`}
+        {teamSize === 2 && ` — ${currentPicks.length}/${teamSize} picked`}
       </h2>
       <div className="master-name-input">
         <label>
@@ -271,8 +294,8 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
             <ServantCard
               key={s.id}
               servant={s}
-              selected={currentServant === s.id}
-              onSelect={() => setCurrentServant(s.id)}
+              selected={currentPicks.includes(s.id)}
+              onSelect={() => togglePick(s.id)}
             />
           ))}
         </div>
@@ -281,7 +304,7 @@ export function SetupScreen({ mode, onComplete, onBack }: Props) {
         <button className="secondary-btn" onClick={onBack}>
           Back
         </button>
-        <button className="primary-btn" disabled={!currentServant} onClick={handleConfirm}>
+        <button className="primary-btn" disabled={!teamReady} onClick={handleConfirm}>
           {mode === 'hotseat' && isFirstStep ? 'Next Player' : 'Begin Battle'}
         </button>
       </div>

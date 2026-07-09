@@ -1,5 +1,5 @@
 import { getServantDef } from '../data/servants';
-import type { BattleState } from '../types';
+import type { BattleState, PlayerState } from '../types';
 import { BattleLog } from './BattleLog';
 
 interface Props {
@@ -8,17 +8,31 @@ interface Props {
   onMainMenu: () => void;
 }
 
+function teamNames(player: PlayerState): string {
+  return player.servants.map((s) => getServantDef(s.defId).name).join(' & ');
+}
+
+function teamHpSummary(player: PlayerState): string {
+  return player.servants
+    .map((s) => `${getServantDef(s.defId).name}: ${s.hp} / ${s.maxHp}`)
+    .join(' · ');
+}
+
+function teamTotalHp(player: PlayerState): number {
+  return player.servants.reduce((sum, s) => sum + s.hp, 0);
+}
+
 export function GameOverScreen({ battle, onRematch, onMainMenu }: Props) {
+  const [p1, p2] = battle.players;
+
   if (battle.winReason === 'draw') {
-    const [p1, p2] = battle.players;
-    const p1Def = getServantDef(p1.servant.defId);
-    const p2Def = getServantDef(p2.servant.defId);
     return (
       <div className="gameover-screen">
         <h1>A Draw!</h1>
         <p className="gameover-summary">
-          {p1Def.name} ({p1.master.name}) and {p2Def.name} ({p2.master.name}) fell in the same round, taking the
-          exact same blow ({p1.servant.hp} HP each) after {battle.round} rounds. The Grail declares no victor.
+          {teamNames(p1)} ({p1.master.name}) and {teamNames(p2)} ({p2.master.name}) fell in the same round,
+          taking the exact same total blow ({teamTotalHp(p1)} HP each side) after {battle.round} rounds. The
+          Grail declares no victor.
         </p>
         <div className="gameover-actions">
           <button className="primary-btn" onClick={onRematch}>
@@ -38,24 +52,21 @@ export function GameOverScreen({ battle, onRematch, onMainMenu }: Props) {
 
   const winner = battle.players.find((p) => p.id === battle.winner)!;
   const loser = battle.players.find((p) => p.id !== battle.winner)!;
-  const winnerDef = getServantDef(winner.servant.defId);
-  const loserDef = getServantDef(loser.servant.defId);
 
   return (
     <div className="gameover-screen">
       <h1>Victory for {winner.master.name}!</h1>
       <p className="gameover-summary">
-        {winnerDef.name} ({winnerDef.title}) has defeated {loserDef.name} ({loserDef.title}) after{' '}
+        {teamNames(winner)} {winner.servants.length === 1 ? 'has' : 'have'} defeated {teamNames(loser)} after{' '}
         {battle.round} rounds.
       </p>
       <p className="gameover-hp-summary">
-        Final HP — {winnerDef.name}: {winner.servant.hp} / {winner.servant.maxHp} &nbsp;·&nbsp; {loserDef.name}:{' '}
-        {loser.servant.hp} / {loser.servant.maxHp}
+        Final HP — {teamHpSummary(winner)} &nbsp;·&nbsp; {teamHpSummary(loser)}
       </p>
       {battle.winReason === 'overkillTiebreak' && (
         <p className="gameover-tiebreak">
-          Both Servants fell in the same round — {winnerDef.name} took the lesser blow ({winner.servant.hp} HP vs{' '}
-          {loser.servant.hp} HP) and outlasted {loserDef.name} for the Grail's favor.
+          Both sides fell in the same round — {winner.master.name}'s team took the lesser total blow (
+          {teamTotalHp(winner)} HP vs {teamTotalHp(loser)} HP) and outlasted their rivals for the Grail's favor.
         </p>
       )}
       <div className="gameover-actions">

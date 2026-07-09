@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { chooseAiAction } from '../engine/ai';
-import type { BattleAction, BattleState } from '../types';
+import { chooseAiOrders } from '../engine/ai';
+import { getServantDef } from '../data/servants';
+import type { BattleState, ServantOrder, TeamOrders } from '../types';
 import { ActionPanel } from './ActionPanel';
 import { BattleLog } from './BattleLog';
 import { ServantPanel } from './ServantPanel';
 
 interface Props {
   battle: BattleState;
-  onResolveRound: (p1Action: BattleAction, p2Action: BattleAction) => void;
+  onResolveRound: (p1Orders: TeamOrders, p2Orders: TeamOrders) => void;
 }
 
 type RoundPhase =
@@ -15,44 +16,62 @@ type RoundPhase =
   | { step: 'picking'; forIndex: 0 | 1 }
   | { step: 'reveal-ready' };
 
+function emptyOrders(battle: BattleState): [TeamOrders, TeamOrders] {
+  return [battle.players[0].servants.map(() => null), battle.players[1].servants.map(() => null)];
+}
+
+/** The first living Servant slot on this team that still needs an order. */
+function nextSlot(battle: BattleState, teamIndex: 0 | 1, orders: TeamOrders): number {
+  return battle.players[teamIndex].servants.findIndex((s, i) => s.hp > 0 && orders[i] === null);
+}
+
+function teamDone(battle: BattleState, teamIndex: 0 | 1, orders: TeamOrders): boolean {
+  return nextSlot(battle, teamIndex, orders) === -1;
+}
+
 export function BattleScreen({ battle, onResolveRound }: Props) {
   const isVsAi = battle.players[1].kind === 'ai';
   const [phase, setPhase] = useState<RoundPhase>(
     isVsAi ? { step: 'picking', forIndex: 0 } : { step: 'handoff', forIndex: 0 },
   );
-  const [pendingActions, setPendingActions] = useState<[BattleAction | null, BattleAction | null]>([null, null]);
+  const [pendingOrders, setPendingOrders] = useState<[TeamOrders, TeamOrders]>(() => emptyOrders(battle));
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Every new round starts fresh: Player 1 picks first (hidden from Player 2 in hot-seat).
   useEffect(() => {
-    setPendingActions([null, null]);
+    setPendingOrders(emptyOrders(battle));
     setPhase(isVsAi ? { step: 'picking', forIndex: 0 } : { step: 'handoff', forIndex: 0 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [battle.round, isVsAi]);
 
   useEffect(() => {
     if (battle.phase === 'gameover') return;
     if (!isVsAi) return;
-    if (phase.step !== 'picking' || phase.forIndex !== 0) return;
-    if (pendingActions[0] === null) return;
+    if (!teamDone(battle, 0, pendingOrders[0])) return;
 
     timeoutRef.current = setTimeout(() => {
-      const aiAction = chooseAiAction(battle, 1);
-      onResolveRound(pendingActions[0]!, aiAction);
+      const aiOrders = chooseAiOrders(battle, 1);
+      onResolveRound(pendingOrders[0], aiOrders);
     }, 900);
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [pendingActions, isVsAi, phase, battle, onResolveRound]);
+  }, [pendingOrders, isVsAi, battle, onResolveRound]);
 
-  const handlePick = (index: 0 | 1, action: BattleAction) => {
-    const next: [BattleAction | null, BattleAction | null] = [...pendingActions];
-    next[index] = action;
-    setPendingActions(next);
+  const handleOrder = (teamIndex: 0 | 1, slot: number, order: ServantOrder) => {
+    const nextOrders: [TeamOrders, TeamOrders] = [
+      [...pendingOrders[0]],
+      [...pendingOrders[1]],
+    ];
+    nextOrders[teamIndex][slot] = order;
+    setPendingOrders(nextOrders);
+
+    if (!teamDone(battle, teamIndex, nextOrders[teamIndex])) return; // same team keeps picking
 
     if (isVsAi) return; // resolution handled by the effect above once AI responds
 
-    if (index === 0) {
+    if (teamIndex === 0) {
       setPhase({ step: 'handoff', forIndex: 1 });
     } else {
       setPhase({ step: 'reveal-ready' });
@@ -60,28 +79,53 @@ export function BattleScreen({ battle, onResolveRound }: Props) {
   };
 
   const handleReveal = () => {
-    if (!pendingActions[0] || !pendingActions[1]) return;
-    onResolveRound(pendingActions[0], pendingActions[1]);
+    if (!teamDone(battle, 0, pendingOrders[0]) || !teamDone(battle, 1, pendingOrders[1])) return;
+    onResolveRound(pendingOrders[0], pendingOrders[1]);
   };
+
+  const pickingIndex = phase.step === 'picking' ? phase.forIndex : null;
+  const pickingSlot = pickingIndex !== null ? nextSlot(battle, pickingIndex, pendingOrders[pickingIndex]) : -1;
 
   const bannerText = () => {
     if (isVsAi) {
-      return pendingActions[0] ? `Round ${battle.round} — ${battle.players[1].master.name} is thinking...` : `Round ${battle.round} — ${battle.players[0].master.name}'s turn`;
+      return teamDone(battle, 0, pendingOrders[0])
+        ? `Round ${battle.round} — ${battle.players[1].master.name} is thinking...`
+        : `Round ${battle.round} — ${battle.players[0].master.name}'s turn`;
     }
     if (phase.step === 'handoff') return `Round ${battle.round} — pass the device to ${battle.players[phase.forIndex].master.name}`;
     if (phase.step === 'picking') return `Round ${battle.round} — ${battle.players[phase.forIndex].master.name}'s turn`;
     return `Round ${battle.round} — both Masters have committed`;
   };
 
-  const activeIndex = phase.step === 'reveal-ready' ? null : phase.forIndex;
-
   return (
     <div className="battle-screen">
       <div className="battle-turn-banner">{bannerText()}</div>
       <div className="battle-panels">
-        <ServantPanel master={battle.players[0].master} servant={battle.players[0].servant} isActive={activeIndex === 0} side="left" />
+        <div className="team-column">
+          {battle.players[0].servants.map((servant, slot) => (
+            <ServantPanel
+              key={slot}
+              master={battle.players[0].master}
+              servant={servant}
+              isActive={pickingIndex === 0 && pickingSlot === slot}
+              side="left"
+              showCommandSpells={slot === 0}
+            />
+          ))}
+        </div>
         <div className="vs-divider">VS</div>
-        <ServantPanel master={battle.players[1].master} servant={battle.players[1].servant} isActive={activeIndex === 1} side="right" />
+        <div className="team-column">
+          {battle.players[1].servants.map((servant, slot) => (
+            <ServantPanel
+              key={slot}
+              master={battle.players[1].master}
+              servant={servant}
+              isActive={pickingIndex === 1 && pickingSlot === slot}
+              side="right"
+              showCommandSpells={slot === 0}
+            />
+          ))}
+        </div>
       </div>
       <BattleLog log={battle.log} />
 
@@ -89,7 +133,7 @@ export function BattleScreen({ battle, onResolveRound }: Props) {
         <div className="handoff-screen">
           <p className="handoff-title">Pass the device to</p>
           <p className="handoff-name">{battle.players[phase.forIndex].master.name}</p>
-          <p className="handoff-hint">Your opponent's move stays hidden until both are locked in.</p>
+          <p className="handoff-hint">Your opponent's moves stay hidden until both are locked in.</p>
           <button className="primary-btn" onClick={() => setPhase({ step: 'picking', forIndex: phase.forIndex })}>
             I'm Ready
           </button>
@@ -98,19 +142,27 @@ export function BattleScreen({ battle, onResolveRound }: Props) {
 
       {!isVsAi && phase.step === 'reveal-ready' && (
         <div className="handoff-screen">
-          <p className="handoff-title">Both Masters have chosen their move.</p>
+          <p className="handoff-title">Both Masters have chosen their moves.</p>
           <button className="primary-btn" onClick={handleReveal}>
             Reveal Results
           </button>
         </div>
       )}
 
-      {phase.step === 'picking' && (
+      {phase.step === 'picking' && pickingSlot >= 0 && (
         <ActionPanel
+          key={`${battle.round}-${phase.forIndex}-${pickingSlot}`}
           player={battle.players[phase.forIndex]}
-          disabled={battle.phase === 'gameover' || pendingActions[phase.forIndex] !== null}
-          onAction={(action) => handlePick(phase.forIndex, action)}
+          servant={battle.players[phase.forIndex].servants[pickingSlot]}
+          enemyServants={battle.players[1 - phase.forIndex].servants}
+          disabled={battle.phase === 'gameover' || (isVsAi && teamDone(battle, 0, pendingOrders[0]))}
+          onOrder={(order) => handleOrder(phase.forIndex, pickingSlot, order)}
         />
+      )}
+      {phase.step === 'picking' && pickingSlot > 0 && (
+        <p className="order-progress-hint">
+          {getServantDef(battle.players[phase.forIndex].servants[0].defId).name}'s order is locked in.
+        </p>
       )}
     </div>
   );

@@ -442,6 +442,48 @@ button:disabled {
   padding-top: 40px;
 }
 
+.team-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.servant-panel.defeated {
+  opacity: 0.45;
+  filter: grayscale(0.8);
+}
+
+.action-panel-servant-name {
+  font-family: var(--heading);
+  color: var(--gold-bright);
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.target-menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.target-menu-label {
+  color: var(--text-dim);
+  font-size: 14px;
+}
+.action-btn.target {
+  border-color: var(--crimson-bright);
+}
+.action-btn.target-cancel {
+  opacity: 0.7;
+}
+
+.order-progress-hint {
+  color: var(--text-dim);
+  font-size: 13px;
+  text-align: center;
+  margin-top: 6px;
+}
+
 .handoff-screen {
   background: var(--bg-panel);
   border: 1px solid var(--gold);

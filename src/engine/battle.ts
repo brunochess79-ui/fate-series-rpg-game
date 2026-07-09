@@ -8,6 +8,8 @@ import type {
   PlayerState,
   ServantDefinition,
   ServantInstance,
+  ServantOrder,
+  TeamOrders,
 } from '../types';
 import { isStunned, statMultiplier, tickStatuses } from './status';
 
@@ -28,21 +30,30 @@ export function createMasterState(name: string): MasterState {
   return { name, commandSpells: 3, critNextAttack: false };
 }
 
-export function createPlayer(id: 'p1' | 'p2', kind: PlayerKind, masterName: string, servantDefId: string): PlayerState {
+export function createPlayer(
+  id: 'p1' | 'p2',
+  kind: PlayerKind,
+  masterName: string,
+  servantDefIds: string[],
+): PlayerState {
   return {
     id,
     kind,
     master: createMasterState(masterName),
-    servant: createServantInstance(servantDefId),
+    servants: servantDefIds.map(createServantInstance),
     lastRestrictedAction: null,
   };
+}
+
+function teamNames(player: PlayerState): string {
+  return player.servants.map((s) => getServantDef(s.defId).name).join(' & ');
 }
 
 export function createBattle(p1: PlayerState, p2: PlayerState): BattleState {
   return {
     players: [p1, p2],
     round: 1,
-    log: [`The Holy Grail War begins. ${p1.master.name}'s ${getServantDef(p1.servant.defId).name} faces ${p2.master.name}'s ${getServantDef(p2.servant.defId).name}!`],
+    log: [`The Holy Grail War begins. ${p1.master.name}'s ${teamNames(p1)} face${p1.servants.length === 1 ? 's' : ''} ${p2.master.name}'s ${teamNames(p2)}!`],
     winner: null,
     winReason: null,
     phase: 'battle',
@@ -140,7 +151,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
  * defense/setup action (buff, debuff, heal, command spell, and
  * non-damaging skills). Used to resolve all setup actions before any
  * damage, so a shield/evade protects against the opponent's attack
- * this round regardless of which player is processed first. */
+ * this round regardless of which combatant is processed first. */
 function actionPhase(def: ServantDefinition, action: BattleAction): 'setup' | 'damage' {
   if (action.type === 'attack' || action.type === 'np') return 'damage';
   if (action.type === 'skill') {
@@ -150,57 +161,100 @@ function actionPhase(def: ServantDefinition, action: BattleAction): 'setup' | 'd
   return 'setup';
 }
 
+/** One acting Servant this round: who they are, whose team, and their order. */
+interface Combatant {
+  player: PlayerState;
+  enemyPlayer: PlayerState;
+  servant: ServantInstance;
+  def: ServantDefinition;
+  order: ServantOrder;
+  /** Resolved target instance on the enemy team (retargeted if the chosen
+   * target died to a start-of-round tick). */
+  target: ServantInstance;
+  stunned: boolean;
+  intendsNp: boolean;
+  enemyHpFraction: number;
+}
+
+function livingServants(player: PlayerState): ServantInstance[] {
+  return player.servants.filter((s) => s.hp > 0);
+}
+
 /**
- * Both Masters choose their move without seeing the other's choice, so a
- * round always resolves both actions in full — neither player can win
- * simply by having gone "first". A round that fells both Servants at once
- * is decided by whichever Servant took the lesser overkill (the higher,
- * less-negative HP total).
+ * Both Masters commit every Servant's move without seeing the other side's
+ * choices, so a round always resolves all actions in full — nobody wins
+ * simply by having gone "first". Orders are arrays aligned with each team's
+ * servants (null for defeated Servants). A round that fells both teams at
+ * once is decided by whichever team took the lesser total overkill.
  */
 export function resolveRound(
   state: BattleState,
-  p1Action: BattleAction,
-  p2Action: BattleAction,
+  p1Orders: TeamOrders,
+  p2Orders: TeamOrders,
   rng: () => number = Math.random,
 ): BattleState {
   const next: BattleState = structuredClone(state);
   const [p1, p2] = next.players;
   const log = (msg: string) => next.log.push(msg);
   const dealDamage = makeDealDamage(log, rng);
+  const teams: [PlayerState, PlayerState] = [p1, p2];
+  const allOrders: [TeamOrders, TeamOrders] = [p1Orders, p2Orders];
 
-  const makeCtx = (self: PlayerState, enemy: PlayerState, enemyHpFraction?: number): BattleContext => ({
-    self: self.servant,
-    enemy: enemy.servant,
-    selfMaster: self.master,
-    enemyMaster: enemy.master,
+  const makeCtx = (
+    c: Combatant,
+    enemyHpFraction?: number,
+  ): BattleContext => ({
+    self: c.servant,
+    enemy: c.target,
+    selfMaster: c.player.master,
+    enemyMaster: c.enemyPlayer.master,
     log,
     rng,
     dealDamage,
-    enemyHpFraction: enemyHpFraction ?? enemy.servant.hp / enemy.servant.maxHp,
+    enemyHpFraction: enemyHpFraction ?? c.target.hp / c.target.maxHp,
   });
 
-  const startOfRound = (self: PlayerState, enemy: PlayerState, selfAction: BattleAction) => {
-    const def = getServantDef(self.servant.defId);
-    self.servant.turnsSurvived += 1;
-    if (def.onTurnStart) {
-      const actedOffensively = !isStunned(self.servant) && actionPhase(def, selfAction) === 'damage';
-      def.onTurnStart(makeCtx(self, enemy), actedOffensively);
-    }
-    for (const dot of self.servant.statuses.filter((s) => s.kind === 'dot')) {
-      const dmg = dot.potency ?? 0;
-      self.servant.hp = self.servant.hp - dmg;
-      log(`${def.name} suffers ${dmg} damage from ${dot.name}.`);
-    }
-    for (const regen of self.servant.statuses.filter((s) => s.kind === 'regen')) {
-      const healed = regen.potency ?? 0;
-      // Not clamped to maxHp here - see clampHp below for why.
-      self.servant.hp = self.servant.hp + healed;
-      log(`${def.name} recovers ${healed} HP from ${regen.name}.`);
-    }
-  };
+  // Who was standing when the round began (start-of-round ticks and this
+  // round's actions can change that, but the roster of actors is fixed now).
+  const aliveAtStart = teams.map((t) => t.servants.map((s) => s.hp > 0));
 
-  startOfRound(p1, p2, p1Action);
-  startOfRound(p2, p1, p2Action);
+  // Start-of-round ticks (dot/regen) for every living Servant.
+  teams.forEach((team, ti) => {
+    team.servants.forEach((servant, slot) => {
+      if (!aliveAtStart[ti][slot]) return;
+      const def = getServantDef(servant.defId);
+      servant.turnsSurvived += 1;
+      if (def.onTurnStart) {
+        const order = allOrders[ti][slot];
+        const actedOffensively =
+          !isStunned(servant) && order !== null && actionPhase(def, order.action) === 'damage';
+        def.onTurnStart(
+          {
+            self: servant,
+            enemy: livingServants(teams[1 - ti])[0] ?? teams[1 - ti].servants[0],
+            selfMaster: team.master,
+            enemyMaster: teams[1 - ti].master,
+            log,
+            rng,
+            dealDamage,
+            enemyHpFraction: 1,
+          },
+          actedOffensively,
+        );
+      }
+      for (const dot of servant.statuses.filter((s) => s.kind === 'dot')) {
+        const dmg = dot.potency ?? 0;
+        servant.hp = servant.hp - dmg;
+        log(`${def.name} suffers ${dmg} damage from ${dot.name}.`);
+      }
+      for (const regen of servant.statuses.filter((s) => s.kind === 'regen')) {
+        const healed = regen.potency ?? 0;
+        // Not clamped to maxHp here - see clampHp below for why.
+        servant.hp = servant.hp + healed;
+        log(`${def.name} recovers ${healed} HP from ${regen.name}.`);
+      }
+    });
+  });
 
   // A heal is never clamped to maxHp at the moment it's applied - only once,
   // at the very end of the round, after everything queued this round (the
@@ -215,44 +269,91 @@ export function resolveRound(
     instance.hp = Math.min(instance.hp, instance.maxHp);
   };
 
-  // A dot tick alone can still kill outright, so check for that (using the
-  // raw, unclamped HP - clamping only affects the upper bound and has no
-  // bearing on a death check) before any of this round's other actions run.
+  // A dot tick alone can kill a Servant (or a whole team) outright before
+  // any action resolves. A Servant killed by the tick loses their action.
+  logNewlyFallen(next, aliveAtStart, log);
   if (finalizeIfDefeated(next, log)) return next;
 
-  const performAction = (self: PlayerState, enemy: PlayerState, action: BattleAction, enemyHpFraction?: number) => {
-    const def = getServantDef(self.servant.defId);
-    const ctx = makeCtx(self, enemy, enemyHpFraction);
+  // Build the acting roster: every Servant alive right now with an order.
+  const combatants: Combatant[] = [];
+  teams.forEach((team, ti) => {
+    team.servants.forEach((servant, slot) => {
+      if (servant.hp <= 0) return;
+      const order = allOrders[ti][slot];
+      if (!order) return;
+      const enemyPlayer = teams[1 - ti];
+      // Retarget if the chosen target is already down (e.g. died to a tick).
+      const requested = enemyPlayer.servants[order.target];
+      const target = requested && requested.hp > 0 ? requested : livingServants(enemyPlayer)[0] ?? enemyPlayer.servants[0];
+      const stunned = isStunned(servant);
+      combatants.push({
+        player: team,
+        enemyPlayer,
+        servant,
+        def: getServantDef(servant.defId),
+        order,
+        target,
+        stunned,
+        // Snapshot NP intent before any Pass 1 skill can touch the gauge:
+        // an NP-drain used the same round the NP fires takes nothing.
+        intendsNp: !stunned && order.action.type === 'np' && servant.npGauge >= 100,
+        enemyHpFraction: 1, // set right before Pass 2
+      });
+    });
+  });
+
+  const protectNpIntent = () => {
+    for (const c of combatants) {
+      if (c.intendsNp && c.servant.npGauge < 100) {
+        c.servant.npGauge = 100;
+        log(`${c.def.name}'s Noble Phantasm is already invoked — the gauge drain takes nothing!`);
+      }
+    }
+  };
+
+  // Statuses applied this round shouldn't be ticked down until each
+  // Servant's *next* round, or a "1 turn" buff would expire before use.
+  const preExisting = teams.map((t) => t.servants.map((s) => new Set(s.statuses.map((st) => st.id))));
+
+  // Snapshot every Servant's NP gauge before anything this round changes it,
+  // so an NP-denial effect (Heracles's Monstrous Strength) can measure
+  // exactly how much each enemy gained this round, independent of order.
+  const npGaugeAtRoundStart = teams.map((t) => t.servants.map((s) => s.npGauge));
+
+  const performAction = (c: Combatant, enemyHpFraction?: number) => {
+    const ctx = makeCtx(c, enemyHpFraction);
+    const action = c.order.action;
+    const self = c.player;
 
     switch (action.type) {
       case 'attack': {
         self.lastRestrictedAction = null;
         const critOverride = self.master.critNextAttack;
-        dealDamage(self.servant, enemy.servant, 1.0, { guaranteedCrit: critOverride });
+        dealDamage(c.servant, c.target, 1.0, { guaranteedCrit: critOverride });
         if (critOverride) self.master.critNextAttack = false;
         break;
       }
       case 'skill': {
         self.lastRestrictedAction = null;
-        const skill = def.skills[action.skillIndex];
+        const skill = c.def.skills[action.skillIndex];
         if (!skill) {
           log('Invalid skill selected.');
           break;
         }
-        if (self.servant.skillCooldowns[action.skillIndex] > 0) {
+        if (c.servant.skillCooldowns[action.skillIndex] > 0) {
           log(`${skill.name} is still on cooldown.`);
           break;
         }
         skill.effect(ctx);
         if (skill.npGainSelf) {
-          self.servant.npGauge = Math.min(100, self.servant.npGauge + skill.npGainSelf);
+          c.servant.npGauge = Math.min(100, c.servant.npGauge + skill.npGainSelf);
         }
-        self.servant.skillCooldowns[action.skillIndex] = skill.cooldown;
+        c.servant.skillCooldowns[action.skillIndex] = skill.cooldown;
         break;
       }
       case 'np': {
         self.lastRestrictedAction = null;
-        if (self.servant.npGauge < 100) {
+        if (c.servant.npGauge < 100) {
           log('Noble Phantasm is not ready yet.');
           break;
         }
@@ -260,8 +361,8 @@ export function resolveRound(
           ...ctx,
           dealDamage: (a, d, m, opts) => dealDamage(a, d, m, { ...opts, isNP: true }),
         };
-        def.noblePhantasm.effect(npCtx);
-        self.servant.npGauge = 0;
+        c.def.noblePhantasm.effect(npCtx);
+        c.servant.npGauge = 0;
         break;
       }
       case 'commandSpell': {
@@ -276,9 +377,9 @@ export function resolveRound(
             break;
           }
           self.master.commandSpells -= 1;
-          const healed = Math.round(self.servant.maxHp * 0.25);
-          self.servant.hp = self.servant.hp + healed; // clamped once at end of round, see clampHp
-          log(`${self.master.name} burns a Command Spell to heal ${def.name} for ${healed} HP!`);
+          const healed = Math.round(c.servant.maxHp * 0.25);
+          c.servant.hp = c.servant.hp + healed; // clamped once at end of round, see clampHp
+          log(`${self.master.name} burns a Command Spell to heal ${c.def.name} for ${healed} HP!`);
           self.lastRestrictedAction = 'heal';
         } else if (action.effect === 'crit') {
           self.master.commandSpells -= 1;
@@ -291,138 +392,123 @@ export function resolveRound(
     }
   };
 
-  const p1Def = getServantDef(p1.servant.defId);
-  const p2Def = getServantDef(p2.servant.defId);
-  const p1Stunned = isStunned(p1.servant);
-  const p2Stunned = isStunned(p2.servant);
-
-  // Snapshot who intends to fire a ready Noble Phantasm this round, before
-  // any Pass 1 skill can touch their gauge. An NP-drain ability used on the
-  // same round the enemy unleashes their NP takes nothing: the NP is already
-  // invoked, so the drained gauge is restored and it still fires.
-  const p1IntendsNp = !p1Stunned && p1Action.type === 'np' && p1.servant.npGauge >= 100;
-  const p2IntendsNp = !p2Stunned && p2Action.type === 'np' && p2.servant.npGauge >= 100;
-  const protectNpIntent = () => {
-    if (p1IntendsNp && p1.servant.npGauge < 100) {
-      p1.servant.npGauge = 100;
-      log(`${p1Def.name}'s Noble Phantasm is already invoked — the gauge drain takes nothing!`);
-    }
-    if (p2IntendsNp && p2.servant.npGauge < 100) {
-      p2.servant.npGauge = 100;
-      log(`${p2Def.name}'s Noble Phantasm is already invoked — the gauge drain takes nothing!`);
-    }
-  };
-
-  // Statuses applied this round shouldn't be ticked down until each
-  // servant's *next* round, or a "1 turn" buff would expire before use.
-  const p1PreExisting = new Set(p1.servant.statuses.map((s) => s.id));
-  const p2PreExisting = new Set(p2.servant.statuses.map((s) => s.id));
-
-  // Snapshot each side's NP gauge before anything this round changes it, so
-  // an NP-theft effect (Heracles's Monstrous Strength) can measure exactly
-  // how much the enemy gained this round, independent of processing order.
-  const p1NpGaugeAtRoundStart = p1.servant.npGauge;
-  const p2NpGaugeAtRoundStart = p2.servant.npGauge;
-
   // Pass 1: buffs/debuffs/heals, and other non-damaging actions for
-  // both players, so any defense set up this round is in place first.
-  if (p1Stunned) {
-    log(`${p1Def.name} is stunned and cannot act!`);
-    p1.lastRestrictedAction = null;
-  } else if (actionPhase(p1Def, p1Action) === 'setup') performAction(p1, p2, p1Action);
-
-  if (p2Stunned) {
-    log(`${p2Def.name} is stunned and cannot act!`);
-    p2.lastRestrictedAction = null;
-  } else if (actionPhase(p2Def, p2Action) === 'setup') performAction(p2, p1, p2Action);
+  // every combatant, so any defense set up this round is in place first.
+  for (const c of combatants) {
+    if (c.stunned) {
+      log(`${c.def.name} is stunned and cannot act!`);
+      c.player.lastRestrictedAction = null;
+      continue;
+    }
+    if (actionPhase(c.def, c.order.action) === 'setup') performAction(c);
+  }
 
   // Undo any Pass 1 gauge drain against a Servant whose NP fires this round.
   protectNpIntent();
 
-  // Pass 2: attacks, Noble Phantasms, and damaging skills for both players.
-  // The NP-intent snapshot was taken *before* Pass 1 resolved, so the
-  // outcome doesn't depend on P1 vs P2 processing order: if both fire NPs
-  // the same round, whichever is processed first empties their gauge, then
-  // the second one's NP can hit them and grant defender-side gauge back -
-  // an order-dependent asymmetry that shouldn't exist when both moves are
-  // meant to happen at the same time.
-  const p1FiringNp = p1IntendsNp;
-  const p2FiringNp = p2IntendsNp;
-
-  // Also snapshot each side's enemy HP fraction before either damage-pass
-  // action runs, so an execute-threshold skill (e.g. "below 25% HP") reads
-  // the same value regardless of processing order - otherwise whoever
-  // resolves second would see the other's simultaneous hit already landed.
-  const p1EnemyHpFraction = p2.servant.hp / p2.servant.maxHp;
-  const p2EnemyHpFraction = p1.servant.hp / p1.servant.maxHp;
-
-  if (!p1Stunned && actionPhase(p1Def, p1Action) === 'damage') performAction(p1, p2, p1Action, p1EnemyHpFraction);
-  if (!p2Stunned && actionPhase(p2Def, p2Action) === 'damage') performAction(p2, p1, p2Action, p2EnemyHpFraction);
+  // Pass 2: attacks, Noble Phantasms, and damaging skills. NP intent was
+  // snapshotted *before* Pass 1 resolved and every combatant's target HP
+  // fraction is snapshotted before either side's damage lands, so the
+  // outcome doesn't depend on processing order: simultaneous NPs both fire,
+  // and an execute-threshold skill reads the same value for everyone.
+  for (const c of combatants) {
+    c.enemyHpFraction = c.target.hp / c.target.maxHp;
+  }
+  for (const c of combatants) {
+    if (c.stunned) continue;
+    if (actionPhase(c.def, c.order.action) === 'damage') performAction(c, c.enemyHpFraction);
+  }
 
   // Force each NP user's gauge back to 0 regardless of what the other
-  // player's simultaneous action granted them afterward.
-  if (p1FiringNp) p1.servant.npGauge = 0;
-  if (p2FiringNp) p2.servant.npGauge = 0;
-
-  // Monstrous Strength (Heracles) denies whatever NP gauge the enemy gained
-  // this round - it doesn't hand that gauge to Heracles, just wipes it out
-  // for the enemy. Both sides' gains are computed up front, before either
-  // denial happens, so a mirror match (both sides holding the skill)
-  // resolves the same regardless of which side is processed first.
-  const p1NpGainThisRound = Math.max(0, p1.servant.npGauge - p1NpGaugeAtRoundStart);
-  const p2NpGainThisRound = Math.max(0, p2.servant.npGauge - p2NpGaugeAtRoundStart);
-  const p1StealsNp = p1.servant.statuses.some((s) => s.id === 'monstrous-strength__npDeny');
-  const p2StealsNp = p2.servant.statuses.some((s) => s.id === 'monstrous-strength__npDeny');
-  if (p1StealsNp && p2NpGainThisRound > 0) {
-    p2.servant.npGauge = Math.max(0, p2.servant.npGauge - p2NpGainThisRound);
-    log(`${p1Def.name} denies ${p2Def.name} any Noble Phantasm gauge gained this round!`);
+  // side's simultaneous actions granted them afterward.
+  for (const c of combatants) {
+    if (c.intendsNp) c.servant.npGauge = 0;
   }
-  if (p2StealsNp && p1NpGainThisRound > 0) {
-    p1.servant.npGauge = Math.max(0, p1.servant.npGauge - p1NpGainThisRound);
-    log(`${p2Def.name} denies ${p1Def.name} any Noble Phantasm gauge gained this round!`);
-  }
-  p1.servant.statuses = p1.servant.statuses.filter((s) => s.id !== 'monstrous-strength__npDeny');
-  p2.servant.statuses = p2.servant.statuses.filter((s) => s.id !== 'monstrous-strength__npDeny');
 
-  tickStatuses(p1.servant, p1PreExisting);
-  tickStatuses(p2.servant, p2PreExisting);
-  p1.servant.skillCooldowns = p1.servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
-  p2.servant.skillCooldowns = p2.servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
+  // Monstrous Strength (Heracles) denies whatever NP gauge the enemy team
+  // gained this round - it doesn't hand that gauge to the holder, just
+  // wipes it out. Both sides' gains are computed up front, before either
+  // denial happens, so a mirror match resolves the same regardless of
+  // which side is processed first.
+  const npGains = teams.map((t, ti) => t.servants.map((s, si) => Math.max(0, s.npGauge - npGaugeAtRoundStart[ti][si])));
+  const denies = teams.map((t) => t.servants.some((s) => s.statuses.some((st) => st.id === 'monstrous-strength__npDeny')));
+  teams.forEach((team, ti) => {
+    if (!denies[ti]) return;
+    const enemyTi = 1 - ti;
+    teams[enemyTi].servants.forEach((enemyServant, si) => {
+      if (enemyServant.hp <= 0 || npGains[enemyTi][si] <= 0) return;
+      enemyServant.npGauge = Math.max(0, enemyServant.npGauge - npGains[enemyTi][si]);
+      log(`${team.master.name}'s team denies ${getServantDef(enemyServant.defId).name} any Noble Phantasm gauge gained this round!`);
+    });
+  });
+  teams.forEach((team) => {
+    team.servants.forEach((s) => {
+      s.statuses = s.statuses.filter((st) => st.id !== 'monstrous-strength__npDeny');
+    });
+  });
 
-  clampHp(p1.servant);
-  clampHp(p2.servant);
+  teams.forEach((team, ti) => {
+    team.servants.forEach((servant, slot) => {
+      if (!aliveAtStart[ti][slot]) return;
+      tickStatuses(servant, preExisting[ti][slot]);
+      servant.skillCooldowns = servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
+    });
+  });
 
+  teams.forEach((team) => team.servants.forEach(clampHp));
+
+  logNewlyFallen(next, aliveAtStart, log);
   if (finalizeIfDefeated(next, log)) return next;
 
   next.round += 1;
   return next;
 }
 
+/** Log individual Servants who fell this round while their team fights on.
+ * Full team defeats get their own message in finalizeIfDefeated. */
+function logNewlyFallen(state: BattleState, aliveAtStart: boolean[][], log: (msg: string) => void) {
+  state.players.forEach((team, ti) => {
+    const teamWiped = team.servants.every((s) => s.hp <= 0);
+    if (teamWiped) return; // the finalize message covers the team's fall
+    team.servants.forEach((servant, slot) => {
+      if (aliveAtStart[ti][slot] && servant.hp <= 0) {
+        log(`${getServantDef(servant.defId).name} has fallen! ${team.master.name} fights on with their remaining Servant.`);
+      }
+    });
+  });
+}
+
+function teamTotalHp(player: PlayerState): number {
+  return player.servants.reduce((sum, s) => sum + s.hp, 0);
+}
+
 function finalizeIfDefeated(state: BattleState, log: (msg: string) => void): boolean {
   const [p1, p2] = state.players;
-  const p1Down = p1.servant.hp <= 0;
-  const p2Down = p2.servant.hp <= 0;
+  const p1Down = p1.servants.every((s) => s.hp <= 0);
+  const p2Down = p2.servants.every((s) => s.hp <= 0);
 
   if (!p1Down && !p2Down) return false;
 
   if (p1Down && p2Down) {
-    if (p1.servant.hp === p2.servant.hp) {
+    const p1Total = teamTotalHp(p1);
+    const p2Total = teamTotalHp(p2);
+    if (p1Total === p2Total) {
       log(
-        `${getServantDef(p1.servant.defId).name} and ${getServantDef(p2.servant.defId).name} both fall in the same instant, ` +
-          `taking the exact same blow (${p1.servant.hp} HP each) — the Grail declares no victor.`,
+        `${teamNames(p1)} and ${teamNames(p2)} all fall in the same instant, ` +
+          `taking the exact same total blow (${p1Total} HP each side) — the Grail declares no victor.`,
       );
       state.winner = null;
       state.winReason = 'draw';
       state.phase = 'gameover';
       return true;
     }
-    // Whoever was overkilled less (higher, less-negative HP) wins.
-    const winner = p1.servant.hp > p2.servant.hp ? p1 : p2;
+    // Whichever team was overkilled less (higher, less-negative HP) wins.
+    const winner = p1Total > p2Total ? p1 : p2;
     const loser = winner === p1 ? p2 : p1;
     log(
-      `${getServantDef(p1.servant.defId).name} and ${getServantDef(p2.servant.defId).name} both fall in the same instant! ` +
-        `${winner.master.name}'s ${getServantDef(winner.servant.defId).name} (${winner.servant.hp} HP) ` +
-        `outlasts ${loser.master.name}'s ${getServantDef(loser.servant.defId).name} (${loser.servant.hp} HP) — the lesser blow leaves them standing a moment longer!`,
+      `Both sides fall in the same instant! ${winner.master.name}'s ${teamNames(winner)} ` +
+        `(${teamTotalHp(winner)} total HP) outlast ${loser.master.name}'s ${teamNames(loser)} ` +
+        `(${teamTotalHp(loser)} total HP) — the lesser blow leaves them standing a moment longer!`,
     );
     state.winner = winner.id;
     state.winReason = 'overkillTiebreak';
@@ -432,7 +518,7 @@ function finalizeIfDefeated(state: BattleState, log: (msg: string) => void): boo
 
   const winner = p1Down ? p2 : p1;
   const loser = p1Down ? p1 : p2;
-  log(`${getServantDef(loser.servant.defId).name} has fallen. ${getServantDef(winner.servant.defId).name} is victorious!`);
+  log(`${loser.master.name}'s ${teamNames(loser)} ${loser.servants.length === 1 ? 'has' : 'have all'} fallen. ${winner.master.name}'s ${teamNames(winner)} ${winner.servants.length === 1 ? 'is' : 'are'} victorious!`);
   state.winner = winner.id;
   state.winReason = 'defeat';
   state.phase = 'gameover';
