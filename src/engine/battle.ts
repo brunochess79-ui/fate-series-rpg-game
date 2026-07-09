@@ -41,7 +41,7 @@ export function createPlayer(
     kind,
     master: createMasterState(masterName),
     servants: servantDefIds.map(createServantInstance),
-    lastRestrictedAction: null,
+    commandSpellLastRound: false,
   };
 }
 
@@ -320,6 +320,9 @@ export function resolveRound(
   // exactly how much each enemy gained this round, independent of order.
   const npGaugeAtRoundStart = teams.map((t) => t.servants.map((s) => s.npGauge));
 
+  // One Command Spell per Master per round, shared across the whole team.
+  const spellsThisRound = new Map<PlayerState, number>([[p1, 0], [p2, 0]]);
+
   const performAction = (c: Combatant, enemyHpFraction?: number) => {
     const ctx = makeCtx(c, enemyHpFraction);
     const action = c.order.action;
@@ -327,14 +330,12 @@ export function resolveRound(
 
     switch (action.type) {
       case 'attack': {
-        self.lastRestrictedAction = null;
         const critOverride = self.master.critNextAttack;
         dealDamage(c.servant, c.target, 1.0, { guaranteedCrit: critOverride });
         if (critOverride) self.master.critNextAttack = false;
         break;
       }
       case 'skill': {
-        self.lastRestrictedAction = null;
         const skill = c.def.skills[action.skillIndex];
         if (!skill) {
           log('Invalid skill selected.');
@@ -352,7 +353,6 @@ export function resolveRound(
         break;
       }
       case 'np': {
-        self.lastRestrictedAction = null;
         if (c.servant.npGauge < 100) {
           log('Noble Phantasm is not ready yet.');
           break;
@@ -370,22 +370,28 @@ export function resolveRound(
           log('No Command Spells remaining!');
           break;
         }
+        // A Master may never invoke Command Spells in two consecutive
+        // rounds, no matter which Servant or effect is involved...
+        if (self.commandSpellLastRound) {
+          log(`${self.master.name} cannot invoke a Command Spell two rounds in a row!`);
+          break;
+        }
+        // ...and never more than one in the same round across the team.
+        if ((spellsThisRound.get(self) ?? 0) >= 1) {
+          log(`${self.master.name} can only invoke one Command Spell per round!`);
+          break;
+        }
         if (action.effect === 'heal') {
-          if (self.lastRestrictedAction === 'heal') {
-            log(`${self.master.name} cannot use a healing Command Spell two rounds in a row!`);
-            self.lastRestrictedAction = null;
-            break;
-          }
           self.master.commandSpells -= 1;
+          spellsThisRound.set(self, 1);
           const healed = Math.round(c.servant.maxHp * 0.25);
           c.servant.hp = c.servant.hp + healed; // clamped once at end of round, see clampHp
           log(`${self.master.name} burns a Command Spell to heal ${c.def.name} for ${healed} HP!`);
-          self.lastRestrictedAction = 'heal';
         } else if (action.effect === 'crit') {
           self.master.commandSpells -= 1;
+          spellsThisRound.set(self, 1);
           self.master.critNextAttack = true;
           log(`${self.master.name} burns a Command Spell — the next attack is guaranteed to land true!`);
-          self.lastRestrictedAction = null;
         }
         break;
       }
@@ -397,7 +403,6 @@ export function resolveRound(
   for (const c of combatants) {
     if (c.stunned) {
       log(`${c.def.name} is stunned and cannot act!`);
-      c.player.lastRestrictedAction = null;
       continue;
     }
     if (actionPhase(c.def, c.order.action) === 'setup') performAction(c);
@@ -453,6 +458,11 @@ export function resolveRound(
       tickStatuses(servant, preExisting[ti][slot]);
       servant.skillCooldowns = servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
     });
+  });
+
+  // Whether each Master spent a Command Spell this round gates next round.
+  teams.forEach((team) => {
+    team.commandSpellLastRound = (spellsThisRound.get(team) ?? 0) > 0;
   });
 
   teams.forEach((team) => team.servants.forEach(clampHp));

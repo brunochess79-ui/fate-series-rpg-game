@@ -155,6 +155,9 @@ export function BattleScreen({ battle, onResolveRound }: Props) {
           player={battle.players[phase.forIndex]}
           servant={battle.players[phase.forIndex].servants[pickingSlot]}
           enemyServants={battle.players[1 - phase.forIndex].servants}
+          commandSpellPlanned={pendingOrders[phase.forIndex].some(
+            (o) => o !== null && o.action.type === 'commandSpell',
+          )}
           disabled={battle.phase === 'gameover' || (isVsAi && teamDone(battle, 0, pendingOrders[0]))}
           onOrder={(order) => handleOrder(phase.forIndex, pickingSlot, order)}
         />

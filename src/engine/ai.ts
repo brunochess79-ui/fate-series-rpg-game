@@ -49,8 +49,9 @@ function chooseServantAction(
     return { type: 'np' };
   }
 
+  // One spell per round (spellsPlanned) and never two rounds in a row.
   const canHealSpell =
-    player.master.commandSpells - spellsPlanned > 0 && player.lastRestrictedAction !== 'heal';
+    player.master.commandSpells > 0 && spellsPlanned === 0 && !player.commandSpellLastRound;
 
   if (hpRatio < 0.35) {
     const healIdx = def.skills.findIndex((s, i) => s.tag === 'heal' && servant.skillCooldowns[i] === 0);

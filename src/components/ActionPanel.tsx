@@ -7,6 +7,9 @@ interface Props {
   servant: ServantInstance;
   /** The opposing team, used for target selection on offensive actions. */
   enemyServants: ServantInstance[];
+  /** True if a teammate already committed a Command Spell order this round
+   * (a Master may only invoke one per round). */
+  commandSpellPlanned?: boolean;
   disabled: boolean;
   onOrder: (order: ServantOrder) => void;
 }
@@ -57,7 +60,7 @@ function needsTarget(action: BattleAction, servant: ServantInstance): boolean {
   return false;
 }
 
-export function ActionPanel({ player, servant, enemyServants, disabled, onOrder }: Props) {
+export function ActionPanel({ player, servant, enemyServants, commandSpellPlanned = false, disabled, onOrder }: Props) {
   const [showCommandSpells, setShowCommandSpells] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
   const [pendingTargetAction, setPendingTargetAction] = useState<BattleAction | null>(null);
@@ -157,18 +160,23 @@ export function ActionPanel({ player, servant, enemyServants, disabled, onOrder 
           <div className="action-row command-spell-row">
             <button
               className="action-btn command-spell-toggle"
-              disabled={disabled || player.master.commandSpells <= 0}
+              disabled={disabled || player.master.commandSpells <= 0 || player.commandSpellLastRound || commandSpellPlanned}
+              title={
+                player.commandSpellLastRound
+                  ? 'Command Spells cannot be invoked two rounds in a row.'
+                  : commandSpellPlanned
+                    ? 'Only one Command Spell may be invoked per round.'
+                    : undefined
+              }
               onClick={() => setShowCommandSpells((v) => !v)}
             >
               Command Spell ({player.master.commandSpells})
+              {player.commandSpellLastRound ? ' — recharging' : commandSpellPlanned ? ' — already invoked' : ''}
             </button>
             {showCommandSpells && (
               <div className="command-spell-menu">
-                <button
-                  disabled={player.lastRestrictedAction === 'heal'}
-                  onClick={() => act({ type: 'commandSpell', effect: 'heal' })}
-                >
-                  {player.lastRestrictedAction === 'heal' ? "Emergency Heal (can't repeat)" : 'Emergency Heal (+25% HP)'}
+                <button onClick={() => act({ type: 'commandSpell', effect: 'heal' })}>
+                  Emergency Heal (+25% HP)
                 </button>
                 <button onClick={() => act({ type: 'commandSpell', effect: 'crit' })}>
                   Guarantee Critical Hit

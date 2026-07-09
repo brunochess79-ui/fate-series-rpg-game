@@ -120,9 +120,10 @@ export interface PlayerState {
   master: MasterState;
   /** The Master's team: one Servant in a classic duel, two in 2v2. */
   servants: ServantInstance[];
-  /** Tracks whether the last round's action was a healing Command Spell,
-   * so it can't be used two rounds in a row. */
-  lastRestrictedAction: 'heal' | null;
+  /** True if this Master invoked any Command Spell last round. A Master
+   * can only use one Command Spell per round (across the whole team) and
+   * never in two consecutive rounds, no matter which Servant it's for. */
+  commandSpellLastRound: boolean;
 }
 
 export type BattleAction =
