@@ -22,7 +22,7 @@ const mash: ServantDefinition = {
       id: 'shield-of-rousing-resolution',
       name: 'Shield of Rousing Resolution',
       description:
-        "Her cross-shaped shield turns aside any harm. Grants a shield that absorbs damage equal to 20% of her max HP, lasting this turn and the next.",
+        "Her cross-shaped shield turns aside any harm. Grants a shield that absorbs damage equal to 15% of her max HP, lasting this turn and the next.",
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -31,7 +31,7 @@ const mash: ServantDefinition = {
           id: 'shield-of-rousing-resolution',
           name: 'Shield of Rousing Resolution',
           kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.2),
+          potency: Math.round(ctx.self.maxHp * 0.15),
           turnsRemaining: 1,
           description: 'Absorbs damage until depleted',
         });
@@ -85,7 +85,7 @@ const mash: ServantDefinition = {
         id: 'lord-camelot-shield',
         name: 'Lord Camelot',
         kind: 'shield',
-        potency: Math.round(ctx.self.maxHp * 0.275),
+        potency: Math.round(ctx.self.maxHp * 0.125),
         turnsRemaining: 1,
         noGraceRound: true,
         description: 'Absorbs damage this turn only',
