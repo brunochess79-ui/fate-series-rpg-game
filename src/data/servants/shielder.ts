@@ -22,8 +22,8 @@ const mash: ServantDefinition = {
       id: 'shield-of-rousing-resolution',
       name: 'Shield of Rousing Resolution',
       description:
-        "Her cross-shaped shield turns aside any harm. Grants a shield that absorbs damage equal to 22% of her max HP, lasting this turn and the next.",
-      cooldown: 5,
+        "Her cross-shaped shield turns aside any harm. Grants a shield that absorbs damage equal to 30% of her max HP, lasting this turn and the next.",
+      cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
@@ -31,7 +31,7 @@ const mash: ServantDefinition = {
           id: 'shield-of-rousing-resolution',
           name: 'Shield of Rousing Resolution',
           kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.22),
+          potency: Math.round(ctx.self.maxHp * 0.3),
           turnsRemaining: 1,
           description: 'Absorbs damage until depleted',
         });
@@ -41,7 +41,7 @@ const mash: ServantDefinition = {
     {
       id: 'heros-resolve',
       name: "Hero's Resolve",
-      description: "A demi-servant's borrowed courage. Raises own Defense by 25% for 3 turns.",
+      description: "A demi-servant's borrowed courage. Raises own Defense by 25% for 4 turns and recovers 10% of her max HP.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -52,21 +52,23 @@ const mash: ServantDefinition = {
           kind: 'buff',
           stat: 'def',
           amount: 0.25,
-          turnsRemaining: 3,
+          turnsRemaining: 4,
           description: '+25% DEF',
         });
-        ctx.log("Mash steels herself with a Hero's Resolve!");
+        const healed = Math.round(ctx.self.maxHp * 0.1);
+        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
+        ctx.log(`Mash steels herself with a Hero's Resolve, recovering ${healed} HP!`);
       },
     },
     {
       id: 'the-white-lion',
       name: 'The White Lion',
-      description: 'A cross-shield thrown like a blade. Deals 1.2x damage.',
+      description: 'A cross-shield thrown like a blade. Deals 1.6x damage.',
       cooldown: 3,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: 'The White Lion' });
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.6, { label: 'The White Lion' });
         ctx.log('Mash hurls her shield like the White Lion!');
       },
     },
