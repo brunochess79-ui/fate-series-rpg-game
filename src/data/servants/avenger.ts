@@ -454,8 +454,8 @@ const johnLackland: ServantDefinition = {
     {
       id: 'kings-hollow-pride',
       name: "King Lackland's Pride",
-      description: "A tyrant's hollow pride, sharpened into a weapon. Raises own Attack by 10% for 3 turns and charges his Noble Phantasm gauge.",
-      cooldown: 4,
+      description: "A tyrant's hollow pride, sharpened into a weapon. Raises own Attack by 10% for 1 turn and charges his Noble Phantasm gauge.",
+      cooldown: 5,
       npGainSelf: 30,
       tag: 'buff',
       effect: (ctx) => {
@@ -465,7 +465,7 @@ const johnLackland: ServantDefinition = {
           kind: 'buff',
           stat: 'atk',
           amount: 0.1,
-          turnsRemaining: 3,
+          turnsRemaining: 1,
           description: '+10% Attack',
         });
         ctx.log("John Lackland postures with King Lackland's Pride!");
@@ -474,8 +474,8 @@ const johnLackland: ServantDefinition = {
     {
       id: 'loss-of-normandy',
       name: 'Loss of Normandy',
-      description: "He lost his lands once; now he takes what little the enemy has left. Drains 15% from the enemy's Noble Phantasm gauge.",
-      cooldown: 4,
+      description: "He lost his lands once; now he takes what little the enemy has left. Drains 15% from the enemy's Noble Phantasm gauge. Takes nothing on a turn the enemy unleashes their Noble Phantasm.",
+      cooldown: 5,
       npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {

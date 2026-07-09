@@ -296,6 +296,23 @@ export function resolveRound(
   const p1Stunned = isStunned(p1.servant);
   const p2Stunned = isStunned(p2.servant);
 
+  // Snapshot who intends to fire a ready Noble Phantasm this round, before
+  // any Pass 1 skill can touch their gauge. An NP-drain ability used on the
+  // same round the enemy unleashes their NP takes nothing: the NP is already
+  // invoked, so the drained gauge is restored and it still fires.
+  const p1IntendsNp = !p1Stunned && p1Action.type === 'np' && p1.servant.npGauge >= 100;
+  const p2IntendsNp = !p2Stunned && p2Action.type === 'np' && p2.servant.npGauge >= 100;
+  const protectNpIntent = () => {
+    if (p1IntendsNp && p1.servant.npGauge < 100) {
+      p1.servant.npGauge = 100;
+      log(`${p1Def.name}'s Noble Phantasm is already invoked — the gauge drain takes nothing!`);
+    }
+    if (p2IntendsNp && p2.servant.npGauge < 100) {
+      p2.servant.npGauge = 100;
+      log(`${p2Def.name}'s Noble Phantasm is already invoked — the gauge drain takes nothing!`);
+    }
+  };
+
   // Statuses applied this round shouldn't be ticked down until each
   // servant's *next* round, or a "1 turn" buff would expire before use.
   const p1PreExisting = new Set(p1.servant.statuses.map((s) => s.id));
@@ -319,15 +336,18 @@ export function resolveRound(
     p2.lastRestrictedAction = null;
   } else if (actionPhase(p2Def, p2Action) === 'setup') performAction(p2, p1, p2Action);
 
+  // Undo any Pass 1 gauge drain against a Servant whose NP fires this round.
+  protectNpIntent();
+
   // Pass 2: attacks, Noble Phantasms, and damaging skills for both players.
-  // Snapshot who is actually about to fire their NP *before* either one
-  // resolves, so the outcome doesn't depend on P1 vs P2 processing order:
-  // if both fire NPs the same round, whichever is processed first empties
-  // their gauge, then the second one's NP can hit them and grant defender-
-  // side gauge back - an order-dependent asymmetry that shouldn't exist
-  // when both moves are meant to happen at the same time.
-  const p1FiringNp = !p1Stunned && p1Action.type === 'np' && p1.servant.npGauge >= 100;
-  const p2FiringNp = !p2Stunned && p2Action.type === 'np' && p2.servant.npGauge >= 100;
+  // The NP-intent snapshot was taken *before* Pass 1 resolved, so the
+  // outcome doesn't depend on P1 vs P2 processing order: if both fire NPs
+  // the same round, whichever is processed first empties their gauge, then
+  // the second one's NP can hit them and grant defender-side gauge back -
+  // an order-dependent asymmetry that shouldn't exist when both moves are
+  // meant to happen at the same time.
+  const p1FiringNp = p1IntendsNp;
+  const p2FiringNp = p2IntendsNp;
 
   // Also snapshot each side's enemy HP fraction before either damage-pass
   // action runs, so an execute-threshold skill (e.g. "below 25% HP") reads

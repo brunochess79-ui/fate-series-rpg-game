@@ -149,7 +149,7 @@ const circe: ServantDefinition = {
     {
       id: 'enchanted-chalice',
       name: 'Enchanted Chalice',
-      description: "A draught that saps the enemy's resolve. Drains 20% from the enemy's Noble Phantasm gauge.",
+      description: "A draught that saps the enemy's resolve. Drains 20% from the enemy's Noble Phantasm gauge. Takes nothing on a turn the enemy unleashes their Noble Phantasm.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'debuff',
