@@ -441,13 +441,13 @@ const johnLackland: ServantDefinition = {
   className: 'Avenger',
   trueName: 'John, King of England',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/John_Lackland",
-  maxHp: 1470,
+  maxHp: 1350,
   atk: 90,
   def: 68,
   agility: 48,
   critChance: 0.08,
-  rank: 'A',
-  strengths: ['Highest HP', 'Sustain', 'Debuffs'],
+  rank: 'B+',
+  strengths: ['High HP', 'Sustain', 'Debuffs'],
   weaknesses: ['Lowest Attack', 'Slow'],
   passiveDescription: 'The king who lost Normandy and was forced to sign away his own power, yet somehow still refuses to fall.',
   skills: [
@@ -474,12 +474,12 @@ const johnLackland: ServantDefinition = {
     {
       id: 'loss-of-normandy',
       name: 'Loss of Normandy',
-      description: "He lost his lands once; now he takes what little the enemy has left. Drains 15% from the enemy's Noble Phantasm gauge. Takes nothing on a turn the enemy unleashes their Noble Phantasm.",
+      description: "He lost his lands once; now he takes what little the enemy has left. Drains 10% from the enemy's Noble Phantasm gauge. Takes nothing on a turn the enemy unleashes their Noble Phantasm.",
       cooldown: 5,
       npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
-        ctx.enemy.npGauge = Math.max(0, ctx.enemy.npGauge - 15);
+        ctx.enemy.npGauge = Math.max(0, ctx.enemy.npGauge - 10);
         ctx.log("John Lackland's Loss of Normandy drains the enemy's resolve!");
       },
     },
