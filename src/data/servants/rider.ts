@@ -407,7 +407,7 @@ const ozymandias: ServantDefinition = {
     {
       id: 'ramesseum-tentyris',
       name: 'Ramesseum Tentyris',
-      description: "A pharaoh's authority radiates outward. Raises own Attack by 25% for 2 turns.",
+      description: "A pharaoh's authority radiates outward. Raises own Attack by 25% for 3 turns.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -418,7 +418,7 @@ const ozymandias: ServantDefinition = {
           kind: 'buff',
           stat: 'atk',
           amount: 0.25,
-          turnsRemaining: 2,
+          turnsRemaining: 3,
           description: '+25% ATK',
         });
         ctx.log('Ozymandias invokes Ramesseum Tentyris!');

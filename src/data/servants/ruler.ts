@@ -307,7 +307,7 @@ const hakuno: ServantDefinition = {
     {
       id: 'regalias-authority',
       name: "Regalia's Authority",
-      description: 'The ring of sovereignty amplifies its bearer. Raises own Attack by 20% for 3 turns.',
+      description: 'The ring of sovereignty amplifies its bearer. Raises own Attack by 25% for 3 turns.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -317,9 +317,9 @@ const hakuno: ServantDefinition = {
           name: "Regalia's Authority",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.2,
+          amount: 0.25,
           turnsRemaining: 3,
-          description: '+20% ATK',
+          description: '+25% ATK',
         });
         ctx.log("The Regalia gleams — Hakuno's authority rises!");
       },

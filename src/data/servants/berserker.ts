@@ -700,7 +700,7 @@ const cuChulainnAlter: ServantDefinition = {
     {
       id: 'houndss-hunger',
       name: "Hound's Hunger",
-      description: "A hunger that never abates. Lowers enemy Defense by 20% for 3 turns.",
+      description: "A hunger that never abates. Lowers enemy Defense by 15% for 3 turns.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'debuff',
@@ -710,9 +710,9 @@ const cuChulainnAlter: ServantDefinition = {
           name: "Hound's Hunger",
           kind: 'debuff',
           stat: 'def',
-          amount: -0.2,
+          amount: -0.15,
           turnsRemaining: 3,
-          description: '-20% DEF',
+          description: '-15% DEF',
         });
         ctx.log("Cú Chulainn (Alter)'s Hound's Hunger gnaws at the enemy's guard!");
       },
@@ -918,7 +918,7 @@ const vladIII: ServantDefinition = {
     {
       id: 'compassion',
       name: 'Compassion',
-      description: 'A terror sown to spare his people worse cruelty. Lowers enemy Attack by 22% for 3 turns.',
+      description: 'A terror sown to spare his people worse cruelty. Lowers enemy Attack by 22% for 2 turns.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'debuff',
@@ -929,7 +929,7 @@ const vladIII: ServantDefinition = {
           kind: 'debuff',
           stat: 'atk',
           amount: -0.22,
-          turnsRemaining: 3,
+          turnsRemaining: 2,
           description: '-22% Attack',
         });
         ctx.log('Vlad III instills dread through Compassion!');
