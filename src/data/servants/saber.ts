@@ -853,7 +853,7 @@ const gawain: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Gawain unsheathes Excalibur Galatine!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { label: 'Excalibur Galatine' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.1, { label: 'Excalibur Galatine' });
     },
   },
 };
