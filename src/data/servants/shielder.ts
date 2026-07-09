@@ -23,7 +23,7 @@ const mash: ServantDefinition = {
       name: 'Shield of Rousing Resolution',
       description:
         "Her cross-shaped shield turns aside any harm. Grants a shield that absorbs damage equal to 30% of her max HP, lasting this turn and the next.",
-      cooldown: 4,
+      cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
@@ -41,8 +41,8 @@ const mash: ServantDefinition = {
     {
       id: 'heros-resolve',
       name: "Hero's Resolve",
-      description: "A demi-servant's borrowed courage. Raises own Defense by 25% for 4 turns and recovers 10% of her max HP.",
-      cooldown: 4,
+      description: "A demi-servant's borrowed courage. Raises own Defense by 25% for 2 turns and recovers 10% of her max HP.",
+      cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
@@ -52,7 +52,7 @@ const mash: ServantDefinition = {
           kind: 'buff',
           stat: 'def',
           amount: 0.25,
-          turnsRemaining: 4,
+          turnsRemaining: 2,
           description: '+25% DEF',
         });
         const healed = Math.round(ctx.self.maxHp * 0.1);
@@ -64,7 +64,7 @@ const mash: ServantDefinition = {
       id: 'the-white-lion',
       name: 'The White Lion',
       description: 'A cross-shield thrown like a blade. Deals 1.6x damage.',
-      cooldown: 3,
+      cooldown: 4,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
