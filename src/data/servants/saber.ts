@@ -779,11 +779,11 @@ const gawain: ServantDefinition = {
   maxHp: 1450,
   atk: 124,
   def: 85,
-  agility: 55,
-  critChance: 0.1,
+  agility: 63,
+  critChance: 0.13,
   rank: 'A+',
   strengths: ['Highest Defense', 'Highest HP'],
-  weaknesses: ['Low Crit Rate'],
+  weaknesses: ['Predictable'],
   passiveDescription: 'The Knight of the Sun, whose strength swells to unbreakable heights beneath an open sky.',
   skills: [
     {
@@ -853,7 +853,7 @@ const gawain: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Gawain unsheathes Excalibur Galatine!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.8, { label: 'Excalibur Galatine' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.2, { label: 'Excalibur Galatine' });
     },
   },
 };
