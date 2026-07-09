@@ -13,7 +13,7 @@ const mash: ServantDefinition = {
   def: 92,
   agility: 50,
   critChance: 0.05,
-  rank: 'A',
+  rank: 'C+',
   strengths: ['Highest Defense', 'Shielding'],
   weaknesses: ['Low Damage', 'Low Crit Rate'],
   passiveDescription: 'A demi-servant whose devotion to protecting others outweighs any fear for herself.',
@@ -22,7 +22,7 @@ const mash: ServantDefinition = {
       id: 'shield-of-rousing-resolution',
       name: 'Shield of Rousing Resolution',
       description:
-        "Her cross-shaped shield turns aside any harm. Grants a shield that absorbs damage equal to 30% of her max HP, lasting this turn and the next.",
+        "Her cross-shaped shield turns aside any harm. Grants a shield that absorbs damage equal to 20% of her max HP, lasting this turn and the next.",
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -31,7 +31,7 @@ const mash: ServantDefinition = {
           id: 'shield-of-rousing-resolution',
           name: 'Shield of Rousing Resolution',
           kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.3),
+          potency: Math.round(ctx.self.maxHp * 0.2),
           turnsRemaining: 1,
           description: 'Absorbs damage until depleted',
         });
@@ -76,18 +76,19 @@ const mash: ServantDefinition = {
   noblePhantasm: {
     name: "Lord Camelot",
     japaneseName: 'Lord Camelot',
-    description: "The wall of Camelot slams forward as both bulwark and battering ram, sheltering her from harm.",
+    description: "The wall of Camelot slams forward as both bulwark and battering ram, shielding her for the turn it is raised.",
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Mash calls forth the vision of Lord Camelot!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 6.08, { label: 'Lord Camelot' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.04, { label: 'Lord Camelot' });
       applyStatus(ctx.self, {
         id: 'lord-camelot-shield',
         name: 'Lord Camelot',
         kind: 'shield',
-        potency: Math.round(ctx.self.maxHp * 0.55),
-        turnsRemaining: 2,
-        description: 'Absorbs damage until depleted',
+        potency: Math.round(ctx.self.maxHp * 0.275),
+        turnsRemaining: 1,
+        noGraceRound: true,
+        description: 'Absorbs damage this turn only',
       });
       ctx.self.statuses = ctx.self.statuses.filter((s) => s.kind !== 'debuff' && s.kind !== 'dot');
       ctx.log('Mash is shielded by the golden age of Camelot, her afflictions cleared.');

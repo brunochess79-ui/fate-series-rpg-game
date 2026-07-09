@@ -25,6 +25,10 @@ export interface StatusEffect {
   amount?: number;
   potency?: number;
   turnsRemaining: number;
+  /** If true, the status ticks down even at the end of the round it was
+   * applied in (no grace round) — e.g. a shield that only protects the
+   * turn it is cast. Evade statuses always behave this way. */
+  noGraceRound?: boolean;
   description: string;
 }
 
