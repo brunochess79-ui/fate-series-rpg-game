@@ -454,9 +454,9 @@ const johnLackland: ServantDefinition = {
     {
       id: 'kings-hollow-pride',
       name: "King Lackland's Pride",
-      description: "A tyrant's hollow pride, sharpened into a weapon. Raises own Attack by 25% for 3 turns and floods his Noble Phantasm gauge.",
+      description: "A tyrant's hollow pride, sharpened into a weapon. Raises own Attack by 10% for 3 turns and charges his Noble Phantasm gauge.",
       cooldown: 4,
-      npGainSelf: 35,
+      npGainSelf: 30,
       tag: 'buff',
       effect: (ctx) => {
         applyStatus(ctx.self, {
@@ -464,9 +464,9 @@ const johnLackland: ServantDefinition = {
           name: "King Lackland's Pride",
           kind: 'buff',
           stat: 'atk',
-          amount: 0.25,
+          amount: 0.1,
           turnsRemaining: 3,
-          description: '+25% Attack',
+          description: '+10% Attack',
         });
         ctx.log("John Lackland postures with King Lackland's Pride!");
       },
