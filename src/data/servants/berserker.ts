@@ -998,7 +998,7 @@ const sakataKintoki: ServantDefinition = {
   atk: 140,
   def: 38,
   agility: 55,
-  critChance: 0.08,
+  critChance: 0.07,
   rank: 'A+',
   strengths: ['Highest Damage', 'NP Gauge Charge'],
   weaknesses: ['Lowest Defense'],
