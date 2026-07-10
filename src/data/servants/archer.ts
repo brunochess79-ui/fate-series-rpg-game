@@ -981,7 +981,6 @@ const alcides: ServantDefinition = {
       name: 'Twelve Trials',
       description: 'A hero who has already survived every labor set before him. Deals a bonus strike.',
       cooldown: 5,
-      npGainSelf: 20,
       tag: 'utility',
       dealsDamage: true,
       effect: (ctx) => {
