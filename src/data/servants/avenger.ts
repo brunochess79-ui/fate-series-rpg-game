@@ -185,7 +185,7 @@ const edmondDantes: ServantDefinition = {
   def: 60,
   agility: 58,
   critChance: 0.14,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Highest Damage', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A wrongfully imprisoned man reborn as pure vengeance, wreathed in shadow and green flame.',

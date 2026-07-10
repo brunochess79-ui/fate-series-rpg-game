@@ -870,7 +870,7 @@ const richard: ServantDefinition = {
   def: 62,
   agility: 62,
   critChance: 0.14,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Buffs', 'Guaranteed Crits'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The Lionheart King, whose sheer force of will can turn any blade he holds into Excalibur itself.',
