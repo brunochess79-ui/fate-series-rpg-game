@@ -110,7 +110,7 @@ const theRipper: ServantDefinition = {
       id: 'vanish-in-fog',
       name: 'Vanish in Fog',
       description:
-        'The fog itself seems to blunt every blow. Grants a shield that absorbs damage equal to 15% of his max HP, lasting this turn and the next.',
+        'The fog itself seems to blunt every blow. Grants a shield that absorbs damage equal to 15% of his max HP, lasting only this turn.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -217,7 +217,7 @@ const semiramis: ServantDefinition = {
       id: 'hanging-gardens',
       name: "Hanging Gardens' Bounty",
       description:
-        'Refuge among her legendary gardens. Grants a shield that absorbs damage equal to 16% of her max HP, lasting this turn and the next.',
+        'Refuge among her legendary gardens. Grants a shield that absorbs damage equal to 16% of her max HP, lasting only this turn.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',

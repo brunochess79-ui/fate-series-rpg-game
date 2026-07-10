@@ -51,7 +51,7 @@ const iskandar: ServantDefinition = {
       id: 'divinity',
       name: 'Divinity',
       description:
-        'Blood of the divine wards his body. Grants a shield that absorbs damage equal to 22% of his max HP, lasting this turn and the next.',
+        'Blood of the divine wards his body. Grants a shield that absorbs damage equal to 22% of his max HP, lasting only this turn.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -145,7 +145,7 @@ const boudica: ServantDefinition = {
       id: 'icenis-shield',
       name: "Iceni's Shield",
       description:
-        "Her tribe stands with her still. Grants a shield that absorbs damage equal to 20% of her max HP, lasting this turn and the next.",
+        "Her tribe stands with her still. Grants a shield that absorbs damage equal to 20% of her max HP, lasting only this turn.",
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -310,7 +310,7 @@ const noah: ServantDefinition = {
     {
       id: 'ark-of-salvation',
       name: 'Ark of Salvation',
-      description: "A vessel that outlasted the end of the world. Grants a shield that absorbs damage equal to 24% of his max HP, lasting this turn and the next.",
+      description: "A vessel that outlasted the end of the world. Grants a shield that absorbs damage equal to 24% of his max HP, lasting only this turn.",
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',

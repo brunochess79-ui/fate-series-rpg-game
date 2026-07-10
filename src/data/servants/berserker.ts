@@ -233,7 +233,7 @@ const spartacus: ServantDefinition = {
       id: 'gladiators-endurance',
       name: "Gladiator's Endurance",
       description:
-        'Forged in the arena, hardened to pain. Grants a shield that absorbs damage equal to 20% of his max HP, lasting this turn and the next.',
+        'Forged in the arena, hardened to pain. Grants a shield that absorbs damage equal to 20% of his max HP, lasting only this turn.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',

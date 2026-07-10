@@ -22,7 +22,7 @@ const mash: ServantDefinition = {
       id: 'shield-of-rousing-resolution',
       name: 'Shield of Rousing Resolution',
       description:
-        "Her cross-shaped shield turns aside any harm. Grants a shield that absorbs damage equal to 15% of her max HP, lasting this turn and the next.",
+        "Her cross-shaped shield turns aside any harm. Grants a shield that absorbs damage equal to 15% of her max HP, lasting only this turn.",
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',

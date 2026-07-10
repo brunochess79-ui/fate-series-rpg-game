@@ -223,7 +223,7 @@ const achilles: ServantDefinition = {
       id: 'divine-bath',
       name: 'Divine Bath',
       description:
-        'The river Styx wards his body once more. Grants a shield that absorbs damage equal to 14% of his max HP, lasting this turn and the next.',
+        'The river Styx wards his body once more. Grants a shield that absorbs damage equal to 14% of his max HP, lasting only this turn.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -291,7 +291,7 @@ const karna: ServantDefinition = {
       id: 'kavacha-kundala',
       name: 'Kavacha and Kundala',
       description:
-        'His divine armor turns aside harm. Grants a shield that absorbs damage equal to 15% of his max HP, lasting this turn and the next.',
+        'His divine armor turns aside harm. Grants a shield that absorbs damage equal to 15% of his max HP, lasting only this turn.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -586,7 +586,7 @@ const scathach: ServantDefinition = {
     {
       id: 'land-of-shadows',
       name: 'Land of Shadows',
-      description: 'Her own domain answers her call. Grants a shield that absorbs damage equal to 20% of her max HP, lasting this turn and the next.',
+      description: 'Her own domain answers her call. Grants a shield that absorbs damage equal to 20% of her max HP, lasting only this turn.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -846,7 +846,7 @@ const romulus: ServantDefinition = {
     {
       id: 'seven-hills',
       name: 'Seven Hills of Rome',
-      description: 'The city itself shields its founder. Grants a shield that absorbs damage equal to 20% of his max HP, lasting this turn and the next.',
+      description: 'The city itself shields its founder. Grants a shield that absorbs damage equal to 20% of his max HP, lasting only this turn.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',

@@ -22,7 +22,7 @@ const jeanne: ServantDefinition = {
       id: 'protection-of-the-faith',
       name: 'Protection of the Faith',
       description:
-        "Divine grace wards her from harm. Grants a shield that absorbs damage equal to 18% of her max HP, lasting this turn and the next.",
+        "Divine grace wards her from harm. Grants a shield that absorbs damage equal to 18% of her max HP, lasting only this turn.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',

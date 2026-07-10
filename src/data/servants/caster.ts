@@ -424,7 +424,7 @@ const solomon: ServantDefinition = {
     {
       id: 'djinn-command',
       name: 'Djinn Command',
-      description: 'Bound spirits rise to shield their king. Grants a shield that absorbs damage equal to 20% of his max HP, lasting this turn and the next.',
+      description: 'Bound spirits rise to shield their king. Grants a shield that absorbs damage equal to 20% of his max HP, lasting only this turn.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
@@ -1035,7 +1035,7 @@ const avicebron: ServantDefinition = {
     {
       id: 'golem-craft',
       name: 'Golem Craft',
-      description: 'A clay guardian interposes itself. Grants a shield that absorbs damage equal to 20% of his max HP, lasting this turn and the next.',
+      description: 'A clay guardian interposes itself. Grants a shield that absorbs damage equal to 20% of his max HP, lasting only this turn.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',

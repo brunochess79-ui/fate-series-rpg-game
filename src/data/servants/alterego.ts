@@ -140,7 +140,7 @@ const tiamat: ServantDefinition = {
     {
       id: 'sea-of-origin',
       name: 'Sea of Origin',
-      description: "The primeval sea shelters her still. Grants a shield that absorbs damage equal to 22% of her max HP, lasting this turn and the next.",
+      description: "The primeval sea shelters her still. Grants a shield that absorbs damage equal to 22% of her max HP, lasting only this turn.",
       cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
