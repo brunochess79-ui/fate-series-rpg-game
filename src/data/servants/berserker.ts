@@ -1007,8 +1007,8 @@ const sakataKintoki: ServantDefinition = {
     {
       id: 'monstrous-strength-kintoki',
       name: 'Monstrous Strength',
-      description: 'A child who threw boulders for sport, grown into a man who throws mountains. Raises own Attack by 25% for 3 turns.',
-      cooldown: 3,
+      description: 'A child who threw boulders for sport, grown into a man who throws mountains. Raises own Attack by 25% for 2 turns.',
+      cooldown: 5,
       npGainSelf: 20,
       tag: 'buff',
       effect: (ctx) => {
@@ -1018,7 +1018,7 @@ const sakataKintoki: ServantDefinition = {
           kind: 'buff',
           stat: 'atk',
           amount: 0.25,
-          turnsRemaining: 3,
+          turnsRemaining: 2,
           description: '+25% Attack',
         });
         ctx.log('Sakata Kintoki flexes with Monstrous Strength!');
