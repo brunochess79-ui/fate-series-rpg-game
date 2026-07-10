@@ -998,7 +998,7 @@ const sakataKintoki: ServantDefinition = {
   atk: 140,
   def: 38,
   agility: 55,
-  critChance: 0.1,
+  critChance: 0.08,
   rank: 'A+',
   strengths: ['Highest Damage', 'NP Gauge Charge'],
   weaknesses: ['Lowest Defense'],
@@ -1038,12 +1038,12 @@ const sakataKintoki: ServantDefinition = {
     {
       id: 'natural-body',
       name: 'Natural Body',
-      description: "A child of the mountains, hale and hearty. Heals self for 20% max HP.",
-      cooldown: 5,
+      description: "A child of the mountains, hale and hearty. Heals self for 12% max HP.",
+      cooldown: 6,
       npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.2);
+        const healed = Math.round(ctx.self.maxHp * 0.12);
         ctx.self.hp = ctx.self.hp + healed;
         ctx.log(`Sakata Kintoki's Natural Body recovers ${healed} HP.`);
       },
