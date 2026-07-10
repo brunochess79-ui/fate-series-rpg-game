@@ -553,7 +553,6 @@ const koyanskaya: ServantDefinition = {
       name: 'Predation',
       description: 'The wolf feeds on the weak. Deals damage and heals self for half the damage dealt.',
       cooldown: 5,
-      npGainSelf: 20,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {

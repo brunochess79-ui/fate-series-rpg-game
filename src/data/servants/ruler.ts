@@ -233,7 +233,6 @@ const sherlock: ServantDefinition = {
       name: 'Bartitsu',
       description: "A gentleman's martial art, applied with surgical precision. Deals a bonus strike.",
       cooldown: 5,
-      npGainSelf: 20,
       tag: 'utility',
       dealsDamage: true,
       effect: (ctx) => {

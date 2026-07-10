@@ -1090,7 +1090,6 @@ const saito: ServantDefinition = {
       name: 'Aku Soku Zan',
       description: 'Swift death to evil, without hesitation. Deals a bonus strike.',
       cooldown: 5,
-      npGainSelf: 20,
       tag: 'utility',
       dealsDamage: true,
       effect: (ctx) => {
