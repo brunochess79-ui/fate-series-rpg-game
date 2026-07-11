@@ -849,11 +849,16 @@ const gawain: ServantDefinition = {
   noblePhantasm: {
     name: 'Excalibur Galatine: Sword of Chivalry',
     japaneseName: 'Excalibur Galatine',
-    description: "A blade of pure sunlight, wielded with the unshakable honor of the Round Table.",
+    description: "A blade of pure sunlight that burns hotter the mightier its foe: strikes with force equal to 45% of the enemy's max HP plus 50, amplified by his Attack buffs.",
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Gawain unsheathes Excalibur Galatine!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.3, { label: 'Excalibur Galatine' });
+      // The blow scales off the enemy's vitality (45% max HP + 50) rather
+      // than Gawain's own Attack; converting it to an equivalent multiplier
+      // keeps the whole normal damage pipeline - ATK buffs, Defense,
+      // variance, crits, and shields - applying on top.
+      const multiplier = (0.45 * ctx.enemy.maxHp + 50) / gawain.atk;
+      ctx.dealDamage(ctx.self, ctx.enemy, multiplier, { label: 'Excalibur Galatine' });
     },
   },
 };
