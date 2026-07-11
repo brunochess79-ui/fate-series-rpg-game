@@ -1056,7 +1056,7 @@ const sakataKintoki: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Sakata Kintoki unleashes Golden Spark!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 4.3, { label: 'Golden Spark' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.9, { label: 'Golden Spark' });
     },
   },
 };
