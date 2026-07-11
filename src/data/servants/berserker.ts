@@ -999,7 +999,7 @@ const sakataKintoki: ServantDefinition = {
   def: 38,
   agility: 55,
   critChance: 0.07,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage', 'NP Gauge Charge'],
   weaknesses: ['Lowest Defense'],
   passiveDescription: 'Raised by a mountain witch and strong enough to wrestle bears as a child, he never learned to hold back.',
