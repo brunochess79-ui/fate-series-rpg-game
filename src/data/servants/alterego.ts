@@ -13,7 +13,7 @@ const kiara: ServantDefinition = {
   def: 52,
   agility: 65,
   critChance: 0.15,
-  rank: 'C+',
+  rank: 'A',
   strengths: ['Highest Damage', 'Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A Buddhist saint whose boundless compassion, twisted by despair, birthed a Beast of humanity.',
@@ -21,14 +21,20 @@ const kiara: ServantDefinition = {
     {
       id: 'contemplative-bliss',
       name: 'Contemplative Bliss',
-      description: 'A saint at perfect peace. Heals self for 18% max HP.',
-      cooldown: 4,
+      description: 'A saint at perfect peace. Recovers 7% max HP at the start of each of her next 3 turns.',
+      cooldown: 5,
       npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.18);
-        ctx.self.hp = ctx.self.hp + healed;
-        ctx.log(`Kiara's Contemplative Bliss heals ${healed} HP.`);
+        applyStatus(ctx.self, {
+          id: 'contemplative-bliss-regen',
+          name: 'Contemplative Bliss',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.07),
+          turnsRemaining: 3,
+          description: 'Recovers 7% max HP per turn',
+        });
+        ctx.log("Kiara's Contemplative Bliss soothes her wounds.");
       },
     },
     {
@@ -54,7 +60,7 @@ const kiara: ServantDefinition = {
     {
       id: 'beasts-hunger',
       name: "Beast's Hunger",
-      description: 'A predator senses weakness. Deals 1.3x damage, doubled if the enemy is below 30% HP.',
+      description: 'A predator senses weakness. Deals 1.5x damage, doubled if the enemy is below 30% HP, and heals for 18% of the damage dealt.',
       cooldown: 4,
       tag: 'crit',
       dealsDamage: true,
@@ -65,7 +71,10 @@ const kiara: ServantDefinition = {
             ? "Kiara's Hunger senses weakness and devours it whole!"
             : "Kiara's Hunger gnaws at the enemy!",
         );
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.3 * executeBonus, { label: "Beast's Hunger" });
+        const dealt = ctx.dealDamage(ctx.self, ctx.enemy, 1.5 * executeBonus, { label: "Beast's Hunger" });
+        const healed = Math.round(dealt * 0.18);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Kiara devours the wound, recovering ${healed} HP.`);
       },
     },
   ],

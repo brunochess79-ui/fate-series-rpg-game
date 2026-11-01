@@ -101,7 +101,7 @@ const siegfried: ServantDefinition = {
   def: 90,
   agility: 65,
   critChance: 0.1,
-  rank: 'C',
+  rank: 'C+',
   strengths: ['Durability', 'Sustained Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: "Bathed in a dragon's blood, his skin turns aside nearly any blow — save one hidden weak point.",
@@ -449,7 +449,7 @@ const mordred: ServantDefinition = {
   def: 54,
   agility: 68,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Critical Hits', 'Speed'],
   weaknesses: ['Low Defense'],
   passiveDescription: "Artoria's rebellious knight, fighting with savage, wild strikes that carry a lifetime of resentment.",
@@ -1285,7 +1285,7 @@ const bedivere: ServantDefinition = {
   def: 65,
   agility: 72,
   critChance: 0.12,
-  rank: 'C',
+  rank: 'A',
   strengths: ['Durability', 'Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The last knight at his king\'s side, who carried Excalibur back to the lake.',
@@ -1293,7 +1293,7 @@ const bedivere: ServantDefinition = {
     {
       id: 'oath-of-the-lake',
       name: 'Oath of the Lake',
-      description: 'A duty carried to the very end steadies him. Recovers 5% max HP at the start of each of his next 3 turns.',
+      description: 'A duty carried to the very end steadies him. Recovers 6% max HP at the start of each of his next 3 turns.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'heal',
@@ -1302,9 +1302,9 @@ const bedivere: ServantDefinition = {
           id: 'oath-of-the-lake-regen',
           name: 'Oath of the Lake',
           kind: 'regen',
-          potency: Math.round(ctx.self.maxHp * 0.05),
+          potency: Math.round(ctx.self.maxHp * 0.06),
           turnsRemaining: 3,
-          description: 'Recovers 5% max HP per turn',
+          description: 'Recovers 6% max HP per turn',
         });
         ctx.log('Bedivere renews his Oath of the Lake.');
       },
@@ -1332,12 +1332,12 @@ const bedivere: ServantDefinition = {
     {
       id: 'silver-arm',
       name: 'Silver Arm',
-      description: 'The prosthetic arm of silver strikes with hidden force. Deals 1.35x damage.',
+      description: 'The prosthetic arm of silver strikes with hidden force. Deals 1.4x damage.',
       cooldown: 3,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Silver Arm' });
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: 'Silver Arm' });
         ctx.log('Bedivere strikes with the Silver Arm!');
       },
     },

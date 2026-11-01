@@ -13,7 +13,7 @@ const hassan: ServantDefinition = {
   def: 55,
   agility: 90,
   critChance: 0.15,
-  rank: 'C',
+  rank: 'B',
   strengths: ['Critical Hits', 'Evasion'],
   weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: 'A killer who strikes from the shadows with unmatched precision.',
@@ -101,7 +101,7 @@ const theRipper: ServantDefinition = {
   def: 57,
   agility: 95,
   critChance: 0.15,
-  rank: 'B',
+  rank: 'C+',
   strengths: ['Critical Hits', 'Finishing Blows'],
   weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: "An identity lost to history — the legend of a killer who vanished into fog, never caught.",
@@ -455,7 +455,7 @@ const tezcatlipoca: ServantDefinition = {
   def: 68,
   agility: 85,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Critical Hits', 'Speed'],
   weaknesses: ['Fragile'],
   passiveDescription: 'A ruthless Aztec god of night and discord, walking among mortals as a mercenary assassin.',
@@ -543,7 +543,7 @@ const koyanskaya: ServantDefinition = {
   def: 55,
   agility: 75,
   critChance: 0.15,
-  rank: 'C',
+  rank: 'A',
   strengths: ['Crit Damage', 'Drains'],
   weaknesses: ['Fragile'],
   passiveDescription: 'A trickster wolf-spirit wearing the shape of a familiar ally.',
@@ -551,13 +551,13 @@ const koyanskaya: ServantDefinition = {
     {
       id: 'predation',
       name: 'Predation',
-      description: 'The wolf feeds on the weak. Deals damage and heals self for half the damage dealt.',
+      description: 'The wolf feeds on the weak. Deals 1.45x damage and heals self for 50% of the damage dealt.',
       cooldown: 5,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
         ctx.log('Koyanskaya of Light preys upon the enemy!');
-        const dealt = ctx.dealDamage(ctx.self, ctx.enemy, 1.4, { label: 'Predation' });
+        const dealt = ctx.dealDamage(ctx.self, ctx.enemy, 1.45, { label: 'Predation' });
         const healed = Math.round(dealt * 0.5);
         ctx.self.hp = ctx.self.hp + healed;
         ctx.log(`Koyanskaya of Light feeds, recovering ${healed} HP.`);
@@ -586,12 +586,12 @@ const koyanskaya: ServantDefinition = {
     {
       id: 'for-rin-chans-sake',
       name: "For Rin-chan's Sake",
-      description: 'A loyalty that outlasts any script. Heals self for 20% max HP.',
+      description: 'A loyalty that outlasts any script. Heals self for 23% max HP.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.2);
+        const healed = Math.round(ctx.self.maxHp * 0.23);
         ctx.self.hp = ctx.self.hp + healed;
         ctx.log(`Koyanskaya of Light presses on, healing ${healed} HP.`);
       },
