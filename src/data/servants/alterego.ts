@@ -102,7 +102,7 @@ const tiamat: ServantDefinition = {
   def: 54,
   agility: 45,
   critChance: 0.08,
-  rank: 'A',
+  rank: 'A+',
   strengths: ['Highest HP', 'Shielding', 'Regeneration'],
   weaknesses: ['Slow'],
   passiveDescription: 'The primordial mother goddess of creation, tragic and endlessly protective of all life.',

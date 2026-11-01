@@ -57,12 +57,20 @@ roster easy, and every ability has an expandable description in battle.
 
 Each Servant's rating letter (C to A+) comes from a full round-robin tournament
 in which every Servant fights every other, each playing its best line (the
-verified-better line where one was found). The score
-is the number of Servants it beats head to head, plus a bonus for beating the
-tournament's top 15: nothing for 5 wins or fewer, then 1, 3, 6, 10, 15, 21...
-extra points for 6, 7, 8, 9, 10, 11... wins against them. Letters are handed out by
-score (top 20 are A+, then 22 A, 22 B+, 20 B, 10 C+, 6 C), and a Servant tied
-with or half a point behind the last Servant of the next letter up is rounded up.
+verified-better line where one was found). Scoring works in two steps:
+
+1. Rank every Servant by head-to-head wins alone. The top 15 of that ranking
+   become the benchmark group.
+2. Count each Servant's record against the benchmark group, out of 15. A member
+   of the group cannot face itself, so it is credited 0.5 (a draw with itself) in
+   place of that missing matchup. Beating the group more than 5 times earns a
+   bonus that grows with each extra win: 1, 3, 6, 10, 15, 21... points for 6, 7,
+   8, 9, 10, 11... wins.
+
+The score is wins plus that bonus. Letters are handed out by score (top 20 are
+A+, then 22 A, 22 B+, 20 B, 10 C+, 6 C), and a Servant tied with or half a point
+behind the last Servant of the next letter up is rounded up. Every tournament is
+scored this way.
 
 ## AI difficulty
 
