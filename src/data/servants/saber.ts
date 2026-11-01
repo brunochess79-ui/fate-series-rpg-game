@@ -789,7 +789,7 @@ const gawain: ServantDefinition = {
     {
       id: 'chivalric-blessing',
       name: 'Chivalric Blessing',
-      description: "A knight's honor is its own shield. Raises own Defense by 20% for 3 turns, and blesses his blade: the next attack he lands is a guaranteed critical hit, no matter how many turns pass before it.",
+      description: "A knight's honor is its own shield. Raises own Defense by 20% for 3 turns.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -803,15 +803,7 @@ const gawain: ServantDefinition = {
           turnsRemaining: 3,
           description: '+20% DEF',
         });
-        applyStatus(ctx.self, {
-          id: 'chivalric-blessing__critReady',
-          name: 'Blessed Blade',
-          kind: 'buff',
-          // Never expires on its own - it persists until his next hit lands.
-          turnsRemaining: Infinity,
-          description: 'Next attack is a guaranteed critical hit',
-        });
-        ctx.log('Gawain is warded by a Chivalric Blessing — his next blow will strike true!');
+        ctx.log('Gawain is warded by a Chivalric Blessing!');
       },
     },
     {

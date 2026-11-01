@@ -85,7 +85,7 @@ const mash: ServantDefinition = {
         id: 'lord-camelot-shield',
         name: 'Lord Camelot',
         kind: 'shield',
-        potency: Math.round(ctx.self.maxHp * 0.125),
+        potency: Math.round(ctx.self.maxHp * 0.275),
         turnsRemaining: 2,
         description: 'Absorbs damage this turn and the next',
       });
