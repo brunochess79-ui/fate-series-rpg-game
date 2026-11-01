@@ -446,7 +446,7 @@ const tezcatlipoca: ServantDefinition = {
   def: 69,
   agility: 85,
   critChance: 0.15,
-  rank: 'B',
+  rank: 'B+',
   strengths: ['Critical Hits', 'Speed'],
   weaknesses: ['Fragile'],
   passiveDescription: 'A ruthless Aztec god of night and discord, walking among mortals as a mercenary assassin.',
