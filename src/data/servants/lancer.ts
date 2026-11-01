@@ -934,7 +934,7 @@ const percival: ServantDefinition = {
   noblePhantasm: {
     name: 'Longinus Count Zero: The Holy Lance, Unsealed',
     japaneseName: 'Longinus Count Zero',
-    description: "The holy lance answers the purest of knights, tearing through armor and shield alike with force equal to 34% of the enemy's max HP plus 40.",
+    description: "The holy lance answers the purest of knights, striking with force equal to 34% of the enemy's max HP plus 40.",
     rank: 'A',
     effect: (ctx) => {
       ctx.log('Percival unseals the holy lance — Longinus Count Zero!');
