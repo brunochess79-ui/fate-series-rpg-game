@@ -58,7 +58,11 @@ function App() {
         />
       )}
       {screen === 'battle' && battle && battle.phase === 'battle' && (
-        <BattleScreen battle={battle} onResolveRound={handleResolveRound} />
+        <BattleScreen
+          battle={battle}
+          difficulty={setup?.difficulty ?? 'normal'}
+          onResolveRound={handleResolveRound}
+        />
       )}
       {screen === 'battle' && battle && battle.phase === 'gameover' && (
         <GameOverScreen battle={battle} onRematch={handleRematch} onMainMenu={handleMainMenu} />

@@ -1,23 +1,32 @@
 import { getServantDef } from '../data/servants';
+import type { Difficulty } from '../game';
 import type { BattleAction, BattleState, ServantInstance, TeamOrders } from '../types';
+import { choosePlaybookAction, linesFor } from './aiPolicy';
 
 /** Pick the enemy Servant to aim at: the living one with the lowest HP,
- * to finish off wounded targets first. */
-function pickTarget(enemies: ServantInstance[]): number {
+ * to finish off wounded targets first. (Easy AI aims at the healthiest instead.) */
+function pickTarget(enemies: ServantInstance[], healthiestFirst = false): number {
   let best = -1;
   for (let i = 0; i < enemies.length; i++) {
     if (enemies[i].hp <= 0) continue;
-    if (best === -1 || enemies[i].hp < enemies[best].hp) best = i;
+    if (best === -1) best = i;
+    else if (healthiestFirst ? enemies[i].hp > enemies[best].hp : enemies[i].hp < enemies[best].hp) best = i;
   }
   return Math.max(0, best);
 }
 
 /** Choose a full set of orders for an AI-controlled team: one action per
- * living Servant (null for the fallen), each aimed at a chosen enemy. */
+ * living Servant (null for the fallen), each aimed at a chosen enemy.
+ *
+ * - normal: the simple rules below.
+ * - hard: each Servant plays the best line found for it.
+ * - easy: each Servant plays the options that lose it the most matchups.
+ */
 export function chooseAiOrders(
   state: BattleState,
   aiIndex: 0 | 1,
   rng: () => number = Math.random,
+  difficulty: Difficulty = 'normal',
 ): TeamOrders {
   const player = state.players[aiIndex];
   const enemy = state.players[1 - aiIndex];
@@ -27,8 +36,20 @@ export function chooseAiOrders(
 
   return player.servants.map((servant) => {
     if (servant.hp <= 0) return null;
-    const target = pickTarget(enemy.servants);
-    const action = chooseServantAction(state, aiIndex, servant, spellsPlanned, rng);
+    const target = pickTarget(enemy.servants, difficulty === 'easy');
+    const action =
+      difficulty === 'normal'
+        ? chooseServantAction(state, aiIndex, servant, spellsPlanned, rng)
+        : choosePlaybookAction(
+            state,
+            aiIndex,
+            servant,
+            enemy.servants[target],
+            spellsPlanned,
+            linesFor(servant.defId, difficulty === 'easy'),
+            difficulty === 'easy',
+            rng,
+          );
     if (action.type === 'commandSpell') spellsPlanned += 1;
     return { action, target };
   });

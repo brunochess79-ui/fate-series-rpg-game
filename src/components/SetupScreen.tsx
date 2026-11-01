@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { SERVANT_LIST } from '../data/servants';
-import type { GameMode, SetupResult, TeamSize } from '../game';
+import type { Difficulty, GameMode, SetupResult, TeamSize } from '../game';
 import type { ServantClass, ServantDefinition } from '../types';
 import { estimateNpDamage } from '../utils/npPreview';
 import { formatStanding, getStatRankings } from '../utils/statRanking';
@@ -160,6 +160,12 @@ function ServantCard({ servant, selected, onSelect }: ServantCardProps) {
   );
 }
 
+const DIFFICULTIES: Array<{ id: Difficulty; label: string; blurb: string }> = [
+  { id: 'easy', label: 'Easy', blurb: 'The rival plays badly on purpose: it wastes heals, hesitates with its Noble Phantasm and never uses Command Spells.' },
+  { id: 'normal', label: 'Normal', blurb: 'The rival follows simple rules: heal when hurt, then buff, debuff or attack.' },
+  { id: 'hard', label: 'Hard', blurb: "The rival plays each Servant's best-known line, skipping weak skills and timing heals, crits and shields." },
+];
+
 export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
   const [step, setStep] = useState<0 | 1>(0);
   const [p1Name, setP1Name] = useState('Master 1');
@@ -168,6 +174,7 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
   const [p2Servants, setP2Servants] = useState<string[]>([]);
   const [classFilter, setClassFilter] = useState<ServantClass | 'All'>('All');
   const [search, setSearch] = useState('');
+  const [difficulty, setDifficulty] = useState<Difficulty>('normal');
 
   const isFirstStep = step === 0;
   const currentName = isFirstStep ? p1Name : p2Name;
@@ -226,6 +233,7 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
           p1ServantIds: currentPicks,
           p2Name: 'Rival Master',
           p2ServantIds: aiPicks,
+          difficulty,
         });
       } else {
         setStep(1);
@@ -252,6 +260,25 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
           />
         </label>
       </div>
+      {mode === 'ai' && isFirstStep && (
+        <div className="difficulty-row" role="radiogroup" aria-label="AI difficulty">
+          <span className="difficulty-label">AI Difficulty</span>
+          {DIFFICULTIES.map((d) => (
+            <button
+              key={d.id}
+              type="button"
+              role="radio"
+              aria-checked={difficulty === d.id}
+              className={`class-filter-btn ${difficulty === d.id ? 'active' : ''}`}
+              onClick={() => setDifficulty(d.id)}
+              title={d.blurb}
+            >
+              {d.label}
+            </button>
+          ))}
+          <span className="difficulty-blurb">{DIFFICULTIES.find((d) => d.id === difficulty)?.blurb}</span>
+        </div>
+      )}
       <div className="servant-search-row">
         <input
           type="search"

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { chooseAiOrders } from '../engine/ai';
 import { getServantDef } from '../data/servants';
+import type { Difficulty } from '../game';
 import type { BattleState, ServantOrder, TeamOrders } from '../types';
 import { ActionPanel } from './ActionPanel';
 import { BattleLog } from './BattleLog';
@@ -8,6 +9,7 @@ import { ServantPanel } from './ServantPanel';
 
 interface Props {
   battle: BattleState;
+  difficulty?: Difficulty;
   onResolveRound: (p1Orders: TeamOrders, p2Orders: TeamOrders) => void;
 }
 
@@ -29,7 +31,7 @@ function teamDone(battle: BattleState, teamIndex: 0 | 1, orders: TeamOrders): bo
   return nextSlot(battle, teamIndex, orders) === -1;
 }
 
-export function BattleScreen({ battle, onResolveRound }: Props) {
+export function BattleScreen({ battle, difficulty = 'normal', onResolveRound }: Props) {
   const isVsAi = battle.players[1].kind === 'ai';
   const [phase, setPhase] = useState<RoundPhase>(
     isVsAi ? { step: 'picking', forIndex: 0 } : { step: 'handoff', forIndex: 0 },
@@ -50,14 +52,14 @@ export function BattleScreen({ battle, onResolveRound }: Props) {
     if (!teamDone(battle, 0, pendingOrders[0])) return;
 
     timeoutRef.current = setTimeout(() => {
-      const aiOrders = chooseAiOrders(battle, 1);
+      const aiOrders = chooseAiOrders(battle, 1, Math.random, difficulty);
       onResolveRound(pendingOrders[0], aiOrders);
     }, 900);
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [pendingOrders, isVsAi, battle, onResolveRound]);
+  }, [pendingOrders, isVsAi, battle, difficulty, onResolveRound]);
 
   const handleOrder = (teamIndex: 0 | 1, slot: number, order: ServantOrder) => {
     const nextOrders: [TeamOrders, TeamOrders] = [
