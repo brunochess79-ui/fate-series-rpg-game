@@ -13,7 +13,7 @@ const jeanne: ServantDefinition = {
   def: 62,
   agility: 65,
   critChance: 0.08,
-  rank: 'B',
+  rank: 'A',
   strengths: ['Regeneration', 'Shielding'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A saint who hears the voice of God, mediating the Grail War with mercy for all sides.',
