@@ -1162,7 +1162,7 @@ const samson: ServantDefinition = {
   def: 45,
   agility: 56,
   critChance: 0.09,
-  rank: 'B',
+  rank: 'C+',
   strengths: ['Raw Power', 'High HP'],
   weaknesses: ['Lowest Defense', 'Low Crit Rate'],
   passiveDescription: 'A judge of impossible strength, unbeatable while his sacred vow remains unbroken.',

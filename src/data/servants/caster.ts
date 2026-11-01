@@ -286,7 +286,7 @@ const gillesDeRais: ServantDefinition = {
   def: 62,
   agility: 50,
   critChance: 0.08,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Debuffs', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile', 'Low HP'],
   passiveDescription:
