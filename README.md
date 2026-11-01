@@ -22,6 +22,13 @@ roster easy, and every ability has an expandable description in battle.
   target on the enemy team, and a Master loses only when both of their Servants
   have fallen.
 
+- **Training: Learn a Servant's Best Line** — pick a Servant and a practice
+  opponent and a coach recommends the best move each round, with the reason. After
+  you choose it tells you whether you matched the best line, and a summary at the
+  end scores you. For 20 Servants the coach teaches a line that testing found
+  beats the standard Hard-bot line; every other Servant is taught the standard best
+  line. (The Hard AI itself still plays the standard line.)
+
 ## Gameplay
 
 - Each round, both Masters choose their move without seeing the other's
@@ -49,7 +56,8 @@ roster easy, and every ability has an expandable description in battle.
 ## Servant ratings
 
 Each Servant's rating letter (C to A+) comes from a full round-robin tournament
-in which every Servant fights every other, each playing its best line. The score
+in which every Servant fights every other, each playing its best line (the
+verified-better line where one was found). The score
 is the number of Servants it beats head to head, plus a bonus for beating the
 tournament's top 15: nothing for 5 wins or fewer, then 1, 3, 6, 10, 15, 21...
 extra points for 6, 7, 8, 9, 10, 11... wins against them. Letters are handed out by

@@ -877,3 +877,46 @@ button:disabled {
   padding: 0 6px;
   white-space: nowrap;
 }
+
+.coach-panel {
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+}
+.coach-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+.coach-source {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+.coach-toggle {
+  margin-left: auto;
+  font-size: 0.85rem;
+}
+.coach-hint {
+  margin: 0.5rem 0 0;
+}
+.coach-feedback {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+}
+.coach-feedback.match {
+  color: #6fcf97;
+}
+.coach-feedback.miss {
+  color: #f2994a;
+}
+.coach-lesson {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+.training-summary {
+  margin: 1rem auto;
+  max-width: 44rem;
+  text-align: left;
+}

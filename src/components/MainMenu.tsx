@@ -22,10 +22,13 @@ export function MainMenu({ onSelectMode }: Props) {
         <button className="primary-btn" onClick={() => onSelectMode('ai', 2)}>
           2v2 Team Battle (vs AI)
         </button>
+        <button className="primary-btn" onClick={() => onSelectMode('training', 1)}>
+          Training: Learn a Servant's Best Line
+        </button>
       </div>
       <p className="menu-hint">
         Choose a Master and Servant, then fight in a battle of Attacks, Skills, and Noble
-        Phantasms. In a 2v2 Team Battle each Master commands two Servants at once — every round,
+        Phantasms. In Training mode a coach recommends the best move each round and tells you why. In a 2v2 Team Battle each Master commands two Servants at once — every round,
         both act. Spend your Master's three Command Spells wisely — they can turn the tide of
         the war.
       </p>

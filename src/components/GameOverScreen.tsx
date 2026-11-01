@@ -1,9 +1,13 @@
 import { getServantDef } from '../data/servants';
+import type { CoachRound } from '../engine/coach';
+import { lineTips } from '../engine/coach';
 import type { BattleState, PlayerState } from '../types';
 import { BattleLog } from './BattleLog';
 
 interface Props {
   battle: BattleState;
+  training?: boolean;
+  coachRounds?: CoachRound[];
   onRematch: () => void;
   onMainMenu: () => void;
 }
@@ -22,7 +26,41 @@ function teamTotalHp(player: PlayerState): number {
   return player.servants.reduce((sum, s) => sum + s.hp, 0);
 }
 
-export function GameOverScreen({ battle, onRematch, onMainMenu }: Props) {
+function TrainingSummary({ battle, rounds }: { battle: BattleState; rounds: CoachRound[] }) {
+  const defId = battle.players[0].servants[0].defId;
+  const matched = rounds.filter((r) => r.matched).length;
+  const misses = rounds.filter((r) => !r.matched);
+  const pct = rounds.length ? Math.round((matched / rounds.length) * 100) : 0;
+  return (
+    <div className="training-summary">
+      <h2>Training Summary</h2>
+      <p className="training-score">
+        You matched the best line in <strong>{matched}</strong> of <strong>{rounds.length}</strong> rounds ({pct}%).
+      </p>
+      {misses.length > 0 && (
+        <>
+          <h3>Where you differed</h3>
+          <ul>
+            {misses.slice(0, 8).map((r) => (
+              <li key={r.round}>
+                Round {r.round}: you chose {r.chosen}; the best line was {r.advised} — {r.reason}
+              </li>
+            ))}
+          </ul>
+          {misses.length > 8 && <p>…and {misses.length - 8} more.</p>}
+        </>
+      )}
+      <h3>The line to remember</h3>
+      <ul>
+        {lineTips(defId).map((tip) => (
+          <li key={tip}>{tip}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export function GameOverScreen({ battle, training = false, coachRounds = [], onRematch, onMainMenu }: Props) {
   const [p1, p2] = battle.players;
 
   if (battle.winReason === 'draw') {
@@ -42,6 +80,7 @@ export function GameOverScreen({ battle, onRematch, onMainMenu }: Props) {
             Main Menu
           </button>
         </div>
+        {training && <TrainingSummary battle={battle} rounds={coachRounds} />}
         <div className="gameover-history">
           <h2>Full Match History</h2>
           <BattleLog log={battle.log} autoScroll={false} />
@@ -77,6 +116,7 @@ export function GameOverScreen({ battle, onRematch, onMainMenu }: Props) {
           Main Menu
         </button>
       </div>
+      {training && <TrainingSummary battle={battle} rounds={coachRounds} />}
       <div className="gameover-history">
         <h2>Full Match History</h2>
         <BattleLog log={battle.log} autoScroll={false} />

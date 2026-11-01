@@ -182,7 +182,8 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
   const [aiRandom, setAiRandom] = useState(true);
 
   const isFirstStep = step === 0;
-  const isAi = mode === 'ai';
+  const isAi = mode === 'ai' || mode === 'training';
+  const isTraining = mode === 'training';
   const drawingMine = isAi && isFirstStep && playerRandom;
   const currentName = isFirstStep ? p1Name : p2Name;
   const currentPicks = isFirstStep ? p1Servants : p2Servants;
@@ -270,6 +271,10 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
       <h2>
         {mode === 'hotseat'
           ? `Player ${step + 1}, choose your ${servantWord}`
+          : isTraining && isFirstStep
+            ? playerRandom
+              ? 'A Servant will be drawn for you to practice'
+              : 'Choose the Servant you want to learn'
           : !isFirstStep
             ? `Choose the rival's ${servantWord}`
             : playerRandom
@@ -321,7 +326,7 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
           />
         </label>
       </div>
-      {mode === 'ai' && isFirstStep && (
+      {isAi && isFirstStep && (
         <div className="difficulty-row" role="radiogroup" aria-label="AI difficulty">
           <span className="difficulty-label">AI Difficulty</span>
           {DIFFICULTIES.map((d) => (

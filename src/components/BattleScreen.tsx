@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { chooseAiOrders } from '../engine/ai';
+import { coachAdvice, describeAction, gradeRound, lineTips, trainingLineFor, type CoachRound } from '../engine/coach';
 import { getServantDef } from '../data/servants';
 import type { Difficulty } from '../game';
 import type { BattleState, ServantOrder, TeamOrders } from '../types';
@@ -10,6 +11,9 @@ import { ServantPanel } from './ServantPanel';
 interface Props {
   battle: BattleState;
   difficulty?: Difficulty;
+  /** Training mode: show the coach's recommendation and grade each round. */
+  training?: boolean;
+  onCoachRound?: (round: CoachRound) => void;
   onResolveRound: (p1Orders: TeamOrders, p2Orders: TeamOrders) => void;
 }
 
@@ -31,13 +35,21 @@ function teamDone(battle: BattleState, teamIndex: 0 | 1, orders: TeamOrders): bo
   return nextSlot(battle, teamIndex, orders) === -1;
 }
 
-export function BattleScreen({ battle, difficulty = 'normal', onResolveRound }: Props) {
+export function BattleScreen({ battle, difficulty = 'normal', training = false, onCoachRound, onResolveRound }: Props) {
   const isVsAi = battle.players[1].kind === 'ai';
   const [phase, setPhase] = useState<RoundPhase>(
     isVsAi ? { step: 'picking', forIndex: 0 } : { step: 'handoff', forIndex: 0 },
   );
   const [pendingOrders, setPendingOrders] = useState<[TeamOrders, TeamOrders]>(() => emptyOrders(battle));
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [showHint, setShowHint] = useState(true);
+  const [lastGrade, setLastGrade] = useState<CoachRound | null>(null);
+  const advice = useMemo(
+    () => (training && battle.phase !== 'gameover' ? coachAdvice(battle, 0) : null),
+    [training, battle],
+  );
+  const myDefId = battle.players[0].servants[0].defId;
+  const line = trainingLineFor(myDefId);
 
   // Every new round starts fresh: Player 1 picks first (hidden from Player 2 in hot-seat).
   useEffect(() => {
@@ -62,6 +74,11 @@ export function BattleScreen({ battle, difficulty = 'normal', onResolveRound }: 
   }, [pendingOrders, isVsAi, battle, difficulty, onResolveRound]);
 
   const handleOrder = (teamIndex: 0 | 1, slot: number, order: ServantOrder) => {
+    if (training && advice && teamIndex === 0 && slot === 0) {
+      const grade = gradeRound(myDefId, battle.round, order, advice);
+      setLastGrade(grade);
+      onCoachRound?.(grade);
+    }
     const nextOrders: [TeamOrders, TeamOrders] = [
       [...pendingOrders[0]],
       [...pendingOrders[1]],
@@ -130,6 +147,41 @@ export function BattleScreen({ battle, difficulty = 'normal', onResolveRound }: 
         </div>
       </div>
       <BattleLog log={battle.log} />
+      {training && advice && (
+        <div className="coach-panel" aria-label="Training coach">
+          <div className="coach-header">
+            <strong>Coach</strong>
+            <span className="coach-source">
+              {line.discovered
+                ? `Teaching the better line found in testing${line.gain ? ` (about +${Math.round(line.gain)} wins over the standard line)` : ''}`
+                : "Teaching this Servant's standard best line"}
+            </span>
+            <label className="coach-toggle">
+              <input type="checkbox" checked={showHint} onChange={(e) => setShowHint(e.target.checked)} /> Show hint
+            </label>
+          </div>
+          {showHint && (
+            <p className="coach-hint">
+              <strong>Recommended:</strong> {describeAction(myDefId, advice.action)} — {advice.reason}
+            </p>
+          )}
+          {lastGrade && lastGrade.round === battle.round - 1 && (
+            <p className={`coach-feedback ${lastGrade.matched ? 'match' : 'miss'}`}>
+              {lastGrade.matched
+                ? `Round ${lastGrade.round}: you matched the best line (${lastGrade.chosen}).`
+                : `Round ${lastGrade.round}: you chose ${lastGrade.chosen}; the best line was ${lastGrade.advised} — ${lastGrade.reason}`}
+            </p>
+          )}
+          <details className="coach-lesson">
+            <summary>How to play {getServantDef(myDefId).name}</summary>
+            <ul>
+              {lineTips(myDefId).map((tip) => (
+                <li key={tip}>{tip}</li>
+              ))}
+            </ul>
+          </details>
+        </div>
+      )}
 
       {!isVsAi && phase.step === 'handoff' && (
         <div className="handoff-screen">

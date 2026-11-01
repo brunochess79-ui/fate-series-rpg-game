@@ -5,6 +5,7 @@ import { MainMenu } from './components/MainMenu';
 import { SetupScreen } from './components/SetupScreen';
 import { createBattle, createPlayer, resolveRound } from './engine/battle';
 import { rerollSetup } from './game';
+import type { CoachRound } from './engine/coach';
 import type { GameMode, SetupResult, TeamSize } from './game';
 import type { BattleState, TeamOrders } from './types';
 
@@ -16,17 +17,24 @@ function App() {
   const [teamSize, setTeamSize] = useState<TeamSize>(1);
   const [setup, setSetup] = useState<SetupResult | null>(null);
   const [battle, setBattle] = useState<BattleState | null>(null);
+  // Training mode: how each round compared with the coach's recommendation.
+  const [coachRounds, setCoachRounds] = useState<CoachRound[]>([]);
 
   const startBattle = useCallback((result: SetupResult, gameMode: GameMode) => {
     const p1 = createPlayer('p1', 'human', result.p1Name, result.p1ServantIds);
-    const p2 = createPlayer('p2', gameMode === 'ai' ? 'ai' : 'human', result.p2Name, result.p2ServantIds);
+    const p2 = createPlayer('p2', gameMode === 'hotseat' ? 'human' : 'ai', result.p2Name, result.p2ServantIds);
     setSetup(result);
+    setCoachRounds([]);
     setBattle(createBattle(p1, p2));
     setScreen('battle');
   }, []);
 
   const handleResolveRound = useCallback((p1Orders: TeamOrders, p2Orders: TeamOrders) => {
     setBattle((prev) => (prev ? resolveRound(prev, p1Orders, p2Orders) : prev));
+  }, []);
+
+  const handleCoachRound = useCallback((round: CoachRound) => {
+    setCoachRounds((prev) => [...prev.filter((r) => r.round !== round.round), round]);
   }, []);
 
   const handleRematch = useCallback(() => {
@@ -63,11 +71,19 @@ function App() {
         <BattleScreen
           battle={battle}
           difficulty={setup?.difficulty ?? 'normal'}
+          training={mode === 'training'}
+          onCoachRound={handleCoachRound}
           onResolveRound={handleResolveRound}
         />
       )}
       {screen === 'battle' && battle && battle.phase === 'gameover' && (
-        <GameOverScreen battle={battle} onRematch={handleRematch} onMainMenu={handleMainMenu} />
+        <GameOverScreen
+          battle={battle}
+          training={mode === 'training'}
+          coachRounds={coachRounds}
+          onRematch={handleRematch}
+          onMainMenu={handleMainMenu}
+        />
       )}
     </div>
   );

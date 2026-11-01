@@ -1,6 +1,6 @@
 import { SERVANT_LIST } from './data/servants';
 
-export type GameMode = 'hotseat' | 'ai';
+export type GameMode = 'hotseat' | 'ai' | 'training';
 
 export type TeamSize = 1 | 2;
 
