@@ -190,7 +190,7 @@ const merlin: ServantDefinition = {
   def: 57,
   agility: 55,
   critChance: 0.1,
-  rank: 'A',
+  rank: 'A+',
   strengths: ['Cooldown Manipulation', 'Support'],
   weaknesses: ['Low Damage'],
   passiveDescription: 'A trickster mage whose prophecy sees three steps ahead.',

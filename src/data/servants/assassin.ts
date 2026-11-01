@@ -188,7 +188,7 @@ const semiramis: ServantDefinition = {
   def: 60,
   agility: 70,
   critChance: 0.12,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Damage over Time', 'Shielding'],
   weaknesses: ['Low Damage'],
   passiveDescription: 'Ruler of the Hanging Gardens, she strikes with serpents and poison.',

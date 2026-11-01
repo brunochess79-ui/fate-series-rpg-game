@@ -46,6 +46,16 @@ roster easy, and every ability has an expandable description in battle.
   lasts that round and the next).
 - Reduce the opposing Servant's HP to 0 to win the Holy Grail War.
 
+## Servant ratings
+
+Each Servant's rating letter (C to A+) comes from a full round-robin tournament
+in which every Servant fights every other, each playing its best line. The score
+is the number of Servants it beats head to head, plus a bonus for beating the
+tournament's top 15: nothing for 5 wins or fewer, then 1, 3, 6, 10, 15, 21...
+extra points for 6, 7, 8, 9, 10, 11... wins against them. Letters are handed out by
+score (top 20 are A+, then 22 A, 22 B+, 20 B, 10 C+, 6 C), and a Servant tied
+with or half a point behind the last Servant of the next letter up is rounded up.
+
 ## AI difficulty
 
 Against the AI (1v1 or 2v2) you choose how well the rival plays:

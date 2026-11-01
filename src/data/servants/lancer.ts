@@ -1047,7 +1047,7 @@ const bhima: ServantDefinition = {
   def: 49,
   agility: 62,
   critChance: 0.1,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Raw Power', 'High HP'],
   weaknesses: ['Low Defense', 'Low Crit Rate'],
   passiveDescription: 'The mightiest of the five Pandava brothers, with the strength of ten thousand elephants.',
