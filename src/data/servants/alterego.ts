@@ -88,9 +88,9 @@ const tiamat: ServantDefinition = {
   className: 'Alter Ego',
   trueName: 'Tiamat',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Larva/Tiamat",
-  maxHp: 1600,
-  atk: 100,
-  def: 65,
+  maxHp: 1488,
+  atk: 93,
+  def: 60,
   agility: 45,
   critChance: 0.08,
   rank: 'A+',
@@ -164,7 +164,7 @@ const tiamat: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Tiamat opens Kur: The Womb of Creation!');
-      const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 4.25, { label: 'The Womb of Creation' });
+      const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 4.58, { label: 'The Womb of Creation' });
       const healed = Math.round(dmg * 0.25);
       ctx.self.hp = ctx.self.hp + healed;
       ctx.log(`Tiamat draws ${healed} HP back into herself.`);
