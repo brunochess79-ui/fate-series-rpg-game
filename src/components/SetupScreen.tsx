@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { SERVANT_LIST } from '../data/servants';
+import { drawRandomServants } from '../game';
 import type { Difficulty, GameMode, SetupResult, TeamSize } from '../game';
 import type { ServantClass, ServantDefinition } from '../types';
 import { estimateNpDamage } from '../utils/npPreview';
@@ -222,29 +223,21 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
 
   const teamReady = drawingMine || currentPicks.length === teamSize;
 
-  const drawRandomTeam = (exclude: string[]): string[] => {
-    const pool = SERVANT_LIST.filter((s) => !exclude.includes(s.id));
-    const picks: string[] = [];
-    while (picks.length < teamSize) {
-      const candidate = pool[Math.floor(Math.random() * pool.length)];
-      if (!picks.includes(candidate.id)) picks.push(candidate.id);
-    }
-    return picks;
-  };
-
   const handleConfirm = () => {
     if (!teamReady) return;
     if (isFirstStep) {
       if (isAi) {
-        const myPicks = playerRandom ? drawRandomTeam([]) : currentPicks;
+        const myPicks = playerRandom ? drawRandomServants(teamSize) : currentPicks;
         if (aiRandom) {
           onComplete({
             teamSize,
             p1Name,
             p1ServantIds: myPicks,
             p2Name: 'Rival Master',
-            p2ServantIds: drawRandomTeam(myPicks),
+            p2ServantIds: drawRandomServants(teamSize, myPicks),
             difficulty,
+            p1Random: playerRandom,
+            p2Random: true,
           });
         } else {
           // Let the player choose the rival's Servant(s) on the next step.
@@ -262,6 +255,8 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
         p2Name: 'Rival Master',
         p2ServantIds: p2Servants,
         difficulty,
+        p1Random: playerRandom,
+        p2Random: false,
       });
     } else {
       onComplete({ teamSize, p1Name, p1ServantIds: p1Servants, p2Name, p2ServantIds: currentPicks });

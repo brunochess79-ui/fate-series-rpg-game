@@ -13,7 +13,7 @@ const mash: ServantDefinition = {
   def: 89,
   agility: 50,
   critChance: 0.05,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Highest Defense', 'Shielding'],
   weaknesses: ['Low Damage', 'Low Crit Rate'],
   passiveDescription: 'A demi-servant whose devotion to protecting others outweighs any fear for herself.',

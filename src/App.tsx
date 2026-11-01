@@ -4,6 +4,7 @@ import { GameOverScreen } from './components/GameOverScreen';
 import { MainMenu } from './components/MainMenu';
 import { SetupScreen } from './components/SetupScreen';
 import { createBattle, createPlayer, resolveRound } from './engine/battle';
+import { rerollSetup } from './game';
 import type { GameMode, SetupResult, TeamSize } from './game';
 import type { BattleState, TeamOrders } from './types';
 
@@ -29,7 +30,8 @@ function App() {
   }, []);
 
   const handleRematch = useCallback(() => {
-    if (setup) startBattle(setup, mode);
+    // Random picks (yours and/or the rival's) are drawn again for the rematch.
+    if (setup) startBattle(rerollSetup(setup), mode);
   }, [setup, mode, startBattle]);
 
   const handleMainMenu = useCallback(() => {
