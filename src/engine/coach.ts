@@ -103,6 +103,10 @@ export function lineTips(defId: string): string[] {
   if (f.heal === 'low') tips.push('Heal later: wait until you are below about half HP before healing, so the heal is not wasted.');
   if (f.heal === 'high') tips.push('Heal earlier: use your heals as soon as you drop below about 85% HP.');
   if (f.defBuff) tips.push('Raise your defense with your DEF skill once you are below 60% HP.');
+  const drains = names((x) => x.drain);
+  if (f.useDrain && drains.length) {
+    tips.push(`Cast ${drains[0]} while the enemy's NP gauge is between 40% and 99%, to delay their Noble Phantasm. It does nothing on a turn they fire.`);
+  }
   if (f.holdNpVsShield) tips.push("Hold your Noble Phantasm while the enemy's shield skill is ready, and attack until it is on cooldown.");
 
   const stuns = names((x) => x.stun);

@@ -102,7 +102,7 @@ const amakusa: ServantDefinition = {
   def: 75,
   agility: 62,
   critChance: 0.12,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Evasion', 'Debuffs'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A saintly boy-priest, gentle to allies and merciless to those who prey on the weak.',

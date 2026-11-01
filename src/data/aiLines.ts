@@ -80,7 +80,7 @@ export const HARD_LINES: Record<string, AiLineFlags> = {
   'okita-souji': {},
   'orion': { heal: 'low', noDebuff: true, critSetup: true },
   'ozymandias': { heal: 'low', noDebuff: true, critSetup: true },
-  'percival': {},
+  'percival': { heal: 'high', useDrain: true },
   'quetzalcoatl': {},
   'rama': {},
   'richard': { critSetup: true },

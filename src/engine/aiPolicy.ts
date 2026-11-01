@@ -22,9 +22,12 @@ export interface AiLineFlags {
   defBuff?: boolean;
   /** Hold a ready Noble Phantasm while the foe's shield skill is ready. */
   holdNpVsShield?: boolean;
+  /** Cast an NP-drain skill while the foe's gauge is between 40% and 99%. */
+  useDrain?: boolean;
 }
 
 interface SkillInfo {
+  drain: boolean;
   selfAtkBuff: boolean;
   selfDefBuff: boolean;
   critReady: boolean;
@@ -67,6 +70,7 @@ function probe(defId: string, idx: number): SkillInfo {
   const s = self.statuses;
   const e = enemy.statuses;
   return {
+    drain: enemy.npGauge < 50,
     selfAtkBuff: s.some((x) => x.kind === 'buff' && (x.stat === 'atk' || x.stat === 'damage') && (x.amount ?? 0) > 0),
     selfDefBuff: s.some((x) => x.kind === 'buff' && x.stat === 'def' && (x.amount ?? 0) > 0),
     critReady: s.some((x) => x.id.endsWith('__critReady')),
@@ -170,6 +174,13 @@ export function decidePlaybook(
   }
   if (self.npGauge >= 100 && !hold && !(easy && rng() < 0.4)) {
     return { action: { type: 'np' }, reason: 'Your Noble Phantasm is fully charged: fire it.' };
+  }
+
+  if (flags.useDrain && foe.npGauge >= 40 && foe.npGauge < 100) {
+    const dr = info.findIndex((x, i) => ready(i) && x.drain);
+    if (dr >= 0) {
+      return skill(dr, `${name(dr)} drains the enemy's NP gauge (${Math.floor(foe.npGauge)}%) before they can fire.`);
+    }
   }
 
   const stun = info.findIndex((x, i) => ready(i) && x.stun);
