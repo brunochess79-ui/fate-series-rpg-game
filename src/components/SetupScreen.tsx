@@ -175,8 +175,13 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
   const [classFilter, setClassFilter] = useState<ServantClass | 'All'>('All');
   const [search, setSearch] = useState('');
   const [difficulty, setDifficulty] = useState<Difficulty>('normal');
+  // Against the AI: draw your own and/or the rival's Servant(s) at random, or choose them to practice a matchup.
+  const [playerRandom, setPlayerRandom] = useState(false);
+  const [aiRandom, setAiRandom] = useState(true);
 
   const isFirstStep = step === 0;
+  const isAi = mode === 'ai';
+  const drawingMine = isAi && isFirstStep && playerRandom;
   const currentName = isFirstStep ? p1Name : p2Name;
   const currentPicks = isFirstStep ? p1Servants : p2Servants;
   const setCurrentName = isFirstStep ? setP1Name : setP2Name;
@@ -215,29 +220,49 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
     togglePick(pick.id);
   };
 
-  const teamReady = currentPicks.length === teamSize;
+  const teamReady = drawingMine || currentPicks.length === teamSize;
+
+  const drawRandomTeam = (exclude: string[]): string[] => {
+    const pool = SERVANT_LIST.filter((s) => !exclude.includes(s.id));
+    const picks: string[] = [];
+    while (picks.length < teamSize) {
+      const candidate = pool[Math.floor(Math.random() * pool.length)];
+      if (!picks.includes(candidate.id)) picks.push(candidate.id);
+    }
+    return picks;
+  };
 
   const handleConfirm = () => {
     if (!teamReady) return;
     if (isFirstStep) {
-      if (mode === 'ai') {
-        const pool = SERVANT_LIST.filter((s) => !currentPicks.includes(s.id));
-        const aiPicks: string[] = [];
-        while (aiPicks.length < teamSize) {
-          const candidate = pool[Math.floor(Math.random() * pool.length)];
-          if (!aiPicks.includes(candidate.id)) aiPicks.push(candidate.id);
+      if (isAi) {
+        const myPicks = playerRandom ? drawRandomTeam([]) : currentPicks;
+        if (aiRandom) {
+          onComplete({
+            teamSize,
+            p1Name,
+            p1ServantIds: myPicks,
+            p2Name: 'Rival Master',
+            p2ServantIds: drawRandomTeam(myPicks),
+            difficulty,
+          });
+        } else {
+          // Let the player choose the rival's Servant(s) on the next step.
+          setP1Servants(myPicks);
+          setStep(1);
         }
-        onComplete({
-          teamSize,
-          p1Name,
-          p1ServantIds: currentPicks,
-          p2Name: 'Rival Master',
-          p2ServantIds: aiPicks,
-          difficulty,
-        });
       } else {
         setStep(1);
       }
+    } else if (isAi) {
+      onComplete({
+        teamSize,
+        p1Name,
+        p1ServantIds: p1Servants,
+        p2Name: 'Rival Master',
+        p2ServantIds: p2Servants,
+        difficulty,
+      });
     } else {
       onComplete({ teamSize, p1Name, p1ServantIds: p1Servants, p2Name, p2ServantIds: currentPicks });
     }
@@ -247,10 +272,50 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
   return (
     <div className="setup-screen">
       <h2>
-        {mode === 'hotseat' ? `Player ${step + 1}, choose your ${servantWord}` : `Choose your ${servantWord}`}
-        {teamSize === 2 && ` — ${currentPicks.length}/${teamSize} picked`}
+        {mode === 'hotseat'
+          ? `Player ${step + 1}, choose your ${servantWord}`
+          : !isFirstStep
+            ? `Choose the rival's ${servantWord}`
+            : playerRandom
+              ? `Your ${servantWord} will be drawn at random`
+              : `Choose your ${servantWord}`}
+        {teamSize === 2 && !drawingMine && ` — ${currentPicks.length}/${teamSize} picked`}
       </h2>
-      <div className="master-name-input">
+      {isAi && isFirstStep && (
+        <div className="matchup-row">
+          <div className="matchup-group" role="radiogroup" aria-label={`Your ${servantWord}`}>
+            <span className="difficulty-label">Your {servantWord}</span>
+            {[false, true].map((random) => (
+              <button
+                key={String(random)}
+                type="button"
+                role="radio"
+                aria-checked={playerRandom === random}
+                className={`class-filter-btn ${playerRandom === random ? 'active' : ''}`}
+                onClick={() => setPlayerRandom(random)}
+              >
+                {random ? 'Random' : 'Choose'}
+              </button>
+            ))}
+          </div>
+          <div className="matchup-group" role="radiogroup" aria-label={`Rival's ${servantWord}`}>
+            <span className="difficulty-label">Rival's {servantWord}</span>
+            {[true, false].map((random) => (
+              <button
+                key={String(random)}
+                type="button"
+                role="radio"
+                aria-checked={aiRandom === random}
+                className={`class-filter-btn ${aiRandom === random ? 'active' : ''}`}
+                onClick={() => setAiRandom(random)}
+              >
+                {random ? 'Random' : 'Choose'}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="master-name-input" hidden={isAi && !isFirstStep}>
         <label>
           Master Name
           <input
@@ -279,6 +344,8 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
           <span className="difficulty-blurb">{DIFFICULTIES.find((d) => d.id === difficulty)?.blurb}</span>
         </div>
       )}
+      {!drawingMine && (
+      <>
       <div className="servant-search-row">
         <input
           type="search"
@@ -313,7 +380,9 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
           Random Servant
         </button>
       </div>
-      {visibleServants.length === 0 ? (
+      </>
+      )}
+      {!drawingMine && (visibleServants.length === 0 ? (
         <p className="servant-search-empty">No Servants match "{search}".</p>
       ) : (
         <div className="servant-grid">
@@ -326,13 +395,17 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
             />
           ))}
         </div>
-      )}
+      ))}
       <div className="setup-actions">
-        <button className="secondary-btn" onClick={onBack}>
+        <button className="secondary-btn" onClick={step === 1 ? () => setStep(0) : onBack}>
           Back
         </button>
         <button className="primary-btn" disabled={!teamReady} onClick={handleConfirm}>
-          {mode === 'hotseat' && isFirstStep ? 'Next Player' : 'Begin Battle'}
+          {(mode === 'hotseat' && isFirstStep) || (isAi && isFirstStep && !aiRandom)
+            ? mode === 'hotseat'
+              ? 'Next Player'
+              : "Choose Rival's Servant"
+            : 'Begin Battle'}
         </button>
       </div>
     </div>

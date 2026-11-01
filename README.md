@@ -14,7 +14,9 @@ roster easy, and every ability has an expandable description in battle.
 - **Local Battle (2 Players)** — hot-seat play on one device, each player picks
   their own Master name and Servant.
 - **Battle a Rival Master (vs AI)** — play solo against a CPU-controlled Master.
-  Pick an AI difficulty on the setup screen (see below).
+  Pick an AI difficulty on the setup screen (see below), and choose whether your
+  own Servant(s) and the rival's are picked by you or drawn at random — handy for
+  practicing a specific matchup.
 - **2v2 Team Battle (2 Players / vs AI)** — each Master fields two Servants that
   fight at the same time. Every round both Servants act, offensive moves pick a
   target on the enemy team, and a Master loses only when both of their Servants
