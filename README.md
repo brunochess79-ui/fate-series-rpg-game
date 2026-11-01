@@ -44,6 +44,9 @@ roster easy, and every ability has an expandable description in battle.
   (capped so a big Agility edge is never a guaranteed dodge). A hit that's
   dodged, evaded, or fully absorbed by a shield deals no net damage and
   grants no Noble Phantasm gauge to the attacker.
+- A stun cast by a Skill takes hold in the same round: the stunned Servant loses its
+  action that round, even a fully charged Noble Phantasm. (A stun from a Noble
+  Phantasm lands alongside its damage and takes effect the following round.)
 - Each Servant has 3 unique Skills (with cooldowns) and one Noble Phantasm that
   unlocks once its gauge reaches 100%.
 - Every Master has 3 Command Spells in total (shared by a 2v2 team), used to

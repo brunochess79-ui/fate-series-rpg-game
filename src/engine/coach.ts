@@ -105,7 +105,7 @@ export function lineTips(defId: string): string[] {
   if (f.defBuff) tips.push('Raise your defense with your DEF skill once you are below 60% HP.');
   const drains = names((x) => x.drain);
   if (f.useDrain && drains.length) {
-    tips.push(`Cast ${drains[0]} while the enemy's NP gauge is between 40% and 99%, to delay their Noble Phantasm. It does nothing on a turn they fire.`);
+    tips.push(`Cast ${drains[0]} whenever the enemy's NP gauge is 40% or more. It lands first, so on a turn they are about to fire it drains the gauge below 100% and cancels their Noble Phantasm.`);
   }
   if (f.holdNpVsShield) tips.push("Hold your Noble Phantasm while the enemy's shield skill is ready, and attack until it is on cooldown.");
 

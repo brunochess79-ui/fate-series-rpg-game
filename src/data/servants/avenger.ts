@@ -274,7 +274,7 @@ const jeanneAlter: ServantDefinition = {
   def: 58,
   agility: 60,
   critChance: 0.15,
-  rank: 'C+',
+  rank: 'C',
   strengths: ['Highest Damage', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A cynical, fire-wreathed corruption of the Holy Maiden, burning with resentment for the world that failed her.',

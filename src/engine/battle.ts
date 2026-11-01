@@ -172,6 +172,10 @@ interface Combatant {
    * target died to a start-of-round tick). */
   target: ServantInstance;
   stunned: boolean;
+  /** Set once a stun-casting skill has already resolved in the stun step. */
+  done?: boolean;
+  /** Their planned Noble Phantasm was drained away this round. */
+  npCancelled?: boolean;
   intendsNp: boolean;
   enemyHpFraction: number;
 }
@@ -398,9 +402,49 @@ export function resolveRound(
     }
   };
 
+  // Pass 0: stuns cast by skills take hold immediately. Every stunning skill
+  // resolves first, together, so the outcome doesn't depend on who is processed
+  // first; each victim then loses its action this round (even a planned Noble
+  // Phantasm). The stun is consumed by that lost action, so it doesn't also
+  // carry over into next round.
+  const stunCasters: Combatant[] = [];
+  for (const c of combatants) {
+    if (c.stunned) continue;
+    const action = c.order.action;
+    if (action.type !== 'skill') continue;
+    const skill = c.def.skills[action.skillIndex];
+    if (!(skill?.stuns || skill?.preemptive) || c.servant.skillCooldowns[action.skillIndex] > 0) continue;
+    const stunsBefore = new Set(c.target.statuses.filter((s) => s.kind === 'stun').map((s) => s.id));
+    performAction(c);
+    c.done = true;
+    if (skill.stuns) {
+      c.target.statuses = c.target.statuses.filter((s) => s.kind !== 'stun' || stunsBefore.has(s.id));
+      stunCasters.push(c);
+    }
+  }
+  for (const caster of stunCasters) {
+    const victim = combatants.find((x) => x.servant === caster.target);
+    if (victim) {
+      victim.stunned = true;
+      victim.intendsNp = false;
+    }
+  }
+  // A drain that resolved first can leave an enemy short of the gauge they planned
+  // to fire with: their Noble Phantasm is cancelled (and their gauge stays drained).
+  for (const c of combatants) {
+    if (c.intendsNp && c.servant.npGauge < 100) {
+      c.intendsNp = false;
+      if (c.order.action.type === 'np') {
+        c.npCancelled = true;
+        log(`${c.def.name}'s Noble Phantasm is drained away and cannot fire!`);
+      }
+    }
+  }
+
   // Pass 1: buffs/debuffs/heals, and other non-damaging actions for
   // every combatant, so any defense set up this round is in place first.
   for (const c of combatants) {
+    if (c.done) continue;
     if (c.stunned) {
       log(`${c.def.name} is stunned and cannot act!`);
       continue;
@@ -420,7 +464,7 @@ export function resolveRound(
     c.enemyHpFraction = c.target.hp / c.target.maxHp;
   }
   for (const c of combatants) {
-    if (c.stunned) continue;
+    if (c.stunned || c.npCancelled) continue;
     if (actionPhase(c.def, c.order.action) === 'damage') performAction(c, c.enemyHpFraction);
   }
 

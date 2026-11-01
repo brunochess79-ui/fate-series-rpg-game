@@ -22,7 +22,7 @@ export interface AiLineFlags {
   defBuff?: boolean;
   /** Hold a ready Noble Phantasm while the foe's shield skill is ready. */
   holdNpVsShield?: boolean;
-  /** Cast an NP-drain skill while the foe's gauge is between 40% and 99%. */
+  /** Cast an NP-drain skill while the foe's gauge is 40% or more (a full gauge included). */
   useDrain?: boolean;
 }
 
@@ -176,15 +176,17 @@ export function decidePlaybook(
     return { action: { type: 'np' }, reason: 'Your Noble Phantasm is fully charged: fire it.' };
   }
 
-  if (flags.useDrain && foe.npGauge >= 40 && foe.npGauge < 100) {
+  if (flags.useDrain && foe.npGauge >= 40) {
     const dr = info.findIndex((x, i) => ready(i) && x.drain);
     if (dr >= 0) {
-      return skill(dr, `${name(dr)} drains the enemy's NP gauge (${Math.floor(foe.npGauge)}%) before they can fire.`);
+      return skill(dr, `${name(dr)} drains the enemy's NP gauge (${Math.floor(foe.npGauge)}%)${foe.npGauge >= 100 ? ' and stops the Noble Phantasm they are about to fire' : ' before they can fire'}.`);
     }
   }
 
-  const stun = info.findIndex((x, i) => ready(i) && x.stun);
-  if (stun >= 0) return skill(stun, `${name(stun)} stuns the enemy, costing them their turn.`);
+  // A skill stun takes hold this round, so there is no point casting it on an enemy who is already stunned.
+  const foeStunned = foe.statuses.some((s) => s.kind === 'stun' && s.turnsRemaining > 0);
+  const stun = foeStunned ? -1 : info.findIndex((x, i) => ready(i) && x.stun);
+  if (stun >= 0) return skill(stun, `${name(stun)} stuns the enemy, so they cannot act this round.`);
 
   if (flags.defBuff && hpRatio < 0.6) {
     const d = info.findIndex(

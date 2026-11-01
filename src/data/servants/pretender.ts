@@ -13,7 +13,7 @@ const oberon: ServantDefinition = {
   def: 64,
   agility: 70,
   critChance: 0.12,
-  rank: 'C+',
+  rank: 'B',
   strengths: ['Debuffs', 'Evasion'],
   weaknesses: ['Low Damage'],
   passiveDescription: "The King of Fairies and Stories, who rewrites the tale of any battle to suit his ending.",

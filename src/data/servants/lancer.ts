@@ -13,7 +13,7 @@ const cuChulainn: ServantDefinition = {
   def: 65,
   agility: 100,
   critChance: 0.1,
-  rank: 'B',
+  rank: 'C+',
   strengths: ['Speed', 'Sustained Regeneration', 'Evasion'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The fastest Servant on the battlefield.',
@@ -448,7 +448,7 @@ const enkidu: ServantDefinition = {
   def: 57,
   agility: 55,
   critChance: 0.1,
-  rank: 'C+',
+  rank: 'B+',
   strengths: ['Crowd Control', 'Durability'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A being of clay shaped by the gods to oppose Gilgamesh, and bound to him ever since.',
@@ -456,10 +456,11 @@ const enkidu: ServantDefinition = {
     {
       id: 'heavens-restraint',
       name: "Heaven's Restraint",
-      description: 'Chains woven from the will of the gods. Stuns the enemy for 1 turn.',
+      description: 'Chains woven from the will of the gods. Stuns the enemy: they cannot act this round, even to fire a Noble Phantasm.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'debuff',
+      stuns: true,
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
           id: 'heavens-restraint-stun',
@@ -871,9 +872,9 @@ const percival: ServantDefinition = {
   className: 'Lancer',
   trueName: 'Percival',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Percival",
-  maxHp: 1087,
-  atk: 99,
-  def: 58,
+  maxHp: 979,
+  atk: 89,
+  def: 53,
   agility: 68,
   critChance: 0.12,
   rank: 'A+',
@@ -903,10 +904,11 @@ const percival: ServantDefinition = {
     {
       id: 'silence-of-the-grail',
       name: 'Silence of the Grail',
-      description: "The cup's light stills the enemy where they stand. Stuns the enemy for 1 turn.",
+      description: "The cup's light stills the enemy where they stand. Stuns the enemy: they cannot act this round, even to fire a Noble Phantasm.",
       cooldown: 5,
       npGainSelf: 20,
       tag: 'debuff',
+      stuns: true,
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
           id: 'silence-of-the-grail-stun',
@@ -921,10 +923,11 @@ const percival: ServantDefinition = {
     {
       id: 'seal-of-the-grail',
       name: 'Seal of the Grail',
-      description: "The cup's light locks the enemy's power away. Drains 60% from the enemy's Noble Phantasm gauge. Takes nothing on a turn the enemy unleashes their Noble Phantasm.",
+      description: "The cup's light locks the enemy's power away. Drains 60% from the enemy's Noble Phantasm gauge before they act, even on a turn they would unleash their Noble Phantasm: a drained Noble Phantasm cannot fire.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'debuff',
+      preemptive: true,
       effect: (ctx) => {
         ctx.enemy.npGauge = Math.max(0, ctx.enemy.npGauge - 60);
         ctx.log("Percival's Seal of the Grail locks away the enemy's power!");
@@ -1048,7 +1051,7 @@ const bhima: ServantDefinition = {
   def: 49,
   agility: 62,
   critChance: 0.1,
-  rank: 'B',
+  rank: 'B+',
   strengths: ['Raw Power', 'High HP'],
   weaknesses: ['Low Defense', 'Low Crit Rate'],
   passiveDescription: 'The mightiest of the five Pandava brothers, with the strength of ten thousand elephants.',

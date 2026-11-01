@@ -62,6 +62,13 @@ export interface SkillDefinition {
    * (shield/evade) before any damage in a simultaneous round, so it
    * doesn't matter which player is processed first. */
   dealsDamage?: boolean;
+  /** True if this skill stuns the enemy. A stun cast by a skill takes hold in the
+   * round it is cast: the target loses its action that round, even to fire a
+   * Noble Phantasm. */
+  stuns?: boolean;
+  /** True for an NP-gauge drain that resolves first in the round: it works even on
+   * an enemy who planned to fire their Noble Phantasm, and a drained NP cannot fire. */
+  preemptive?: boolean;
   effect: (ctx: BattleContext) => void;
 }
 
