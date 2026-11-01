@@ -949,7 +949,7 @@ const charlemagne: ServantDefinition = {
   def: 70,
   agility: 58,
   critChance: 0.12,
-  rank: 'B',
+  rank: 'C',
   strengths: ['Durability'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: "A dashing, cool-headed king who does things simply because they're worth doing well.",
