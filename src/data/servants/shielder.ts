@@ -76,19 +76,18 @@ const mash: ServantDefinition = {
   noblePhantasm: {
     name: "Lord Camelot",
     japaneseName: 'Lord Camelot',
-    description: "The wall of Camelot slams forward as both bulwark and battering ram, shielding her for the turn it is raised.",
+    description: "The wall of Camelot slams forward as both bulwark and battering ram, shielding her for the turn it is raised and the next.",
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Mash calls forth the vision of Lord Camelot!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.04, { label: 'Lord Camelot' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 5.6, { label: 'Lord Camelot' });
       applyStatus(ctx.self, {
         id: 'lord-camelot-shield',
         name: 'Lord Camelot',
         kind: 'shield',
         potency: Math.round(ctx.self.maxHp * 0.125),
-        turnsRemaining: 1,
-        noGraceRound: true,
-        description: 'Absorbs damage this turn only',
+        turnsRemaining: 2,
+        description: 'Absorbs damage this turn and the next',
       });
       ctx.self.statuses = ctx.self.statuses.filter((s) => s.kind !== 'debuff' && s.kind !== 'dot');
       ctx.log('Mash is shielded by the golden age of Camelot, her afflictions cleared.');
