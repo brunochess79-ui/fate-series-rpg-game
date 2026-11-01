@@ -103,7 +103,7 @@ const nobunaga: ServantDefinition = {
   def: 66,
   agility: 62,
   critChance: 0.15,
-  rank: 'B',
+  rank: 'C',
   strengths: ['Highest Damage', 'Critical Hits'],
   weaknesses: ['Low HP'],
   passiveDescription: 'The self-proclaimed Demon King, who would burn down gods themselves to remake the world.',
@@ -185,7 +185,7 @@ const edmondDantes: ServantDefinition = {
   def: 63,
   agility: 58,
   critChance: 0.14,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A wrongfully imprisoned man reborn as pure vengeance, wreathed in shadow and green flame.',
@@ -364,7 +364,7 @@ const kagekiyo: ServantDefinition = {
   def: 58,
   agility: 55,
   critChance: 0.1,
-  rank: 'C+',
+  rank: 'B',
   strengths: ['Sustain', 'Damage over Time'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A samurai spirit who tore out his own eyes rather than watch his enemies triumph.',
@@ -411,14 +411,14 @@ const kagekiyo: ServantDefinition = {
     {
       id: 'blinded-resolve',
       name: 'Blinded Resolve',
-      description: 'Having torn out his own eyes, only will remains. Heals self for 18% max HP.',
+      description: 'Having torn out his own eyes, only will remains. Heals self for 21.61% max HP.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.18);
+        const healed = Math.round(ctx.self.maxHp * 0.2161);
         ctx.self.hp = ctx.self.hp + healed;
-        ctx.log(`Taira no Kagekiyo endures through Blinded Resolve, healing ${healed} HP.`);
+        ctx.log(`Kagekiyo's Blinded Resolve heals ${healed} HP.`);
       },
     },
   ],
@@ -446,7 +446,7 @@ const johnLackland: ServantDefinition = {
   def: 68,
   agility: 48,
   critChance: 0.08,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['High HP', 'Sustain', 'Debuffs'],
   weaknesses: ['Lowest Attack', 'Slow'],
   passiveDescription: 'The king who lost Normandy and was forced to sign away his own power, yet somehow still refuses to fall.',

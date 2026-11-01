@@ -96,12 +96,12 @@ const siegfried: ServantDefinition = {
   className: 'Saber',
   trueName: 'Siegfried',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Siegfried",
-  maxHp: 1398,
-  atk: 114,
-  def: 90,
+  maxHp: 1320,
+  atk: 108,
+  def: 85,
   agility: 65,
   critChance: 0.1,
-  rank: 'C+',
+  rank: 'A+',
   strengths: ['Durability', 'Sustained Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: "Bathed in a dragon's blood, his skin turns aside nearly any blow — save one hidden weak point.",
@@ -129,27 +129,19 @@ const siegfried: ServantDefinition = {
     {
       id: 'balmungs-edge',
       name: "Balmung's Edge",
-      description: 'A whetted blade strikes true. Raises own Attack by 25% for 1 turn.',
+      description: 'A whetted blade strikes true. Deals 1.3x damage.',
       cooldown: 3,
-      npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'balmungs-edge',
-          name: "Balmung's Edge",
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.25,
-          turnsRemaining: 1,
-          description: '+25% ATK (1 turn)',
-        });
-        ctx.log('Siegfried readies Balmung for a decisive strike!');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: "Balmung's Edge" });
+        ctx.log("Siegfried strikes with Balmung's Edge!");
       },
     },
     {
       id: 'nothungs-whisper',
       name: "Nothung's Whisper",
-      description: "An old sword-song steadies his wounds. Recovers 4% max HP at the start of each of his next 3 turns.",
+      description: 'An old sword-song steadies his wounds. Recovers 5% max HP at the start of each of his next 3 turns.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'heal',
@@ -158,11 +150,11 @@ const siegfried: ServantDefinition = {
           id: 'nothungs-whisper-regen',
           name: "Nothung's Whisper",
           kind: 'regen',
-          potency: Math.round(ctx.self.maxHp * 0.04),
+          potency: Math.round(ctx.self.maxHp * 0.05),
           turnsRemaining: 3,
-          description: 'Recovers 4% max HP per turn',
+          description: 'Recovers 5% max HP per turn',
         });
-        ctx.log("Siegfried hears Nothung's Whisper — his wounds begin to close.");
+        ctx.log("Siegfried's Nothung's Whisper mends their wounds.");
       },
     },
   ],
@@ -173,7 +165,7 @@ const siegfried: ServantDefinition = {
     rank: 'B+',
     effect: (ctx) => {
       ctx.log('Siegfried unleashes the Twilight of the Dragonslayer!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.87, { label: 'Balmung' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.94, { label: 'Balmung' });
     },
   },
 };
@@ -281,7 +273,7 @@ const altera: ServantDefinition = {
   def: 64,
   agility: 65,
   critChance: 0.1,
-  rank: 'B',
+  rank: 'C',
   strengths: ['Highest Damage'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'An alien weapon of planetary destruction, wrapped in the historical myth of Attila the Hun.',
@@ -614,12 +606,12 @@ const nero: ServantDefinition = {
   className: 'Saber',
   trueName: 'Nero Claudius',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Nero_Claudius",
-  maxHp: 1169,
-  atk: 118,
-  def: 62,
+  maxHp: 1088,
+  atk: 110,
+  def: 58,
   agility: 60,
   critChance: 0.15,
-  rank: 'C',
+  rank: 'C+',
   strengths: ['Critical Hits'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'A theatrical Emperor of Rome, loud, passionate, and utterly convinced of her own genius.',
@@ -627,14 +619,14 @@ const nero: ServantDefinition = {
     {
       id: 'imperial-privilege',
       name: 'Imperial Privilege',
-      description: "An emperor's authority heals every wound. Heals self for 18% max HP.",
+      description: "An emperor's authority heals every wound. Heals self for 20% max HP.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.18);
+        const healed = Math.round(ctx.self.maxHp * 0.2);
         ctx.self.hp = ctx.self.hp + healed;
-        ctx.log(`Nero Claudius invokes Imperial Privilege, healing ${healed} HP.`);
+        ctx.log(`Nero's Imperial Privilege heals ${healed} HP.`);
       },
     },
     {
@@ -660,19 +652,13 @@ const nero: ServantDefinition = {
     {
       id: 'a-flash-of-blades-song',
       name: "A Flash of Blade's Song",
-      description: 'A performer never misses her cue. Next attack is a guaranteed critical hit.',
+      description: 'A performer never misses her cue. Deals 1.3x damage as a guaranteed critical hit.',
       cooldown: 4,
-      npGainSelf: 20,
       tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'blades-song__critReady',
-          name: "A Flash of Blade's Song",
-          kind: 'buff',
-          turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
-        });
-        ctx.log('Nero Claudius readies a Flash of Blade\'s Song.');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: "A Flash of Blade's Song", guaranteedCrit: true });
+        ctx.log("Nero strikes with A Flash of Blade's Song!");
       },
     },
   ],
@@ -875,7 +861,7 @@ const richard: ServantDefinition = {
   def: 66,
   agility: 62,
   critChance: 0.14,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Buffs', 'Guaranteed Crits'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The Lionheart King, whose sheer force of will can turn any blade he holds into Excalibur itself.',
@@ -963,7 +949,7 @@ const charlemagne: ServantDefinition = {
   def: 70,
   agility: 58,
   critChance: 0.12,
-  rank: 'B',
+  rank: 'C+',
   strengths: ['Durability'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: "A dashing, cool-headed king who does things simply because they're worth doing well.",
@@ -1285,7 +1271,7 @@ const bedivere: ServantDefinition = {
   def: 65,
   agility: 72,
   critChance: 0.12,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Durability', 'Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The last knight at his king\'s side, who carried Excalibur back to the lake.',

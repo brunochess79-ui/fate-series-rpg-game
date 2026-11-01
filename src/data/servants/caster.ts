@@ -13,7 +13,7 @@ const medea: ServantDefinition = {
   def: 64,
   agility: 55,
   critChance: 0.08,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Debuffs', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile'],
   passiveDescription: 'A sorceress who unravels enemies with curses rather than steel.',
@@ -102,7 +102,7 @@ const circe: ServantDefinition = {
   def: 63,
   agility: 55,
   critChance: 0.08,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Debuffs', 'Tempo Control', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile'],
   passiveDescription: 'Her potions and spells twist the body and mind of any who cross her.',
@@ -281,12 +281,12 @@ const gillesDeRais: ServantDefinition = {
   className: 'Caster',
   trueName: 'Gilles de Rais',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Gilles_de_Rais",
-  maxHp: 1115,
-  atk: 136,
-  def: 67,
+  maxHp: 1025,
+  atk: 125,
+  def: 62,
   agility: 50,
   critChance: 0.08,
-  rank: 'C',
+  rank: 'A',
   strengths: ['Debuffs', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile', 'Low HP'],
   passiveDescription:
@@ -295,21 +295,13 @@ const gillesDeRais: ServantDefinition = {
     {
       id: 'forbidden-alchemy',
       name: 'Forbidden Alchemy',
-      description: 'A corrosive, experimental transmutation. Lowers enemy Defense by 15% for 2 turns.',
+      description: 'A corrosive, experimental transmutation. Deals 1.3x damage.',
       cooldown: 3,
-      npGainSelf: 20,
-      tag: 'debuff',
+      tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
-        applyStatus(ctx.enemy, {
-          id: 'forbidden-alchemy',
-          name: 'Forbidden Alchemy',
-          kind: 'debuff',
-          stat: 'def',
-          amount: -0.15,
-          turnsRemaining: 2,
-          description: '-15% DEF',
-        });
-        ctx.log('Gilles de Rais unleashes Forbidden Alchemy upon the enemy!');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Forbidden Alchemy' });
+        ctx.log('Gilles de Rais strikes with Forbidden Alchemy!');
       },
     },
     {
@@ -328,7 +320,7 @@ const gillesDeRais: ServantDefinition = {
           turnsRemaining: 3,
           description: 'Recovers 6% max HP per turn',
         });
-        ctx.log("Gilles de Rais performs a Heretic's Ritual.");
+        ctx.log("Gilles de Rais's Heretic's Ritual mends their wounds.");
       },
     },
     {
@@ -384,7 +376,7 @@ const solomon: ServantDefinition = {
   def: 65,
   agility: 60,
   critChance: 0.15,
-  rank: 'A',
+  rank: 'A+',
   strengths: ['Highest Damage', 'Cooldown Manipulation'],
   weaknesses: ['Low HP'],
   passiveDescription: 'The King of Magic, source of nearly every school of thaumaturgy that came after him.',
@@ -465,7 +457,7 @@ const tamamo: ServantDefinition = {
   def: 57,
   agility: 62,
   critChance: 0.15,
-  rank: 'C+',
+  rank: 'A',
   strengths: ['Critical Hits', 'Regeneration'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'A witty, devoted nine-tailed fox spirit, eternally rivaling Nero for her Master\'s affection.',
@@ -512,21 +504,20 @@ const tamamo: ServantDefinition = {
     {
       id: 'vulpine-mischief',
       name: 'Vulpine Mischief',
-      description: "A trickster's charm unravels the enemy's guard. Lowers enemy Defense by 18% for 3 turns.",
-      cooldown: 4,
+      description: "A trickster's charm curdles into a curse. Afflicts the enemy with a curse dealing 1.17% of their max HP at the start of each of their next 3 turns.",
+      cooldown: 3,
       npGainSelf: 20,
       tag: 'debuff',
       effect: (ctx) => {
         applyStatus(ctx.enemy, {
           id: 'vulpine-mischief',
           name: 'Vulpine Mischief',
-          kind: 'debuff',
-          stat: 'def',
-          amount: -0.18,
+          kind: 'dot',
+          potency: Math.round(ctx.enemy.maxHp * 0.011699999999999999),
           turnsRemaining: 3,
-          description: '-18% DEF',
+          description: 'Cursed',
         });
-        ctx.log('Tamamo-no-Mae plays a bit of Vulpine Mischief!');
+        ctx.log('Tamamo-no-Mae lays Vulpine Mischief upon the enemy!');
       },
     },
   ],
@@ -557,7 +548,7 @@ const castoria: ServantDefinition = {
   def: 78,
   agility: 58,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Debuffs', 'Buffs'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A young king who never drew the sword, wielding magecraft in its place.',
@@ -829,7 +820,7 @@ const chenGong: ServantDefinition = {
   def: 69,
   agility: 55,
   critChance: 0.1,
-  rank: 'B',
+  rank: 'C+',
   strengths: ['Traps', 'Debuffs'],
   weaknesses: ['Frail', 'Low HP'],
   passiveDescription: 'An advisor whose cunning outlasted his master, laying traps within traps.',

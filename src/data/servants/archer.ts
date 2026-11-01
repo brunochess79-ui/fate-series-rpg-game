@@ -260,12 +260,12 @@ const atalanta: ServantDefinition = {
   className: 'Archer',
   trueName: 'Atalanta',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Atalanta",
-  maxHp: 1136,
-  atk: 113,
-  def: 64,
+  maxHp: 1101,
+  atk: 109,
+  def: 62,
   agility: 105,
   critChance: 0.15,
-  rank: 'C',
+  rank: 'B+',
   strengths: ['Speed', 'Evasion'],
   weaknesses: ['Fragile'],
   passiveDescription: 'None can outrun her, on two legs or four.',
@@ -291,34 +291,26 @@ const atalanta: ServantDefinition = {
     {
       id: 'beast-companion',
       name: 'Beast Companion',
-      description: 'A wild companion tends her wounds. Heals self for 16% max HP.',
+      description: 'A wild companion tends her wounds. Heals self for 18% max HP.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.16);
-        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
-        ctx.log(`Atalanta's Beast Companion tends her wounds, healing ${healed} HP.`);
+        const healed = Math.round(ctx.self.maxHp * 0.18);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Atalanta's Beast Companion heals ${healed} HP.`);
       },
     },
     {
       id: 'calydons-mark',
       name: "Calydon's Mark",
-      description: 'Marks the enemy as prey. Lowers enemy Attack by 15% for 3 turns.',
+      description: 'Marks the enemy as prey, and the arrow follows. Deals 1.3x damage.',
       cooldown: 4,
-      npGainSelf: 20,
-      tag: 'debuff',
+      tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
-        applyStatus(ctx.enemy, {
-          id: 'calydons-mark',
-          name: "Calydon's Mark",
-          kind: 'debuff',
-          stat: 'atk',
-          amount: -0.15,
-          turnsRemaining: 3,
-          description: '-15% ATK',
-        });
-        ctx.log('Atalanta marks her prey with the hunt of Calydon.');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: "Calydon's Mark" });
+        ctx.log("Atalanta strikes with Calydon's Mark!");
       },
     },
   ],
@@ -346,7 +338,7 @@ const gilgamesh: ServantDefinition = {
   def: 62,
   agility: 65,
   critChance: 0.1,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Burst Damage', 'Debuffs'],
   weaknesses: ['No Self-Heal'],
   passiveDescription:
@@ -599,7 +591,7 @@ const tametomo: ServantDefinition = {
   def: 64,
   agility: 45,
   critChance: 0.1,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Highest Damage', 'Highest HP'],
   weaknesses: ['Slow'],
   passiveDescription: 'A towering mechanical samurai fitted with a star-shattering railgun bow.',
@@ -765,12 +757,12 @@ const ashwatthama: ServantDefinition = {
   className: 'Archer',
   trueName: 'Ashwatthama',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Aśvatthāman",
-  maxHp: 1195,
-  atk: 125,
-  def: 66,
+  maxHp: 1098,
+  atk: 115,
+  def: 61,
   agility: 62,
   critChance: 0.13,
-  rank: 'C+',
+  rank: 'B',
   strengths: ['Sustain', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: "A warrior cursed to wander forever, his father's death fueling an endless fury.",
@@ -791,21 +783,13 @@ const ashwatthama: ServantDefinition = {
     {
       id: 'brahmashirsha-warning',
       name: 'Brahmashirsha Astra Warning',
-      description: "A promise of annihilation, foretold before it's loosed. Lowers enemy Defense by 20% for 3 turns.",
+      description: 'A promise of annihilation, loosed in warning. Deals 1.3x damage.',
       cooldown: 4,
-      npGainSelf: 20,
-      tag: 'debuff',
+      tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
-        applyStatus(ctx.enemy, {
-          id: 'brahmashirsha-warning',
-          name: 'Brahmashirsha Astra Warning',
-          kind: 'debuff',
-          stat: 'def',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% Defense',
-        });
-        ctx.log('Ashwatthama issues the Brahmashirsha Astra Warning!');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Brahmashirsha Astra Warning' });
+        ctx.log('Ashwatthama strikes with Brahmashirsha Astra Warning!');
       },
     },
     {
@@ -853,7 +837,7 @@ const moriarty: ServantDefinition = {
   def: 60,
   agility: 68,
   critChance: 0.15,
-  rank: 'B',
+  rank: 'C+',
   strengths: ['Debuffs', 'Critical Strikes'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'A criminal mastermind whose every plan accounts for the plans of others.',
@@ -951,7 +935,7 @@ const alcides: ServantDefinition = {
   def: 52,
   agility: 55,
   critChance: 0.1,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Raw Power', 'Sustain'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'A hero robbed of his sanity and his glory alike, raging at the gods who did it.',

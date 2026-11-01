@@ -8,12 +8,12 @@ const cuChulainn: ServantDefinition = {
   className: 'Lancer',
   trueName: 'Cú Chulainn',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Cú_Chulainn",
-  maxHp: 1142,
-  atk: 116,
-  def: 67,
+  maxHp: 1092,
+  atk: 111,
+  def: 64,
   agility: 100,
   critChance: 0.1,
-  rank: 'C',
+  rank: 'B+',
   strengths: ['Speed', 'Sustained Regeneration', 'Evasion'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The fastest Servant on the battlefield.',
@@ -21,7 +21,7 @@ const cuChulainn: ServantDefinition = {
     {
       id: 'protection-of-the-wolf',
       name: 'Protection of the Wolf',
-      description: 'An old protection charm. Recovers 5% max HP at the start of each of his next 2 turns.',
+      description: 'An old protection charm. Recovers 5% max HP at the start of each of his next 3 turns.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'heal',
@@ -31,10 +31,10 @@ const cuChulainn: ServantDefinition = {
           name: 'Protection of the Wolf',
           kind: 'regen',
           potency: Math.round(ctx.self.maxHp * 0.05),
-          turnsRemaining: 2,
+          turnsRemaining: 3,
           description: 'Recovers 5% max HP per turn',
         });
-        ctx.log('Cú Chulainn is shielded by the Protection of the Wolf.');
+        ctx.log("Cú Chulainn's Protection of the Wolf mends their wounds.");
       },
     },
     {
@@ -60,19 +60,13 @@ const cuChulainn: ServantDefinition = {
     {
       id: 'uplift',
       name: 'Uplift',
-      description: 'A burst of battle-fury too fast to follow. Guarantees the next enemy attack will miss entirely.',
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'buff',
+      description: 'A burst of battle-fury too fast to follow. Deals 1.3x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'uplift-evade',
-          name: 'Uplift',
-          kind: 'evade',
-          turnsRemaining: 1,
-          description: 'Next incoming attack is evaded',
-        });
-        ctx.log('Cú Chulainn is uplifted by battle-fury, faster than any strike!');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Uplift' });
+        ctx.log('Cú Chulainn strikes with Uplift!');
       },
     },
   ],
@@ -103,12 +97,12 @@ const diarmuid: ServantDefinition = {
   className: 'Lancer',
   trueName: 'Diarmuid Ua Duibhne',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Diarmuid_Ua_Duibhne",
-  maxHp: 1294,
-  atk: 134,
-  def: 78,
+  maxHp: 1172,
+  atk: 121,
+  def: 71,
   agility: 95,
   critChance: 0.12,
-  rank: 'C',
+  rank: 'B',
   strengths: ['Speed', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'Cursed with an irresistible charm, and blessed with peerless spearplay.',
@@ -132,21 +126,13 @@ const diarmuid: ServantDefinition = {
     {
       id: 'gae-buidhe',
       name: "Gáe Buidhe's Edge",
-      description: 'A wound that refuses to heal. Lowers enemy Defense by 15% for 2 turns.',
+      description: 'A wound that refuses to heal. Deals 1.3x damage.',
       cooldown: 4,
-      npGainSelf: 20,
-      tag: 'debuff',
+      tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
-        applyStatus(ctx.enemy, {
-          id: 'gae-buidhe',
-          name: "Gáe Buidhe's Wound",
-          kind: 'debuff',
-          stat: 'def',
-          amount: -0.15,
-          turnsRemaining: 2,
-          description: '-15% DEF',
-        });
-        ctx.log('Diarmuid opens an unhealing wound with Gáe Buidhe!');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: "Gáe Buidhe's Edge" });
+        ctx.log("Diarmuid strikes with Gáe Buidhe's Edge!");
       },
     },
     {
@@ -277,12 +263,12 @@ const karna: ServantDefinition = {
   className: 'Lancer',
   trueName: 'Karna',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Karna",
-  maxHp: 1310,
-  atk: 121,
-  def: 104,
+  maxHp: 1285,
+  atk: 119,
+  def: 102,
   agility: 60,
   critChance: 0.1,
-  rank: 'C+',
+  rank: 'A',
   strengths: ['Durability', 'Shielding'],
   weaknesses: ['Slow'],
   passiveDescription: 'Born wearing radiant armor and earrings that ward off death itself.',
@@ -310,21 +296,13 @@ const karna: ServantDefinition = {
     {
       id: 'solar-blessing',
       name: 'Solar Blessing',
-      description: "The sun god's power surges within him. Raises own Attack by 15% for 2 turns.",
+      description: "The sun god's power surges through his strike. Deals 1.3x damage.",
       cooldown: 4,
-      npGainSelf: 20,
-      tag: 'buff',
+      tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
-        applyStatus(ctx.self, {
-          id: 'solar-blessing',
-          name: 'Solar Blessing',
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 2,
-          description: '+15% ATK',
-        });
-        ctx.log('Karna basks in a Solar Blessing!');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: 'Solar Blessing' });
+        ctx.log('Karna strikes with Solar Blessing!');
       },
     },
     {
@@ -381,7 +359,7 @@ const romulusQuirinus: ServantDefinition = {
   def: 74,
   agility: 60,
   critChance: 0.1,
-  rank: 'B',
+  rank: 'C+',
   strengths: ['Highest Damage', 'Sustain via Lifesteal'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The founder of Rome, apotheosized into a god who carries the light of civilization itself.',
@@ -470,7 +448,7 @@ const enkidu: ServantDefinition = {
   def: 57,
   agility: 55,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Crowd Control', 'Durability'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A being of clay shaped by the gods to oppose Gilgamesh, and bound to him ever since.',
@@ -816,7 +794,7 @@ const romulus: ServantDefinition = {
   def: 60,
   agility: 66,
   critChance: 0.12,
-  rank: 'B',
+  rank: 'A+',
   strengths: ['Durability', 'Buffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The first king, whose spear took root and became a sacred tree on the Palatine.',
@@ -824,23 +802,14 @@ const romulus: ServantDefinition = {
     {
       id: 'imperial-privilege',
       name: 'Imperial Privilege',
-      description: 'A king claims what a king needs. Heals self for 12% max HP and raises own Attack by 15% for 2 turns.',
+      description: "An emperor's authority heals every wound. Heals self for 20% max HP.",
       cooldown: 4,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'heal',
       effect: (ctx) => {
-        const healed = Math.round(ctx.self.maxHp * 0.12);
-        ctx.self.hp = ctx.self.hp + healed; // clamped once at end of round, see clampHp in battle.ts
-        applyStatus(ctx.self, {
-          id: 'imperial-privilege-atk',
-          name: 'Imperial Privilege',
-          kind: 'buff',
-          stat: 'atk',
-          amount: 0.15,
-          turnsRemaining: 2,
-          description: '+15% ATK',
-        });
-        ctx.log(`Romulus claims Imperial Privilege, recovering ${healed} HP and rising in might!`);
+        const healed = Math.round(ctx.self.maxHp * 0.2);
+        ctx.self.hp = ctx.self.hp + healed;
+        ctx.log(`Nero's Imperial Privilege heals ${healed} HP.`);
       },
     },
     {
@@ -907,7 +876,7 @@ const percival: ServantDefinition = {
   def: 65,
   agility: 68,
   critChance: 0.12,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Durability', 'Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The purest knight of the Round Table, who beheld the Grail and was found worthy.',
@@ -988,7 +957,7 @@ const brynhildr: ServantDefinition = {
   def: 65,
   agility: 76,
   critChance: 0.14,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Critical Hits', 'Burst Damage'],
   weaknesses: ['Low Defense'],
   passiveDescription: 'A fallen valkyrie whose spear grows heavier and crueler the more she loves.',
@@ -1078,7 +1047,7 @@ const bhima: ServantDefinition = {
   def: 48,
   agility: 62,
   critChance: 0.1,
-  rank: 'C+',
+  rank: 'B+',
   strengths: ['Raw Power', 'High HP'],
   weaknesses: ['Low Defense', 'Low Crit Rate'],
   passiveDescription: 'The mightiest of the five Pandava brothers, with the strength of ten thousand elephants.',
@@ -1106,33 +1075,32 @@ const bhima: ServantDefinition = {
     {
       id: 'gada-strike',
       name: 'Gada Strike',
-      description: 'A blow of the great mace that shatters stone. Deals 1.35x damage.',
+      description: 'A blow of the great mace that shatters stone. Deals 1.528x damage.',
       cooldown: 3,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Gada Strike' });
-        ctx.log('Bhima brings his great mace down in a Gada Strike!');
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.528, { label: 'Gada Strike' });
+        ctx.log('Bhima strikes with Gada Strike!');
       },
     },
     {
       id: 'adamantine-vow',
       name: 'Adamantine Vow',
-      description: 'An oath sworn in blood hardens his body. Raises own Defense by 20% for 2 turns.',
-      cooldown: 4,
+      description: 'An oath sworn in blood knits his body back together. Recovers 4.37% max HP at the start of each of his next 3 turns.',
+      cooldown: 5,
       npGainSelf: 20,
-      tag: 'buff',
+      tag: 'heal',
       effect: (ctx) => {
         applyStatus(ctx.self, {
-          id: 'adamantine-vow',
+          id: 'adamantine-vow-regen',
           name: 'Adamantine Vow',
-          kind: 'buff',
-          stat: 'def',
-          amount: 0.2,
-          turnsRemaining: 2,
-          description: '+20% DEF',
+          kind: 'regen',
+          potency: Math.round(ctx.self.maxHp * 0.0437),
+          turnsRemaining: 3,
+          description: 'Recovers 4.37% max HP per turn',
         });
-        ctx.log('Bhima renews his Adamantine Vow.');
+        ctx.log("Bhima's Adamantine Vow mends their wounds.");
       },
     },
   ],
