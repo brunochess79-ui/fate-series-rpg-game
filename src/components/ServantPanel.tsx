@@ -1,3 +1,4 @@
+import { servantRankDetail, servantRankLabel } from '../data/rankings';
 import { getServantDef } from '../data/servants';
 import type { MasterState, ServantInstance } from '../types';
 
@@ -19,7 +20,12 @@ export function ServantPanel({ master, servant, isActive, side, showCommandSpell
   return (
     <div className={`servant-panel side-${side} ${isActive ? 'active' : ''} ${defeated ? 'defeated' : ''}`}>
       <div className="servant-panel-header">
-        <span className="servant-class">{def.className}</span>
+        <span className="servant-class">
+          {def.className}
+          <span className="servant-rank-badge" title={`Servant Rank: ${servantRankDetail(def)}`}>
+            {servantRankLabel(def)}
+          </span>
+        </span>
         <span className="master-name">{master.name}</span>
       </div>
       <div className="servant-name">{def.name}{defeated ? ' — Defeated' : ''}</div>

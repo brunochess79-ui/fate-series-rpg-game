@@ -866,3 +866,14 @@ button:disabled {
   align-items: center;
   gap: 0.5rem;
 }
+
+.servant-rank-badge {
+  margin-left: 0.5rem;
+  font-size: 0.75em;
+  font-weight: 700;
+  color: var(--gold-bright);
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  padding: 0 6px;
+  white-space: nowrap;
+}

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { SERVANT_LIST } from '../data/servants';
+import { servantRankDetail, servantRankLabel } from '../data/rankings';
 import { drawRandomServants } from '../game';
 import type { Difficulty, GameMode, SetupResult, TeamSize } from '../game';
 import type { ServantClass, ServantDefinition } from '../types';
@@ -61,8 +62,8 @@ function ServantCard({ servant, selected, onSelect }: ServantCardProps) {
     >
       <div className="servant-card-header">
         <div className="servant-card-class">{servant.className}</div>
-        <div className="servant-card-rank" title="Servant Rank">
-          {servant.rank} Rank
+        <div className="servant-card-rank" title={`Servant Rank: ${servantRankDetail(servant)}`}>
+          {servantRankLabel(servant)}
         </div>
       </div>
       <div className="servant-card-name">{servant.name}</div>
@@ -124,7 +125,7 @@ function ServantCard({ servant, selected, onSelect }: ServantCardProps) {
           <div className="servant-card-details-section">
             <div className="servant-card-details-label">Rank</div>
             <div className="servant-card-details-line">
-              Servant Rank: {servant.rank} &nbsp;·&nbsp; Noble Phantasm Rank: {servant.noblePhantasm.rank}
+              Servant Rank: {servantRankDetail(servant)} &nbsp;·&nbsp; Noble Phantasm Rank: {servant.noblePhantasm.rank}
             </div>
           </div>
           <div className="servant-card-details-section">
