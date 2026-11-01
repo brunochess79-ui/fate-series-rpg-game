@@ -591,7 +591,7 @@ const tametomo: ServantDefinition = {
   def: 60,
   agility: 45,
   critChance: 0.1,
-  rank: 'A',
+  rank: 'A+',
   strengths: ['Highest Damage', 'Highest HP'],
   weaknesses: ['Slow'],
   passiveDescription: 'A towering mechanical samurai fitted with a star-shattering railgun bow.',

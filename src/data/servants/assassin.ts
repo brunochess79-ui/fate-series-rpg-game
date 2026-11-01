@@ -534,7 +534,7 @@ const koyanskaya: ServantDefinition = {
   def: 55,
   agility: 75,
   critChance: 0.15,
-  rank: 'B',
+  rank: 'B+',
   strengths: ['Crit Damage', 'Drains'],
   weaknesses: ['Fragile'],
   passiveDescription: 'A trickster wolf-spirit wearing the shape of a familiar ally.',

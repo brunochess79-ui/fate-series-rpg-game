@@ -907,7 +907,7 @@ const anastasia: ServantDefinition = {
   def: 61,
   agility: 62,
   critChance: 0.13,
-  rank: 'B',
+  rank: 'B+',
   strengths: ['Debuffs', 'Sustain'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A young duchess bearing a frozen crown, her sorrow given the shape of winter itself.',
