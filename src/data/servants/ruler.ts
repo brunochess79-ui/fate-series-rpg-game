@@ -8,12 +8,12 @@ const jeanne: ServantDefinition = {
   className: 'Ruler',
   trueName: "Jeanne d'Arc",
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Jeanne_d'Arc",
-  maxHp: 1300,
-  atk: 91,
-  def: 70,
+  maxHp: 1149,
+  atk: 80,
+  def: 62,
   agility: 65,
   critChance: 0.08,
-  rank: 'A+',
+  rank: 'B',
   strengths: ['Regeneration', 'Shielding'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A saint who hears the voice of God, mediating the Grail War with mercy for all sides.',
@@ -82,7 +82,7 @@ const jeanne: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log("Jeanne d'Arc raises La Pucelle: Flag of the Crusade!");
-      ctx.dealDamage(ctx.self, ctx.enemy, 5, { label: 'Flag of the Crusade' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 5.32, { label: 'Flag of the Crusade' });
       const healed = Math.round(ctx.self.maxHp * 0.15);
       ctx.self.hp = ctx.self.hp + healed;
       ctx.log(`Jeanne d'Arc recovers ${healed} HP, borne up by her own faith.`);
@@ -102,7 +102,7 @@ const amakusa: ServantDefinition = {
   def: 75,
   agility: 62,
   critChance: 0.12,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Evasion', 'Debuffs'],
   weaknesses: ['Low Attack'],
   passiveDescription: 'A saintly boy-priest, gentle to allies and merciless to those who prey on the weak.',
@@ -178,12 +178,12 @@ const sherlock: ServantDefinition = {
   className: 'Ruler',
   trueName: 'Sherlock Holmes',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Sherlock_Holmes",
-  maxHp: 1200,
-  atk: 100,
-  def: 65,
+  maxHp: 1369,
+  atk: 114,
+  def: 74,
   agility: 70,
   critChance: 0.15,
-  rank: 'C+',
+  rank: 'B+',
   strengths: ['Critical Strikes', 'Debuffs'],
   weaknesses: ['No Self-Heal'],
   passiveDescription: 'A detective whose deductions cut deeper than any blade, exposing every flaw.',

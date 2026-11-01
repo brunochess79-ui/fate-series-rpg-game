@@ -8,12 +8,12 @@ const kiara: ServantDefinition = {
   className: 'Alter Ego',
   trueName: 'Kiara Sessyoin',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Sesshōin_Kiara",
-  maxHp: 1350,
-  atk: 115,
-  def: 58,
+  maxHp: 1201,
+  atk: 102,
+  def: 52,
   agility: 65,
   critChance: 0.15,
-  rank: 'A',
+  rank: 'C',
   strengths: ['Highest Damage', 'Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A Buddhist saint whose boundless compassion, twisted by despair, birthed a Beast of humanity.',
@@ -76,7 +76,7 @@ const kiara: ServantDefinition = {
     rank: 'A',
     effect: (ctx) => {
       ctx.log('Kiara unleashes Kishimojin: Feast of the Void!');
-      ctx.dealDamage(ctx.self, ctx.enemy, 3.7, { label: 'Feast of the Void' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 4.17, { label: 'Feast of the Void' });
     },
   },
 };
@@ -88,12 +88,12 @@ const tiamat: ServantDefinition = {
   className: 'Alter Ego',
   trueName: 'Tiamat',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Larva/Tiamat",
-  maxHp: 1488,
-  atk: 93,
-  def: 60,
+  maxHp: 1335,
+  atk: 83,
+  def: 54,
   agility: 45,
   critChance: 0.08,
-  rank: 'A+',
+  rank: 'B+',
   strengths: ['Highest HP', 'Shielding', 'Regeneration'],
   weaknesses: ['Slow'],
   passiveDescription: 'The primordial mother goddess of creation, tragic and endlessly protective of all life.',
@@ -164,7 +164,7 @@ const tiamat: ServantDefinition = {
     rank: 'A+',
     effect: (ctx) => {
       ctx.log('Tiamat opens Kur: The Womb of Creation!');
-      const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 4.58, { label: 'The Womb of Creation' });
+      const dmg = ctx.dealDamage(ctx.self, ctx.enemy, 5.13, { label: 'The Womb of Creation' });
       const healed = Math.round(dmg * 0.25);
       ctx.self.hp = ctx.self.hp + healed;
       ctx.log(`Tiamat draws ${healed} HP back into herself.`);
