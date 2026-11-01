@@ -745,7 +745,7 @@ const odysseus: ServantDefinition = {
   def: 68,
   agility: 72,
   critChance: 0.13,
-  rank: 'C+',
+  rank: 'B',
   strengths: ['Burst Damage', 'Tempo Control'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The cunning strategist of Troy, whose schemes end wars that swords cannot.',

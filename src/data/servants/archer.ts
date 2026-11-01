@@ -346,7 +346,7 @@ const gilgamesh: ServantDefinition = {
   def: 62,
   agility: 65,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Burst Damage', 'Debuffs'],
   weaknesses: ['No Self-Heal'],
   passiveDescription:
@@ -770,7 +770,7 @@ const ashwatthama: ServantDefinition = {
   def: 66,
   agility: 62,
   critChance: 0.13,
-  rank: 'C',
+  rank: 'C+',
   strengths: ['Sustain', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: "A warrior cursed to wander forever, his father's death fueling an endless fury.",

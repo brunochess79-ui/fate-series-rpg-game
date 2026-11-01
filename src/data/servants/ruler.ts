@@ -13,7 +13,7 @@ const jeanne: ServantDefinition = {
   def: 62,
   agility: 65,
   critChance: 0.08,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Regeneration', 'Shielding'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'A saint who hears the voice of God, mediating the Grail War with mercy for all sides.',
@@ -22,7 +22,7 @@ const jeanne: ServantDefinition = {
       id: 'protection-of-the-faith',
       name: 'Protection of the Faith',
       description:
-        "Divine grace wards her from harm. Grants a shield that absorbs damage equal to 18% of her max HP, lasting only this turn.",
+        "Divine grace wards her from harm. Grants a shield that absorbs damage equal to 11% of her max HP, lasting until it is broken.",
       cooldown: 4,
       npGainSelf: 20,
       tag: 'buff',
@@ -31,9 +31,9 @@ const jeanne: ServantDefinition = {
           id: 'protection-of-the-faith',
           name: 'Protection of the Faith',
           kind: 'shield',
-          potency: Math.round(ctx.self.maxHp * 0.18),
-          turnsRemaining: 1,
-          description: 'Absorbs damage until depleted',
+          potency: Math.round(ctx.self.maxHp * 0.11),
+          turnsRemaining: Infinity,
+          description: 'Absorbs damage until depleted, however long that takes',
         });
         ctx.log("Jeanne d'Arc is warded by the Protection of the Faith!");
       },
