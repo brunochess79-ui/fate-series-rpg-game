@@ -183,8 +183,8 @@ export function decidePlaybook(
     }
   }
 
-  // A skill stun takes hold this round, so there is no point casting it on an enemy who is already stunned.
-  const foeStunned = foe.statuses.some((s) => s.kind === 'stun' && s.turnsRemaining > 0);
+  // A skill stun takes hold this round, so there is no point casting it on an enemy who is already stunned (or was stunned last round and can't be again).
+  const foeStunned = !!foe.stunnedLastRound || foe.statuses.some((s) => s.kind === 'stun' && s.turnsRemaining > 0);
   const stun = foeStunned ? -1 : info.findIndex((x, i) => ready(i) && x.stun);
   if (stun >= 0) return skill(stun, `${name(stun)} stuns the enemy, so they cannot act this round.`);
 

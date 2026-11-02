@@ -38,6 +38,8 @@ roster easy, and every ability has an expandable description in battle.
 
 ## Gameplay
 
+- A Servant that lost its action to a stun can't be stunned again the next round (a delayed stun that would land right after one is shrugged off).
+
 - Servants with the top base crit chance (15%) have their Noble Phantasm damage reduced by 10%.
 
 - Each round, both Masters choose their move without seeing the other's

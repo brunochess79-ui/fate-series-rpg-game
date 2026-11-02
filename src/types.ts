@@ -115,6 +115,8 @@ export interface ServantInstance {
   statuses: StatusEffect[];
   skillCooldowns: number[];
   turnsSurvived: number;
+  /** True if this Servant lost its action to a stun last round (it can't be stunned again this round). */
+  stunnedLastRound?: boolean;
 }
 
 export interface MasterState {

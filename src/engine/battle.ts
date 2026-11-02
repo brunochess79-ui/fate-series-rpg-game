@@ -229,6 +229,19 @@ export function resolveRound(
   // round's actions can change that, but the roster of actors is fixed now).
   const aliveAtStart = teams.map((t) => t.servants.map((s) => s.hp > 0));
 
+  // No stun-locking: a Servant that lost its action to a stun last round can't be
+  // stunned this round. A delayed stun (e.g. from a Noble Phantasm) that would land
+  // right after a stunned round is shrugged off.
+  const immuneToStun = teams.map((t) => t.servants.map((s) => !!s.stunnedLastRound));
+  teams.forEach((team, ti) => {
+    team.servants.forEach((servant, slot) => {
+      if (servant.hp > 0 && immuneToStun[ti][slot] && servant.statuses.some((s) => s.kind === 'stun')) {
+        servant.statuses = servant.statuses.filter((s) => s.kind !== 'stun');
+        log(`${getServantDef(servant.defId).name} shrugs off the stun — nobody can be stunned two rounds in a row!`);
+      }
+    });
+  });
+
   // Start-of-round ticks (dot/regen) for every living Servant.
   teams.forEach((team, ti) => {
     team.servants.forEach((servant, slot) => {
@@ -426,7 +439,13 @@ export function resolveRound(
     c.done = true;
     if (skill.stuns) {
       c.target.statuses = c.target.statuses.filter((s) => s.kind !== 'stun' || stunsBefore.has(s.id));
-      stunCasters.push(c);
+      const ti = teams.findIndex((t) => t.servants.includes(c.target));
+      const slot = ti >= 0 ? teams[ti].servants.indexOf(c.target) : -1;
+      if (ti >= 0 && immuneToStun[ti][slot]) {
+        log(`${getServantDef(c.target.defId).name} was stunned last round and cannot be stunned again!`);
+      } else {
+        stunCasters.push(c);
+      }
     }
   }
   for (const caster of stunCasters) {
@@ -508,6 +527,13 @@ export function resolveRound(
       if (!aliveAtStart[ti][slot]) return;
       tickStatuses(servant, preExisting[ti][slot]);
       servant.skillCooldowns = servant.skillCooldowns.map((cd) => Math.max(0, cd - 1));
+    });
+  });
+
+  // Remember who lost an action to a stun this round (they're immune next round).
+  teams.forEach((team) => {
+    team.servants.forEach((servant) => {
+      servant.stunnedLastRound = combatants.some((c) => c.servant === servant && c.stunned);
     });
   });
 
