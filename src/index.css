@@ -920,3 +920,15 @@ button:disabled {
   max-width: 44rem;
   text-align: left;
 }
+
+.spectate-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+.spectate-controls select {
+  margin-left: 4px;
+}

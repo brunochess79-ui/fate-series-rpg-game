@@ -29,6 +29,11 @@ roster easy, and every ability has an expandable description in battle.
   beats the standard Hard-bot line; every other Servant is taught the standard best
   line. (The Hard AI itself still plays the standard line.)
 
+- **Watch: Perfect AI vs Perfect AI** — choose (or randomly draw) a Servant for each
+  side and watch two bots play each Servant's best tournament line against each
+  other, with pause, single-step and speed controls. "Watch Another" re-draws any
+  random picks.
+
 ## Gameplay
 
 - Each round, both Masters choose their move without seeing the other's

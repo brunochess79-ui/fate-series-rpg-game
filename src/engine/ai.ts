@@ -2,6 +2,7 @@ import { getServantDef } from '../data/servants';
 import type { Difficulty } from '../game';
 import type { BattleAction, BattleState, ServantInstance, TeamOrders } from '../types';
 import { choosePlaybookAction, linesFor } from './aiPolicy';
+import { trainingLineFor } from './coach';
 
 /** Pick the enemy Servant to aim at: the living one with the lowest HP,
  * to finish off wounded targets first. (Easy AI aims at the healthiest instead.) */
@@ -20,6 +21,7 @@ function pickTarget(enemies: ServantInstance[], healthiestFirst = false): number
  *
  * - normal: the simple rules below.
  * - hard: each Servant plays the best line found for it.
+ * - perfect: each Servant plays the best line found in the tournaments (used by Watch AI vs AI).
  * - easy: each Servant plays the options that lose it the most matchups.
  */
 export function chooseAiOrders(
@@ -46,7 +48,9 @@ export function chooseAiOrders(
             servant,
             enemy.servants[target],
             spellsPlanned,
-            linesFor(servant.defId, difficulty === 'easy'),
+            difficulty === 'perfect'
+              ? trainingLineFor(servant.defId).flags
+              : linesFor(servant.defId, difficulty === 'easy'),
             difficulty === 'easy',
             rng,
           );

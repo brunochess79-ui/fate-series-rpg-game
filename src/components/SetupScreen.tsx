@@ -180,9 +180,12 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
   // Against the AI: draw your own and/or the rival's Servant(s) at random, or choose them to practice a matchup.
   const [playerRandom, setPlayerRandom] = useState(false);
   const [aiRandom, setAiRandom] = useState(true);
+  const nameA = 'Perfect AI (A)';
+  const nameB = 'Perfect AI (B)';
 
   const isFirstStep = step === 0;
-  const isAi = mode === 'ai' || mode === 'training';
+  const isSpectate = mode === 'spectate';
+  const isAi = mode === 'ai' || mode === 'training' || isSpectate;
   const isTraining = mode === 'training';
   const drawingMine = isAi && isFirstStep && playerRandom;
   const currentName = isFirstStep ? p1Name : p2Name;
@@ -233,11 +236,11 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
         if (aiRandom) {
           onComplete({
             teamSize,
-            p1Name,
+            p1Name: isSpectate ? nameA : p1Name,
             p1ServantIds: myPicks,
-            p2Name: 'Rival Master',
+            p2Name: isSpectate ? nameB : 'Rival Master',
             p2ServantIds: drawRandomServants(teamSize, myPicks),
-            difficulty,
+            difficulty: isSpectate ? 'perfect' : difficulty,
             p1Random: playerRandom,
             p2Random: true,
           });
@@ -252,11 +255,11 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
     } else if (isAi) {
       onComplete({
         teamSize,
-        p1Name,
+        p1Name: isSpectate ? nameA : p1Name,
         p1ServantIds: p1Servants,
-        p2Name: 'Rival Master',
+        p2Name: isSpectate ? nameB : 'Rival Master',
         p2ServantIds: p2Servants,
-        difficulty,
+        difficulty: isSpectate ? 'perfect' : difficulty,
         p1Random: playerRandom,
         p2Random: false,
       });
@@ -269,7 +272,13 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
   return (
     <div className="setup-screen">
       <h2>
-        {mode === 'hotseat'
+        {isSpectate
+          ? isFirstStep
+            ? playerRandom
+              ? 'Perfect AI A will get a random Servant'
+              : 'Choose the Servant for Perfect AI A'
+            : 'Choose the Servant for Perfect AI B'
+          : mode === 'hotseat'
           ? `Player ${step + 1}, choose your ${servantWord}`
           : isTraining && isFirstStep
             ? playerRandom
@@ -285,7 +294,7 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
       {isAi && isFirstStep && (
         <div className="matchup-row">
           <div className="matchup-group" role="radiogroup" aria-label={`Your ${servantWord}`}>
-            <span className="difficulty-label">Your {servantWord}</span>
+            <span className="difficulty-label">{isSpectate ? `AI A's ${servantWord}` : `Your ${servantWord}`}</span>
             {[false, true].map((random) => (
               <button
                 key={String(random)}
@@ -300,7 +309,7 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
             ))}
           </div>
           <div className="matchup-group" role="radiogroup" aria-label={`Rival's ${servantWord}`}>
-            <span className="difficulty-label">Rival's {servantWord}</span>
+            <span className="difficulty-label">{isSpectate ? `AI B's ${servantWord}` : `Rival's ${servantWord}`}</span>
             {[true, false].map((random) => (
               <button
                 key={String(random)}
@@ -316,7 +325,7 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
           </div>
         </div>
       )}
-      <div className="master-name-input" hidden={isAi && !isFirstStep}>
+      <div className="master-name-input" hidden={isSpectate || (isAi && !isFirstStep)}>
         <label>
           Master Name
           <input
@@ -326,7 +335,7 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
           />
         </label>
       </div>
-      {isAi && isFirstStep && (
+      {isAi && !isSpectate && isFirstStep && (
         <div className="difficulty-row" role="radiogroup" aria-label="AI difficulty">
           <span className="difficulty-label">AI Difficulty</span>
           {DIFFICULTIES.map((d) => (
@@ -405,8 +414,12 @@ export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {
           {(mode === 'hotseat' && isFirstStep) || (isAi && isFirstStep && !aiRandom)
             ? mode === 'hotseat'
               ? 'Next Player'
-              : "Choose Rival's Servant"
-            : 'Begin Battle'}
+              : isSpectate
+                ? "Choose AI B's Servant"
+                : "Choose Rival's Servant"
+            : isSpectate
+              ? 'Start Watching'
+              : 'Begin Battle'}
         </button>
       </div>
     </div>

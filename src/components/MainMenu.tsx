@@ -25,6 +25,9 @@ export function MainMenu({ onSelectMode }: Props) {
         <button className="primary-btn" onClick={() => onSelectMode('training', 1)}>
           Training: Learn a Servant's Best Line
         </button>
+        <button className="primary-btn" onClick={() => onSelectMode('spectate', 1)}>
+          Watch: Perfect AI vs Perfect AI
+        </button>
       </div>
       <p className="menu-hint">
         Choose a Master and Servant, then fight in a battle of Attacks, Skills, and Noble

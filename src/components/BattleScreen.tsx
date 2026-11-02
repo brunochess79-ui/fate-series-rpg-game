@@ -13,6 +13,8 @@ interface Props {
   difficulty?: Difficulty;
   /** Training mode: show the coach's recommendation and grade each round. */
   training?: boolean;
+  /** Watch mode: both sides are Perfect AI and the rounds play out on their own. */
+  spectate?: boolean;
   onCoachRound?: (round: CoachRound) => void;
   onResolveRound: (p1Orders: TeamOrders, p2Orders: TeamOrders) => void;
 }
@@ -35,7 +37,7 @@ function teamDone(battle: BattleState, teamIndex: 0 | 1, orders: TeamOrders): bo
   return nextSlot(battle, teamIndex, orders) === -1;
 }
 
-export function BattleScreen({ battle, difficulty = 'normal', training = false, onCoachRound, onResolveRound }: Props) {
+export function BattleScreen({ battle, difficulty = 'normal', training = false, spectate = false, onCoachRound, onResolveRound }: Props) {
   const isVsAi = battle.players[1].kind === 'ai';
   const [phase, setPhase] = useState<RoundPhase>(
     isVsAi ? { step: 'picking', forIndex: 0 } : { step: 'handoff', forIndex: 0 },
@@ -43,6 +45,8 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
   const [pendingOrders, setPendingOrders] = useState<[TeamOrders, TeamOrders]>(() => emptyOrders(battle));
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [showHint, setShowHint] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const [speedMs, setSpeedMs] = useState(1400);
   const [lastGrade, setLastGrade] = useState<CoachRound | null>(null);
   const advice = useMemo(
     () => (training && battle.phase !== 'gameover' ? coachAdvice(battle, 0) : null),
@@ -60,7 +64,7 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
 
   useEffect(() => {
     if (battle.phase === 'gameover') return;
-    if (!isVsAi) return;
+    if (!isVsAi || spectate) return;
     if (!teamDone(battle, 0, pendingOrders[0])) return;
 
     timeoutRef.current = setTimeout(() => {
@@ -72,6 +76,21 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [pendingOrders, isVsAi, battle, difficulty, onResolveRound]);
+
+  // Watch mode: both Perfect AIs choose and the round resolves on a timer.
+  useEffect(() => {
+    if (!spectate || paused || battle.phase === 'gameover') return;
+    const t = setTimeout(() => {
+      onResolveRound(
+        chooseAiOrders(battle, 0, Math.random, 'perfect'),
+        chooseAiOrders(battle, 1, Math.random, 'perfect'),
+      );
+    }, speedMs);
+    return () => clearTimeout(t);
+  }, [spectate, paused, speedMs, battle, onResolveRound]);
+
+  const stepOnce = () =>
+    onResolveRound(chooseAiOrders(battle, 0, Math.random, 'perfect'), chooseAiOrders(battle, 1, Math.random, 'perfect'));
 
   const handleOrder = (teamIndex: 0 | 1, slot: number, order: ServantOrder) => {
     if (training && advice && teamIndex === 0 && slot === 0) {
@@ -106,6 +125,7 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
   const pickingSlot = pickingIndex !== null ? nextSlot(battle, pickingIndex, pendingOrders[pickingIndex]) : -1;
 
   const bannerText = () => {
+    if (spectate) return `Round ${battle.round} — ${paused ? 'paused' : 'watching'}: Perfect AI vs Perfect AI`;
     if (isVsAi) {
       return teamDone(battle, 0, pendingOrders[0])
         ? `Round ${battle.round} — ${battle.players[1].master.name} is thinking...`
@@ -147,6 +167,25 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
         </div>
       </div>
       <BattleLog log={battle.log} />
+      {spectate && (
+        <div className="spectate-controls" aria-label="Watch controls">
+          <button className="secondary-btn" onClick={() => setPaused((v) => !v)}>
+            {paused ? '▶ Play' : '⏸ Pause'}
+          </button>
+          <button className="secondary-btn" disabled={!paused} onClick={stepOnce}>
+            Step one round
+          </button>
+          <label>
+            Speed{' '}
+            <select value={speedMs} onChange={(e) => setSpeedMs(Number(e.target.value))}>
+              <option value={2500}>Slow</option>
+              <option value={1400}>Normal</option>
+              <option value={600}>Fast</option>
+              <option value={150}>Very fast</option>
+            </select>
+          </label>
+        </div>
+      )}
       {training && advice && (
         <div className="coach-panel" aria-label="Training coach">
           <div className="coach-header">
@@ -183,7 +222,7 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
         </div>
       )}
 
-      {!isVsAi && phase.step === 'handoff' && (
+      {!spectate && !isVsAi && phase.step === 'handoff' && (
         <div className="handoff-screen">
           <p className="handoff-title">Pass the device to</p>
           <p className="handoff-name">{battle.players[phase.forIndex].master.name}</p>
@@ -194,7 +233,7 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
         </div>
       )}
 
-      {!isVsAi && phase.step === 'reveal-ready' && (
+      {!spectate && !isVsAi && phase.step === 'reveal-ready' && (
         <div className="handoff-screen">
           <p className="handoff-title">Both Masters have chosen their moves.</p>
           <button className="primary-btn" onClick={handleReveal}>
@@ -203,7 +242,7 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
         </div>
       )}
 
-      {phase.step === 'picking' && pickingSlot >= 0 && (
+      {!spectate && phase.step === 'picking' && pickingSlot >= 0 && (
         <ActionPanel
           key={`${battle.round}-${phase.forIndex}-${pickingSlot}`}
           player={battle.players[phase.forIndex]}
@@ -216,7 +255,7 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
           onOrder={(order) => handleOrder(phase.forIndex, pickingSlot, order)}
         />
       )}
-      {phase.step === 'picking' && pickingSlot > 0 && (
+      {!spectate && phase.step === 'picking' && pickingSlot > 0 && (
         <p className="order-progress-hint">
           {getServantDef(battle.players[phase.forIndex].servants[0].defId).name}'s order is locked in.
         </p>

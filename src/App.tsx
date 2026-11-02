@@ -21,7 +21,7 @@ function App() {
   const [coachRounds, setCoachRounds] = useState<CoachRound[]>([]);
 
   const startBattle = useCallback((result: SetupResult, gameMode: GameMode) => {
-    const p1 = createPlayer('p1', 'human', result.p1Name, result.p1ServantIds);
+    const p1 = createPlayer('p1', gameMode === 'spectate' ? 'ai' : 'human', result.p1Name, result.p1ServantIds);
     const p2 = createPlayer('p2', gameMode === 'hotseat' ? 'human' : 'ai', result.p2Name, result.p2ServantIds);
     setSetup(result);
     setCoachRounds([]);
@@ -72,6 +72,7 @@ function App() {
           battle={battle}
           difficulty={setup?.difficulty ?? 'normal'}
           training={mode === 'training'}
+          spectate={mode === 'spectate'}
           onCoachRound={handleCoachRound}
           onResolveRound={handleResolveRound}
         />
@@ -80,6 +81,7 @@ function App() {
         <GameOverScreen
           battle={battle}
           training={mode === 'training'}
+          spectate={mode === 'spectate'}
           coachRounds={coachRounds}
           onRematch={handleRematch}
           onMainMenu={handleMainMenu}

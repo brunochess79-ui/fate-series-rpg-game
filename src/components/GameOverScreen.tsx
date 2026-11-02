@@ -7,6 +7,7 @@ import { BattleLog } from './BattleLog';
 interface Props {
   battle: BattleState;
   training?: boolean;
+  spectate?: boolean;
   coachRounds?: CoachRound[];
   onRematch: () => void;
   onMainMenu: () => void;
@@ -60,7 +61,7 @@ function TrainingSummary({ battle, rounds }: { battle: BattleState; rounds: Coac
   );
 }
 
-export function GameOverScreen({ battle, training = false, coachRounds = [], onRematch, onMainMenu }: Props) {
+export function GameOverScreen({ battle, training = false, spectate = false, coachRounds = [], onRematch, onMainMenu }: Props) {
   const [p1, p2] = battle.players;
 
   if (battle.winReason === 'draw') {
@@ -74,7 +75,7 @@ export function GameOverScreen({ battle, training = false, coachRounds = [], onR
         </p>
         <div className="gameover-actions">
           <button className="primary-btn" onClick={onRematch}>
-            Rematch
+            {spectate ? 'Watch Another' : 'Rematch'}
           </button>
           <button className="secondary-btn" onClick={onMainMenu}>
             Main Menu
@@ -110,7 +111,7 @@ export function GameOverScreen({ battle, training = false, coachRounds = [], onR
       )}
       <div className="gameover-actions">
         <button className="primary-btn" onClick={onRematch}>
-          Rematch
+          {spectate ? 'Watch Another' : 'Rematch'}
         </button>
         <button className="secondary-btn" onClick={onMainMenu}>
           Main Menu
