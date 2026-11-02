@@ -1,7 +1,7 @@
 import { getServantDef } from '../data/servants';
 import type { Difficulty } from '../game';
 import type { BattleAction, BattleState, ServantInstance, TeamOrders } from '../types';
-import { choosePlaybookAction, linesFor } from './aiPolicy';
+import { decidePlaybook, linesFor } from './aiPolicy';
 import { trainingLineFor } from './coach';
 
 /** Pick the enemy Servant to aim at: the living one with the lowest HP,
@@ -30,33 +30,48 @@ export function chooseAiOrders(
   rng: () => number = Math.random,
   difficulty: Difficulty = 'normal',
 ): TeamOrders {
+  return planAiOrders(state, aiIndex, rng, difficulty).orders;
+}
+
+/** Like chooseAiOrders, but also says why each Servant's move was picked (for the Watch view). */
+export function planAiOrders(
+  state: BattleState,
+  aiIndex: 0 | 1,
+  rng: () => number = Math.random,
+  difficulty: Difficulty = 'normal',
+): { orders: TeamOrders; reasons: string[] } {
   const player = state.players[aiIndex];
   const enemy = state.players[1 - aiIndex];
   // Command Spells are a shared Master resource: only let one Servant per
   // round spend one, so a desperate team doesn't burn two at once.
   let spellsPlanned = 0;
 
-  return player.servants.map((servant) => {
+  const reasons: string[] = [];
+  const orders = player.servants.map((servant, slot) => {
     if (servant.hp <= 0) return null;
     const target = pickTarget(enemy.servants, difficulty === 'easy');
-    const action =
-      difficulty === 'normal'
-        ? chooseServantAction(state, aiIndex, servant, spellsPlanned, rng)
-        : choosePlaybookAction(
-            state,
-            aiIndex,
-            servant,
-            enemy.servants[target],
-            spellsPlanned,
-            difficulty === 'perfect'
-              ? trainingLineFor(servant.defId).flags
-              : linesFor(servant.defId, difficulty === 'easy'),
-            difficulty === 'easy',
-            rng,
-          );
+    let action: BattleAction;
+    if (difficulty === 'normal') {
+      action = chooseServantAction(state, aiIndex, servant, spellsPlanned, rng);
+      reasons[slot] = 'Follows the simple rules: heal when hurt, then buff, debuff or attack.';
+    } else {
+      const decision = decidePlaybook(
+        state,
+        aiIndex,
+        servant,
+        enemy.servants[target],
+        spellsPlanned,
+        difficulty === 'perfect' ? trainingLineFor(servant.defId).flags : linesFor(servant.defId, difficulty === 'easy'),
+        difficulty === 'easy',
+        rng,
+      );
+      action = decision.action;
+      reasons[slot] = decision.reason;
+    }
     if (action.type === 'commandSpell') spellsPlanned += 1;
     return { action, target };
   });
+  return { orders, reasons };
 }
 
 function chooseServantAction(

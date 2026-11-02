@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { chooseAiOrders } from '../engine/ai';
+import { chooseAiOrders, planAiOrders } from '../engine/ai';
 import { coachAdvice, describeAction, gradeRound, lineTips, trainingLineFor, type CoachRound } from '../engine/coach';
 import { getServantDef } from '../data/servants';
 import type { Difficulty } from '../game';
@@ -7,6 +7,7 @@ import type { BattleState, ServantOrder, TeamOrders } from '../types';
 import { ActionPanel } from './ActionPanel';
 import { BattleLog } from './BattleLog';
 import { ServantPanel } from './ServantPanel';
+import { SpectatorPanel } from './SpectatorPanel';
 
 interface Props {
   battle: BattleState;
@@ -45,8 +46,8 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
   const [pendingOrders, setPendingOrders] = useState<[TeamOrders, TeamOrders]>(() => emptyOrders(battle));
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [showHint, setShowHint] = useState(true);
-  const [paused, setPaused] = useState(false);
-  const [speedMs, setSpeedMs] = useState(1400);
+  const [autoPlay, setAutoPlay] = useState(false);
+  const [speedMs, setSpeedMs] = useState(4000);
   const [lastGrade, setLastGrade] = useState<CoachRound | null>(null);
   const advice = useMemo(
     () => (training && battle.phase !== 'gameover' ? coachAdvice(battle, 0) : null),
@@ -77,20 +78,22 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
     };
   }, [pendingOrders, isVsAi, battle, difficulty, onResolveRound]);
 
-  // Watch mode: both Perfect AIs choose and the round resolves on a timer.
-  useEffect(() => {
-    if (!spectate || paused || battle.phase === 'gameover') return;
-    const t = setTimeout(() => {
-      onResolveRound(
-        chooseAiOrders(battle, 0, Math.random, 'perfect'),
-        chooseAiOrders(battle, 1, Math.random, 'perfect'),
-      );
-    }, speedMs);
-    return () => clearTimeout(t);
-  }, [spectate, paused, speedMs, battle, onResolveRound]);
+  // Watch mode: both Perfect AIs lock in their moves for the round; you see both menus with the picks marked,
+  // then resolve the round yourself (or let Auto-play do it).
+  const plan = useMemo(() => {
+    if (!spectate || battle.phase === 'gameover') return null;
+    return [planAiOrders(battle, 0, Math.random, 'perfect'), planAiOrders(battle, 1, Math.random, 'perfect')] as const;
+  }, [spectate, battle]);
 
-  const stepOnce = () =>
-    onResolveRound(chooseAiOrders(battle, 0, Math.random, 'perfect'), chooseAiOrders(battle, 1, Math.random, 'perfect'));
+  const resolvePlanned = () => {
+    if (plan) onResolveRound(plan[0].orders, plan[1].orders);
+  };
+
+  useEffect(() => {
+    if (!spectate || !autoPlay || !plan) return;
+    const t = setTimeout(() => onResolveRound(plan[0].orders, plan[1].orders), speedMs);
+    return () => clearTimeout(t);
+  }, [spectate, autoPlay, speedMs, plan, onResolveRound]);
 
   const handleOrder = (teamIndex: 0 | 1, slot: number, order: ServantOrder) => {
     if (training && advice && teamIndex === 0 && slot === 0) {
@@ -125,7 +128,7 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
   const pickingSlot = pickingIndex !== null ? nextSlot(battle, pickingIndex, pendingOrders[pickingIndex]) : -1;
 
   const bannerText = () => {
-    if (spectate) return `Round ${battle.round} — ${paused ? 'paused' : 'watching'}: Perfect AI vs Perfect AI`;
+    if (spectate) return `Round ${battle.round} — both Perfect AIs have locked in their moves`;
     if (isVsAi) {
       return teamDone(battle, 0, pendingOrders[0])
         ? `Round ${battle.round} — ${battle.players[1].master.name} is thinking...`
@@ -167,24 +170,44 @@ export function BattleScreen({ battle, difficulty = 'normal', training = false, 
         </div>
       </div>
       <BattleLog log={battle.log} />
-      {spectate && (
-        <div className="spectate-controls" aria-label="Watch controls">
-          <button className="secondary-btn" onClick={() => setPaused((v) => !v)}>
-            {paused ? '▶ Play' : '⏸ Pause'}
-          </button>
-          <button className="secondary-btn" disabled={!paused} onClick={stepOnce}>
-            Step one round
-          </button>
-          <label>
-            Speed{' '}
-            <select value={speedMs} onChange={(e) => setSpeedMs(Number(e.target.value))}>
-              <option value={2500}>Slow</option>
-              <option value={1400}>Normal</option>
-              <option value={600}>Fast</option>
-              <option value={150}>Very fast</option>
-            </select>
-          </label>
-        </div>
+      {spectate && plan && (
+        <>
+          <div className="spectate-controls" aria-label="Watch controls">
+            <button className="primary-btn" onClick={resolvePlanned}>
+              Play out round {battle.round} ▶
+            </button>
+            <label>
+              <input type="checkbox" checked={autoPlay} onChange={(e) => setAutoPlay(e.target.checked)} /> Auto-play
+            </label>
+            <label>
+              Delay between rounds{' '}
+              <select value={speedMs} onChange={(e) => setSpeedMs(Number(e.target.value))}>
+                <option value={8000}>8 s</option>
+                <option value={4000}>4 s</option>
+                <option value={2000}>2 s</option>
+                <option value={800}>0.8 s</option>
+              </select>
+            </label>
+          </div>
+          <div className="spectator-columns">
+            {[0, 1].map((idx) => (
+              <div key={idx}>
+                {battle.players[idx].servants.map((servant, slot) =>
+                  servant.hp > 0 ? (
+                    <SpectatorPanel
+                      key={slot}
+                      label={battle.players[idx].master.name}
+                      player={battle.players[idx]}
+                      servant={servant}
+                      order={plan[idx].orders[slot]}
+                      reason={plan[idx].reasons[slot]}
+                    />
+                  ) : null,
+                )}
+              </div>
+            ))}
+          </div>
+        </>
       )}
       {training && advice && (
         <div className="coach-panel" aria-label="Training coach">

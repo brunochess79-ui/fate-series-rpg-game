@@ -30,8 +30,10 @@ roster easy, and every ability has an expandable description in battle.
   line. (The Hard AI itself still plays the standard line.)
 
 - **Watch: Perfect AI vs Perfect AI** — choose (or randomly draw) a Servant for each
-  side and watch two bots play each Servant's best tournament line against each
-  other, with pause, single-step and speed controls. "Watch Another" re-draws any
+  side. Every round both bots' full action menus are shown (every skill with its
+  cooldown, description, NP gauge and Command Spells) with the move each locked in
+  highlighted and the reason for it. Press "Play out round" to resolve it and read the
+  log, or tick Auto-play with a delay between rounds. "Watch Another" re-draws any
   random picks.
 
 ## Gameplay
