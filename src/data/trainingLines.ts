@@ -80,7 +80,7 @@ export const TRAINING_LINES: Record<string, TrainingLine> = {
   'okita-souji': { flags: { heal: 'low' }, discovered: true, gain: 8.5 },
   'orion': { flags: { heal: 'low', noDebuff: true, critSetup: true }, discovered: false },
   'ozymandias': { flags: { heal: 'low', noDebuff: true, critSetup: true }, discovered: false },
-  'percival': { flags: { heal: 'high', useDrain: true }, discovered: false },
+  'percival': { flags: {}, discovered: false },
   'quetzalcoatl': { flags: { heal: 'low', critSetup: true }, discovered: true, gain: 30 },
   'rama': { flags: { heal: 'high' }, discovered: true, gain: 10 },
   'richard': { flags: { heal: 'low', noDebuff: true, critSetup: true }, discovered: true, gain: 37 },

@@ -268,7 +268,7 @@ const karna: ServantDefinition = {
   def: 100,
   agility: 60,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Durability', 'Shielding'],
   weaknesses: ['Slow'],
   passiveDescription: 'Born wearing radiant armor and earrings that ward off death itself.',
@@ -872,20 +872,20 @@ const percival: ServantDefinition = {
   className: 'Lancer',
   trueName: 'Percival',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Percival",
-  maxHp: 979,
-  atk: 89,
-  def: 53,
+  maxHp: 1256,
+  atk: 115,
+  def: 67,
   agility: 68,
   critChance: 0.12,
   rank: 'A+',
-  strengths: ['Stun', 'NP Denial', 'Regeneration'],
+  strengths: ['Durability', 'Regeneration'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The purest knight of the Round Table, who beheld the Grail and was found worthy.',
   skills: [
     {
       id: 'grails-grace',
       name: "Grail's Grace",
-      description: 'The blessing of the cup he once beheld. Recovers 8% max HP at the start of each of his next 3 turns.',
+      description: 'The blessing of the cup he once beheld. Recovers 6% max HP at the start of each of his next 3 turns.',
       cooldown: 5,
       npGainSelf: 20,
       tag: 'heal',
@@ -894,57 +894,54 @@ const percival: ServantDefinition = {
           id: 'grails-grace-regen',
           name: "Grail's Grace",
           kind: 'regen',
-          potency: Math.round(ctx.self.maxHp * 0.08),
+          potency: Math.round(ctx.self.maxHp * 0.06),
           turnsRemaining: 3,
-          description: 'Recovers 8% max HP per turn',
+          description: 'Recovers 6% max HP per turn',
         });
         ctx.log("The Grail's Grace settles over Percival.");
       },
     },
     {
-      id: 'silence-of-the-grail',
-      name: 'Silence of the Grail',
-      description: "The cup's light stills the enemy where they stand. Stuns the enemy: they cannot act this round, even to fire a Noble Phantasm.",
-      cooldown: 5,
+      id: 'knight-of-the-round',
+      name: 'Knight of the Round',
+      description: 'A guard drilled at the Round Table itself. Raises own Defense by 25% for 2 turns.',
+      cooldown: 4,
       npGainSelf: 20,
-      tag: 'debuff',
-      stuns: true,
+      tag: 'buff',
       effect: (ctx) => {
-        applyStatus(ctx.enemy, {
-          id: 'silence-of-the-grail-stun',
-          name: 'Stilled',
-          kind: 'stun',
-          turnsRemaining: 1,
-          description: 'Cannot act next turn',
+        applyStatus(ctx.self, {
+          id: 'knight-of-the-round',
+          name: 'Knight of the Round',
+          kind: 'buff',
+          stat: 'def',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% DEF',
         });
-        ctx.log('Percival\'s Silence of the Grail stills the enemy!');
+        ctx.log('Percival raises his guard as a Knight of the Round.');
       },
     },
     {
-      id: 'seal-of-the-grail',
-      name: 'Seal of the Grail',
-      description: "The cup's light locks the enemy's power away. Drains 60% from the enemy's Noble Phantasm gauge before they act, even on a turn they would unleash their Noble Phantasm: a drained Noble Phantasm cannot fire.",
-      cooldown: 4,
-      npGainSelf: 20,
-      tag: 'debuff',
-      preemptive: true,
+      id: 'piercing-charge',
+      name: 'Piercing Charge',
+      description: 'A lance charge in perfect form. Deals 1.35x damage.',
+      cooldown: 3,
+      tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
-        ctx.enemy.npGauge = Math.max(0, ctx.enemy.npGauge - 60);
-        ctx.log("Percival's Seal of the Grail locks away the enemy's power!");
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.35, { label: 'Piercing Charge' });
+        ctx.log('Percival drives home a Piercing Charge!');
       },
     },
   ],
   noblePhantasm: {
     name: 'Longinus Count Zero: The Holy Lance, Unsealed',
     japaneseName: 'Longinus Count Zero',
-    description: "The holy lance answers the purest of knights, striking with force equal to 34% of the enemy's max HP plus 40.",
+    description: 'The holy lance answers the purest of knights, its light burning away all it touches.',
     rank: 'A',
     effect: (ctx) => {
       ctx.log('Percival unseals the holy lance — Longinus Count Zero!');
-      // Scales off the enemy's vitality rather than Percival's Attack; as an
-      // equivalent multiplier the whole damage pipeline still applies on top.
-      const multiplier = (0.34 * ctx.enemy.maxHp + 40) / percival.atk;
-      ctx.dealDamage(ctx.self, ctx.enemy, multiplier, { label: 'Longinus Count Zero' });
+      ctx.dealDamage(ctx.self, ctx.enemy, 3.85, { label: 'Longinus Count Zero' });
     },
   },
 };
