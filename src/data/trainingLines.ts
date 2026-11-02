@@ -101,7 +101,7 @@ export const TRAINING_LINES: Record<string, TrainingLine> = {
   'siegfried': { flags: {}, discovered: false },
   'sigurd': { flags: { noDebuff: true }, discovered: false },
   'solomon': { flags: { heal: 'low', noShield: true }, discovered: true, gain: 6 },
-  'spartacus': { flags: { heal: 'low', noShield: true }, discovered: true, gain: 16 },
+  'spartacus': { flags: { noShield: true, heal: 'low', noDebuff: true }, discovered: true, gain: 24.0 },
   'tamamo': { flags: { noDebuff: true }, discovered: false },
   'tametomo': { flags: { heal: 'low', noDebuff: true }, discovered: false },
   'tezcatlipoca': { flags: { noBuff: true, noDebuff: true }, discovered: true, gain: 10.0 },

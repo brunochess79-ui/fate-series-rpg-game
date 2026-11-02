@@ -32,14 +32,22 @@ export function createMasterState(name: string): MasterState {
 
 /** Base crit chance at which a Servant's Noble Phantasm damage can be reduced... */
 export const HIGH_CRIT_CHANCE = 0.15;
-export const HIGH_CRIT_NP_FACTOR = 0.9;
-/** ...but only for the 15%-crit Servants that were in the top 20 of the ratings before the nerf existed
- * (the weaker 15%-crit Servants keep their full Noble Phantasm damage). */
-export const HIGH_CRIT_NERFED_IDS: ReadonlySet<string> = new Set(["kama", "quetzalcoatl", "achilles", "ishtar", "archer"]);
+/**
+ * ...but only for the 15%-crit Servants that were in the top 20 of the ratings before the nerf existed
+ * (the weaker 15%-crit Servants keep their full Noble Phantasm damage). Those who were in the top 10
+ * take the full 10% cut; the rest of the top 20 take 5%.
+ */
+export const HIGH_CRIT_NP_FACTORS: Readonly<Record<string, number>> = {
+  kama: 0.9,
+  quetzalcoatl: 0.9,
+  achilles: 0.9,
+  ishtar: 0.9,
+  archer: 0.95, // Arash
+};
 
-/** Whether this Servant's Noble Phantasm damage is reduced by the high-crit rule. */
-export function hasNpCritNerf(def: { id: string; critChance: number }): boolean {
-  return def.critChance >= HIGH_CRIT_CHANCE && HIGH_CRIT_NERFED_IDS.has(def.id);
+/** The multiplier applied to this Servant's Noble Phantasm damage by the high-crit rule (1 = none). */
+export function npCritFactor(def: { id: string; critChance: number }): number {
+  return def.critChance >= HIGH_CRIT_CHANCE ? (HIGH_CRIT_NP_FACTORS[def.id] ?? 1) : 1;
 }
 
 export function createPlayer(
@@ -124,8 +132,8 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     // final bump at the same percentage.
     dmg *= statMultiplier(attacker, 'damage');
 
-    // Top-rated Servants with the top crit chance (15%) pay for it: their Noble Phantasms hit 10% softer.
-    if (options.isNP && hasNpCritNerf(attackerDef)) dmg *= HIGH_CRIT_NP_FACTOR;
+    // Top-rated Servants with the top crit chance (15%) pay for it: their Noble Phantasms hit 5-10% softer.
+    if (options.isNP) dmg *= npCritFactor(attackerDef);
 
     dmg = Math.round(dmg);
 
