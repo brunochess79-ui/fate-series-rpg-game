@@ -13,7 +13,7 @@ const hassan: ServantDefinition = {
   def: 56,
   agility: 90,
   critChance: 0.15,
-  rank: 'C+',
+  rank: 'C',
   strengths: ['Critical Hits', 'Evasion'],
   weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: 'A killer who strikes from the shadows with unmatched precision.',
