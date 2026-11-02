@@ -40,7 +40,7 @@ roster easy, and every ability has an expandable description in battle.
 
 - A Servant that lost its action to a stun can't be stunned again the next round (a delayed stun that would land right after one is shrugged off).
 
-- Servants with the top base crit chance (15%) have their Noble Phantasm damage reduced by 10%.
+- Noble Phantasm damage is reduced by 10% for the top-rated Servants with the top base crit chance (15%): Kama, Achilles, Quetzalcoatl, Ishtar and Arash. Other 15%-crit Servants are unaffected.
 
 - Each round, both Masters choose their move without seeing the other's
   choice. In hot-seat play, one player locks in their move, then a "pass the
