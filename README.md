@@ -38,6 +38,8 @@ roster easy, and every ability has an expandable description in battle.
 
 ## Gameplay
 
+- Servants with the top base crit chance (15%) have their Noble Phantasm damage reduced by 10%.
+
 - Each round, both Masters choose their move without seeing the other's
   choice. In hot-seat play, one player locks in their move, then a "pass the
   device" screen hides it before the other player chooses; both moves are

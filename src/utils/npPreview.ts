@@ -1,3 +1,4 @@
+import { HIGH_CRIT_CHANCE, HIGH_CRIT_NP_FACTOR } from '../engine/battle';
 import type { BattleContext, MasterState, ServantDefinition, ServantInstance } from '../types';
 
 // A representative defender used only to preview Noble Phantasm damage on the
@@ -40,8 +41,9 @@ export function estimateNpDamage(def: ServantDefinition): NpDamageEstimate | nul
     enemyHpFraction: 1,
     dealDamage: (attacker, _defender, multiplier) => {
       if (attacker !== self) return 0;
-      const lowHit = Math.max(1, def.atk * multiplier * 0.9 - BASELINE_DEF * 0.5);
-      const highHit = Math.max(1, def.atk * multiplier * 1.1 - BASELINE_DEF * 0.5);
+      const npFactor = def.critChance >= HIGH_CRIT_CHANCE ? HIGH_CRIT_NP_FACTOR : 1;
+      const lowHit = Math.max(1, def.atk * multiplier * 0.9 - BASELINE_DEF * 0.5) * npFactor;
+      const highHit = Math.max(1, def.atk * multiplier * 1.1 - BASELINE_DEF * 0.5) * npFactor;
       low += lowHit;
       high += highHit;
       hits += 1;

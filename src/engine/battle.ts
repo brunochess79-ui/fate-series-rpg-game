@@ -30,6 +30,10 @@ export function createMasterState(name: string): MasterState {
   return { name, commandSpells: 3, critNextAttack: false };
 }
 
+/** Base crit chance at which a Servant's Noble Phantasm damage is reduced. */
+export const HIGH_CRIT_CHANCE = 0.15;
+export const HIGH_CRIT_NP_FACTOR = 0.9;
+
 export function createPlayer(
   id: 'p1' | 'p2',
   kind: PlayerKind,
@@ -111,6 +115,9 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     // "damage" buff multiplies the already-mitigated hit, so it's a smaller
     // final bump at the same percentage.
     dmg *= statMultiplier(attacker, 'damage');
+
+    // Servants at the top crit chance (15%) pay for it: their Noble Phantasms hit 10% softer.
+    if (options.isNP && attackerDef.critChance >= HIGH_CRIT_CHANCE) dmg *= HIGH_CRIT_NP_FACTOR;
 
     dmg = Math.round(dmg);
 
