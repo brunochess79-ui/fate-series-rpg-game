@@ -35,11 +35,11 @@ export const HIGH_CRIT_CHANCE = 0.15;
 export const HIGH_CRIT_NP_FACTOR = 0.9;
 /** ...but only for the 15%-crit Servants that were in the top 20 of the ratings before the nerf existed
  * (the weaker 15%-crit Servants keep their full Noble Phantasm damage). */
-export const HIGH_CRIT_NERFED_["kama", "quetzalcoatl", "achilles", "ishtar", "archer"]: ReadonlySet<string> = new Set(["kama", "quetzalcoatl", "achilles", "ishtar", "archer"]);
+export const HIGH_CRIT_NERFED_IDS: ReadonlySet<string> = new Set(["kama", "quetzalcoatl", "achilles", "ishtar", "archer"]);
 
 /** Whether this Servant's Noble Phantasm damage is reduced by the high-crit rule. */
 export function hasNpCritNerf(def: { id: string; critChance: number }): boolean {
-  return def.critChance >= HIGH_CRIT_CHANCE && HIGH_CRIT_NERFED_["kama", "quetzalcoatl", "achilles", "ishtar", "archer"].has(def.id);
+  return def.critChance >= HIGH_CRIT_CHANCE && HIGH_CRIT_NERFED_IDS.has(def.id);
 }
 
 export function createPlayer(
