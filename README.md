@@ -71,7 +71,9 @@ roster easy, and every ability has an expandable description in battle.
 
 Each Servant's rating letter (C to A+) comes from a full round-robin tournament
 in which every Servant fights every other, each playing its best line (the
-verified-better line where one was found). Scoring works in two steps:
+verified-better line where one was found). The tournament is run 10 times; each run is
+scored as below and the final score is the mean over the runs (a run that is a clear
+outlier for a Servant is discarded). Scoring works in two steps:
 
 1. Rank every Servant by head-to-head wins alone. The top 15 of that ranking
    become the benchmark group.

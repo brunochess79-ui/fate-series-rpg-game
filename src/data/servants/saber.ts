@@ -523,7 +523,7 @@ const yagyuMunenori: ServantDefinition = {
   def: 69,
   agility: 72,
   critChance: 0.15,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Critical Hits', 'Speed'],
   weaknesses: ['Low HP'],
   passiveDescription: 'A cold, calculated master of the sword, disciplined enough to end a duel with a single stroke.',

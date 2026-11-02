@@ -13,7 +13,7 @@ const kama: ServantDefinition = {
   def: 51,
   agility: 70,
   critChance: 0.15,
-  rank: 'B',
+  rank: 'B+',
   strengths: ['Critical Hits', 'Regeneration'],
   weaknesses: ['Fragile'],
   passiveDescription: 'The god of love and desire, whose devotion curdles into Mara when spurned.',

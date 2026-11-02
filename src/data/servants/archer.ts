@@ -762,7 +762,7 @@ const ashwatthama: ServantDefinition = {
   def: 61,
   agility: 62,
   critChance: 0.13,
-  rank: 'B',
+  rank: 'C+',
   strengths: ['Sustain', 'Debuffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: "A warrior cursed to wander forever, his father's death fueling an endless fury.",
