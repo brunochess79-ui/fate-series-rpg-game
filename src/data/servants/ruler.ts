@@ -183,7 +183,7 @@ const sherlock: ServantDefinition = {
   def: 71,
   agility: 70,
   critChance: 0.15,
-  rank: 'B+',
+  rank: 'C+',
   strengths: ['Critical Strikes', 'Debuffs'],
   weaknesses: ['No Self-Heal'],
   passiveDescription: 'A detective whose deductions cut deeper than any blade, exposing every flaw.',
