@@ -186,7 +186,7 @@ const merlin: ServantDefinition = {
   trueName: 'Merlin',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Merlin",
   maxHp: 931,
-  atk: 99,
+  atk: 98,
   def: 57,
   agility: 55,
   critChance: 0.1,

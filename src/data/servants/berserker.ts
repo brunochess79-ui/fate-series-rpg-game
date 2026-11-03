@@ -13,7 +13,7 @@ const heracles: ServantDefinition = {
   def: 39,
   agility: 48,
   critChance: 0.08,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Highest Damage', 'Regeneration'],
   weaknesses: ['Lowest Defense', 'Low Crit Rate', 'Slow'],
   passiveDescription:
