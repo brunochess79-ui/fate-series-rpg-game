@@ -29,6 +29,8 @@ export interface StatusEffect {
    * applied in (no grace round) — e.g. a shield that only protects the
    * turn it is cast. Evade statuses always behave this way. */
   noGraceRound?: boolean;
+  /** On a guaranteed-crit status: the hit it powers ignores the target's shield. */
+  ignoresShield?: boolean;
   description: string;
 }
 

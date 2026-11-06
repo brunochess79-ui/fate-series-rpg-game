@@ -99,7 +99,7 @@ export const TRAINING_LINES: Record<string, TrainingLine> = {
   'sengo-muramasa': { flags: { critSetup: true }, discovered: false },
   'sherlock': { flags: { noDebuff: true }, discovered: false },
   'siegfried': { flags: {}, discovered: false },
-  'sigurd': { flags: { noDebuff: true }, discovered: false },
+  'sigurd': { flags: {}, discovered: false },
   'solomon': { flags: { heal: 'low', noShield: true }, discovered: true, gain: 6 },
   'spartacus': { flags: { noShield: true, heal: 'low', noDebuff: true }, discovered: true, gain: 24.0 },
   'tamamo': { flags: { noDebuff: true }, discovered: false },

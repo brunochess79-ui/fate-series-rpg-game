@@ -60,13 +60,22 @@ const jeanne: ServantDefinition = {
     {
       id: 'revelation',
       name: 'Revelation',
-      description: "A voice from God parts the fog of war. Clears all of her own debuffs and curses.",
+      description: "A voice from God parts the fog of war. Clears all of her own debuffs and curses and raises her Attack by 25% for 2 turns.",
       cooldown: 4,
       npGainSelf: 20,
-      tag: 'utility',
+      tag: 'buff',
       effect: (ctx) => {
         const cleared = ctx.self.statuses.some((s) => s.kind === 'debuff' || s.kind === 'dot');
         ctx.self.statuses = ctx.self.statuses.filter((s) => s.kind !== 'debuff' && s.kind !== 'dot');
+        applyStatus(ctx.self, {
+          id: 'revelation-atk',
+          name: 'Revelation',
+          kind: 'buff',
+          stat: 'atk',
+          amount: 0.25,
+          turnsRemaining: 2,
+          description: '+25% ATK',
+        });
         ctx.log(
           cleared
             ? "Jeanne d'Arc receives a Revelation, casting off every affliction!"

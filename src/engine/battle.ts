@@ -116,6 +116,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
     }
 
     const hasCritBuff = attacker.statuses.some((s) => s.id.endsWith('__critReady'));
+    const piercesShield = attacker.statuses.some((s) => s.id.endsWith('__critReady') && s.ignoresShield);
 
     const atkStat = attackerDef.atk * statMultiplier(attacker, 'atk');
     const defStat = defenderDef.def * statMultiplier(defender, 'def');
@@ -137,7 +138,7 @@ function makeDealDamage(log: (msg: string) => void, rng: () => number) {
 
     dmg = Math.round(dmg);
 
-    const shieldStatus = defender.statuses.find((s) => s.kind === 'shield' && (s.potency ?? 0) > 0);
+    const shieldStatus = piercesShield ? undefined : defender.statuses.find((s) => s.kind === 'shield' && (s.potency ?? 0) > 0);
     let absorbed = 0;
     if (shieldStatus) {
       absorbed = Math.min(dmg, shieldStatus.potency ?? 0);

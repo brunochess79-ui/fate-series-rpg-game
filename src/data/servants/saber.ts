@@ -129,13 +129,15 @@ const siegfried: ServantDefinition = {
     {
       id: 'balmungs-edge',
       name: "Balmung's Edge",
-      description: 'A whetted blade strikes true. Deals 1.3x damage.',
+      description: 'A whetted blade strikes true. Deals 1.2x damage and clears all of his own debuffs and curses.',
       cooldown: 3,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: "Balmung's Edge" });
-        ctx.log("Siegfried strikes with Balmung's Edge!");
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.2, { label: "Balmung's Edge" });
+        const cleared = ctx.self.statuses.some((s) => s.kind === 'debuff' || s.kind === 'dot');
+        ctx.self.statuses = ctx.self.statuses.filter((s) => s.kind !== 'debuff' && s.kind !== 'dot');
+        ctx.log(cleared ? "Siegfried strikes with Balmung's Edge, shaking off every affliction!" : "Siegfried strikes with Balmung's Edge!");
       },
     },
     {
@@ -1139,23 +1141,23 @@ const sigurd: ServantDefinition = {
       },
     },
     {
-      id: 'dragonslayers-insight',
-      name: "Dragonslayer's Insight",
-      description: "Eyes that found Fafnir's heart find every weakness. Lowers enemy Defense by 20% for 3 turns.",
+      id: 'dragonslayers-resolve',
+      name: "Dragonslayer's Resolve",
+      description: "The slayer of Fafnir bears every blow without bending. Raises own Defense by 20% for 2 turns.",
       cooldown: 4,
       npGainSelf: 20,
-      tag: 'debuff',
+      tag: 'buff',
       effect: (ctx) => {
-        applyStatus(ctx.enemy, {
-          id: 'dragonslayers-insight',
-          name: "Dragonslayer's Insight",
-          kind: 'debuff',
+        applyStatus(ctx.self, {
+          id: 'dragonslayers-resolve',
+          name: "Dragonslayer's Resolve",
+          kind: 'buff',
           stat: 'def',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% DEF',
+          amount: 0.2,
+          turnsRemaining: 2,
+          description: '+20% DEF',
         });
-        ctx.log("Sigurd's Dragonslayer's Insight lays the enemy's guard bare!");
+        ctx.log("Sigurd braces with Dragonslayer's Resolve!");
       },
     },
     {

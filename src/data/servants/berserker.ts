@@ -340,7 +340,7 @@ const frankenstein: ServantDefinition = {
     {
       id: 'monstrous-grip',
       name: 'Monstrous Grip',
-      description: 'A crushing, unrelenting hold. Next attack is a guaranteed critical hit.',
+      description: 'A crushing, unrelenting hold. Next attack is a guaranteed critical hit that ignores shields.',
       cooldown: 4,
       npGainSelf: 20,
       tag: 'crit',
@@ -350,7 +350,8 @@ const frankenstein: ServantDefinition = {
           name: 'Monstrous Grip',
           kind: 'buff',
           turnsRemaining: 1,
-          description: 'Next attack guaranteed crit',
+          ignoresShield: true,
+          description: 'Next attack guaranteed crit that ignores shields',
         });
         ctx.log("Frankenstein's Monster tightens its Monstrous Grip.");
       },
@@ -380,7 +381,7 @@ const morganLeFay: ServantDefinition = {
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Morgan",
   maxHp: 1232,
   atk: 99,
-  def: 50,
+  def: 55,
   agility: 55,
   critChance: 0.08,
   rank: 'A+',

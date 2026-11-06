@@ -406,20 +406,12 @@ const romulusQuirinus: ServantDefinition = {
     {
       id: 'civilizations-light',
       name: "Civilization's Light",
-      description: "A founder's light exposes every flaw. Lowers enemy Defense by 20% for 3 turns.",
+      description: "A founder's light scorches the enemy. Deals 1.3x damage.",
       cooldown: 4,
-      npGainSelf: 20,
-      tag: 'debuff',
+      tag: 'crit',
+      dealsDamage: true,
       effect: (ctx) => {
-        applyStatus(ctx.enemy, {
-          id: 'civilizations-light',
-          name: "Civilization's Light",
-          kind: 'debuff',
-          stat: 'def',
-          amount: -0.2,
-          turnsRemaining: 3,
-          description: '-20% DEF',
-        });
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: "Civilization's Light" });
         ctx.log("Romulus-Quirinus casts Civilization's Light upon the enemy!");
       },
     },

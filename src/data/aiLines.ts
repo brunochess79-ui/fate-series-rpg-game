@@ -99,7 +99,7 @@ export const HARD_LINES: Record<string, AiLineFlags> = {
   'sengo-muramasa': { critSetup: true },
   'sherlock': { noDebuff: true },
   'siegfried': {},
-  'sigurd': { noDebuff: true },
+  'sigurd': {},
   'solomon': { noShield: true },
   'spartacus': { noShield: true },
   'tamamo': { noDebuff: true },
