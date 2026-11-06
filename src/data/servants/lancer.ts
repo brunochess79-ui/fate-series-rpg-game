@@ -13,7 +13,7 @@ const cuChulainn: ServantDefinition = {
   def: 65,
   agility: 100,
   critChance: 0.1,
-  rank: 'B',
+  rank: 'C+',
   strengths: ['Speed', 'Sustained Regeneration', 'Evasion'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The fastest Servant on the battlefield.',
@@ -354,8 +354,8 @@ const romulusQuirinus: ServantDefinition = {
   className: 'Lancer',
   trueName: 'Romulus',
   fateWikiUrl: "https://fategrandorder.fandom.com/wiki/Romulus-Quirinus",
-  maxHp: 1297,
-  atk: 123,
+  maxHp: 1284,
+  atk: 122,
   def: 71,
   agility: 60,
   critChance: 0.1,
@@ -406,12 +406,12 @@ const romulusQuirinus: ServantDefinition = {
     {
       id: 'civilizations-light',
       name: "Civilization's Light",
-      description: "A founder's light scorches the enemy. Deals 1.3x damage.",
+      description: "A founder's light scorches the enemy. Deals 1.15x damage.",
       cooldown: 4,
       tag: 'crit',
       dealsDamage: true,
       effect: (ctx) => {
-        ctx.dealDamage(ctx.self, ctx.enemy, 1.3, { label: "Civilization's Light" });
+        ctx.dealDamage(ctx.self, ctx.enemy, 1.15, { label: "Civilization's Light" });
         ctx.log("Romulus-Quirinus casts Civilization's Light upon the enemy!");
       },
     },
@@ -787,7 +787,7 @@ const romulus: ServantDefinition = {
   def: 59,
   agility: 66,
   critChance: 0.12,
-  rank: 'A+',
+  rank: 'A',
   strengths: ['Durability', 'Buffs'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The first king, whose spear took root and became a sacred tree on the Palatine.',
@@ -1040,7 +1040,7 @@ const bhima: ServantDefinition = {
   def: 49,
   agility: 62,
   critChance: 0.1,
-  rank: 'B+',
+  rank: 'B',
   strengths: ['Raw Power', 'High HP'],
   weaknesses: ['Low Defense', 'Low Crit Rate'],
   passiveDescription: 'The mightiest of the five Pandava brothers, with the strength of ten thousand elephants.',

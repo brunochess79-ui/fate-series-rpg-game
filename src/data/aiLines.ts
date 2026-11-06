@@ -87,7 +87,7 @@ export const HARD_LINES: Record<string, AiLineFlags> = {
   'rider': { heal: 'low', noShield: true },
   'robin-hood': { noDebuff: true },
   'romulus': { heal: 'high' },
-  'romulus-quirinus': { noDebuff: true, noBuff: true },
+  'romulus-quirinus': { noBuff: true },
   'saber': { heal: 'low' },
   'saito': { heal: 'low' },
   'sakata-kintoki': { noBuff: true },

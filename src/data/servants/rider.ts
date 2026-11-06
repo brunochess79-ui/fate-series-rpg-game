@@ -303,7 +303,7 @@ const noah: ServantDefinition = {
   def: 77,
   agility: 40,
   critChance: 0.05,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Highest HP', 'Shielding'],
   weaknesses: ['Slowest'],
   passiveDescription: "The captain of the Ark, who stood against a flood that erased the world.",

@@ -102,7 +102,7 @@ const circe: ServantDefinition = {
   def: 64,
   agility: 55,
   critChance: 0.08,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Debuffs', 'Tempo Control', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile'],
   passiveDescription: 'Her potions and spells twist the body and mind of any who cross her.',
@@ -286,7 +286,7 @@ const gillesDeRais: ServantDefinition = {
   def: 62,
   agility: 50,
   critChance: 0.08,
-  rank: 'C+',
+  rank: 'B',
   strengths: ['Debuffs', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile', 'Low HP'],
   passiveDescription:
