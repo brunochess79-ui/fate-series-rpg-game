@@ -85,14 +85,14 @@ export function lineTips(defId: string): string[] {
   const debuffs = names((x) => x.enemyDebuff && !x.dmg);
   if (f.noDebuff && debuffs.length) {
     tips.push(`Skip ${debuffs.join(' and ')}: casting ${debuffs.length > 1 ? 'them' : 'it'} costs a whole turn for too little in return.`);
-  } else if (debuffs.length && line.discovered) {
-    tips.push(`Do cast ${debuffs.join(' and ')} when ${debuffs.length > 1 ? 'they are' : 'it is'} ready and not already active — it pays off for this Servant.`);
+  } else if (debuffs.length) {
+    tips.push(`Cast ${debuffs.join(' and ')} when ${debuffs.length > 1 ? 'they are' : 'it is'} ready and not already active — it weakens the enemy and pays off for this Servant.`);
   }
   const buffs = names((x) => x.selfAtkBuff && !x.dmg);
   if (f.noBuff && buffs.length) {
     tips.push(`Skip ${buffs.join(' and ')}: the turn spent buffing is worth more as an attack.`);
-  } else if (buffs.length && line.discovered) {
-    tips.push(`Cast ${buffs.join(' and ')} once your NP gauge is past about 55% — the buff pays for the turn.`);
+  } else if (buffs.length) {
+    tips.push(`Cast ${buffs.join(' and ')} once your NP gauge is past about 55% (and the buff is not already active) — the buff pays for the turn.`);
   }
   const shields = names((x) => x.shield);
   if (f.noShield && shields.length) {
