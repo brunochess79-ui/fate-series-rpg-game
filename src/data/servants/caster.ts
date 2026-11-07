@@ -286,7 +286,7 @@ const gillesDeRais: ServantDefinition = {
   def: 62,
   agility: 50,
   critChance: 0.08,
-  rank: 'B',
+  rank: 'C+',
   strengths: ['Debuffs', 'Regeneration'],
   weaknesses: ['Low Damage', 'Fragile', 'Low HP'],
   passiveDescription:
@@ -820,7 +820,7 @@ const chenGong: ServantDefinition = {
   def: 70,
   agility: 55,
   critChance: 0.1,
-  rank: 'B',
+  rank: 'C+',
   strengths: ['Traps', 'Debuffs'],
   weaknesses: ['Frail', 'Low HP'],
   passiveDescription: 'An advisor whose cunning outlasted his master, laying traps within traps.',
