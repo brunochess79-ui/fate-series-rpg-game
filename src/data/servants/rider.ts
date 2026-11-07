@@ -400,7 +400,7 @@ const ozymandias: ServantDefinition = {
   def: 61,
   agility: 55,
   critChance: 0.12,
-  rank: 'B+',
+  rank: 'A',
   strengths: ['Highest Damage'],
   weaknesses: ['Low Crit Rate'],
   passiveDescription: 'The radiant Sun King of Egypt, endlessly arrogant and endlessly certain of his own divinity.',

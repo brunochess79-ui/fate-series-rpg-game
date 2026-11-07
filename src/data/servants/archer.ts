@@ -97,7 +97,7 @@ const robinHood: ServantDefinition = {
   def: 56,
   agility: 88,
   critChance: 0.15,
-  rank: 'A',
+  rank: 'B+',
   strengths: ['Finishing Blows', 'Evasion'],
   weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: "An unerring aim, said to split another's arrow mid-flight.",

@@ -361,7 +361,7 @@ const kingHassan: ServantDefinition = {
   def: 57,
   agility: 100,
   critChance: 0.15,
-  rank: 'C+',
+  rank: 'B',
   strengths: ['Speed', 'Evasion'],
   weaknesses: ['Low HP', 'Fragile'],
   passiveDescription: 'The first of the Hassan-i Sabbah, an embodiment of death itself that even gods cannot ignore.',
