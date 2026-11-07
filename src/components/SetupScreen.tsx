@@ -165,7 +165,7 @@ function ServantCard({ servant, selected, onSelect }: ServantCardProps) {
 const DIFFICULTIES: Array<{ id: Difficulty; label: string; blurb: string }> = [
   { id: 'easy', label: 'Easy', blurb: 'The rival plays badly on purpose: it wastes heals, hesitates with its Noble Phantasm and never uses Command Spells.' },
   { id: 'normal', label: 'Normal', blurb: 'The rival follows simple rules: heal when hurt, then buff, debuff or attack.' },
-  { id: 'hard', label: 'Hard', blurb: "The rival plays each Servant's best-known line, skipping weak skills and timing heals, crits and shields." },
+  { id: 'hard', label: 'Hard', blurb: "The rival plays each Servant's best-known line, skipping weak skills and timing heals, crits and shields. In 2v2 it also simulates the fight to decide which of your Servants to attack." },
 ];
 
 export function SetupScreen({ mode, teamSize, onComplete, onBack }: Props) {

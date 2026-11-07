@@ -102,7 +102,11 @@ Against the AI (1v1 or 2v2) you choose how well the rival plays:
 - **Hard** — plays each Servant's best-known line (found by testing options
   against the whole roster): skipping weak skills, timing heals, setting up
   guaranteed crits before the Noble Phantasm, and shielding when you are about
-  to fire yours.
+  to fire yours. In a 2v2 it also chooses which of your Servants each of its
+  Servants attacks by simulating the rest of the fight for every combination of
+  targets (24 simulated playouts each) and picking the one that wins most often,
+  unless the default of hitting your lowest-HP Servant is about as good. In
+  testing this beat the plain lowest-HP targeting about 58% of the time.
 
 In a battery of simulated fights across the roster, Hard beats Normal about
 83% of the time, Normal beats Easy about 73%, and Hard beats Easy about 95%.
